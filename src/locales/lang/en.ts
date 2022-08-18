@@ -8,6 +8,10 @@ export default {
         EN: 'English',
         HK: 'Fanti',
     },
+    MESSAGE: {
+        SUCCESS: 'Success',
+        ERROR: 'Error',
+    },
     WORKBENCHMODULE: {
         TITLE: 'Workbench',
     },

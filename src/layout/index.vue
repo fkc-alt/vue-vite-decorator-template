@@ -9,6 +9,7 @@ import Navbar from "./components/navbar.vue";
 import SidebarItem from "./components/sidebarItem.vue";
 import useResizeHandler from "./mixin/ResizeHandler";
 
+type Raw = RouteRecordRaw[]
 const route = useRoute();
 const router = useRouter();
 const { device, opened, isCollapse, setOpened, setCollapse } = useResizeHandler();
@@ -32,7 +33,7 @@ const classObj = computed(() => {
 const handleClickOutside = () => {
   setOpened(!opened.value);
 };
-const handleMapRoutes = (routes: RouteRecordRaw[]): RouteRecordRaw[] => {
+const handleMapRoutes = (routes: Raw): Raw => {
   return routes.map((v) => {
     if (v?.children?.length === 1 && v?.meta?.alwaysShow) {
       v = v.children[0];
@@ -43,7 +44,7 @@ const handleMapRoutes = (routes: RouteRecordRaw[]): RouteRecordRaw[] => {
     return v;
   });
 };
-const handleTreeRoutes = (routes: RouteRecordRaw[]): RouteRecordRaw[] => {
+const handleTreeRoutes = (routes: Raw): Raw => {
   return routes.filter((v) => {
     if (v.meta?.roles?.length) {
       return v.meta.roles.some((o) => roles.value.includes(o));

@@ -1,4 +1,4 @@
-import Axios, { AxiosRequestConfig } from 'axios';
+import Axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 const instance = Axios.create({
     baseURL: import.meta.env.BASE_URL,

@@ -4,14 +4,14 @@ import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from "vue-router";
 import { removeStorage, setData, setLang } from "@/utils";
 import Breadcurmb from "./breadcurmb.vue";
-const { locale } = useI18n()
+const { locale } = useI18n();
 const route = useRoute();
 const router = useRouter();
 const { proxy } = getCurrentInstance() as any;
 const Props = defineProps<{
   isCollapse: boolean;
   device: string;
-  setCollapse: (collapse: boolean) => void;
+  setCollapse(collapse: boolean): void;
 }>();
 const { isCollapse, device } = toRefs(Props);
 const { setCollapse } = Props;
@@ -30,7 +30,7 @@ const changeMenu = (): void => {
 const langChange = (lang: string): void => {
   locale.value = lang;
   setLang(lang);
-  proxy.$message.success("操作成功");
+  proxy.$message.success(proxy.$t('MESSAGE.SUCCESS'));
 };
 </script>
 <template>

@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 import { toRefs } from "vue";
 import { RouteRecordRaw } from "vue-router";
+defineOptions({ name: "SidebarItem" });
+
 const Props = defineProps<{
   item: RouteRecordRaw;
 }>();
-defineOptions({ name: "SidebarItem" });
 const { item } = toRefs(Props);
 </script>
 
@@ -15,7 +16,7 @@ const { item } = toRefs(Props);
         <template #title>
           <div>
             <el-icon v-if="item?.meta?.icon">
-              <component :is="item.meta.icon"></component>
+              <component :is="item.meta.icon" />
             </el-icon>
             <span>{{ $t(`${item.meta?.title}`) || "" }}</span>
           </div>
@@ -31,7 +32,7 @@ const { item } = toRefs(Props);
       <el-menu-item :index="item.path">
         <div>
           <el-icon v-if="item?.meta?.icon">
-            <component :is="item.meta.icon"></component>
+            <component :is="item.meta.icon" />
           </el-icon>
           <span>{{ $t(`${item.meta?.title}`) || "" }}</span>
         </div>

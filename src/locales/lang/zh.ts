@@ -8,6 +8,10 @@ export default {
         EN: '英文',
         HK: '繁体'
     },
+    MESSAGE: {
+        SUCCESS: '操作成功',
+        ERROR: '操作失败',
+    },
     WORKBENCHMODULE: {
         TITLE: '工作台',
     },
