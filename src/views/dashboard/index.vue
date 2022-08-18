@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useRouter } from 'vue-router'
-const router = useRouter()
+const router = useRouter();
 const toL = ():void => {
     router.push("/login")
 }
@@ -9,5 +9,5 @@ const toL = ():void => {
 <template>
     <div @click="toL">
         dashboard
-    </div>
+    </div>  
 </template>

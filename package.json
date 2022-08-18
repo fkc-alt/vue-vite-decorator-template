@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.0.6",
+    "@vitejs/plugin-vue-jsx": "^2.0.0",
     "axios": "^0.27.2",
     "element-plus": "^2.2.10",
     "nprogress": "^0.2.0",

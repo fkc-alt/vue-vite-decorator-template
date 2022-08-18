@@ -1,4 +1,4 @@
-import { createApp } from 'vue'
+import { createApp, createVNode } from 'vue'
 import { createPinia } from "pinia";
 import ElementPlus from 'element-plus';
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
@@ -16,7 +16,13 @@ import "@/permission";
 const pinia = createPinia();
 
 const app = createApp(App);
-
+// 创建Icon组件
+const Icon = (props: { icon: string }) => {
+  const { icon } = props
+  return createVNode(ElementPlusIconsVue[icon as keyof typeof ElementPlusIconsVue])
+}
+// 注册Icon组件
+app.component('Icon', Icon)
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
 }

@@ -1,7 +1,7 @@
 import { defineConfig, loadEnv } from 'vite';
-import { resolve, dirname } from 'path';
-import { fileURLToPath } from 'url';
+import { resolve } from 'path';
 import vue from '@vitejs/plugin-vue';
+import vueJsx from '@vitejs/plugin-vue-jsx' 
 /**
   * 在setup语法糖中，解决无法自定义组件的 name 属性
   * 使用方法  defineOptions({ name: 'my-component' })
@@ -15,11 +15,12 @@ export default ({ mode }) => {
   return defineConfig({
     plugins: [
       vue(), 
+      vueJsx(),
       DefineOptions(),
       VueI18nPlugin({
         /* options */
         // locale messages resource pre-compile option
-        include: resolve(dirname(fileURLToPath(import.meta.url)), './src/locales/**'),
+        include: resolve(__dirname, './src/locales/**'),
       }),
     ],
     resolve: {
