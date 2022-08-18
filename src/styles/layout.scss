@@ -1,0 +1,143 @@
+.el-container {
+    height: 100vh;
+    overflow: hidden;
+}
+
+.collapse-logo {
+    animation: collapse-logo;
+    animation-duration: .5s;
+}
+
+@keyframes collapse-logo {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.collapse-menu {
+    width: 65px !important;
+}
+
+
+.hide-menu {
+    width: 0px !important;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1001;
+}
+
+.fixed-menu {
+    height: 100% !important;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1001;
+}
+
+.drawer-bg {
+    background: #000;
+    opacity: 0.3;
+    width: 100%;
+    top: 0;
+    height: 100%;
+    position: absolute;
+    z-index: 999;
+}
+
+:deep(.el-submenu .el-menu-item) {
+    background-color: #1f2d3d !important;
+
+    &:hover {
+        background-color: #001528 !important;
+    }
+}
+
+.el-menu {
+    height: 100vh;
+    max-width: 200px;
+    overflow-x: hidden;
+    white-space: nowrap;
+    overflow-y: scroll;
+    z-index: 1000;
+    border: none;
+    width: 200px;
+    transition: width 0.28s !important;
+
+    .el-menu--collapse {
+        width: 100%;
+    }
+
+    &::-webkit-scrollbar {
+        display: none
+    }
+
+    .sidebar-logo-link {
+        padding: 10px 0;
+        text-align: center;
+        cursor: pointer;
+        background: #2b2f3a;
+
+        .sidebar-logo {
+            width: 32px;
+            height: 32px;
+            vertical-align: middle;
+        }
+
+        .sidebar-title {
+            padding-left: 12px;
+            display: inline-block;
+            margin: 0;
+            color: #fff;
+            font-weight: 600;
+            font-size: 14px;
+            font-family: Avenir, Helvetica Neue, Arial, Helvetica, sans-serif;
+            vertical-align: middle;
+        }
+    }
+}
+:deep(.el-sub-menu__title) * {
+    vertical-align: middle !important;
+}
+:deep(.el-menu-item) * {
+    vertical-align: middle !important;
+}
+.el-header {
+    padding: 0;
+}
+
+.fade-enter {
+    opacity: 0;
+}
+
+.fade-leave {
+    opacity: 1;
+}
+
+.fade-enter-active {
+    transition: opacity .3s;
+}
+
+.fade-leave-active {
+    opacity: 0;
+    transition: opacity .3s;
+}
+
+/*隐藏折叠文字*/
+:deep(.el-menu--collapse .el-menu-item span) {
+    display: none;
+}
+
+:deep(.el-menu--collapse .el-submenu__title span) {
+    display: none;
+}
+
+:deep(.el-menu--collapse .el-submenu__title .el-submenu__icon-arrow) {
+    display: none;
+}

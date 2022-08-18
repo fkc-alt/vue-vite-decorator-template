@@ -1,0 +1,130 @@
+<script lang="ts" setup>
+import { toRefs, getCurrentInstance } from "vue";
+import { useI18n } from 'vue-i18n'
+import { useRoute, useRouter } from "vue-router";
+import { removeStorage, setData, setLang } from "@/utils";
+import Breadcurmb from "./breadcurmb.vue";
+const { locale } = useI18n()
+const route = useRoute();
+const router = useRouter();
+const { proxy } = getCurrentInstance() as any;
+const Props = defineProps<{
+  isCollapse: boolean;
+  device: string;
+  setCollapse: (collapse: boolean) => void;
+}>();
+const { isCollapse, device } = toRefs(Props);
+const { setCollapse } = Props;
+const logout = (): void => {
+  removeStorage("token");
+  setData({ token: localStorage.getItem("token") || "" });
+  router.push(`/login?redirect=${route.fullPath}`);
+};
+const changeMenu = (): void => {
+  if (device.value === "mobile") {
+    setCollapse(false);
+    return;
+  }
+  setCollapse(!isCollapse.value);
+};
+const langChange = (lang: string): void => {
+  locale.value = lang;
+  setLang(lang);
+  proxy.$message.success("操作成功");
+};
+</script>
+<template>
+  <div class="navbar">
+    <div class="navbar-left">
+      <el-icon @click="changeMenu" :size="30">
+        <Expand v-if="!isCollapse" />
+        <Fold v-else />
+      </el-icon>
+      <breadcurmb class="bread-curmb" />
+    </div>
+    <div class="navbar-right">
+      <!-- <scroll-full class="scroll-full"></scroll-full> -->
+      <el-dropdown trigger="click" :hide-on-click="false">
+        <div>
+          <img
+            src="https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif"
+            class="user-avatar"
+          />
+          <el-icon><ArrowDownBold /></el-icon>
+        </div>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <router-link to="/" style="text-decoration: unset">
+              <el-dropdown-item>{{ $t('WORKBENCHMODULE.TITLE') }}</el-dropdown-item>
+            </router-link>
+            <el-dropdown-item divided>
+              <el-dropdown
+                trigger="click"
+                placement="left-start"
+                @command="langChange"
+              >
+                <span
+                  >{{ $t('SYSTEM.LANG') }}<i class="el-icon-arrow-down el-icon--right"></i
+                ></span>
+                <template #dropdown>
+                  <el-dropdown-menu>
+                    <el-dropdown-item command="zh">{{ $t('SYSTEM.ZH') }}</el-dropdown-item>
+                    <el-dropdown-item divided command="en"
+                      >{{ $t('SYSTEM.EN') }}</el-dropdown-item
+                    >
+                    <el-dropdown-item divided command="hk"
+                      >{{ $t('SYSTEM.HK') }}</el-dropdown-item
+                    >
+                  </el-dropdown-menu>
+                </template>
+              </el-dropdown>
+            </el-dropdown-item>
+            <el-dropdown-item divided @click="logout">
+              {{ $t('SYSTEM.LOGOUT') }}
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+.navbar {
+  overflow: hidden;
+  position: relative;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+  &-left {
+    display: flex;
+    .collapse {
+      font-size: 25px;
+      padding: 0 15px;
+      cursor: pointer;
+    }
+    .bread-curmb {
+      display: flex;
+      align-items: center;
+    }
+  }
+  &-right {
+    display: flex;
+    align-items: center;
+    padding: 7px 0;
+    .scroll-full {
+      padding-right: 10px;
+      cursor: pointer;
+    }
+  }
+  .user-avatar {
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+  }
+}
+</style>
