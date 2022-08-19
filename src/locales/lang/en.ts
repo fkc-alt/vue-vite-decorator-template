@@ -1,7 +1,7 @@
 //英文
 export default {
     SYSTEM: {
-        TITLE: 'Kaichao Seystem',
+        TITLE: 'Seystem',
         LOGOUT: 'Logout',
         LANG: 'Switch Language',
         ZH: 'Chinese',

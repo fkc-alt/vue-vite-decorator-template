@@ -22,7 +22,7 @@ const handleLink = (item: RouteLocationMatched) => {
   router.push(redirect || path);
 }
 
-onMounted(() => init());
+onMounted(init);
 
 watch(() => route.path, init);
 

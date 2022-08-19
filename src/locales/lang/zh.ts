@@ -1,7 +1,7 @@
 //中文
 export default {
     SYSTEM: {
-        TITLE: '冯凯超测试系统',
+        TITLE: '测试系统',
         LOGOUT: '退出登录',
         LANG: '切换语言',
         ZH: '中文',
