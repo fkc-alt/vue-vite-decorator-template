@@ -4,10 +4,7 @@ import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from "vue-router";
 import { removeStorage, setData, setLang } from "@/utils";
 import Breadcurmb from "./breadcurmb.vue";
-const { locale } = useI18n();
-const route = useRoute();
-const router = useRouter();
-const { proxy } = getCurrentInstance() as any;
+
 const Props = defineProps<{
   isCollapse: boolean;
   device: string;
@@ -15,6 +12,8 @@ const Props = defineProps<{
 }>();
 const { isCollapse, device } = toRefs(Props);
 const { setCollapse } = Props;
+const [{ locale }, route, router, { proxy }] = [useI18n(), useRoute(), useRouter(), getCurrentInstance() as any];
+
 const logout = (): void => {
   removeStorage("token");
   setData({ token: localStorage.getItem("token") || "" });

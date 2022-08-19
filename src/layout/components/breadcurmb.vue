@@ -2,8 +2,7 @@
 import { computed } from "vue";
 import { useRoute, useRouter, RouteLocationMatched } from "vue-router";
 
-const route = useRoute();
-const router = useRouter();
+const [route, router] = [useRoute(), useRouter()];
 
  // 创建数组
 const breadList = computed((): RouteLocationMatched[] => {

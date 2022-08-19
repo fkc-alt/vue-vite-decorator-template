@@ -10,8 +10,7 @@ import SidebarItem from "./components/sidebarItem.vue";
 import useResizeHandler from "./mixin/ResizeHandler";
 
 type Raw = RouteRecordRaw[]
-const route = useRoute();
-const router = useRouter();
+const [route, router] = [useRoute(), useRouter()];
 const { device, opened, isCollapse, setOpened, setCollapse } = useResizeHandler();
 const roles:Ref<Array<number>> = ref([101]);
 
