@@ -2,7 +2,7 @@
 import { ref, watch, onMounted } from "vue";
 import { useRoute, useRouter, RouteLocationMatched } from "vue-router";
  // 创建数组
-let breadList:any = ref([]);
+let breadList = ref<RouteLocationMatched[]>([]);
 const route = useRoute();
 const router = useRouter();
 
@@ -13,7 +13,7 @@ const init = (): void => {
       breadList.value.push(item);
     }
   });
-  if (breadList[0]?.name === "Login") breadList.shift();
+  if (breadList.value[0]?.name === "Login") breadList.value.shift();
   breadList.value = breadList.value.filter((v:any) => !v.meta.alwaysShow);
 };
 
@@ -31,14 +31,10 @@ watch(() => route.path, init);
 <template>
   <el-breadcrumb separator="/" class="breadcrumb">
       <el-breadcrumb-item v-for="(item, index) in breadList" :key="item.path">
-        <span
-            v-if="
-              item.redirect === route.path || index == breadList.length - 1
-            "
-          >
-            {{ $t(item.meta.title )}}
-          </span>
-          <a v-else @click="handleLink(item)">{{ $t(item.meta.title) }}</a>
+        <span v-if="item.redirect === route.path || index == breadList.length - 1">
+            {{ $t(`${item.meta.title}` )}}
+        </span>
+        <a v-else @click.prevent="handleLink(item)">{{ $t(`${item.meta.title}` )}}</a>
       </el-breadcrumb-item>
   </el-breadcrumb>
 </template>
