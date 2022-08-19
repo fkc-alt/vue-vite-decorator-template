@@ -6,6 +6,8 @@
     "moduleResolution": "Node",
     "strict": true,
     "jsx": "preserve",
+    "jsxFactory": "React.createElement",
+    "jsxFragmentFactory": "React.Fragment",
     "sourceMap": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -28,6 +30,7 @@
     "src/**/*.vue", 
     "typings/**/*.d.ts",
     "typings/**/*.ts",
+    "**/*.ts", "**/*.tsx"
   ],
   "exclude": ["node_modules", "dist"],
   "references": [{ "path": "./tsconfig.node.json" }]

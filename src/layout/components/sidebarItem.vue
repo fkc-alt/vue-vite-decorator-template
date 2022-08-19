@@ -1,13 +1,11 @@
 <script lang="ts" setup>
-import { toRefs, getCurrentInstance } from "vue";
+import { toRefs } from "vue";
 import { RouteRecordRaw } from "vue-router";
 defineOptions({ name: "SidebarItem" });
-import Render from "@/components/Render.tsx";
 const Props = defineProps<{
   item: RouteRecordRaw;
 }>();
 const { item } = toRefs(Props);
-const { proxy } = getCurrentInstance();
 </script>
 
 <template>
@@ -15,7 +13,12 @@ const { proxy } = getCurrentInstance();
     <template v-if="item?.children?.length">
       <el-sub-menu :index="item.path" popper-append-to-body>
         <template #title>
-          <Render :item="item" :proxy="proxy" />
+          <div>
+          <el-icon v-if="item?.meta?.icon">
+            <component :is="item.meta.icon" />
+          </el-icon>
+          <span>{{ $t(`${item.meta?.title}`) || "" }}</span>
+        </div>
         </template>
         <sidebar-item
           v-for="route in item.children"
@@ -26,7 +29,12 @@ const { proxy } = getCurrentInstance();
     </template>
     <template v-else>
       <el-menu-item :index="item.path">
-        <Render :item="item" :proxy="proxy" />
+        <div>
+          <el-icon v-if="item?.meta?.icon">
+            <component :is="item.meta.icon" />
+          </el-icon>
+          <span>{{ $t(`${item.meta?.title}`) || "" }}</span>
+        </div>
       </el-menu-item>
     </template>
   </div>
