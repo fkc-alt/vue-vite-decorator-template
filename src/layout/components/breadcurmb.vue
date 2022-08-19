@@ -14,7 +14,7 @@ const init = (): void => {
     }
   });
   if (breadList.value[0]?.name === "Login") breadList.value.shift();
-  breadList.value = breadList.value.filter((v:any) => !v.meta.alwaysShow);
+  breadList.value = breadList.value.filter((v) => !v.meta.alwaysShow);
 };
 
 const handleLink = (item: RouteLocationMatched) => {

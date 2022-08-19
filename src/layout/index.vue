@@ -13,7 +13,7 @@ type Raw = RouteRecordRaw[]
 const route = useRoute();
 const router = useRouter();
 const { device, opened, isCollapse, setOpened, setCollapse } = useResizeHandler();
-const roles:Ref<Array<string | number>> = ref([101]);
+const roles:Ref<Array<number>> = ref([101]);
 
 const routes = computed(() => {
   const routes = router.options.routes.filter(

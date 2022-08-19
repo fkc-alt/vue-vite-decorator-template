@@ -9,7 +9,7 @@ declare module 'vue-router' {
     interface RouteMeta {
         title?: string;
         icon?: string;
-        roles?: Array<string | number>;
+        roles?: Array<number>;
         alwaysShow?: boolean;
     }
     interface RouteLocationMatched {
