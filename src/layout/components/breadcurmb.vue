@@ -1,30 +1,19 @@
 <script lang="ts" setup>
-import { ref, watch, onMounted } from "vue";
+import { computed } from "vue";
 import { useRoute, useRouter, RouteLocationMatched } from "vue-router";
- // 创建数组
-let breadList = ref<RouteLocationMatched[]>([]);
+
 const route = useRoute();
 const router = useRouter();
 
-const init = (): void => {
-  breadList.value = [];
-  route.matched.forEach((item) => {
-    if (item.meta.title) {
-      breadList.value.push(item);
-    }
-  });
-  if (breadList.value[0]?.name === "Login") breadList.value.shift();
-  breadList.value = breadList.value.filter((v) => !v.meta.alwaysShow);
-};
+ // 创建数组
+const breadList = computed((): RouteLocationMatched[] => {
+  return route.matched.filter(item => item.meta.title && !item.meta.alwaysShow && item.name !== "Login");
+})
 
 const handleLink = (item: RouteLocationMatched) => {
   const { redirect, path } = item;
   router.push(redirect || path);
 }
-
-onMounted(init);
-
-watch(() => route.path, init);
 
 </script>
 
