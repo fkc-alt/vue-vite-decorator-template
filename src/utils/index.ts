@@ -1,5 +1,5 @@
 export const getUserInfo = () :string | null => {
-    return sessionStorage.getItem('userInfo') || null;
+    return JSON.parse(sessionStorage.getItem('userInfo') as string);
 }
 
 export const getToken = () :string | null => {
@@ -7,8 +7,8 @@ export const getToken = () :string | null => {
 }
 
 
-export const getRoleIdList = () :any => {
-    return sessionStorage.getItem('roleIdList') || [];
+export const getRoleIdList = () :Array<number> => {
+    return JSON.parse(sessionStorage.getItem('roleIdList') as string)?.map((v:string|number) => +v) ?? [];
 }
 
 export const setData = (data = {}) => {
