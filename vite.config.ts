@@ -3,7 +3,7 @@ import { resolve } from 'path';
 import Vue from '@vitejs/plugin-vue';
 import VueJsx from '@vitejs/plugin-vue-jsx' 
 import { terser } from "rollup-plugin-terser";
-import Resolve from "@rollup/plugin-node-resolve"
+import Resolve from "@rollup/plugin-node-resolve";
 /**
   * 在setup语法糖中，解决无法自定义组件的 name 属性
   * 使用方法  defineOptions({ name: 'my-component' })
@@ -11,7 +11,7 @@ import Resolve from "@rollup/plugin-node-resolve"
 import DefineOptions from 'unplugin-vue-define-options/vite';
 // 解决控制台warning
 import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite';
-// 开启build打包压缩
+
 import ViteCompression from 'vite-plugin-compression';
 
 // https://vitejs.dev/config/
@@ -24,7 +24,6 @@ export default ({ mode }) => {
       DefineOptions(),
       Resolve(),
       terser(),
-      VueI18nPlugin(),
       VueI18nPlugin({
         /* options */
         // locale messages resource pre-compile option
@@ -37,7 +36,6 @@ export default ({ mode }) => {
         algorithm: 'gzip',
         ext: '.gz',
       }),
-      
     ],
     resolve: {
       alias: {
