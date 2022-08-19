@@ -28,9 +28,8 @@
     "src/**/*.d.ts", 
     "src/**/*.tsx", 
     "src/**/*.vue", 
-    "typings/**/*.d.ts",
     "typings/**/*.ts",
-    "**/*.ts", "**/*.tsx"
+    "typings/**/*.d.ts",
   ],
   "exclude": ["node_modules", "dist"],
   "references": [{ "path": "./tsconfig.node.json" }]
