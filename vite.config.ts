@@ -3,7 +3,6 @@ import { resolve } from 'path';
 import Vue from '@vitejs/plugin-vue';
 import VueJsx from '@vitejs/plugin-vue-jsx' 
 import { terser } from "rollup-plugin-terser";
-import Resolve from "@rollup/plugin-node-resolve";
 /**
   * 在setup语法糖中，解决无法自定义组件的 name 属性
   * 使用方法  defineOptions({ name: 'my-component' })
@@ -22,7 +21,6 @@ export default ({ mode }) => {
       Vue(), 
       VueJsx(),
       DefineOptions(),
-      Resolve(),
       terser(),
       VueI18nPlugin({
         /* options */
