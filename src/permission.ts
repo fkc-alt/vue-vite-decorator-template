@@ -26,7 +26,7 @@ router.beforeEach((to:any, form:any, next:any) => {
     if (getToken()) {
         to.path === '/login' ? next("/") : checkRoutes(to, form, next);
     } else {
-        to.path === '/login' ? next() : (removeStorage('token') && next('/login'))
+        to.path === '/login' ? next() : (removeStorage('token') && next('/login'));
     }
     NProgress.done();
 })
