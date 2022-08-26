@@ -7,7 +7,7 @@ import { computed, ref, Ref } from "vue";
 import { useRoute, useRouter, RouteRecordRaw } from "vue-router";
 import Navbar from "./components/navbar.vue";
 import SidebarItem from "./components/sidebarItem.vue";
-import useResizeHandler from "./mixin/ResizeHandler";
+import useResizeHandler from "./hooks/ResizeHandler";
 
 type Raw = RouteRecordRaw[];
 const [route, router] = [useRoute(), useRouter()];
