@@ -1,19 +1,19 @@
-<style scoped lang="scss">
-@import "../styles/layout.scss";
+<style lang="scss" scoped>
+@import "@/styles/layout";
 </style>
 
 <script lang="ts" setup>
 import { computed, ref, Ref } from "vue";
 import { useRoute, useRouter, RouteRecordRaw } from "vue-router";
+
 import Navbar from "./components/navbar.vue";
 import SidebarItem from "./components/sidebarItem.vue";
 import useResizeHandler from "./hooks/ResizeHandler";
 
-type Raw = RouteRecordRaw[];
+type RoutesRaw = RouteRecordRaw[];
 const [route, router] = [useRoute(), useRouter()];
-const { device, opened, isCollapse, setOpened, setCollapse } =
-  useResizeHandler();
 const roles: Ref<Array<number>> = ref([101]);
+const { device, opened, isCollapse, setOpened, setCollapse } = useResizeHandler();
 
 const routes = computed(() => {
   const routes = router.options.routes.filter(
@@ -31,10 +31,7 @@ const classObj = computed(() => {
   };
 });
 
-const handleClickOutside = () => {
-  setOpened(!opened.value);
-};
-const handleMapRoutes = (routes: Raw): Raw => {
+const handleMapRoutes = (routes: RoutesRaw): RoutesRaw => {
   return routes.map((v) => {
     if (v?.children?.length === 1 && v?.meta?.alwaysShow) {
       v = v.children[0];
@@ -45,7 +42,7 @@ const handleMapRoutes = (routes: Raw): Raw => {
     return v;
   });
 };
-const handleTreeRoutes = (routes: Raw): Raw => {
+const handleTreeRoutes = (routes: RoutesRaw): RoutesRaw => {
   return routes.filter((v) => {
     if (v.meta?.roles?.length) {
       return v.meta.roles.some((o) => roles.value.includes(o));
@@ -58,13 +55,14 @@ const handleTreeRoutes = (routes: Raw): Raw => {
   });
 };
 </script>
+
 <template>
   <div>
     <el-container>
       <div
         v-if="device === 'mobile' && opened"
         class="drawer-bg"
-        @click="handleClickOutside"
+        @click="setOpened(!opened)"
       />
       <div :class="classObj">
         <el-menu

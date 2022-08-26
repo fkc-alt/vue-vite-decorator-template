@@ -1,9 +1,4 @@
-import {
-  watch,
-  onBeforeMount,
-  onBeforeUnmount,
-  onMounted,
-} from "vue";
+import { watch, onBeforeMount, onBeforeUnmount, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { storeToRefs } from 'pinia';
 import { useStoreSettings } from "@/store/settings";
