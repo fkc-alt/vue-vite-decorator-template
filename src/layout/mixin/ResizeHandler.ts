@@ -17,30 +17,15 @@ export default function ():Store.RefSettings {
   const { setDevice, setOpened, setCollapse } = storeSettings;
   const { device, opened, isCollapse } = storeToRefs(storeSettings);
 
-  watch(()=> route.path, () => {
-    if (device.value === "mobile") {
-      setOpened(false);
-    }
-  });
+  watch(()=> route.path, () =>  device.value === "mobile" && setOpened(false));
   
-  const $_isMobile = () => {
-    const rect = body.getBoundingClientRect();
-    return rect.width - 1 < WIDTH;
-  };
-  const $_resizeHandler = () => {
-    if (!document.hidden) {
-      setDevice($_isMobile() ? "mobile" : "desktop");
-    }
-  };
-  onBeforeMount(() => {
-    window.addEventListener("resize", $_resizeHandler);
-  });
-  onMounted(() => {
-    $_resizeHandler();
-  });
-  onBeforeUnmount(() => {
-    window.removeEventListener("resize", $_resizeHandler);
-  });
+  const $_isMobile = () => body.getBoundingClientRect().width -1 < WIDTH;
+  const $_resizeHandler = () => !document.hidden && setDevice($_isMobile() ? "mobile" : "desktop")
+  
+  onBeforeMount(() => window.addEventListener("resize", $_resizeHandler));
+  onMounted($_resizeHandler);
+
+  onBeforeUnmount(() => window.removeEventListener("resize", $_resizeHandler));
 
   return { device, opened, isCollapse, setOpened, setCollapse }
 }

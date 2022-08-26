@@ -9,10 +9,11 @@ import Navbar from "./components/navbar.vue";
 import SidebarItem from "./components/sidebarItem.vue";
 import useResizeHandler from "./mixin/ResizeHandler";
 
-type Raw = RouteRecordRaw[]
+type Raw = RouteRecordRaw[];
 const [route, router] = [useRoute(), useRouter()];
-const { device, opened, isCollapse, setOpened, setCollapse } = useResizeHandler();
-const roles:Ref<Array<number>> = ref([101]);
+const { device, opened, isCollapse, setOpened, setCollapse } =
+  useResizeHandler();
+const roles: Ref<Array<number>> = ref([101]);
 
 const routes = computed(() => {
   const routes = router.options.routes.filter(
@@ -22,10 +23,11 @@ const routes = computed(() => {
 });
 const classObj = computed(() => {
   return {
-    "is-collapse": isCollapse.value,
-    "is-opened": opened.value,
-    "is-mobile": device.value === "mobile",
-    "is-desktop": device.value === "desktop",
+    "el-menu": true,
+    "collapse-menu": isCollapse.value,
+    "menu": !isCollapse.value,
+    "hide-menu": device.value === "mobile" && !opened.value,
+    "fixed-menu": device.value === "mobile" && opened.value,
   };
 });
 
@@ -113,7 +115,7 @@ const handleTreeRoutes = (routes: Raw): Raw => {
                   <template #default>
                     <component :is="Component" :key="route.path" />
                   </template>
-                   <template #fallback> Loading... </template>
+                  <template #fallback> Loading... </template>
                 </suspense>
               </transition>
             </router-view>

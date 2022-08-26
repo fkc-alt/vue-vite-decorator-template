@@ -130,14 +130,14 @@
 }
 
 /*隐藏折叠文字*/
+:deep(.el-menu--collapse .el-sub-menu span) {
+    display: none !important;
+}
+
 :deep(.el-menu--collapse .el-menu-item span) {
-    display: none;
+    display: none !important;
 }
 
-:deep(.el-menu--collapse .el-submenu__title span) {
-    display: none;
-}
-
-:deep(.el-menu--collapse .el-submenu__title .el-submenu__icon-arrow) {
-    display: none;
+:deep(.el-menu--collapse .el-sub-menu__icon-arrow) {
+    display: none !important;
 }
