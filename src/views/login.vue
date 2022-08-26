@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref, reactive, getCurrentInstance, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
-import { FormInstance, FormRules } from "element-plus";
+import type { FormInstance, FormRules } from "element-plus";
 import { setData } from "@/utils";
 // 访问Vue原型的属性
 const { proxy } = getCurrentInstance() as any;
@@ -9,7 +9,7 @@ const router = useRouter();
 const route = useRoute();
 const loading = ref<boolean>(false);
 const ruleFormRef = ref<FormInstance>();
-const myRef = ref();
+const myRef = ref<HTMLElement | null>();
 const formRules = reactive<FormRules>({
   username: [
     { required: true, message: "请输入用户名", trigger: "blur" },

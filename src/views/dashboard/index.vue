@@ -6,12 +6,11 @@ const router = useRouter();
 const toL = ():void => {
     router.push("/login")
 }
-
 </script>
 
 <template>
     <div @click="toL">
         dashboard
-        <!-- <Render :Component="Component"/> -->
+        <Render :props="{name: 'dashboard'}"/>
     </div>  
 </template>
