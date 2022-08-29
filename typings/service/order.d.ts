@@ -3,7 +3,7 @@ namespace Service {
         current: number;
         pageSize: number;
     }
-    interface OrderListRes extends Common.Response {
+    interface OrderListRes {
         orderList: Array<Item>;
     }   
     interface Item {

@@ -15,7 +15,7 @@ instance.interceptors.request.use((config:AxiosRequestConfig) => {
 })
 
 // 添加响应拦截器
-instance.interceptors.response.use((res:AxiosResponse)=>{
+instance.interceptors.response.use((res:AxiosResponse) => {
     // 对响应数据做点什么
     const { code } = res.data;
     if([0, 200].includes(code)){

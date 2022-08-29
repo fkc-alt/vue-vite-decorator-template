@@ -3,7 +3,7 @@ namespace Service {
         username: string;
         password: string;
     }
-    interface LoginRes extends Common.Response {
+    interface LoginRes {
         token: string;
     }
 }
