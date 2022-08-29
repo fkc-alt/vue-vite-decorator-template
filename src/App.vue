@@ -2,9 +2,7 @@
 import { defineComponent } from 'vue'
 export default defineComponent({
   name: 'App',
-  setup(){
-    return ():JSX.Element => <router-view />
-  }
+  setup: (props, ctx) => ():JSX.Element => <router-view />
 })
 </script>
 

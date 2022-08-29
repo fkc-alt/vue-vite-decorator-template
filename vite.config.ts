@@ -1,8 +1,8 @@
 import { defineConfig, loadEnv } from 'vite';
 import { resolve } from 'path';
+import { terser } from "rollup-plugin-terser";
 import Vue from '@vitejs/plugin-vue';
 import VueJsx from '@vitejs/plugin-vue-jsx' 
-import { terser } from "rollup-plugin-terser";
 /**
   * 在setup语法糖中，解决无法自定义组件的 name 属性
   * 使用方法  defineOptions({ name: 'my-component' })
@@ -12,9 +12,11 @@ import DefineOptions from 'unplugin-vue-define-options/vite';
 import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite';
 
 import ViteCompression from 'vite-plugin-compression';
+import { viteMockServe } from 'vite-plugin-mock';
+
 
 // https://vitejs.dev/config/
-export default ({ mode }) => {
+export default ({ mode, command }) => {
   const env = loadEnv(mode, process.cwd());
   return defineConfig({
     plugins: [
@@ -34,6 +36,12 @@ export default ({ mode }) => {
         algorithm: 'gzip',
         ext: '.gz',
       }),
+      viteMockServe({
+        mockPath: 'mock',
+        localEnabled: command === 'serve', //开发打包开关
+        prodEnabled: command !== 'serve' ,// 生产打包开关
+        logger: true
+      })
     ],
     resolve: {
       alias: {

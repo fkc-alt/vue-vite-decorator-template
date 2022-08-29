@@ -112,21 +112,25 @@
     padding: 0;
 }
 
-.fade-enter {
-    opacity: 0;
-}
-
-.fade-leave {
-    opacity: 1;
-}
-
+/* fade */
+.fade-leave-active,
 .fade-enter-active {
-    transition: opacity .3s;
+  transition: all 0.5s;
 }
 
-.fade-leave-active {
-    opacity: 0;
-    transition: opacity .3s;
+/* 可能为enter失效，拆分为 enter-from和enter-to */
+.fade-enter-from {  
+  opacity: 0;
+  transform: translateX(-30px);
+}
+.fade-enter-to { 
+  opacity: 1;
+  transform: translateX(0px);
+}
+
+.fade-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
 }
 
 /*隐藏折叠文字*/

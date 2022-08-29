@@ -2,6 +2,7 @@
 import { ref, reactive, getCurrentInstance, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import type { FormInstance, FormRules } from "element-plus";
+import { Login } from "@/apis";
 import { setData } from "@/utils";
 // 访问Vue原型的属性
 const { proxy } = getCurrentInstance() as any;
@@ -34,9 +35,13 @@ const submit = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
     if (valid) {
-      setData({ token: "123456" });
-      const redirect: any = route.query && route.query.redirect;
-      router.push(redirect || "/");
+      Login(loginForm).then(res => {
+        setData({ token: res.data.token });
+        const redirect: any = route.query && route.query.redirect;
+        router.push(redirect || "/");
+      }).catch(error => {
+        console.log(`Error：${error}`);
+      })
     } else {
       console.log("error submit!", fields);
     }

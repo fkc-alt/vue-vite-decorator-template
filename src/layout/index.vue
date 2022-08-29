@@ -108,7 +108,7 @@ const handleTreeRoutes = (routes: RoutesRaw): RoutesRaw => {
         <el-main>
           <div>
             <router-view v-slot="{ Component, route }">
-              <transition mode="out-in" name="fade">
+              <transition name="fade" appear mode="out-in" key="animation">
                 <suspense>
                   <template #default>
                     <component :is="Component" :key="route.path" />
