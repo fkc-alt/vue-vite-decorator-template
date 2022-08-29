@@ -15,5 +15,11 @@ declare global {
             setCollapse(data: boolean): void;
         }
     }
+    namespace Common {
+        interface Response {
+            code: number;
+            message: string;
+        }
+    }
 }
 

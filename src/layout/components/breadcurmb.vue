@@ -4,7 +4,6 @@ import { useRoute, useRouter, RouteLocationMatched } from "vue-router";
 
 const [route, router] = [useRoute(), useRouter()];
 
- // 创建数组
 const breadList = computed((): RouteLocationMatched[] => {
   return route.matched.filter(item => item.meta.title && !item.meta.alwaysShow && item.name !== "Login");
 })

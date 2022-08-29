@@ -1,3 +1,8 @@
+<script lang="ts" setup>
+defineOptions({ name: 'Page404' });
+const message = 'The webmaster said that you can not enter this page...'
+</script>
+
 <template>
   <div class="wscn-http404-container">
     <div class="wscn-http404">
@@ -19,11 +24,6 @@
     </div>
   </div>
 </template>
-
-<script lang="ts" setup>
-defineOptions({ name: 'Page404' });
-const message = 'The webmaster said that you can not enter this page...'
-</script>
 
 <style lang="scss" scoped>
 .wscn-http404-container{

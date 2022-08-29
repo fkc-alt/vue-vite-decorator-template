@@ -30,6 +30,8 @@
     "src/**/*.vue", 
     "typings/**/*.ts",
     "typings/**/*.d.ts",
+    "mock/**/*.ts", 
+    "mock/**/*.d.ts", 
   ],
   "exclude": ["node_modules", "dist"],
   "references": [{ "path": "./tsconfig.node.json" }]
