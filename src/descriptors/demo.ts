@@ -16,7 +16,7 @@ function descriptors<T extends object, U>(params: T): Function {
 }
 
 class Demo {
-    private num = 20;
+    private num: number = 20;
     @descriptors<Params, Array<Number>>(params)
     public Log<T>(args: T): void {
         console.log('Log', this, arguments);
