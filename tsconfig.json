@@ -16,6 +16,9 @@
     "skipLibCheck": true,
     "baseUrl": ".",
     "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "keyofStringsOnly": true,
     "outDir": "./dist",
     "paths": {
       "@/*": ["src/*"],
