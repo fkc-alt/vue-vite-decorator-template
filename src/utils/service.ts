@@ -5,14 +5,14 @@ const instance: AxiosRequestConfig = {
     timeout: 10000,
 }
 class Service {
-    instance: AxiosInstance;
+    private instance: AxiosInstance;
     constructor(config: AxiosRequestConfig){
         this.instance = Axios.create(config);
         this.interceptorsReq();
         this.interceptorsRes();
     }
     // 添加请求拦截器
-    interceptorsReq(){
+    private interceptorsReq(){
         this.instance.interceptors.request.use((config: AxiosRequestConfig) => {
             // 在发送请求之前做些什么
             return config;
@@ -22,7 +22,7 @@ class Service {
         })
     }
     // 添加响应拦截器
-    interceptorsRes(){
+    private interceptorsRes(){
         this.instance.interceptors.response.use((res: AxiosResponse) => {
             // 对响应数据做点什么
             const { code } = res.data;
@@ -35,6 +35,9 @@ class Service {
             return Promise.reject(err);
         });
     }
+    /**
+     * request
+     */
     public request<T, U>(config: AxiosRequestConfig<T>){
         return this.instance.request<{}, U, T>(config);
     }
