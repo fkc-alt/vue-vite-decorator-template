@@ -1,6 +1,6 @@
 namespace Service {
     interface OrderListReq {
-        current: number;
+        currentPage: number;
         pageSize: number;
     }
     interface OrderListRes {

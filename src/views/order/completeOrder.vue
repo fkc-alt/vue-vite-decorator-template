@@ -5,7 +5,7 @@ import { GetOrderList } from "@/apis/modules/order";
 const state = reactive<Service.OrderListRes>({ orderList: [] });
 
 onMounted(async ()=> {
-    const data = await GetOrderList<Service.OrderListReq, Service.OrderListRes>({ current: 1, pageSize: 10 });
+    const data = await GetOrderList<Service.OrderListReq, Service.OrderListRes>({ currentPage: 1, pageSize: 10 });
     state.orderList = data.orderList;
 })
 </script>
