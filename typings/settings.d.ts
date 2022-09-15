@@ -16,9 +16,10 @@ declare global {
         }
     }
     namespace Common {
-        interface Response {
+        interface Response<T> {
             code: number;
             message: string;
+            data: T
         }
     }
 }

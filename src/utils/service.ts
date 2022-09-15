@@ -13,7 +13,7 @@ class Service {
     }
     // 添加请求拦截器
     interceptorsReq(){
-        this.instance.interceptors.request.use((config:AxiosRequestConfig) => {
+        this.instance.interceptors.request.use((config: AxiosRequestConfig) => {
             // 在发送请求之前做些什么
             return config;
         },(err)=> {
@@ -23,7 +23,7 @@ class Service {
     }
     // 添加响应拦截器
     interceptorsRes(){
-        this.instance.interceptors.response.use((res:AxiosResponse) => {
+        this.instance.interceptors.response.use((res: AxiosResponse) => {
             // 对响应数据做点什么
             const { code } = res.data;
             if([0, 200].includes(code)){
@@ -35,8 +35,8 @@ class Service {
             return Promise.reject(err);
         });
     }
-    public request<T>(config: AxiosRequestConfig){
-        return this.instance.request<any, T>(config);
+    public request<T, U>(config: AxiosRequestConfig<T>){
+        return this.instance.request<{}, U, T>(config);
     }
 }
 
