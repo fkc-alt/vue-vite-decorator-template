@@ -1,9 +1,2 @@
-import { AxiosPromise } from 'axios';
-import Request from "@/utils/request";
-export const Login = (data: (Service.LoginReq)): AxiosPromise<Service.LoginRes> => {
-    return Request({
-        method: "post",
-        url: "/login",
-        data
-    })
-}
+import Service from "@/utils/service";
+export const Login = <T, U>(data: T) => Service.request<U>({ method: "post", url: "/login", data });

@@ -1,5 +1,3 @@
-
-
 const params = { name: '冯凯超', age: 22 };
 
 type Params = typeof params;

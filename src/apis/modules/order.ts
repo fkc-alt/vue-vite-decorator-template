@@ -1,10 +1,3 @@
-import { AxiosPromise } from 'axios';
-import Request from "@/utils/request";
+import Service from "@/utils/service";
 
-export const getOrderList = (data: (Service.OrderListReq)): AxiosPromise<Service.OrderListRes> => {
-    return Request({
-        method: "post",
-        url: "/orderList",
-        data
-    })
-}
+export const getOrderList = <T, U>(data: T) => Service.request<U>({ method: "post", url: "/orderList", data })

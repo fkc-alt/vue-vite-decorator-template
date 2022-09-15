@@ -6,10 +6,9 @@ const state = reactive<Service.OrderListRes>({
     orderList: []
 });
 
-onMounted(()=>{
-    getOrderList({ current: 1, pageSize: 10 }).then(res => {
-        state.orderList = res.data.orderList;
-    })
+onMounted(async()=>{
+    const data = await getOrderList<Service.OrderListReq, Service.OrderListRes>({ current: 1, pageSize: 10 })
+    state.orderList = data.orderList;
 })
 </script>
 

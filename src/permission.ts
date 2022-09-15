@@ -1,3 +1,4 @@
+import { RouteLocationNormalized } from "vue-router";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 import router from '@/router';
@@ -11,16 +12,16 @@ import { getToken, getRoleIdList, removeStorage } from '@/utils';
 const rolesMap:Array<number> = getRoleIdList() || [101];
 
 
-function checkRoutes(to:any, form:any, next:any) {
+function checkRoutes(to: RouteLocationNormalized, form: RouteLocationNormalized, next: any) {
     const roles = to.meta.roles;
-    if (!roles || (roles && roles.length === 0)) {
+    if (!roles || !roles?.length) {
         next();
     } else {
         roles.some((o: number) => rolesMap.includes(o)) ? next() : next(form.path);
     }
 }
 
-router.beforeEach((to:any, form:any, next:any) => {
+router.beforeEach((to: RouteLocationNormalized, form: RouteLocationNormalized, next: any) => {
     NProgress.start();
     if (to.matched.length === 0) next({ replace: true, path: '/error' }) && eval('return');
     if (getToken()) {

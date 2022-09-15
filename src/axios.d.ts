@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 declare module 'axios' {
     interface AxiosResponse {
-        code: number;
+        code: number | string;
         message: string;
     }
 }
