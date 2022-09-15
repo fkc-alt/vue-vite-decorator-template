@@ -6,15 +6,13 @@ export const getToken = (): string | null => {
     return sessionStorage.getItem('token') || null;
 }
 
-
 export const getRoleIdList = (): Array<number> => {
     return JSON.parse(sessionStorage.getItem('roleIdList') as string)?.map((v: string | number) => +v) ?? [];
 }
 
-export const setData = (data = {}) => {
+export const setData = (data: object = {}) => {
     for (const key in data) {
-        // @ts-ignore
-        sessionStorage.setItem(key, data[key]);
+        sessionStorage.setItem(key, data[key as keyof object]);
     }
 }
 

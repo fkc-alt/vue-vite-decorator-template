@@ -3,7 +3,7 @@
 </style>
 
 <script lang="ts" setup>
-import { computed, ref, Ref } from "vue";
+import { computed, ref } from "vue";
 import { useRoute, useRouter, RouteRecordRaw } from "vue-router";
 
 import Navbar from "./components/navbar.vue";
@@ -12,7 +12,7 @@ import useResizeHandler from "./hooks/ResizeHandler";
 
 type RoutesRaw = RouteRecordRaw[];
 const [route, router] = [useRoute(), useRouter()];
-const roles: Ref<Array<number>> = ref([101]);
+const roles = ref<number[]>([101]);
 const { device, opened, isCollapse, setOpened, setCollapse } = useResizeHandler();
 
 const routes = computed(() => {

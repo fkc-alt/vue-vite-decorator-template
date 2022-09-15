@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { onMounted, reactive } from "vue";
 import { GetOrderList } from "@/apis/modules/order";
+
 const state = reactive<Service.OrderListRes>({ orderList: [] });
 
 onMounted(async ()=> {

@@ -1,6 +1,6 @@
 import Axios, { AxiosRequestConfig, AxiosResponse, AxiosInstance } from 'axios';
 
-const instance = {
+const instance: AxiosRequestConfig = {
     baseURL: import.meta.env.VITE_APP_API,
     timeout: 10000,
 }
