@@ -36,7 +36,7 @@ const submit = async (formEl: FormInstance | undefined) => {
   await formEl.validate((valid, fields) => {
     if (valid) {
       Login<Service.LoginReq, Service.LoginRes>(loginForm).then(res => {
-        setData({ token: res.token });
+        setData({ token: res.data.token });
         const redirect: any = route.query && route.query.redirect;
         router.push(redirect || "/");
       }).catch(error => {

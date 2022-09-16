@@ -13,7 +13,7 @@ namespace Store {
     }
 }
 namespace Common {
-    interface Response<T> {
+    interface Response<T = any> {
         code: number;
         message: string;
         data: T

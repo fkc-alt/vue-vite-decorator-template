@@ -27,7 +27,7 @@ class Service {
             // 对响应数据做点什么
             const { code } = res.data;
             if([0, 200].includes(code)){
-                return res.data.data;
+                return res.data;
             }
             return Promise.reject(res.message);
         }, (err)=>{
@@ -39,7 +39,7 @@ class Service {
      * request
      */
     public request<T, U>(config: AxiosRequestConfig<T>){
-        return this.instance.request<{}, U, T>(config);
+        return this.instance.request<{}, Common.Response<U>, T>(config);
     }
 }
 
