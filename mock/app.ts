@@ -1,6 +1,5 @@
 import Mock from 'mockjs';
 import { MockMethod } from 'vite-plugin-mock';
-
 export default [
     {
         url: `/rsapi/login`,
@@ -30,6 +29,22 @@ export default [
                       }
                     ]
                 })
+            }
+        }
+    },
+    {
+        url: `/rsapi/orderDetail`,
+        method: 'get',
+        response: (): Common.Response<Service.OrderDetailRes> => {
+            return {
+                code: 200,
+                message: '成功',
+                data: {
+                    price: 1999,
+                    name: '测试',
+                    stock: 1000,
+                    orderId: '111'
+                }
             }
         }
     }

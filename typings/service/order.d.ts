@@ -1,4 +1,10 @@
 namespace Service {
+    interface Item {
+        name: string;
+        stock: number;
+        orderId: string;
+        price: number;
+    }
     interface OrderListReq {
         currentPage: number;
         pageSize: number;
@@ -6,10 +12,8 @@ namespace Service {
     interface OrderListRes {
         orderList: Array<Item>;
     }   
-    interface Item {
-        name: string;
-        stock: number;
+    interface OrderDetailReQ {
         orderId: string;
-        price: number;
     }
+    interface OrderDetailRes extends Item {}
 }
