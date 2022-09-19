@@ -1,9 +1,9 @@
-import { watch, onBeforeMount, onBeforeUnmount, onMounted, Ref } from "vue";
+import { watch, onBeforeMount, onBeforeUnmount, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { storeToRefs } from 'pinia';
 import { useStoreSettings } from "@/store/settings";
 
-export default function (): Store.RefSettings<Ref> {
+export default function (): Store.RefSettings {
   const { body } = document;
   const WIDTH = 992; // refer to Bootstrap's responsive design
 
