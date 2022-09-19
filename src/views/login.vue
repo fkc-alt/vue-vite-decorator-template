@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ref, reactive, getCurrentInstance, onMounted } from "vue";
-import { useRouter, useRoute } from "vue-router";
+import { useRouter, useRoute, RouteLocationRaw } from "vue-router";
 import type { FormInstance, FormRules } from "element-plus";
 import { Login } from "@/apis";
 import { setData } from "@/utils";
@@ -35,9 +35,9 @@ const submit = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
     if (valid) {
-      Login<Service.LoginReq, Service.LoginRes>(loginForm).then(res => {
+      Login(loginForm).then(res => {
         setData({ token: res.data.token });
-        const redirect: any = route.query && route.query.redirect;
+        const redirect = (route.query && route.query.redirect) as RouteLocationRaw;
         router.push(redirect || "/");
       }).catch(error => {
         console.log(`Error：${error}`);

@@ -12,7 +12,7 @@ namespace Service {
     interface OrderListRes {
         orderList: Array<Item>;
     }   
-    interface OrderDetailReQ {
+    interface OrderDetailReq {
         orderId: string;
     }
     interface OrderDetailRes extends Item {}

@@ -10,7 +10,7 @@ const state = reactive<Service.OrderDetailRes>({
 });
 
 onMounted(async () => {
-  const res = await GetOrderDetail<Service.OrderDetailReQ, Service.OrderDetailRes>({ orderId: '123' });
+  const res = await GetOrderDetail({ orderId: '123' });
   Object.assign(state, res.data);
 });
 </script>

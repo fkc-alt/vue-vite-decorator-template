@@ -14,7 +14,7 @@ namespace Store {
 }
 namespace Common {
     interface Response<T = any> {
-        code: number;
+        code: number | string;
         message: string;
         data: T
     }
