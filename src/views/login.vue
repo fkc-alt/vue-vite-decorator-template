@@ -39,7 +39,7 @@ const submit = async (formEl: FormInstance | undefined) => {
         setData({ token: res.data.token });
         const redirect = (route.query && route.query.redirect) as RouteLocationRaw;
         router.push(redirect || "/");
-      }).catch(error => {
+      }).catch((error: string)=> {
         console.log(`Error：${error}`);
       })
     } else {

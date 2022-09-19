@@ -11,7 +11,7 @@ import App from './App.vue';
 
 
 import '@/assets/reset.css';
-import "@/permission";
+import "@/router/permission";
 
 const pinia = createPinia();
 

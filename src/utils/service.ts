@@ -1,5 +1,5 @@
 import Axios, { AxiosRequestConfig, AxiosResponse, AxiosInstance } from 'axios';
-
+import { ElMessage } from 'element-plus';
 const instance: AxiosRequestConfig = {
     baseURL: import.meta.env.VITE_APP_API,
     timeout: 10000,
@@ -26,10 +26,9 @@ class Service {
         this.instance.interceptors.response.use((res: AxiosResponse) => {
             // 对响应数据做点什么
             const { code } = res.data;
-            if([0, 200].includes(code)){
-                return res.data;
-            }
-            return Promise.reject(res.message);
+            if([0, 200].includes(code)) return res.data;
+            ElMessage.error({ message: res.data.message });
+            return Promise.reject(res.data.message);
         }, (err)=>{
             // 对响应错误做点什么
             return Promise.reject(err);
