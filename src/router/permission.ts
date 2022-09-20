@@ -9,7 +9,7 @@ import { getToken, getRoleIdList, removeStorage } from '@/utils';
  * 权限列表
  *   注：如果路由没有该权限列表中的某一项默认不跳转
  */
-const rolesMap:Array<number> = getRoleIdList() || [101];
+const rolesMap = ():Array<number> => getRoleIdList() || [101];
 
 
 function checkRoutes(to: RouteLocationNormalized, form: RouteLocationNormalized, next: any) {
@@ -17,7 +17,7 @@ function checkRoutes(to: RouteLocationNormalized, form: RouteLocationNormalized,
     if (!roles || !roles?.length) {
         next();
     } else {
-        roles.some((o: number) => rolesMap.includes(o)) ? next() : next(form.path);
+        roles.some((o: number) => rolesMap().includes(o)) ? next() : next(form.path);
     }
 }
 

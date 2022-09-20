@@ -22,6 +22,7 @@
     "outDir": "./dist",
     "paths": {
       "@/*": ["src/*"],
+      "~@/*": ["./*"],
     },
     "types": ["unplugin-vue-define-options", "vite/client", "element-plus/global", "node"],
     "typeRoots": ["./node_modules/@types"],

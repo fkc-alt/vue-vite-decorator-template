@@ -5,5 +5,6 @@ namespace Service {
     }
     interface LoginRes {
         token: string;
+        roles: Array<number>
     }
 }

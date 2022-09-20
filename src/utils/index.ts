@@ -11,11 +11,12 @@ export const getToken = (): string | null => {
 }
 
 export const getRoleIdList = (): Array<number> => {
-    return JSON.parse(sessionStorage.getItem('roleIdList') as string)?.map((v: string | number) => +v) ?? [];
+    return (sessionStorage.getItem('roleIdList') as string)?.split(',').map((v: string | number) => +v) ?? [];
 }
 
 export const setData = (data: StroageType) => {
     for (const key in data) {
+        console.log(data[key]);
         sessionStorage.setItem(key, data[key]);
     }
 }

@@ -8,7 +8,7 @@ export default [
             return {
                 code: 200,
                 message: '成功',
-                data: Mock.mock({ "token": Mock.Random.string(25, 50) })
+                data: { token: Mock.Random.string(25, 50), roles: [101, 100] }
             }
         }
     },

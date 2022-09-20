@@ -1,4 +1,5 @@
 import Layout from "@/layout/index.vue";
+import { Enums } from "~@/typings/enums/roles";
 export default [
     {
         path: '/order',
@@ -15,6 +16,7 @@ export default [
                 meta: { 
                     title: 'ORDERMODULE.COMPLETEORDER.TITLE', 
                     icon: 'Suitcase',
+                    roles: [Enums.Roles.ADMIN, Enums.Roles.OP]
                 }
             },
             {
