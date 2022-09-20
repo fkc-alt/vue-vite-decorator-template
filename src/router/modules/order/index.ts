@@ -1,7 +1,8 @@
 import type { RouteRecordRaw } from "vue-router";
-import Layout from "@/layout/index.vue";
 import { Enums } from "~@/typings/enums/roles";
-export default [
+import Layout from "@/layout/index.vue";
+
+const route: Array<RouteRecordRaw> = [
     {
         path: '/order',
         name: 'Order',
@@ -40,4 +41,6 @@ export default [
             },
         ]
     },
-] as RouteRecordRaw[];
+]
+
+export default route;
