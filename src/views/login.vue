@@ -27,7 +27,7 @@ const formRules = reactive<FormRules>({
   ],
 });
 
-const loginForm = reactive({
+const loginForm = reactive<Service.LoginReq>({
   username: "system",
   password: "zoetis12345678",
 });

@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 
 export const useStoreSettings = defineStore('settings', {
-    state():Store.Settings {
+    state():Store.Settings<{}> {
         return {
             isCollapse: false,
             device: 'desktop',

@@ -1,15 +1,14 @@
 namespace Store {
-    interface Settings {
-        isCollapse: boolean;
-        device: string;
-        opened: boolean;
+    type Data<T = {}> = {
+        isCollapse: T extends Ref ? Ref<boolean> : boolean;
+        device: T extends Ref ? Ref<string> : string;
+        opened: T extends Ref ? Ref<boolean> : boolean;
     }
-    interface RefSettings {
-        isCollapse: import('vue').Ref<boolean>;
-        device: import('vue').Ref<string>;
-        opened: import('vue').Ref<boolean>;
+    type Methods = {
         setOpened(data: boolean): void;
         setCollapse(data: boolean): void;
     }
+    type Ref<T = any> = import('vue').Ref<T>;
+    type Settings<T> = T extends Ref ? Common.Partial<Data<T> & Methods> : Common.Partial<Data>;
 }
 
