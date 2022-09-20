@@ -48,7 +48,7 @@ export default ({ mode, command }) => {
         '@': resolve(__dirname, 'src'),
         '~@': resolve(__dirname, './'),
       },
-      extensions: ['.ts', '.js', '.vue', '.json'],
+      extensions: ['.ts', '.js', '.vue', '.json', '.d.ts'],
     },
     server: {
       port: 3000,
