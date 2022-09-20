@@ -36,7 +36,6 @@ const submit = async (formEl: FormInstance | undefined) => {
   await formEl.validate((valid, fields) => {
     if (valid) {
       Login(loginForm).then(res => {
-        console.log(res, '123');
         setData({ token: res.data.token, roleIdList: res.data.roles });
         const redirect = (route.query && route.query.redirect) as RouteLocationRaw;
         router.push(redirect || "/");

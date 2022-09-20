@@ -1,3 +1,4 @@
+import type { RouteRecordRaw } from "vue-router";
 import Layout from "@/layout/index.vue";
 import { Enums } from "~@/typings/enums/roles";
 export default [
@@ -39,4 +40,4 @@ export default [
             },
         ]
     },
-]
+] as RouteRecordRaw[];
