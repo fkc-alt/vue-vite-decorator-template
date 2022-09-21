@@ -13,6 +13,35 @@ export default [
         }
     },
     {
+        url: `/rsapi/tableData`,
+        method: 'post',
+        response: (): Common.Response<Service.TableDataRes> => {
+            return {
+                code: 200,
+                message: '成功',
+                data: { 
+                    tableList: [
+                        {
+                            date: '2016-05-03',
+                            name: 'Tom',
+                            address: 'No. 189, Grove St, Los Angeles',
+                          },
+                          {
+                            date: '2016-05-02',
+                            name: 'Tom',
+                            address: 'No. 189, Grove St, Los Angeles',
+                          },
+                          {
+                            date: '2016-05-04',
+                            name: 'Tom',
+                            address: 'No. 189, Grove St, Los Angeles',
+                          },
+                    ]
+                }
+            }
+        }
+    },
+    {
         url: `/rsapi/orderList`,
         method: 'post',
         response: (): Common.Response<Service.OrderListRes> => {

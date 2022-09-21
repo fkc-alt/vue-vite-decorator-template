@@ -6,8 +6,8 @@ export const getUserInfo = (): string | null => {
     return JSON.parse(sessionStorage.getItem('userInfo') as string);
 }
 
-export const getToken = (): string | null => {
-    return sessionStorage.getItem('token') || null;
+export const getToken = (): string => {
+    return sessionStorage.getItem('token') || '';
 }
 
 export const getRoleIdList = (): Array<number> => {
