@@ -4,45 +4,44 @@ import { useRouter, useRoute, RouteLocationRaw } from "vue-router";
 import type { FormInstance, FormRules } from "element-plus";
 import { Login } from "@/apis";
 import { setData } from "@/utils";
-// 访问Vue原型的属性
-const { proxy } = getCurrentInstance() as any;
-const router = useRouter();
-const route = useRoute();
-const loading = ref<boolean>(false);
-const ruleFormRef = ref<FormInstance>();
-const myRef = ref<HTMLElement | null>();
+// Look Vue Prototype property
+const [{ proxy }, MODE] = [getCurrentInstance() as any, import.meta.env.MODE === 'dev'];
+const [router, route] = [useRouter(), useRoute()];
+const [loading, ruleFormRef, myRef] = [ref<boolean>(false), ref<FormInstance>(), ref<HTMLElement | null>()];
 const formRules = reactive<FormRules>({
   username: [
-    { required: true, message: "请输入用户名", trigger: "blur" },
+    { required: true, message: proxy.$t('LOGIN.FORMRULES.USERNAME[0]'), trigger: "blur" },
     {
       min: 3,
       max: 12,
-      message: "用户名长度在 3 到 12 个字符",
+      message: proxy.$t('LOGIN.FORMRULES.USERNAME[1]'),
       trigger: "blur",
     },
   ],
   password: [
-    { required: true, message: "请输入密码", trigger: "blur" },
-    { min: 6, max: 18, message: "密码长度在 6 到 18 个字符", trigger: "blur" },
+    { required: true, message: proxy.$t('LOGIN.FORMRULES.PASSWORD[0]'), trigger: "blur" },
+    { min: 6, max: 18, message: proxy.$t('LOGIN.FORMRULES.PASSWORD[1]'), trigger: "blur" },
   ],
 });
-
 const loginForm = reactive<Service.LoginReq>({
-  username: "system",
-  password: "zoetis12345678",
+  username: MODE ? "system" : "",
+  password: MODE ? "12345678" : "",
 });
 const submit = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
+  loading.value = true;
   await formEl.validate((valid, fields) => {
     if (valid) {
       Login(loginForm).then(res => {
         setData({ token: res.data.token, roleIdList: res.data.roles });
         const redirect = (route.query && route.query.redirect) as RouteLocationRaw;
+        proxy.$message.success(proxy.$t('SYSTEM.LOGINMESSAGE'));
         router.push(redirect || "/");
       }).catch((error: string)=> {
         console.log(`Error：${error}`);
-      })
+      }).finally(()=>loading.value = false);
     } else {
+      loading.value = false;
       console.log("error submit!", fields);
     }
   });
@@ -66,10 +65,10 @@ onMounted(()=>{
         <h3 class="title mixin" ref="myRef">{{ $t("SYSTEM.TITLE") }}</h3>
       </div>
 
-      <el-form-item label="用户名" prop="username">
+      <el-form-item :label="$t('LOGIN.FORM.USERNAME')" prop="username">
         <el-input v-model="loginForm.username"></el-input>
       </el-form-item>
-      <el-form-item label="密码" prop="password">
+      <el-form-item :label="$t('LOGIN.FORM.PASSWORD')" prop="password">
         <el-input v-model="loginForm.password" type="password"></el-input>
       </el-form-item>
       <el-form-item>
@@ -77,7 +76,7 @@ onMounted(()=>{
           type="primary"
           :loading="loading"
           @click="submit(ruleFormRef)"
-          >登录</el-button
+          >{{ $t('SYSTEM.LOGIN') }}</el-button
         >
       </el-form-item>
     </el-form>

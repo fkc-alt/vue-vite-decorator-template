@@ -17,6 +17,7 @@ const [{ locale }, route, router, { proxy }] = [useI18n(), useRoute(), useRouter
 const logout = (): void => {
   removeStorage("token");
   setData({ token: localStorage.getItem("token") || "" });
+  proxy.$message.success(proxy.$t('SYSTEM.LOGOUTMESSAGE'));
   router.push(`/login?redirect=${route.fullPath}`);
 };
 const changeMenu = (): void => {

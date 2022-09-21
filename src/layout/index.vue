@@ -5,14 +5,13 @@
 <script lang="ts" setup>
 import { computed, ref } from "vue";
 import { useRoute, useRouter, RouteRecordRaw } from "vue-router";
-
+import { getRoleIdList } from "@/utils";
 import Navbar from "./components/navbar.vue";
 import SidebarItem from "./components/sidebarItem.vue";
 import useResizeHandler from "./hooks/ResizeHandler";
 
 type RoutesRaw = RouteRecordRaw[];
-const [route, router] = [useRoute(), useRouter()];
-const roles = ref<number[]>([101]);
+const [route, router, roles] = [useRoute(), useRouter(), ref(getRoleIdList())];
 const { device, opened, isCollapse, setOpened, setCollapse } = useResizeHandler();
 
 const routes = computed(() => {
@@ -43,6 +42,7 @@ const handleMapRoutes = (routes: RoutesRaw): RoutesRaw => {
   });
 };
 const handleTreeRoutes = (routes: RoutesRaw): RoutesRaw => {
+  
   return routes.filter((v) => {
     if (v.meta?.roles?.length) {
       return v.meta.roles.some((o) => roles.value.includes(o));
