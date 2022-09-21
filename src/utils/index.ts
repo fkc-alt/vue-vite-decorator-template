@@ -16,7 +16,6 @@ export const getRoleIdList = (): Array<number> => {
 
 export const setData = (data: StroageType) => {
     for (const key in data) {
-        console.log(data[key]);
         sessionStorage.setItem(key, data[key]);
     }
 }

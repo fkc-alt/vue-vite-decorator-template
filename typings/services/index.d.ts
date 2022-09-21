@@ -11,7 +11,7 @@ namespace Common {
      * @method Record
      * @descrption 动态key类型
      */
-    type Record<K extends string | symbol | number, T> = {
+    type Record<K, T> = {
         [P in K]: T;
     }
 

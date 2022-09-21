@@ -4,10 +4,15 @@ export default [
     {
         url: `/rsapi/login`,
         method: 'post',
-        response: (): Common.Response<Service.LoginRes> => {
+        response: (req: any): Common.Response<Service.LoginRes> => {
+            let code = 200, message = '成功';
+            if(req.body?.username !== 'system' || req.body?.password !== '12345678') {
+                code = -1;
+                message = '用户名或密码不正确';
+            }
             return {
-                code: 200,
-                message: '成功',
+                code,
+                message,
                 data: { token: Mock.Random.string(25, 50), roles: [101, 100] }
             }
         }
