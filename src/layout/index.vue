@@ -81,7 +81,7 @@ const handleTreeRoutes = (routes: RoutesRaw): RoutesRaw => {
             @click="router.push('/')"
           >
             <img
-              src="https://www.zoetis.cn/global-assets/favicons/apple-touch-icon-76x76.png"
+              src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic2.zhimg.com%2F80%2Fv2-66af217fbb25ceb4bc0531f98ffe1089_720w.jpg&refer=http%3A%2F%2Fpic2.zhimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1666324013&t=8c2614491d357959a82f7f7e7c1d836c"
               class="sidebar-logo"
             />
             <h1 class="sidebar-title" v-if="!isCollapse">
