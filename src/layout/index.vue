@@ -12,7 +12,8 @@ import useResizeHandler from "./hooks/ResizeHandler";
 
 type RoutesRaw = RouteRecordRaw[];
 const [route, router, roles] = [useRoute(), useRouter(), ref(getRoleIdList())];
-const { device, opened, isCollapse, setOpened, setCollapse } = useResizeHandler();
+const { device, opened, isCollapse, setOpened, setCollapse } =
+  useResizeHandler();
 
 const routes = computed(() => {
   const routes = router.options.routes.filter(
@@ -24,7 +25,7 @@ const classObj = computed(() => {
   return {
     "el-menu": true,
     "collapse-menu": isCollapse.value,
-    "menu": !isCollapse.value,
+    menu: !isCollapse.value,
     "hide-menu": device.value === "mobile" && !opened.value,
     "fixed-menu": device.value === "mobile" && opened.value,
   };
@@ -42,7 +43,6 @@ const handleMapRoutes = (routes: RoutesRaw): RoutesRaw => {
   });
 };
 const handleTreeRoutes = (routes: RoutesRaw): RoutesRaw => {
-  
   return routes.filter((v) => {
     if (v.meta?.roles?.length) {
       return v.meta.roles.some((o) => roles.value.includes(o));
@@ -80,10 +80,7 @@ const handleTreeRoutes = (routes: RoutesRaw): RoutesRaw => {
             class="sidebar-logo-link collapse-logo"
             @click="router.push('/')"
           >
-            <img
-              src="/system-dev.svg"
-              class="sidebar-logo"
-            />
+            <img src="/system-dev.svg" class="sidebar-logo" />
             <h1 class="sidebar-title" v-if="!isCollapse">
               {{ $t("SYSTEM.TITLE") }}
             </h1>

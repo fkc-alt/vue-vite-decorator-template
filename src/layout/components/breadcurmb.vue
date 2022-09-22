@@ -5,24 +5,29 @@ import { useRoute, useRouter, RouteLocationMatched } from "vue-router";
 const [route, router] = [useRoute(), useRouter()];
 
 const breadList = computed((): RouteLocationMatched[] => {
-  return route.matched.filter(item => item.meta.title && !item.meta.alwaysShow && item.name !== "Login");
-})
+  return route.matched.filter(
+    (item) => item.meta.title && !item.meta.alwaysShow && item.name !== "Login"
+  );
+});
 
 const handleLink = (item: RouteLocationMatched) => {
   const { redirect, path } = item;
   router.push(redirect || path);
-}
-
+};
 </script>
 
 <template>
   <el-breadcrumb separator="/" class="breadcrumb">
-      <el-breadcrumb-item v-for="(item, index) in breadList" :key="item.path">
-        <span v-if="item.redirect === route.path || index === breadList.length - 1">
-            {{ $t(`${item.meta.title}` )}}
-        </span>
-        <a v-else @click.prevent="handleLink(item)">{{ $t(`${item.meta.title}` )}}</a>
-      </el-breadcrumb-item>
+    <el-breadcrumb-item v-for="(item, index) in breadList" :key="item.path">
+      <span
+        v-if="item.redirect === route.path || index === breadList.length - 1"
+      >
+        {{ $t(`${item.meta.title}`) }}
+      </span>
+      <a v-else @click.prevent="handleLink(item)">{{
+        $t(`${item.meta.title}`)
+      }}</a>
+    </el-breadcrumb-item>
   </el-breadcrumb>
 </template>
 

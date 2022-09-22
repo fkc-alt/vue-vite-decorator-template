@@ -14,11 +14,11 @@ const { item } = toRefs(Props);
       <el-sub-menu :index="item.path" popper-append-to-body>
         <template #title>
           <div>
-          <el-icon v-if="item?.meta?.icon">
-            <component :is="item.meta.icon" />
-          </el-icon>
-          <span>{{ $t(`${item.meta?.title}`) || "" }}</span>
-        </div>
+            <el-icon v-if="item?.meta?.icon">
+              <component :is="item.meta.icon" />
+            </el-icon>
+            <span>{{ $t(`${item.meta?.title}`) || "" }}</span>
+          </div>
         </template>
         <sidebar-item
           v-for="route in item.children"

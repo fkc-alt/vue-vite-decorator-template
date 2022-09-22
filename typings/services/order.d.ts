@@ -11,9 +11,9 @@ namespace Service {
     }
     interface OrderListRes {
         orderList: Array<Item>;
-    }   
+    }
     interface OrderDetailReq {
         orderId: string;
     }
-    interface OrderDetailRes extends Item {}
+    interface OrderDetailRes extends Item { }
 }

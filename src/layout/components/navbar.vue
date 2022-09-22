@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { toRefs, getCurrentInstance } from "vue";
-import { useI18n } from 'vue-i18n'
+import { useI18n } from "vue-i18n";
 import { useRoute, useRouter } from "vue-router";
 import { removeStorage, setData, setLang } from "@/utils";
 import Breadcurmb from "./breadcurmb.vue";
@@ -12,12 +12,17 @@ const Props = defineProps<{
 }>();
 const { isCollapse, device } = toRefs(Props);
 const { setCollapse } = Props;
-const [{ locale }, route, router, { proxy }] = [useI18n(), useRoute(), useRouter(), getCurrentInstance() as any];
+const [{ locale }, route, router, { proxy }] = [
+  useI18n(),
+  useRoute(),
+  useRouter(),
+  getCurrentInstance() as any,
+];
 
 const logout = (): void => {
   removeStorage("token");
   setData({ token: localStorage.getItem("token") || "" });
-  proxy.$message.success(proxy.$t('SYSTEM.LOGOUTMESSAGE'));
+  proxy.$message.success(proxy.$t("SYSTEM.LOGOUTMESSAGE"));
   router.push(`/login?redirect=${route.fullPath}`);
 };
 const changeMenu = (): void => {
@@ -30,7 +35,7 @@ const changeMenu = (): void => {
 const langChange = (lang: string): void => {
   locale.value = lang;
   setLang(lang);
-  proxy.$message.success(proxy.$t('MESSAGE.SUCCESS'));
+  proxy.$message.success(proxy.$t("MESSAGE.SUCCESS"));
 };
 </script>
 <template>
@@ -55,7 +60,9 @@ const langChange = (lang: string): void => {
         <template #dropdown>
           <el-dropdown-menu>
             <router-link to="/" style="text-decoration: unset">
-              <el-dropdown-item>{{ $t('WORKBENCHMODULE.TITLE') }}</el-dropdown-item>
+              <el-dropdown-item>{{
+                $t("WORKBENCHMODULE.TITLE")
+              }}</el-dropdown-item>
             </router-link>
             <el-dropdown-item divided>
               <el-dropdown
@@ -64,23 +71,26 @@ const langChange = (lang: string): void => {
                 @command="langChange"
               >
                 <span
-                  >{{ $t('SYSTEM.LANG') }}<i class="el-icon-arrow-down el-icon--right"></i
+                  >{{ $t("SYSTEM.LANG")
+                  }}<i class="el-icon-arrow-down el-icon--right"></i
                 ></span>
                 <template #dropdown>
                   <el-dropdown-menu>
-                    <el-dropdown-item command="zh">{{ $t('SYSTEM.ZH') }}</el-dropdown-item>
-                    <el-dropdown-item divided command="en"
-                      >{{ $t('SYSTEM.EN') }}</el-dropdown-item
-                    >
-                    <el-dropdown-item divided command="hk"
-                      >{{ $t('SYSTEM.HK') }}</el-dropdown-item
-                    >
+                    <el-dropdown-item command="zh">{{
+                      $t("SYSTEM.ZH")
+                    }}</el-dropdown-item>
+                    <el-dropdown-item divided command="en">{{
+                      $t("SYSTEM.EN")
+                    }}</el-dropdown-item>
+                    <el-dropdown-item divided command="hk">{{
+                      $t("SYSTEM.HK")
+                    }}</el-dropdown-item>
                   </el-dropdown-menu>
                 </template>
               </el-dropdown>
             </el-dropdown-item>
             <el-dropdown-item divided @click="logout">
-              {{ $t('SYSTEM.LOGOUT') }}
+              {{ $t("SYSTEM.LOGOUT") }}
             </el-dropdown-item>
           </el-dropdown-menu>
         </template>

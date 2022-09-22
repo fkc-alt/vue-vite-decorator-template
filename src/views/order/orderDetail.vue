@@ -1,18 +1,16 @@
 <script lang="ts" setup>
-import { onMounted, reactive } from "vue";
+import { reactive } from "vue";
 import { GetOrderDetail } from "@/apis/modules/order";
 
 const state = reactive<Service.OrderDetailRes>({
-    orderId: '',
-    stock: 0,
-    price: 0,
-    name: ''
+  orderId: "",
+  stock: 0,
+  price: 0,
+  name: "",
 });
 
-onMounted(async () => {
-  const res = await GetOrderDetail({ orderId: '123' });
-  Object.assign(state, res.data);
-});
+const res = await GetOrderDetail({ orderId: "123" });
+Object.assign(state, res.data);
 </script>
 
 <template>
