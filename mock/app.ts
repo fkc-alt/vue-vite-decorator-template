@@ -1,12 +1,13 @@
 import Mock from 'mockjs';
 import { MockMethod } from 'vite-plugin-mock';
-export default [
+
+const MockList: MockMethod[] = [
     {
         url: `/rsapi/login`,
         method: 'post',
         response: (req: any): Common.Response<Service.LoginRes> => {
             let code = 200, message = '成功';
-            if(req.body?.username !== 'system' || req.body?.password !== '12345678') {
+            if (req.body?.username !== 'system' || req.body?.password !== '12345678') {
                 code = -1;
                 message = '用户名或密码不正确';
             }
@@ -24,23 +25,23 @@ export default [
             return {
                 code: 200,
                 message: '成功',
-                data: { 
+                data: {
                     tableList: [
                         {
                             date: '2016-05-03',
                             name: 'Tom',
                             address: 'No. 189, Grove St, Los Angeles',
-                          },
-                          {
+                        },
+                        {
                             date: '2016-05-02',
                             name: 'Tom',
                             address: 'No. 189, Grove St, Los Angeles',
-                          },
-                          {
+                        },
+                        {
                             date: '2016-05-04',
                             name: 'Tom',
                             address: 'No. 189, Grove St, Los Angeles',
-                          },
+                        },
                     ]
                 }
             }
@@ -55,12 +56,12 @@ export default [
                 message: '成功',
                 data: Mock.mock({
                     "orderList|1-10": [
-                      {
-                        "name|+1": ["Hello", "Mock.js", "!"],
-                        "orderId|+1": ['1', '2', '3'],
-                        "stock|+1": [10, 20, 30],
-                        "price|+1": [199, 299, 399]
-                      }
+                        {
+                            "name|+1": ["Hello", "Mock.js", "!"],
+                            "orderId|+1": ['1', '2', '3'],
+                            "stock|+1": [10, 20, 30],
+                            "price|+1": [199, 299, 399]
+                        }
                     ]
                 })
             }
@@ -82,4 +83,6 @@ export default [
             }
         }
     }
-] as MockMethod[]
+]
+
+export default MockList;

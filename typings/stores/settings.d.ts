@@ -7,6 +7,6 @@ namespace Store {
         setOpened(data: boolean): void;
         setCollapse(data: boolean): void;
     }
-    type Settings<T> = T extends Ref ? Options<T> : Common.Omit<Options, 'setOpened' | 'setCollapse'>
+    type Settings<T> = T extends Ref ? Options<T> : Omit<Options, 'setOpened' | 'setCollapse'>
 }
 

@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 
-export const useStorePinia = defineStore('main',{
+export const useStorePinia = defineStore('main', {
     state() {
         return {
             count: 10,
@@ -14,12 +14,12 @@ export const useStorePinia = defineStore('main',{
     //    count: 10
     // }),
     getters: {
-        getMsgFn():string {
+        getMsgFn(): string {
             return this.content
         }
     },
     actions: {
-        changeMsg (val:number) {
+        changeMsg(val: number) {
             console.log('传入进来的值：', val)
             this.msg = '1111'
             this.count == val;
