@@ -21,9 +21,7 @@ export const setData = (data: StroageType) => {
 }
 
 export const removeStorage = (...data: Array<string>): boolean => {
-    data.forEach(key => {
-        sessionStorage.removeItem(key);
-    });
+    data.forEach(key => sessionStorage.removeItem(key));
     return true;
 }
 

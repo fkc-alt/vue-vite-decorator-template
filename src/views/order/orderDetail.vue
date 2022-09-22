@@ -9,8 +9,8 @@ const state = reactive<Service.OrderDetailRes>({
   name: "",
 });
 
-const res = await GetOrderDetail({ orderId: "123" });
-Object.assign(state, res.data);
+const r = await GetOrderDetail({ orderId: "123" });
+Object.assign(state, r.data);
 </script>
 
 <template>

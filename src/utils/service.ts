@@ -13,7 +13,7 @@ class Service {
      * @method constructor
      * @param { Object } config
     */
-    constructor(config: AxiosRequestConfig){
+    constructor(config: AxiosRequestConfig) {
         this.instance = Axios.create(config);
         this.interceptorsReq();
         this.interceptorsRes();
@@ -22,11 +22,11 @@ class Service {
      * @method interceptorsReq
      * @return { Promise } Promise
     */
-    private interceptorsReq(){
+    private interceptorsReq() {
         this.instance.interceptors.request.use((config: AxiosRequestConfig) => {
             // 在发送请求之前做些什么
             return config;
-        },(err)=> {
+        }, (err) => {
             // 对请求错误做些什么
             return Promise.reject(err);
         })
@@ -35,14 +35,14 @@ class Service {
      * @method interceptorsRes
      * @return { Promise } Promise
     */
-    private interceptorsRes(){
+    private interceptorsRes() {
         this.instance.interceptors.response.use((res: AxiosResponse) => {
             // 对响应数据做点什么
             const { code } = res.data;
-            if([0, 200].includes(code)) return res.data;
+            if ([0, 200].includes(code)) return res.data;
             ElMessage.error({ message: res.data.message });
             return Promise.reject(res.data.message);
-        }, (err)=>{
+        }, (err) => {
             // 对响应错误做点什么
             return Promise.reject(err);
         });
@@ -52,7 +52,7 @@ class Service {
      * @param { Object } config
      * @return { Common.Response<U> } Common.Response<U>
     */
-    public request<T, U>(config: AxiosRequestConfig<T>){
+    public request<T, U>(config: AxiosRequestConfig<T>) {
         return this.instance.request<{}, Common.Response<U>, T>(config);
     }
 }
