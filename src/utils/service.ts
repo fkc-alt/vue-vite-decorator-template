@@ -1,5 +1,6 @@
 import Axios, { AxiosRequestConfig, AxiosResponse, AxiosInstance } from 'axios';
 import { ElMessage } from 'element-plus';
+import { getToken } from "@/utils";
 const instance: AxiosRequestConfig = {
     baseURL: import.meta.env.VITE_APP_API,
     timeout: 10000,
@@ -24,7 +25,9 @@ class Service {
     */
     private interceptorsReq() {
         this.instance.interceptors.request.use((config: AxiosRequestConfig) => {
+            const Authorization = getToken();
             // 在发送请求之前做些什么
+            Authorization && (config['headers']!['Authorization'] = Authorization)
             return config;
         }, (err) => {
             // 对请求错误做些什么
