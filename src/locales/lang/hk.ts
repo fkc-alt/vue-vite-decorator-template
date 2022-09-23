@@ -1,55 +1,55 @@
 //繁体字
 export default {
     SYSTEM: {
-        TITLE: '冯凯超测试系统',
-        LOGOUT: '退出登录',
-        LANG: '切换语言',
+        TITLE: '測試系統',
+        LOGOUT: '退出登錄',
+        LANG: '切換語言',
         ZH: '中文',
         EN: '英文',
-        HK: '繁体',
+        HK: '繁體',
         LOGOUTMESSAGE: '退出成功',
-        LOGINMESSAGE: '登陆成功',
-        LOGIN: '登陆'
+        LOGINMESSAGE: '登陸成功',
+        LOGIN: '登陸'
     },
     MESSAGE: {
         SUCCESS: '操作成功',
-        ERROR: '操作失败',
+        ERROR: '操作失敗',
     },
     LOGIN: {
         FORM: {
-            USERNAME: '用户名',
-            PASSWORD: '密码'
+            USERNAME: '用戶名',
+            PASSWORD: '密碼'
         },
         FORMRULES: {
-            USERNAME: ['请输入用户名', '用户名长度在 3 到 12 个字符'],
-            PASSWORD: ['请输入密码', '密码长度在 6 到 18 个字符']
+            USERNAME: ['請輸入用戶名', '用戶名長度在 3 到 12 個字符'],
+            PASSWORD: ['請輸入密碼', '密碼長度在 6 到 18 個字符']
         }
     },
     WORKBENCHMODULE: {
-        TITLE: '工作台',
+        TITLE: '工作臺',
     },
     MEMBERMODULE: {
-        TITLE: '会员管理',
+        TITLE: '會員管理',
         MEMBERINFO: {
-            TITLE: '会员信息'
+            TITLE: '會員信息'
         },
         EDITMEMBER: {
-            TITLE: '编辑信息'
+            TITLE: '編輯信息'
         }
     },
     ORDERMODULE: {
-        TITLE: '订单信息',
+        TITLE: '訂單信息',
         COMPLETEORDER: {
-            TITLE: '已完成订单',
+            TITLE: '已完成訂單',
         },
         VOIDORDER: {
-            TITLE: '作废订单',
+            TITLE: '作廢訂單',
         },
         DETAIL: {
-            TITLE: '订单详情',
+            TITLE: '訂單詳情',
         }
     },
     ECHARTSMODULE: {
-        TITLE: '图表管理'
+        TITLE: '圖表管理'
     }
 }

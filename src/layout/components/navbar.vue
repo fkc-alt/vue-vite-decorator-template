@@ -79,11 +79,11 @@ const langChange = (lang: string): void => {
                     <el-dropdown-item command="zh">{{
                       $t("SYSTEM.ZH")
                     }}</el-dropdown-item>
-                    <el-dropdown-item divided command="en">{{
-                      $t("SYSTEM.EN")
-                    }}</el-dropdown-item>
                     <el-dropdown-item divided command="hk">{{
                       $t("SYSTEM.HK")
+                    }}</el-dropdown-item>
+                    <el-dropdown-item divided command="en">{{
+                      $t("SYSTEM.EN")
                     }}</el-dropdown-item>
                   </el-dropdown-menu>
                 </template>
