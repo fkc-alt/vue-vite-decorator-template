@@ -5,7 +5,7 @@ const MockList: MockMethod[] = [
     {
         url: `/rsapi/login`,
         method: 'post',
-        response: (req: any): Common.Response<Service.LoginRes> => {
+        response: (req: any): Services.Common.Response<Service.LoginRes> => {
             let code = 200, message = '成功';
             if (req.body?.username !== 'system' || req.body?.password !== '12345678') {
                 code = -1;
@@ -21,7 +21,7 @@ const MockList: MockMethod[] = [
     {
         url: `/rsapi/tableData`,
         method: 'post',
-        response: (): Common.Response<Service.TableDataRes> => {
+        response: (): Services.Common.Response<Service.TableDataRes> => {
             return {
                 code: 200,
                 message: '成功',
@@ -50,7 +50,7 @@ const MockList: MockMethod[] = [
     {
         url: `/rsapi/orderList`,
         method: 'post',
-        response: (): Common.Response<Service.OrderListRes> => {
+        response: (): Services.Common.Response<Service.OrderListRes> => {
             return {
                 code: 200,
                 message: '成功',
@@ -70,7 +70,7 @@ const MockList: MockMethod[] = [
     {
         url: `/rsapi/orderDetail`,
         method: 'get',
-        response: (): Common.Response<Service.OrderDetailRes> => {
+        response: (): Services.Common.Response<Service.OrderDetailRes> => {
             return {
                 code: 200,
                 message: '成功',

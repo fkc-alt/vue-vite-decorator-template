@@ -1,4 +1,4 @@
-namespace Common {
+namespace Services.Common {
     /**
      * @method Response
      * @descrption 请求返回类型

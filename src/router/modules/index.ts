@@ -1,8 +1,7 @@
-import { RouteRecordRaw } from 'vue-router';
 /**
  * @description “globEager”已弃用
  */
-const modulesFiles = import.meta.glob("/src/router/modules/**/*.ts", { import: 'default', eager: true }) as { [key: string]: RouteRecordRaw[] }
+const modulesFiles: Common.Glob = import.meta.glob("/src/router/modules/**/*.ts", { import: 'default', eager: true })
 
 const modules = Object.values(modulesFiles).reduce((prev, next) => {
     prev = [...prev, ...next];

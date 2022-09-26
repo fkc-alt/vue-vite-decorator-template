@@ -53,10 +53,10 @@ class Service {
     /**
      * @method request
      * @param { Object } config
-     * @return { Common.Response<U> } Common.Response<U>
+     * @return { Services.Common.Response<U> } Services.Common.Response<U>
     */
     public request<T, U>(config: AxiosRequestConfig<T>) {
-        return this.instance.request<{}, Common.Response<U>, T>(config);
+        return this.instance.request<{}, Services.Common.Response<U>, T>(config);
     }
 }
 
