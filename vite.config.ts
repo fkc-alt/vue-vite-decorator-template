@@ -2,11 +2,11 @@ import { defineConfig, loadEnv } from 'vite';
 import { resolve } from 'path';
 import { terser } from "rollup-plugin-terser";
 import Vue from '@vitejs/plugin-vue';
-import VueJsx from '@vitejs/plugin-vue-jsx' 
+import VueJsx from '@vitejs/plugin-vue-jsx'
 /**
   * 在setup语法糖中，解决无法自定义组件的 name 属性
   * 使用方法  defineOptions({ name: 'my-component' })
-*/ 
+*/
 import DefineOptions from 'unplugin-vue-define-options/vite';
 // 解决控制台warning
 import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite';
@@ -17,10 +17,10 @@ import { viteMockServe } from 'vite-plugin-mock';
 
 // https://vitejs.dev/config/
 export default ({ mode, command }) => {
-  const env = loadEnv(mode, process.cwd());
+  const { VITE_APP_BASE_URL, VITE_APP_BASE_API, VITE_APP_MOCK } = loadEnv(mode, process.cwd());
   return defineConfig({
     plugins: [
-      Vue(), 
+      Vue(),
       VueJsx(),
       DefineOptions(),
       terser(),
@@ -38,8 +38,8 @@ export default ({ mode, command }) => {
       }),
       viteMockServe({
         mockPath: 'mock',
-        localEnabled: command === 'serve', //开发打包开关
-        prodEnabled: command !== 'serve' ,// 生产打包开关
+        localEnabled: command === 'serve' && VITE_APP_MOCK === "true", //开发打包开关
+        prodEnabled: command !== 'serve',// 生产打包开关
         logger: true
       })
     ],
@@ -54,13 +54,10 @@ export default ({ mode, command }) => {
       port: 3000,
       open: true,
       proxy: {
-        [`/${env.VITE_APP_API}`]: {
-          target: env.VITE_APP_BASE,
+        [`/${VITE_APP_BASE_API}`]: {
+          target: VITE_APP_BASE_URL,
           changeOrigin: true,
-          ws: true,
-          rewrite(path: string):string {
-            return path.replace(new RegExp(`^\/${env.VITE_APP_API}`), '')
-          },
+          rewrite: path => path.replace(new RegExp(VITE_APP_BASE_API, "g"), "")
         }
       },
       hmr: true
@@ -85,7 +82,7 @@ export default ({ mode, command }) => {
       },
       rollupOptions: {
         output: {
-          manualChunks(id){
+          manualChunks(id) {
             if (id.includes('node_modules')) {
               return id.toString().split('node_modules/')[1].split('/')[0].toString();
             }
@@ -96,5 +93,5 @@ export default ({ mode, command }) => {
         },
       },
     }
-  })  
+  })
 } 

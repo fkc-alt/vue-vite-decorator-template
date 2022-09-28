@@ -9,7 +9,7 @@ import { getToken, getRoleIdList, removeStorage } from '@/utils';
  *  @description 权限列表
  *   注：如果路由没有该权限列表中的某一项默认不跳转
  */
-const rolesMap = ():Array<number> => getRoleIdList() || [101];
+const rolesMap = (): Array<number> => getRoleIdList() || [101];
 
 
 function checkRoutes(to: RouteLocationNormalized, form: RouteLocationNormalized, next: any) {
@@ -27,7 +27,7 @@ router.beforeEach((to: RouteLocationNormalized, form: RouteLocationNormalized, n
     if (getToken()) {
         to.path === '/login' ? next("/") : checkRoutes(to, form, next);
     } else {
-        to.path === '/login' ? next() : (removeStorage('token') && next('/login'));
+        to.path === '/login' ? next() : (removeStorage('token', 'roleIdList') && next('/login'));
     }
     NProgress.done();
 })

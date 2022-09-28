@@ -2,7 +2,7 @@ import Axios, { AxiosRequestConfig, AxiosResponse, AxiosInstance } from 'axios';
 import { ElMessage } from 'element-plus';
 import { getToken } from "@/utils";
 const instance: AxiosRequestConfig = {
-    baseURL: import.meta.env.VITE_APP_API,
+    baseURL: import.meta.env.VITE_APP_BASE_API,
     timeout: 10000,
 }
 /**

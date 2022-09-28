@@ -20,8 +20,7 @@ const [{ locale }, route, router, { proxy }] = [
 ];
 
 const logout = (): void => {
-  removeStorage("token");
-  setData({ token: localStorage.getItem("token") || "" });
+  removeStorage("token", "roleIdList");
   proxy.$message.success(proxy.$t("SYSTEM.LOGOUTMESSAGE"));
   router.push(`/login?redirect=${route.fullPath}`);
 };
