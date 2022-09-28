@@ -41,13 +41,14 @@ class Service {
     private interceptorsRes() {
         this.instance.interceptors.response.use((res: AxiosResponse) => {
             // 对响应数据做点什么
-            const { code } = res.data;
-            if ([0, 200].includes(code)) return res.data;
-            ElMessage.error({ message: res.data.message });
-            return Promise.reject(res.data.message);
+            const { status, data } = res;
+            if ([0, 200].includes(status)) return data;
+            ElMessage.error({ message: data.message });
+            return Promise.reject(data.message);
         }, (err) => {
+            ElMessage.error({ message: err?.response.data.message });
             // 对响应错误做点什么
-            return Promise.reject(err);
+            return Promise.reject(err?.response.data.message);
         });
     }
     /**
