@@ -27,7 +27,7 @@ class Service {
         this.instance.interceptors.request.use((config: AxiosRequestConfig) => {
             const Authorization = getToken();
             // 在发送请求之前做些什么
-            Authorization && (config['headers']!['Authorization'] = Authorization)
+            Authorization && (config['headers']!['Authorization'] = "Bearer " + Authorization)
             return config;
         }, (err) => {
             // 对请求错误做些什么

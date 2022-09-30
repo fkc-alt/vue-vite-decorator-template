@@ -1,7 +1,11 @@
 namespace Service {
-    interface TableDataReq extends Record<'currentPage' | 'pageSize', number> { }
-    type RecordTableList = Record<'date' | 'name' | 'address', string>[];
-    interface TableDataRes {
-        tableList: RecordTableList;
+    interface ArticleListRes {
+        articleList: {
+            id: string | number;
+            description: string;
+            title: string;
+            content: string;
+            status: number;
+        }[];
     }
 }

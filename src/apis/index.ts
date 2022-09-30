@@ -4,6 +4,6 @@ export const Login = <T extends Service.LoginReq, U extends Service.LoginRes>(da
     return Service.request<T, U>({ method: "post", url: "/user/login", data });
 }
 
-export const GetTableData = <T extends Service.TableDataReq, U extends Service.TableDataRes>(data: T) => {
-    return Service.request<T, U>({ method: "post", url: "/tableData", data });
+export const GetArticleList = <T = any, U = Service.ArticleListRes>() => {
+    return Service.request<T, U>({ method: "get", url: "article/getArticleList" });
 }

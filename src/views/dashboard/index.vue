@@ -1,25 +1,21 @@
 <script lang="ts" setup>
 import { reactive } from "vue";
-import { GetTableData } from "@/apis";
+import { GetArticleList } from "@/apis";
 
-const state = reactive<Service.TableDataReq & Service.TableDataRes>({
-  tableList: [],
-  currentPage: 1,
-  pageSize: 10,
+const state = reactive<Service.ArticleListRes>({
+  articleList: [],
 });
-const r = await GetTableData({
-  currentPage: state.currentPage,
-  pageSize: state.pageSize,
-});
-state.tableList = r.data.tableList;
+const r = await GetArticleList();
+state.articleList = r.data.articleList;
 </script>
 
 <template>
   <div>
-    <el-table :data="state.tableList">
-      <el-table-column prop="date" label="Date" width="180" />
-      <el-table-column prop="name" label="Name" width="180" />
-      <el-table-column prop="address" label="Address" />
+    <el-table :data="state.articleList">
+      <el-table-column prop="id" label="Id" width="180" />
+      <el-table-column prop="title" label="Title" width="180" />
+      <el-table-column prop="content" label="Content" />
+      <el-table-column prop="description" label="Description" />
     </el-table>
   </div>
 </template>
