@@ -16,4 +16,8 @@ namespace Service {
         orderId: string;
     }
     interface OrderDetailRes extends Item { }
+
+    interface TableDataRes {
+        tableList: Record<"date" | "name" | "address", string>[]
+    }
 }

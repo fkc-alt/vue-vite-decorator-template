@@ -3,7 +3,7 @@ import { MockMethod } from 'vite-plugin-mock';
 
 const MockList: MockMethod[] = [
     {
-        url: `/rsapi/login`,
+        url: `/rsapi/user/login`,
         method: 'post',
         response: (req: any): Services.Common.Response<Service.LoginRes> => {
             let code = 200, message = '成功';
