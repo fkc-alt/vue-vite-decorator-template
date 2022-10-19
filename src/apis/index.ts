@@ -7,3 +7,7 @@ export const Login = <T extends Service.LoginReq, U extends Service.LoginRes>(da
 export const GetArticleList = <T = any, U = Service.ArticleListRes>() => {
     return Service.request<T, U>({ method: "get", url: "article/getArticleList" });
 }
+
+export const GetTableDataList = <T = any, U = Service.TableDataRes>() => {
+    return Service.request<T, U>({ method: "post", url: "tableData" });
+}

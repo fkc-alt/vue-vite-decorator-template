@@ -1,12 +1,15 @@
 <script lang="ts" setup>
 import { reactive } from "vue";
-import { GetArticleList } from "@/apis";
+import { GetArticleList, GetTableDataList } from "@/apis";
 
-const state = reactive<Service.ArticleListRes>({
+const state = reactive<Service.ArticleListRes & Service.TableDataRes>({
   articleList: [],
+  tableList: [],
 });
 const r = await GetArticleList();
+const d = await GetTableDataList();
 state.articleList = r.data.articleList;
+state.tableList = d.data.tableList;
 </script>
 
 <template>

@@ -1,5 +1,6 @@
-import Mock from 'mockjs';
+import Mock, { Random } from 'mockjs';
 import { MockMethod } from 'vite-plugin-mock';
+import { create } from './utils';
 
 const MockList: MockMethod[] = [
     {
@@ -27,21 +28,36 @@ const MockList: MockMethod[] = [
                 message: '成功',
                 data: {
                     tableList: [
-                        {
-                            date: '2016-05-03',
-                            name: 'Tom',
-                            address: 'No. 189, Grove St, Los Angeles',
-                        },
-                        {
-                            date: '2016-05-02',
-                            name: 'Tom',
-                            address: 'No. 189, Grove St, Los Angeles',
-                        },
-                        {
-                            date: '2016-05-04',
-                            name: 'Tom',
-                            address: 'No. 189, Grove St, Los Angeles',
-                        },
+                        ...create<Service.TableDataRecord>(10, (_item) => {
+                            return {
+                                date: Random.date(),
+                                name: Random.cname(),
+                                address: Random.county(),
+                            }
+                        })
+                    ]
+                }
+            }
+        }
+    },
+    {
+        url: `/rsapi/article/getArticleList`,
+        method: 'get',
+        response: (): Services.Common.Response<Service.ArticleListRes> => {
+            return {
+                code: 200,
+                message: '成功',
+                data: {
+                    articleList: [
+                        ...create<Service.ArticleItem>(10, (_item) => {
+                            return {
+                                id: Random.integer(1, 100000),
+                                description: Random.csentence(),
+                                title: Random.ctitle(5, 20),
+                                content: Random.cparagraph(10, 20),
+                                status: Random.integer(0, 3)
+                            }
+                        })
                     ]
                 }
             }

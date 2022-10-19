@@ -1,0 +1,3 @@
+export const create = <T>(count: number, callback: (data: Record<string, any>) => T): T[] => {
+  return [...new Array(count).fill({})].map(v => callback(v))
+}
