@@ -1,5 +1,3 @@
 namespace Common {
-  type Glob = {
-    [key: string]: import("vue-router").RouteRecordRaw[];
-  }
+  type Glob = Record<string, import("vue-router").RouteRecordRaw[]>
 }
