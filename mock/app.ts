@@ -92,7 +92,7 @@ const MockList: MockMethod[] = [
             return {
                 code: 200,
                 message: '成功',
-                data: create<Service.OrderItem>(20, (_item) => {
+                data: create<Service.OrderItem>(1, (_item) => {
                     return {
                         name: Random.cname(),
                         orderId: Random.integer(1, 50) + Random.string(2, 10),
