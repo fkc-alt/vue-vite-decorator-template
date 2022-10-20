@@ -1,5 +1,5 @@
 namespace Service {
-    interface Item {
+    interface OrderItem {
         name: string;
         stock: number;
         orderId: string;
@@ -10,12 +10,12 @@ namespace Service {
         pageSize: number;
     }
     interface OrderListRes {
-        orderList: Array<Item>;
+        orderList: Array<OrderItem>;
     }
     interface OrderDetailReq {
         orderId: string;
     }
-    interface OrderDetailRes extends Item { }
+    interface OrderDetailRes extends OrderItem { }
 
     type TableDataRecord = Record<"date" | "name" | "address", string>
     interface TableDataRes {
