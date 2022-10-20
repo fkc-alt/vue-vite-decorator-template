@@ -70,16 +70,18 @@ const MockList: MockMethod[] = [
             return {
                 code: 200,
                 message: '成功',
-                data: Mock.mock({
-                    "orderList|1-10": [
-                        {
-                            "name|+1": ["Hello", "Mock.js", "!"],
-                            "orderId|+1": ['1', '2', '3'],
-                            "stock|+1": [10, 20, 30],
-                            "price|+1": [199, 299, 399]
-                        }
+                data: {
+                    orderList: [
+                        ...create<Service.OrderItem>(20, (_item) => {
+                            return {
+                                name: Random.cname(),
+                                orderId: Random.integer(1, 50) + Random.string(2, 10),
+                                stock: Random.integer(1, 100),
+                                price: Random.integer(100, 9999),
+                            }
+                        })
                     ]
-                })
+                }
             }
         }
     },
@@ -90,12 +92,14 @@ const MockList: MockMethod[] = [
             return {
                 code: 200,
                 message: '成功',
-                data: {
-                    price: 1999,
-                    name: '测试',
-                    stock: 1000,
-                    orderId: '111'
-                }
+                data: create<Service.OrderItem>(20, (_item) => {
+                    return {
+                        name: Random.cname(),
+                        orderId: Random.integer(1, 50) + Random.string(2, 10),
+                        stock: Random.integer(1, 100),
+                        price: Random.integer(100, 9999),
+                    }
+                })[0]
             }
         }
     }
