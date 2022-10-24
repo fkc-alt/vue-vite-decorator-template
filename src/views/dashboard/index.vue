@@ -6,8 +6,7 @@ const state = reactive<Service.ArticleListRes & Service.TableDataRes>({
   articleList: [],
   tableList: [],
 });
-const r = await GetArticleList();
-const d = await GetTableDataList();
+const [r, d] = [await GetArticleList(), await GetTableDataList()];
 state.articleList = r.data.articleList;
 state.tableList = d.data.tableList;
 </script>

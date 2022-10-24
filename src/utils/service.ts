@@ -42,7 +42,7 @@ class Service {
         this.instance.interceptors.response.use((res: AxiosResponse) => {
             // 对响应数据做点什么
             const { status, data } = res;
-            if ([0, 200].includes(status)) return data;
+            if ([0, 200].includes(status) && [0, 200].includes(data?.code || 200)) return data;
             ElMessage.error({ message: data.message });
             return Promise.reject(data.message);
         }, (err) => {
