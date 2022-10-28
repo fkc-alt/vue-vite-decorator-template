@@ -13,6 +13,8 @@ function descriptors<T extends object, U>(params: T): Function {
     }
 }
 
+
+
 class Demo {
     private num: number = 20;
     @descriptors<Params, Array<Number>>(params)
@@ -20,5 +22,28 @@ class Demo {
         console.log('Log', this, arguments);
     }
 }
+
+
+function demo() {
+    return {
+        name: "1",
+    }
+}
+
+
+type GetReturnData<T extends Function> = T extends (...args: any) => infer U ? U : never;
+type arr<T> = T extends (infer U)[] ? U : never
+type ar = arr<string[]>
+type tuple<T> = T extends [...args: infer U] ? U : never
+type pup = tuple<[number, string]>
+type d = GetReturnData<typeof demo>
+
+type laststr<T extends string> = T extends `${infer U}${infer _R}` ? U : never
+type Pro<T> = T extends Promise<infer U> ? U : never;
+
+type Promi = Pro<Promise<GetReturnData<typeof demo>>>
+type str = laststr<"123">
+
+
 
 export default new Demo();
