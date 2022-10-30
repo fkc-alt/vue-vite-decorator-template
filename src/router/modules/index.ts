@@ -6,6 +6,6 @@ const modulesFiles: Common.Glob = import.meta.glob('/src/router/modules/**/*.ts'
 const modules = Object.values(modulesFiles).reduce((prev, next) => {
   prev = [...prev, ...next]
   return prev
-}).sort((a, b) => a.sort && b.sort ? a.sort - b.sort : -1)
+}).sort((a, b) => (a.sort != null) && (b.sort != null) ? a.sort - b.sort : -1)
 
 export default modules

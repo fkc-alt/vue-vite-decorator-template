@@ -1,4 +1,4 @@
-import type { RouteLocationNormalized } from 'vue-router'
+import { RouteLocationNormalized } from 'vue-router'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import router from '@/router'
@@ -12,11 +12,11 @@ import { getToken, getRoleIdList, removeStorage } from '@/utils'
 const rolesMap = (): number[] => getRoleIdList()
 
 function checkRoutes (to: RouteLocationNormalized, form: RouteLocationNormalized, next: unknown): void {
-  const roles = to.meta.roles
+  const roles: number[] = to.meta.roles ?? []
   if ((roles == null) || ((roles?.length) === 0)) {
     (next as () => void)()
   } else {
-    roles.some((o) => rolesMap().includes(o)) ? (next as () => void)() : (next as (navigate: unknown) => void)(form.path)
+    roles.some((o: number) => rolesMap().includes(o)) ? (next as () => void)() : (next as (navigate: unknown) => void)(form.path)
   }
 }
 

@@ -1,7 +1,7 @@
-<script lang="tsx">
-import { defineComponent } from "vue";
-export default defineComponent({
-  name: "App",
-  setup: (props, ctx) => (): JSX.Element => <router-view />,
-});
+<script lang="tsx" setup>
+defineOptions({ name: 'App' })
+const App = () => <router-view />
 </script>
+<template>
+  <App />
+</template>

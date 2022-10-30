@@ -1,7 +1,8 @@
-import { AxiosResponse } from 'axios';
-declare module 'axios' {
-    interface AxiosResponse {
-        code: number | string;
-        message: string;
-    }
+import axios from 'axios'
+module 'axios' {
+  export interface AxiosResponse {
+    code: number | string
+    message: string
+  }
+  export default axios
 }

@@ -30,7 +30,7 @@ class Service {
       // 在发送请求之前做些什么
       (Authorization.length > 0) && config.headers !== undefined && (config.headers.Authorization = 'Bearer ' + Authorization)
       return config
-    }, async (err) => {
+    }, async (err: unknown) => {
       // 对请求错误做些什么
       return await Promise.reject(err)
     })

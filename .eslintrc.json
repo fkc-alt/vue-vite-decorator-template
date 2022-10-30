@@ -7,14 +7,11 @@
     },
     "globals": {
         "defineOptions": "readonly",
-        "defineProps": "readonly",
-        "defineEmits": "readonly",
         "Service": "readonly"
     },
     "extends": [
         "plugin:vue/vue3-essential",
         "standard-with-typescript",
-        "plugin:vue/recommended",
         "plugin:@typescript-eslint/recommended"
     ],
     "overrides": [],
@@ -27,7 +24,10 @@
         "project": "./tsconfig.json",
         "extraFileExtensions": [
             ".vue"
-        ]
+        ],
+        "ecmaFeatures": {
+            "jsx": true
+        }
     },
     "plugins": [
         "vue",
@@ -43,9 +43,7 @@
             "single"
         ],
         "func-call-spacing": "off",
-        "vue/multi-word-component-names": ["error", {
-            "ignores": ["index", "Login", "Error"]
-          }],
+        "vue/multi-word-component-names": "off",
         "@typescript-eslint/ban-types": [
             "error",
             {

@@ -2,7 +2,7 @@
 import { toRefs, getCurrentInstance } from "vue";
 import { useI18n } from "vue-i18n";
 import { useRoute, useRouter } from "vue-router";
-import { removeStorage, setData, setLang } from "@/utils";
+import { removeStorage, setLang } from "@/utils";
 import Breadcurmb from "./breadcurmb.vue";
 
 const Props = defineProps<{
@@ -52,37 +52,32 @@ const langChange = (lang: string): void => {
         <div>
           <img
             src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Finews.gtimg.com%2Fnewsapp_bt%2F0%2F13942804647%2F641&refer=http%3A%2F%2Finews.gtimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1666323743&t=a59b3058eb3d19c2260914dc71f01add"
-            class="user-avatar"
-          />
-          <el-icon><ArrowDownBold /></el-icon>
+            class="user-avatar" />
+          <el-icon>
+            <ArrowDownBold />
+          </el-icon>
         </div>
         <template #dropdown>
           <el-dropdown-menu>
             <router-link to="/" style="text-decoration: unset">
               <el-dropdown-item>{{
-                $t("WORKBENCHMODULE.TITLE")
+                  $t("WORKBENCHMODULE.TITLE")
               }}</el-dropdown-item>
             </router-link>
             <el-dropdown-item divided>
-              <el-dropdown
-                trigger="click"
-                placement="left-start"
-                @command="langChange"
-              >
-                <span
-                  >{{ $t("SYSTEM.LANG")
-                  }}<i class="el-icon-arrow-down el-icon--right"></i
-                ></span>
+              <el-dropdown trigger="click" placement="left-start" @command="langChange">
+                <span>{{ $t("SYSTEM.LANG")
+                }}<i class="el-icon-arrow-down el-icon--right"></i></span>
                 <template #dropdown>
                   <el-dropdown-menu>
                     <el-dropdown-item command="zh">{{
-                      $t("SYSTEM.ZH")
+                        $t("SYSTEM.ZH")
                     }}</el-dropdown-item>
                     <el-dropdown-item divided command="hk">{{
-                      $t("SYSTEM.HK")
+                        $t("SYSTEM.HK")
                     }}</el-dropdown-item>
                     <el-dropdown-item divided command="en">{{
-                      $t("SYSTEM.EN")
+                        $t("SYSTEM.EN")
                     }}</el-dropdown-item>
                   </el-dropdown-menu>
                 </template>
@@ -108,27 +103,33 @@ const langChange = (lang: string): void => {
   justify-content: space-between;
   align-items: center;
   padding: 0 10px;
+
   &-left {
     display: flex;
+
     .collapse {
       font-size: 25px;
       padding: 0 15px;
       cursor: pointer;
     }
+
     .bread-curmb {
       display: flex;
       align-items: center;
     }
   }
+
   &-right {
     display: flex;
     align-items: center;
     padding: 7px 0;
+
     .scroll-full {
       padding-right: 10px;
       cursor: pointer;
     }
   }
+
   .user-avatar {
     cursor: pointer;
     width: 40px;
