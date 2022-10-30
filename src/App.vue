@@ -1,6 +1,6 @@
 <script lang="tsx" setup>
 defineOptions({ name: 'App' })
-const Test = 1
+const Test = 2
 </script>
 <template>
   <router-view />
