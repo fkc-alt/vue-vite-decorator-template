@@ -7,7 +7,7 @@ import hk from './lang/hk'
 const messages = { zh, en, hk }
 
 const i18n = createI18n({
-  locale: sessionStorage.getItem('lang') || 'zh',
+  locale: sessionStorage.getItem('lang') ?? 'zh',
   messages,
   globalInjection: true
 })

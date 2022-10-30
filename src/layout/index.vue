@@ -1,7 +1,3 @@
-<style lang="scss" scoped>
-@import "@/styles/layout";
-</style>
-
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
 import { useRoute, useRouter, RouteRecordRaw } from 'vue-router'
@@ -52,6 +48,7 @@ const handleTreeRoutes = (routes: RoutesRaw): RoutesRaw => {
       return !!v.children?.length && !v.children.every((o) => o.hidden)
     }
     if (!v.meta?.roles || !v.meta?.roles.length) return true
+    return false
   })
 }
 </script>
@@ -80,17 +77,23 @@ const handleTreeRoutes = (routes: RoutesRaw): RoutesRaw => {
             class="sidebar-logo-link collapse-logo"
             @click="router.push('/')"
           >
-            <img src="/system-dev.svg" class="sidebar-logo" />
-            <h1 class="sidebar-title" v-if="!isCollapse">
+            <img
+              src="/system-dev.svg"
+              class="sidebar-logo"
+            >
+            <h1
+              v-if="!isCollapse"
+              class="sidebar-title"
+            >
               {{ $t("SYSTEM.TITLE") }}
             </h1>
           </div>
 
           <sidebar-item
-            v-for="route in routes"
-            :key="route.path"
-            :item="route"
-          ></sidebar-item>
+            v-for="routeRecord in routes"
+            :key="routeRecord.path"
+            :item="routeRecord"
+          />
         </el-menu>
       </div>
 
@@ -98,19 +101,29 @@ const handleTreeRoutes = (routes: RoutesRaw): RoutesRaw => {
         <el-header>
           <Navbar
             :device="device"
-            :isCollapse="isCollapse"
-            :setCollapse="setCollapse"
+            :is-collapse="isCollapse"
+            :set-collapse="setCollapse"
           />
         </el-header>
         <el-main>
           <div>
-            <router-view v-slot="{ Component, route }">
-              <transition name="fade" appear mode="out-in" key="animation">
+            <router-view v-slot="{ Component, route: routeRecord }">
+              <transition
+                key="animation"
+                name="fade"
+                appear
+                mode="out-in"
+              >
                 <suspense>
                   <template #default>
-                    <component :is="Component" :key="route.path" />
+                    <component
+                      :is="Component"
+                      :key="routeRecord.path"
+                    />
                   </template>
-                  <template #fallback> Loading... </template>
+                  <template #fallback>
+                    Loading...
+                  </template>
                 </suspense>
               </transition>
             </router-view>
@@ -121,3 +134,7 @@ const handleTreeRoutes = (routes: RoutesRaw): RoutesRaw => {
     </el-container>
   </div>
 </template>
+
+<style lang="scss" scoped>
+@import "@/styles/layout";
+</style>

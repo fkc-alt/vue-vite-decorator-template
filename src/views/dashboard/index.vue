@@ -14,10 +14,24 @@ state.tableList = d.data.tableList
 <template>
   <div>
     <el-table :data="state.articleList">
-      <el-table-column prop="id" label="Id" width="180" />
-      <el-table-column prop="title" label="Title" width="180" />
-      <el-table-column prop="content" label="Content" />
-      <el-table-column prop="description" label="Description" />
+      <el-table-column
+        prop="id"
+        label="Id"
+        width="180"
+      />
+      <el-table-column
+        prop="title"
+        label="Title"
+        width="180"
+      />
+      <el-table-column
+        prop="content"
+        label="Content"
+      />
+      <el-table-column
+        prop="description"
+        label="Description"
+      />
     </el-table>
   </div>
 </template>

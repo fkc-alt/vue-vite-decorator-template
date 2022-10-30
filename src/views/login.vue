@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import { ref, reactive, getCurrentInstance, onMounted } from 'vue'
+import { ref, reactive, getCurrentInstance, onMounted, ComponentInternalInstance } from 'vue'
 import { useRouter, useRoute, RouteLocationRaw } from 'vue-router'
-import type { FormInstance, FormRules } from 'element-plus'
+import { ElButton, ElForm, ElFormItem, ElInput, FormInstance, FormRules } from 'element-plus'
 import { Login } from '@/apis'
 import { setData } from '@/utils'
 // Look Vue Prototype property
 const [{ proxy }, MODE] = [
-  getCurrentInstance() as any,
+  getCurrentInstance() as ComponentInternalInstance,
   import.meta.env.MODE === 'dev'
 ]
 const [router, route] = [useRouter(), useRoute()]
@@ -19,26 +19,26 @@ const formRules = reactive<FormRules>({
   username: [
     {
       required: true,
-      message: proxy.$t('LOGIN.FORMRULES.USERNAME[0]'),
+      message: proxy ? proxy.$t('LOGIN.FORMRULES.USERNAME[0]') : '',
       trigger: 'blur'
     },
     {
       min: 3,
       max: 12,
-      message: proxy.$t('LOGIN.FORMRULES.USERNAME[1]'),
+      message: proxy ? proxy.$t('LOGIN.FORMRULES.USERNAME[1]') : '',
       trigger: 'blur'
     }
   ],
   password: [
     {
       required: true,
-      message: proxy.$t('LOGIN.FORMRULES.PASSWORD[0]'),
+      message: proxy ? proxy.$t('LOGIN.FORMRULES.PASSWORD[0]') : '',
       trigger: 'blur'
     },
     {
       min: 6,
       max: 18,
-      message: proxy.$t('LOGIN.FORMRULES.PASSWORD[1]'),
+      message: proxy ? proxy.$t('LOGIN.FORMRULES.PASSWORD[1]') : '',
       trigger: 'blur'
     }
   ]
@@ -57,7 +57,7 @@ const submit = async (formEl: FormInstance | undefined) => {
           setData({ token: res.data.token, roleIdList: res.data.roles })
           const redirect = (route.query &&
             route.query.redirect) as RouteLocationRaw
-          proxy.$message.success(proxy.$t('SYSTEM.LOGINMESSAGE'))
+          proxy && proxy.$message.success(proxy.$t('SYSTEM.LOGINMESSAGE'))
           router.push(redirect || '/')
         })
         .catch((error: string) => {
@@ -86,22 +86,37 @@ onMounted(() => {
       label-width="80px"
     >
       <div class="title-container">
-        <h3 class="title mixin" ref="myRef">{{ $t("SYSTEM.TITLE") }}</h3>
+        <h3
+          ref="myRef"
+          class="title mixin"
+        >
+          {{ $t("SYSTEM.TITLE") }}
+        </h3>
       </div>
 
-      <el-form-item :label="$t('LOGIN.FORM.USERNAME')" prop="username">
-        <el-input v-model="loginForm.username"></el-input>
+      <el-form-item
+        :label="$t('LOGIN.FORM.USERNAME')"
+        prop="username"
+      >
+        <el-input v-model="loginForm.username" />
       </el-form-item>
-      <el-form-item :label="$t('LOGIN.FORM.PASSWORD')" prop="password">
-        <el-input v-model="loginForm.password" type="password"></el-input>
+      <el-form-item
+        :label="$t('LOGIN.FORM.PASSWORD')"
+        prop="password"
+      >
+        <el-input
+          v-model="loginForm.password"
+          type="password"
+        />
       </el-form-item>
       <el-form-item>
         <el-button
           type="primary"
           :loading="loading"
           @click="submit(ruleFormRef)"
-          >{{ $t("SYSTEM.LOGIN") }}</el-button
         >
+          {{ $t("SYSTEM.LOGIN") }}
+        </el-button>
       </el-form-item>
     </el-form>
   </div>

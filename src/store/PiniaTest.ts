@@ -22,7 +22,7 @@ export const useStorePinia = defineStore('main', {
     changeMsg (val: number) {
       console.log('传入进来的值：', val)
       this.msg = '1111'
-      this.count === val
+      this.count = val
     }
   }
 })

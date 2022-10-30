@@ -1,6 +1,7 @@
 import { defineConfig, loadEnv } from 'vite'
 import { resolve } from 'path'
 import { terser } from 'rollup-plugin-terser'
+import eslintPlugin from 'vite-plugin-eslint'
 import Vue from '@vitejs/plugin-vue'
 import VueJsx from '@vitejs/plugin-vue-jsx'
 /**
@@ -24,6 +25,10 @@ export default ({ mode, command }) => {
       VueJsx(),
       DefineOptions(),
       terser(),
+      eslintPlugin({
+        include: ['src/**/*.ts', 'src/**/*.tsx', 'src/**/*.d.ts', 'src/**/*.vue'],
+        cache: true
+      }),
       VueI18nPlugin({
         /* options */
         // locale messages resource pre-compile option

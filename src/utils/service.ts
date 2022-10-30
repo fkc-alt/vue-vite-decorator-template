@@ -24,11 +24,11 @@ class Service {
      * @method interceptorsReq
      * @return { Promise } Promise
     */
-  private interceptorsReq () {
+  private interceptorsReq (): void {
     this.instance.interceptors.request.use((config: AxiosRequestConfig) => {
-      const Authorization = getToken()
+      const Authorization = getToken();
       // 在发送请求之前做些什么
-      Authorization && (config.headers!.Authorization = 'Bearer ' + Authorization)
+      (Authorization.length > 0) && config.headers !== undefined && (config.headers.Authorization = 'Bearer ' + Authorization)
       return config
     }, async (err) => {
       // 对请求错误做些什么
@@ -40,11 +40,11 @@ class Service {
      * @method interceptorsRes
      * @return { Promise } Promise
     */
-  private interceptorsRes () {
+  private interceptorsRes (): void {
     this.instance.interceptors.response.use((res: AxiosResponse) => {
       // 对响应数据做点什么
       const { status, data } = res
-      if ([0, 200].includes(status) && [0, 200].includes(data?.code || 200)) return data
+      if ([0, 200].includes(status) && [0, 200].includes(((Boolean(data)) && (Boolean((data?.code)))) ? data?.code : 200)) return data
       ElMessage.error({ message: data.message })
       return Promise.reject(data.message)
     }, async (err) => {
@@ -59,7 +59,7 @@ class Service {
      * @param { Object } config
      * @return { Services.Common.Response<U> }
     */
-  public async request<T, U> (config: AxiosRequestConfig<T>) {
+  public async request<T, U> (config: AxiosRequestConfig<T>): Promise<Services.Common.Response<U>> {
     return await this.instance.request<{}, Services.Common.Response<U>, T>(config)
   }
 }
