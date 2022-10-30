@@ -55,7 +55,7 @@
     "vue-tsc": "^0.38.4"
   },
   "lint-staged": {
-    "src,typings,mock/**.{ts,d.ts,vue}": [
+    "src,typings,mock/**/*.{ts,d.ts,vue}": [
       "eslint --fix"
     ]
   },
