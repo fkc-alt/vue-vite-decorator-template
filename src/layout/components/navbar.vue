@@ -2,6 +2,7 @@
 import { toRefs, getCurrentInstance, ComponentInternalInstance, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
+import { ElMessage } from 'element-plus'
 import { removeStorage, setLang } from '@/utils'
 import Breadcurmb from './breadcurmb.vue'
 
@@ -22,7 +23,7 @@ const [{ locale }, route, router, { proxy }] = [
 
 const logout = (): void => {
   removeStorage('token', 'roleIdList')
-  if (proxy) proxy.$message.success(proxy.$t('SYSTEM.LOGOUTMESSAGE'))
+  if (proxy) ElMessage.success(proxy.$t('SYSTEM.LOGOUTMESSAGE'))
   router.push(`/login?redirect=${route.fullPath}`)
 }
 const changeMenu = (): void => {
@@ -35,7 +36,7 @@ const changeMenu = (): void => {
 const langChange = (lang: string): void => {
   locale.value = lang
   setLang(lang)
-  if (proxy) proxy.$message.success(proxy.$t('MESSAGE.SUCCESS'))
+  if (proxy) ElMessage.success(proxy.$t('MESSAGE.SUCCESS'))
 }
 </script>
 <template>

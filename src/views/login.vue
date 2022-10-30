@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref, reactive, getCurrentInstance, onMounted, ComponentInternalInstance } from 'vue'
 import { useRouter, useRoute, RouteLocationRaw } from 'vue-router'
-import { ElButton, ElForm, ElFormItem, ElInput, FormInstance, FormRules } from 'element-plus'
+import { ElButton, ElForm, ElFormItem, ElInput, FormInstance, FormRules, ElMessage } from 'element-plus'
 import { Login } from '@/apis'
 import { setData } from '@/utils'
 // Look Vue Prototype property
@@ -57,7 +57,7 @@ const submit = async (formEl: FormInstance | undefined) => {
           setData({ token: res.data.token, roleIdList: res.data.roles })
           const redirect = (route.query &&
             route.query.redirect) as RouteLocationRaw
-          proxy && proxy.$message.success(proxy.$t('SYSTEM.LOGINMESSAGE'))
+          ElMessage.success(proxy ? proxy.$t('SYSTEM.LOGINMESSAGE') : '')
           router.push(redirect || '/')
         })
         .catch((error: string) => {

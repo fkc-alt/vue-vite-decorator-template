@@ -1,9 +1,12 @@
-import { defineConfig, loadEnv, UserConfigExport } from 'vite'
+import { ConfigEnv, defineConfig, loadEnv, UserConfigExport } from 'vite'
 import { resolve } from 'path'
-import { terser } from 'rollup-plugin-terser'
+import { terser as Tenser } from 'rollup-plugin-terser'
 import EslintPlugin from 'vite-plugin-eslint'
 import Vue from '@vitejs/plugin-vue'
 import VueJsx from '@vitejs/plugin-vue-jsx'
+import ElementPlus from 'unplugin-element-plus/vite'
+import Components from 'unplugin-vue-components/vite'
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 /**
   * 在setup语法糖中，解决无法自定义组件的 name 属性
   * 使用方法  defineOptions({ name: 'my-component' })
@@ -16,14 +19,14 @@ import ViteCompression from 'vite-plugin-compression'
 import { viteMockServe } from 'vite-plugin-mock'
 
 // https://vitejs.dev/config/
-export default ({ mode, command }): UserConfigExport => {
+export default ({ mode, command }: ConfigEnv): UserConfigExport => {
   const { VITE_APP_BASE_URL, VITE_APP_BASE_API, VITE_APP_MOCK } = loadEnv(mode, process.cwd())
   return defineConfig({
     plugins: [
       Vue(),
       VueJsx(),
       DefineOptions(),
-      terser(),
+      Tenser(),
       EslintPlugin({
         include: ['src/**/*.ts', 'src/**/*.tsx', 'src/**/*.d.ts', 'src/**/*.vue'],
         cache: true
@@ -32,6 +35,13 @@ export default ({ mode, command }): UserConfigExport => {
         /* options */
         // locale messages resource pre-compile option
         include: resolve(__dirname, './src/locales/**')
+      }),
+      ElementPlus({
+        useSource: true
+      }),
+      Components({
+        dirs: ['src/components'], // 配置需要默认导入的自定义组件文件夹，该文件夹下的所有组件都会自动 import
+        resolvers: [ElementPlusResolver()]
       }),
       ViteCompression({
         verbose: true,
@@ -69,14 +79,14 @@ export default ({ mode, command }): UserConfigExport => {
     css: {
       preprocessorOptions: {
         scss: {
-          additionalData: '@import "@/styles/mixin.scss";'
+          additionalData: '@use "@/styles/mixin.scss";'
         }
       }
     },
     build: {
       sourcemap: mode === 'dev',
       // 大文件报警阈值设置,不建议使用
-      // chunkSizeWarningLimit: 1500,
+      chunkSizeWarningLimit: 5000,
       minify: 'terser',
       terserOptions: {
         compress: {

@@ -12,7 +12,6 @@ const state = reactive<Service.OrderDetailRes>({
 const r = await GetOrderDetail({ orderId: '123' })
 Object.assign(state, r.data)
 </script>
-
 <template>
   <div>
     {{ state.name }}

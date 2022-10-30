@@ -46,6 +46,8 @@
     "sass": "^1.54.0",
     "sass-loader": "^13.0.2",
     "typescript": "^4.8.4",
+    "unplugin-element-plus": "^0.4.1",
+    "unplugin-vue-components": "^0.22.9",
     "unplugin-vue-define-options": "^0.6.2",
     "vite": "^3.0.0",
     "vite-plugin-compression": "^0.5.1",
