@@ -1,7 +1,7 @@
 import { defineConfig, loadEnv, UserConfigExport } from 'vite'
 import { resolve } from 'path'
 import { terser } from 'rollup-plugin-terser'
-import eslintPlugin from 'vite-plugin-eslint'
+import EslintPlugin from 'vite-plugin-eslint'
 import Vue from '@vitejs/plugin-vue'
 import VueJsx from '@vitejs/plugin-vue-jsx'
 /**
@@ -24,7 +24,7 @@ export default ({ mode, command }): UserConfigExport => {
       VueJsx(),
       DefineOptions(),
       terser(),
-      eslintPlugin({
+      EslintPlugin({
         include: ['src/**/*.ts', 'src/**/*.tsx', 'src/**/*.d.ts', 'src/**/*.vue'],
         cache: true
       }),
