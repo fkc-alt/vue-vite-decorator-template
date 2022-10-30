@@ -13,13 +13,12 @@ export default function (): Store.Settings<Ref> {
 
   watch(() => route.path, () => device.value === 'mobile' && setOpened(false))
 
-  const $_isMobile = () => body.getBoundingClientRect().width - 1 < WIDTH
-  const $_resizeHandler = () => !document.hidden && setDevice($_isMobile() ? 'mobile' : 'desktop')
+  const isMobile = (): boolean => body.getBoundingClientRect().width - 1 < WIDTH
+  const resizeHandler = (): unknown => !document.hidden && setDevice(isMobile() ? 'mobile' : 'desktop')
 
-  onBeforeMount(() => window.addEventListener('resize', $_resizeHandler))
-  onMounted($_resizeHandler)
-
-  onBeforeUnmount(() => window.removeEventListener('resize', $_resizeHandler))
+  onBeforeMount(() => window.addEventListener('resize', resizeHandler))
+  onMounted(resizeHandler)
+  onBeforeUnmount(() => window.removeEventListener('resize', resizeHandler))
 
   return { device, opened, isCollapse, setOpened, setCollapse }
 }

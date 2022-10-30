@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import { toRefs, provide } from "vue";
-import { RouteRecordRaw } from "vue-router";
-import Icon from "./icon.vue";
-defineOptions({ name: "SidebarItem" });
-const Props = defineProps<{ item: RouteRecordRaw }>();
-const { item } = toRefs(Props);
-provide("route", item);
+import { toRefs, provide } from 'vue'
+import { RouteRecordRaw } from 'vue-router'
+import Icon from './icon.vue'
+defineOptions({ name: 'SidebarItem' })
+const Props = defineProps<{ item: RouteRecordRaw }>()
+const { item } = toRefs(Props)
+provide('route', item)
 </script>
 
 <template>

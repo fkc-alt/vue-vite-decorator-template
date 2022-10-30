@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { inject } from "vue";
-import { RouteRecordRaw } from "vue-router";
-defineOptions({ name: "Icon" });
-const route = inject<RouteRecordRaw>("route");
+import { inject } from 'vue'
+import { RouteRecordRaw } from 'vue-router'
+defineOptions({ name: 'Icon' })
+const route = inject<RouteRecordRaw>('route')
 </script>
 
 <template>

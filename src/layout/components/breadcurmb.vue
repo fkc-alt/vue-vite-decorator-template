@@ -1,19 +1,19 @@
 <script lang="ts" setup>
-import { computed } from "vue";
-import { useRoute, useRouter, RouteLocationMatched } from "vue-router";
+import { computed } from 'vue'
+import { useRoute, useRouter, RouteLocationMatched } from 'vue-router'
 
-const [route, router] = [useRoute(), useRouter()];
+const [route, router] = [useRoute(), useRouter()]
 
 const breadList = computed((): RouteLocationMatched[] => {
   return route.matched.filter(
-    (item) => item.meta.title && !item.meta.alwaysShow && item.name !== "Login"
-  );
-});
+    (item) => item.meta.title && !item.meta.alwaysShow && item.name !== 'Login'
+  )
+})
 
 const handleLink = (item: RouteLocationMatched) => {
-  const { redirect, path } = item;
-  router.push(redirect || path);
-};
+  const { redirect, path } = item
+  router.push(redirect || path)
+}
 </script>
 
 <template>

@@ -1,41 +1,42 @@
 <script lang="ts" setup>
-import { toRefs, getCurrentInstance } from "vue";
-import { useI18n } from "vue-i18n";
-import { useRoute, useRouter } from "vue-router";
-import { removeStorage, setLang } from "@/utils";
-import Breadcurmb from "./breadcurmb.vue";
+import { toRefs, getCurrentInstance, ComponentInternalInstance, reactive } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useRoute, useRouter } from 'vue-router'
+import { removeStorage, setLang } from '@/utils'
+import Breadcurmb from './breadcurmb.vue'
 
 const Props = defineProps<{
   isCollapse: boolean;
   device: string;
   setCollapse(collapse: boolean): void;
-}>();
-const { isCollapse, device } = toRefs(Props);
-const { setCollapse } = Props;
+}>()
+const { isCollapse, device } = toRefs(Props)
+// eslint-disable-next-line vue/no-setup-props-destructure
+const { setCollapse } = reactive(Props)
 const [{ locale }, route, router, { proxy }] = [
   useI18n(),
   useRoute(),
   useRouter(),
-  getCurrentInstance() as any,
-];
+  getCurrentInstance() as ComponentInternalInstance
+]
 
 const logout = (): void => {
-  removeStorage("token", "roleIdList");
-  proxy.$message.success(proxy.$t("SYSTEM.LOGOUTMESSAGE"));
-  router.push(`/login?redirect=${route.fullPath}`);
-};
+  removeStorage('token', 'roleIdList')
+  if (proxy) proxy.$message.success(proxy.$t('SYSTEM.LOGOUTMESSAGE'))
+  router.push(`/login?redirect=${route.fullPath}`)
+}
 const changeMenu = (): void => {
-  if (device.value === "mobile") {
-    setCollapse(false);
-    return;
+  if (device.value === 'mobile') {
+    setCollapse(false)
+    return
   }
-  setCollapse(!isCollapse.value);
-};
+  setCollapse(!isCollapse.value)
+}
 const langChange = (lang: string): void => {
-  locale.value = lang;
-  setLang(lang);
-  proxy.$message.success(proxy.$t("MESSAGE.SUCCESS"));
-};
+  locale.value = lang
+  setLang(lang)
+  if (proxy) proxy.$message.success(proxy.$t('MESSAGE.SUCCESS'))
+}
 </script>
 <template>
   <div class="navbar">
