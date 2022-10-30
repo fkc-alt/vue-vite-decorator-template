@@ -60,6 +60,9 @@
     ],
     "*.vue": [
       "eslint --fix"
+    ],
+    "*.d.ts": [
+      "eslint --fix"
     ]
   },
   "commitlint": {
