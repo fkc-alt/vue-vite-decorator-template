@@ -55,13 +55,7 @@
     "vue-tsc": "^0.38.4"
   },
   "lint-staged": {
-    "*.ts": [
-      "eslint --fix"
-    ],
-    "*.vue": [
-      "eslint --fix"
-    ],
-    "*.d.ts": [
+    "./src/**/*.{ts,d.ts,.vue}": [
       "eslint --fix"
     ]
   },
