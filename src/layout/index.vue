@@ -3,57 +3,57 @@
 </style>
 
 <script lang="ts" setup>
-import { computed, ref } from "vue";
-import { useRoute, useRouter, RouteRecordRaw } from "vue-router";
-import { getRoleIdList } from "@/utils";
-import Navbar from "./components/navbar.vue";
-import SidebarItem from "./components/sidebarItem.vue";
-import useResizeHandler from "./hooks/ResizeHandler";
+import { computed, ref } from 'vue'
+import { useRoute, useRouter, RouteRecordRaw } from 'vue-router'
+import { getRoleIdList } from '@/utils'
+import Navbar from './components/navbar.vue'
+import SidebarItem from './components/sidebarItem.vue'
+import useResizeHandler from './hooks/ResizeHandler'
 
 type RoutesRaw = RouteRecordRaw[];
-const [route, router, roles] = [useRoute(), useRouter(), ref(getRoleIdList())];
+const [route, router, roles] = [useRoute(), useRouter(), ref(getRoleIdList())]
 const { device, opened, isCollapse, setOpened, setCollapse } =
-  useResizeHandler();
+  useResizeHandler()
 
 const routes = computed(() => {
   const routes = router.options.routes.filter(
-    (v) => v.path !== "/login" && !v.hidden
-  );
-  return handleTreeRoutes(handleMapRoutes(routes));
-});
+    (v) => v.path !== '/login' && !v.hidden
+  )
+  return handleTreeRoutes(handleMapRoutes(routes))
+})
 const classObj = computed(() => {
   return {
-    "el-menu": true,
-    "collapse-menu": isCollapse.value,
+    'el-menu': true,
+    'collapse-menu': isCollapse.value,
     menu: !isCollapse.value,
-    "hide-menu": device.value === "mobile" && !opened.value,
-    "fixed-menu": device.value === "mobile" && opened.value,
-  };
-});
+    'hide-menu': device.value === 'mobile' && !opened.value,
+    'fixed-menu': device.value === 'mobile' && opened.value
+  }
+})
 
 const handleMapRoutes = (routes: RoutesRaw): RoutesRaw => {
   return routes.map((v) => {
     if (v?.children?.length === 1 && v?.meta?.alwaysShow) {
-      v = v.children[0];
+      v = v.children[0]
     }
     if (v?.children && v?.children.length > 1) {
-      v.children = handleMapRoutes(v.children);
+      v.children = handleMapRoutes(v.children)
     }
-    return v;
-  });
-};
+    return v
+  })
+}
 const handleTreeRoutes = (routes: RoutesRaw): RoutesRaw => {
   return routes.filter((v) => {
     if (v.meta?.roles?.length) {
-      return v.meta.roles.some((o) => roles.value.includes(o));
+      return v.meta.roles.some((o) => roles.value.includes(o))
     }
     if (v?.children?.length) {
-      v.children = handleTreeRoutes(v.children);
-      return !!v.children?.length && !v.children.every((o) => o.hidden);
+      v.children = handleTreeRoutes(v.children)
+      return !!v.children?.length && !v.children.every((o) => o.hidden)
     }
-    if (!v.meta?.roles || !v.meta?.roles.length) return true;
-  });
-};
+    if (!v.meta?.roles || !v.meta?.roles.length) return true
+  })
+}
 </script>
 
 <template>

@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { ref } from 'vue';
- 
-defineOptions({ name: 'HelloWorld' });
+import { ref } from 'vue'
 
-defineProps<{ msg: string }>();
+defineOptions({ name: 'HelloWorld' })
+
+defineProps<{ msg: string }>()
 
 const emit = defineEmits<{
   (event: 'emptied', value: number): void
-}>();
+}>()
 
 const count = ref(0)
 const add = () => {

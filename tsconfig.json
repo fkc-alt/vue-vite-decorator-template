@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "target": "ESNext",
+    "strictNullChecks": true,
     "useDefineForClassFields": true,
     "module": "ESNext",
     "moduleResolution": "Node",
@@ -12,7 +13,11 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "esModuleInterop": true,
-    "lib": ["ESNext", "DOM", "ES2015.Promise"],
+    "lib": [
+      "ESNext",
+      "DOM",
+      "ES2015.Promise"
+    ],
     "skipLibCheck": true,
     "baseUrl": ".",
     "allowSyntheticDefaultImports": true,
@@ -21,22 +26,40 @@
     "keyofStringsOnly": false,
     "outDir": "./dist",
     "paths": {
-      "@/*": ["src/*"],
-      "~@/*": ["./*"],
+      "@/*": [
+        "src/*"
+      ],
+      "~@/*": [
+        "./*"
+      ],
     },
-    "types": ["unplugin-vue-define-options", "vite/client", "element-plus/global", "node"],
-    "typeRoots": ["./node_modules/@types"],
+    "types": [
+      "unplugin-vue-define-options",
+      "vite/client",
+      "element-plus/global",
+      "node"
+    ],
+    "typeRoots": [
+      "./node_modules/@types"
+    ],
   },
   "include": [
-    "src/**/*.ts", 
-    "src/**/*.d.ts", 
-    "src/**/*.tsx", 
-    "src/**/*.vue", 
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
     "typings/**/*.ts",
     "typings/**/*.d.ts",
-    "mock/**/*.ts", 
-    "mock/**/*.d.ts", 
+    "mock/**/*.ts",
+    "mock/**/*.d.ts",
   ],
-  "exclude": ["node_modules", "dist"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "exclude": [
+    "node_modules",
+    "dist"
+  ],
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ],
 }

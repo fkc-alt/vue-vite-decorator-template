@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-defineOptions({ name: 'Page404' });
+defineOptions({ name: 'Page404' })
 const message = 'The webmaster said that you can not enter this page...'
 </script>
 

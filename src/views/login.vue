@@ -1,78 +1,78 @@
 <script lang="ts" setup>
-import { ref, reactive, getCurrentInstance, onMounted } from "vue";
-import { useRouter, useRoute, RouteLocationRaw } from "vue-router";
-import type { FormInstance, FormRules } from "element-plus";
-import { Login } from "@/apis";
-import { setData } from "@/utils";
+import { ref, reactive, getCurrentInstance, onMounted } from 'vue'
+import { useRouter, useRoute, RouteLocationRaw } from 'vue-router'
+import type { FormInstance, FormRules } from 'element-plus'
+import { Login } from '@/apis'
+import { setData } from '@/utils'
 // Look Vue Prototype property
 const [{ proxy }, MODE] = [
   getCurrentInstance() as any,
-  import.meta.env.MODE === "dev",
-];
-const [router, route] = [useRouter(), useRoute()];
+  import.meta.env.MODE === 'dev'
+]
+const [router, route] = [useRouter(), useRoute()]
 const [loading, ruleFormRef, myRef] = [
   ref<boolean>(false),
   ref<FormInstance>(),
-  ref<HTMLElement | null>(),
-];
+  ref<HTMLElement | null>()
+]
 const formRules = reactive<FormRules>({
   username: [
     {
       required: true,
-      message: proxy.$t("LOGIN.FORMRULES.USERNAME[0]"),
-      trigger: "blur",
+      message: proxy.$t('LOGIN.FORMRULES.USERNAME[0]'),
+      trigger: 'blur'
     },
     {
       min: 3,
       max: 12,
-      message: proxy.$t("LOGIN.FORMRULES.USERNAME[1]"),
-      trigger: "blur",
-    },
+      message: proxy.$t('LOGIN.FORMRULES.USERNAME[1]'),
+      trigger: 'blur'
+    }
   ],
   password: [
     {
       required: true,
-      message: proxy.$t("LOGIN.FORMRULES.PASSWORD[0]"),
-      trigger: "blur",
+      message: proxy.$t('LOGIN.FORMRULES.PASSWORD[0]'),
+      trigger: 'blur'
     },
     {
       min: 6,
       max: 18,
-      message: proxy.$t("LOGIN.FORMRULES.PASSWORD[1]"),
-      trigger: "blur",
-    },
-  ],
-});
+      message: proxy.$t('LOGIN.FORMRULES.PASSWORD[1]'),
+      trigger: 'blur'
+    }
+  ]
+})
 const loginForm = reactive<Service.LoginReq>({
-  username: MODE ? "system" : "",
-  password: MODE ? "12345678" : "",
-});
+  username: MODE ? 'system' : '',
+  password: MODE ? '12345678' : ''
+})
 const submit = async (formEl: FormInstance | undefined) => {
-  if (!formEl) return;
-  loading.value = true;
+  if (!formEl) return
+  loading.value = true
   await formEl.validate((valid, fields) => {
     if (valid) {
       Login(loginForm)
         .then((res) => {
-          setData({ token: res.data.token, roleIdList: res.data.roles });
+          setData({ token: res.data.token, roleIdList: res.data.roles })
           const redirect = (route.query &&
-            route.query.redirect) as RouteLocationRaw;
-          proxy.$message.success(proxy.$t("SYSTEM.LOGINMESSAGE"));
-          router.push(redirect || "/");
+            route.query.redirect) as RouteLocationRaw
+          proxy.$message.success(proxy.$t('SYSTEM.LOGINMESSAGE'))
+          router.push(redirect || '/')
         })
         .catch((error: string) => {
-          console.log(`Error：${error}`);
+          console.log(`Error：${error}`)
         })
-        .finally(() => (loading.value = false));
+        .finally(() => (loading.value = false))
     } else {
-      loading.value = false;
-      console.log("error submit!", fields);
+      loading.value = false
+      console.log('error submit!', fields)
     }
-  });
-};
+  })
+}
 onMounted(() => {
-  console.log(myRef.value);
-});
+  console.log(myRef.value)
+})
 </script>
 
 <template>
