@@ -8,6 +8,8 @@ import ElementPlus from 'unplugin-element-plus/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import IconResolver from 'unplugin-icons/resolver'
+import Icons from 'unplugin-icons/vite'
 /**
   * 在setup语法糖中，解决无法自定义组件的 name 属性
   * 使用方法  defineOptions({ name: 'my-component' })
@@ -42,8 +44,9 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
       }),
       Components({
         dts: true,
+        extensions: ['vue'],
         dirs: ['src/components'], // 配置需要默认导入的自定义组件文件夹，该文件夹下的所有组件都会自动 import
-        resolvers: [ElementPlusResolver()]
+        resolvers: [ElementPlusResolver(), IconResolver()]
       }),
       AutoImport({
         dts: 'typings/auto-imports.d.ts',
@@ -55,8 +58,9 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
           'vue-router',
           'pinia'
         ],
-        resolvers: []
-      }),      
+        resolvers: [ElementPlusResolver(), IconResolver({ prefix: 'ep' })]
+      }),
+      Icons({ scale: 1, defaultClass: 'inline-block', autoInstall: true }),
       ViteCompression({
         verbose: true,
         disable: false,

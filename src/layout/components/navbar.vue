@@ -42,8 +42,8 @@ const langChange = (lang: string): void => {
   <div class="navbar">
     <div class="navbar-left">
       <el-icon @click="changeMenu" :size="30">
-        <Expand v-if="!isCollapse" />
-        <Fold v-else />
+        <IEpExpand v-if="!isCollapse" />
+        <IEpFold v-else />
       </el-icon>
       <breadcurmb class="bread-curmb" />
     </div>
@@ -54,9 +54,9 @@ const langChange = (lang: string): void => {
           <img
             src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Finews.gtimg.com%2Fnewsapp_bt%2F0%2F13942804647%2F641&refer=http%3A%2F%2Finews.gtimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1666323743&t=a59b3058eb3d19c2260914dc71f01add"
             class="user-avatar" />
-          <el-icon>
-            <ArrowDownBold />
-          </el-icon>
+            <el-icon>
+              <IEpArrowDownBold />
+            </el-icon>
         </div>
         <template #dropdown>
           <el-dropdown-menu>
