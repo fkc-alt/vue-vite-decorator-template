@@ -10,6 +10,7 @@ import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import IconResolver from 'unplugin-icons/resolver'
 import Icons from 'unplugin-icons/vite'
+
 /**
   * 在setup语法糖中，解决无法自定义组件的 name 属性
   * 使用方法  defineOptions({ name: 'my-component' })
@@ -31,7 +32,10 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
       DefineOptions(),
       Tenser(),
       EslintPlugin({
-        include: ['src/**/*.ts', 'src/**/*.tsx', 'src/**/*.d.ts', 'src/**/*.vue'],
+        include: [
+          '{src,typings,mock}/**/*.{ts,d.ts,tsx,vue}',
+          'vite.config.ts'
+        ],
         cache: true
       }),
       VueI18nPlugin({
