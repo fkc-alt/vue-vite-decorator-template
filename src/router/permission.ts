@@ -1,4 +1,4 @@
-import { RouteLocationNormalized } from 'vue-router'
+import type { RouteLocationNormalized } from 'vue-router'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import router from '@/router'

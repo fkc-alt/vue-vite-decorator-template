@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ComponentInternalInstance } from 'vue'
+import type { ComponentInternalInstance } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
 import { FormInstance, FormRules, ElMessage } from 'element-plus'
 import { Login } from '@/apis'

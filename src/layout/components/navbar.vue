@@ -1,7 +1,6 @@
 <script lang="ts" setup>
-import { toRefs, getCurrentInstance, ComponentInternalInstance, reactive } from 'vue'
+import type { ComponentInternalInstance } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useRoute, useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { removeStorage, setLang } from '@/utils'
 import Breadcurmb from './breadcurmb.vue'

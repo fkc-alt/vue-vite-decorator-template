@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
-import { useRoute, useRouter, RouteRecordRaw } from 'vue-router'
+import type { RouteRecordRaw } from 'vue-router'
 import { getRoleIdList } from '@/utils'
 import Navbar from './components/navbar.vue'
 import SidebarItem from './components/sidebarItem.vue'

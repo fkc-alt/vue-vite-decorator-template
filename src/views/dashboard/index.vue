@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { reactive } from 'vue'
 import { GetArticleList, GetTableDataList } from '@/apis'
 
 const state = reactive<Service.ArticleListRes & Service.TableDataRes>({

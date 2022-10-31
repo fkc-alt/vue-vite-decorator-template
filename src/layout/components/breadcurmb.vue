@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import { computed } from 'vue'
-import { useRoute, useRouter, RouteLocationMatched } from 'vue-router'
+import type { RouteLocationMatched } from 'vue-router'
 
 const [route, router] = [useRoute(), useRouter()]
 

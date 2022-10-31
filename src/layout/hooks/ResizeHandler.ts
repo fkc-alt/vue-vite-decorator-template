@@ -1,6 +1,4 @@
-import { watch, onBeforeMount, onBeforeUnmount, onMounted, Ref } from 'vue'
-import { useRoute } from 'vue-router'
-import { storeToRefs } from 'pinia'
+import type { Ref } from 'vue'
 import { useStoreSettings } from '@/store/settings'
 
 export default function (): Store.Settings<Ref> {

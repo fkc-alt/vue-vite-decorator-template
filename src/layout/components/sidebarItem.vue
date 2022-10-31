@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import { toRefs, provide } from 'vue'
-import { RouteRecordRaw } from 'vue-router'
+import type { RouteRecordRaw } from 'vue-router'
 import Icon from './icon.vue'
 defineOptions({ name: 'SidebarItem' })
 const Props = defineProps<{ item: RouteRecordRaw }>()

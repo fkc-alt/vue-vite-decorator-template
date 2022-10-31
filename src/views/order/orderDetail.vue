@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { reactive } from 'vue'
 import { GetOrderDetail } from '@/apis/modules/order'
 
 const state = reactive<Service.OrderDetailRes>({
