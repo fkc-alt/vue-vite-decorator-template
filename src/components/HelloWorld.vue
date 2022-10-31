@@ -3,7 +3,9 @@ import { ref } from 'vue'
 
 defineOptions({ name: 'HelloWorld' })
 
-defineProps<{ msg: string }>()
+withDefaults(defineProps<{ msg: string }>(), {
+  msg: ''
+})
 
 const emit = defineEmits<{
   (event: 'emptied', value: number): void
