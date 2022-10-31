@@ -52,7 +52,8 @@
     "typings/**/*.d.ts",
     "mock/**/*.ts",
     "mock/**/*.d.ts",
-    "vite.config.ts"
+    "vite.config.ts",
+    "components.d.ts"
   ],
   "exclude": [
     "node_modules",

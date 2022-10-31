@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { ref, reactive, getCurrentInstance, onMounted, ComponentInternalInstance } from 'vue'
-import { useRouter, useRoute, RouteLocationRaw } from 'vue-router'
-import { ElButton, ElForm, ElFormItem, ElInput, FormInstance, FormRules, ElMessage } from 'element-plus'
+import { ComponentInternalInstance } from 'vue'
+import type { RouteLocationRaw } from 'vue-router'
+import { FormInstance, FormRules, ElMessage } from 'element-plus'
 import { Login } from '@/apis'
 import { setData } from '@/utils'
 // Look Vue Prototype property

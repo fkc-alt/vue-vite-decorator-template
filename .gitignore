@@ -12,6 +12,8 @@ node_modules
 dist
 dist-ssr
 components.d.ts
+typings/auto-imports.d.ts
+.eslintrc-auto-import.json
 package-lock.json
 *.local
 

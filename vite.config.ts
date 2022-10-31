@@ -5,6 +5,7 @@ import EslintPlugin from 'vite-plugin-eslint'
 import Vue from '@vitejs/plugin-vue'
 import VueJsx from '@vitejs/plugin-vue-jsx'
 import ElementPlus from 'unplugin-element-plus/vite'
+import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 /**
@@ -40,9 +41,22 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
         useSource: true
       }),
       Components({
+        dts: true,
         dirs: ['src/components'], // 配置需要默认导入的自定义组件文件夹，该文件夹下的所有组件都会自动 import
         resolvers: [ElementPlusResolver()]
       }),
+      AutoImport({
+        dts: 'typings/auto-imports.d.ts',
+        eslintrc: {
+          enabled: true
+        },
+        imports: [
+          'vue',
+          'vue-router',
+          'pinia'
+        ],
+        resolvers: []
+      }),      
       ViteCompression({
         verbose: true,
         disable: false,
