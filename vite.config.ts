@@ -60,7 +60,8 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
         imports: [
           'vue',
           'vue-router',
-          'pinia'
+          'pinia',
+          'vue-i18n'
         ],
         resolvers: [ElementPlusResolver(), IconResolver({ prefix: 'ep' })]
       }),
@@ -88,7 +89,7 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
     },
     server: {
       port: 3000,
-      open: true,
+      open: false,
       proxy: {
         [`/${VITE_APP_BASE_API}`]: {
           target: VITE_APP_BASE_URL,

@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import type { ComponentInternalInstance } from 'vue'
-import { useI18n } from 'vue-i18n'
 import { ElMessage } from 'element-plus'
 import { removeStorage, setLang } from '@/utils'
 import Breadcurmb from './breadcurmb.vue'
