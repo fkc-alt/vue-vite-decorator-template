@@ -36,7 +36,7 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
           '{src,typings,mock}/**/*.{ts,d.ts,tsx,vue}',
           'vite.config.ts'
         ],
-        cache: true
+        cache: false
       }),
       VueI18nPlugin({
         /* options */
