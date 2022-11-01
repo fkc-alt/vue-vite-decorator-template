@@ -46,7 +46,7 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
       Icons({ scale: 1, defaultClass: 'inline-block', autoInstall: true }),
       ElementPlus({ useSource: true }),
       Components({
-        dts: true,
+        dts: 'typings/components.d.ts',
         extensions: ['vue'],
         dirs: ['src/components'], // 配置需要默认导入的自定义组件文件夹，该文件夹下的所有组件都会自动 import
         resolvers: [ElementPlusResolver(), IconResolver()]
