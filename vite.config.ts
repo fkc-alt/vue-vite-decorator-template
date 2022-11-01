@@ -10,7 +10,6 @@ import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import IconResolver from 'unplugin-icons/resolver'
 import Icons from 'unplugin-icons/vite'
-
 /**
   * 在setup语法糖中，解决无法自定义组件的 name 属性
   * 使用方法  defineOptions({ name: 'my-component' })
@@ -21,8 +20,9 @@ import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
 
 import ViteCompression from 'vite-plugin-compression'
 import { viteMockServe } from 'vite-plugin-mock'
+import pkg from './package.json'
 
-const { dependencies, devDependencies, name, version } = require('./package.json')
+const { dependencies, devDependencies, name, version } = pkg
 const _APP_INFO_ = {
   pkg: { dependencies, devDependencies, name, version },
   lastBuildTime: new Date().toLocaleDateString()
