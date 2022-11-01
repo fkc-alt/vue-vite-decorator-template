@@ -29,8 +29,8 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
     plugins: [
       Vue(),
       VueJsx(),
-      DefineOptions(),
       Tenser(),
+      DefineOptions(),
       EslintPlugin({
         include: [
           '{src,typings,mock}/**/*.{ts,d.ts,tsx,vue}',
@@ -43,9 +43,8 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
         // locale messages resource pre-compile option
         include: resolve(__dirname, './src/locales/**')
       }),
-      ElementPlus({
-        useSource: true
-      }),
+      Icons({ scale: 1, defaultClass: 'inline-block', autoInstall: true }),
+      ElementPlus({ useSource: true }),
       Components({
         dts: true,
         extensions: ['vue'],
@@ -65,7 +64,6 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
         ],
         resolvers: [ElementPlusResolver(), IconResolver({ prefix: 'ep' })]
       }),
-      Icons({ scale: 1, defaultClass: 'inline-block', autoInstall: true }),
       ViteCompression({
         verbose: true,
         disable: false,
@@ -89,7 +87,7 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
     },
     server: {
       port: 3000,
-      open: false,
+      open: true,
       proxy: {
         [`/${VITE_APP_BASE_API}`]: {
           target: VITE_APP_BASE_URL,
