@@ -9,7 +9,7 @@
     "test": "vue-tsc --noEmit && vite build --mode=test",
     "build": "vue-tsc --noEmit && vite build --mode=prod",
     "preview": "vite preview",
-    "lint": "eslint src/**/*.{ts,tsx,vue} typings/**/*.{d.ts,ts} vite.config.ts --fix",
+    "lint": "eslint {src,typings,mock}/**/*.{ts,d.ts,tsx,vue} vite.config.ts --fix",
     "pre-commit": "lint-staged"
   },
   "dependencies": {
