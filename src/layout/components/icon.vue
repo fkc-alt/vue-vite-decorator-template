@@ -1,12 +1,14 @@
 <script lang="ts" setup>
 import type { RouteRecordRaw } from 'vue-router'
 defineOptions({ name: 'Icon' })
-const route = inject<RouteRecordRaw>('route')
+const route = inject<RouteRecordRaw>('route') || {} as RouteRecordRaw
 </script>
 
 <template>
-  <el-icon v-if="route?.meta?.icon">
-    <component :is="route.meta.icon" />
-  </el-icon>
-  <span>{{ $t(`${route?.meta?.title}`) || "" }}</span>
+  <span>
+    <el-icon v-if="route.meta && route.meta.icon">
+      <component :is="route.meta.icon" />
+    </el-icon>
+    <span>{{ $t(`${route.meta && route.meta.title}`) || "" }}</span>
+  </span>
 </template>
