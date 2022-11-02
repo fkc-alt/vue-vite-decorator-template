@@ -89,7 +89,7 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
         '@': resolve(__dirname, 'src'),
         '~@': resolve(__dirname, './')
       },
-      extensions: ['.ts', '.js', '.vue', '.json', '.d.ts']
+      extensions: ['.ts', '.js', '.vue', '.json', '.d.ts', '.tsx']
     },
     server: {
       port: 3000,
