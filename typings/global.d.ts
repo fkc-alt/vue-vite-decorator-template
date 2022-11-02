@@ -1,9 +1,4 @@
 declare const _APP_INFO_: {
-  pkg: {
-    name: string
-    version: string
-    dependencies: Record<string, string>
-    devDependencies: Record<string, string>
-  }
+  pkg: Pick<typeof import('package.json'), 'name' | 'version' | 'dependencies' | 'devDependencies'>
   lastBuildTime: string
 }
