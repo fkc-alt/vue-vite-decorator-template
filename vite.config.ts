@@ -25,7 +25,12 @@ import pkg from './package.json'
 const { dependencies, devDependencies, name, version } = pkg
 const _APP_INFO_ = {
   pkg: { dependencies, devDependencies, name, version },
-  lastBuildTime: new Date().toLocaleDateString()
+  lastBuildTime: ((date: Date) => {
+    let [year, month, day]: [number, number | string, number | string] = [date.getFullYear(), date.getMonth() + 1, date.getDate()]
+    month < 10 && (month = `0${month}`)
+    day < 10 && (day = `0${day}`)
+    return `${year}/${month}/${day} ${date.toLocaleTimeString([], { hourCycle: 'h24' })}`
+  })(new Date())
 }
 
 // https://vitejs.dev/config/

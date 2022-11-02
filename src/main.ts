@@ -14,5 +14,4 @@ const pinia = createPinia()
 
 const app = createApp(App)
 app.use(pinia).use(router).use(useIcons).use(i18n).mount('#app')
-
-app.config.globalProperties.$axios = 1
+console.log(_APP_INFO_)
