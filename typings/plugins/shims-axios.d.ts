@@ -1,5 +1,5 @@
 import axios from 'axios'
-module 'axios' {
+declare module 'axios' {
   export interface AxiosResponse {
     code: number | string
     message: string
