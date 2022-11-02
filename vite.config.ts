@@ -26,9 +26,9 @@ const { dependencies, devDependencies, name, version } = pkg
 const _APP_INFO_ = {
   pkg: { dependencies, devDependencies, name, version },
   lastBuildTime: ((date: Date) => {
-    let [year, month, day]: [number, number | string, number | string] = [date.getFullYear(), date.getMonth() + 1, date.getDate()]
-    month < 10 && (month = `0${month}`)
-    day < 10 && (day = `0${day}`)
+    let [year, month, day] = [date.getFullYear(), date.getMonth() + 1, date.getDate()]
+    month < 10 && (month = `0${month}` as unknown as number)
+    day < 10 && (day = `0${day}` as unknown as number)
     return `${year}/${month}/${day} ${date.toLocaleTimeString([], { hourCycle: 'h24' })}`
   })(new Date())
 }
