@@ -111,7 +111,7 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
         [`/${VITE_APP_BASE_API}`]: {
           target: VITE_APP_BASE_URL,
           changeOrigin: true,
-          rewrite: path => path.replace(new RegExp(VITE_APP_BASE_API, 'g'), '')
+          rewrite: path => path.replace(VITE_APP_BASE_API, '')
         }
       },
       hmr: true
