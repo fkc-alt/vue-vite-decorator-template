@@ -2,6 +2,7 @@ import { ConfigEnv, defineConfig, loadEnv, UserConfigExport } from 'vite'
 import { resolve } from 'path'
 import { terser as Tenser } from 'rollup-plugin-terser'
 import EslintPlugin from 'vite-plugin-eslint'
+import checker from 'vite-plugin-checker'
 import Vue from '@vitejs/plugin-vue'
 import VueJsx from '@vitejs/plugin-vue-jsx'
 import ElementPlus from 'unplugin-element-plus/vite'
@@ -48,6 +49,13 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
           'vite.config.ts'
         ],
         cache: false
+      }),
+      checker({
+        typescript: true,
+        // vueTsc: true,
+        eslint: {
+          lintCommand: 'eslint "./src/**/*.{.vue,ts,tsx}"' // for example, lint .ts & .tsx
+        }
       }),
       VueI18nPlugin({
         /* options */

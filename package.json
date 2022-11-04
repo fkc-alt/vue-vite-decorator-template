@@ -53,6 +53,7 @@
     "unplugin-vue-components": "^0.22.9",
     "unplugin-vue-define-options": "^0.6.2",
     "vite": "^3.0.0",
+    "vite-plugin-checker": "^0.5.1",
     "vite-plugin-compression": "^0.5.1",
     "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-mock": "^2.9.6",

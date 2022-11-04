@@ -13,5 +13,6 @@ import '@/router/permission'
 const pinia = createPinia()
 
 const app = createApp(App)
-app.use(pinia).use(router).use(useIcons).use(i18n).mount('#app')
+app.use(pinia).use(router).use(useIcons).use(i18n)
+router.isReady().then(() => app.mount('#app')).catch(err => console.error(err))
 console.log(_APP_INFO_)
