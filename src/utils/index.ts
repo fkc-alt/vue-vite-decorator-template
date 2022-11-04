@@ -1,6 +1,3 @@
-interface StroageType {
-  [key: string]: unknown
-}
 
 export const getUserInfo = (): string | null => {
   return JSON.parse(sessionStorage.getItem('userInfo') ?? '')
@@ -14,9 +11,9 @@ export const getRoleIdList = (): number[] => {
   return (sessionStorage.getItem('roleIdList'))?.split(',').map((v: string | number) => +v) ?? []
 }
 
-export const setData = (data: StroageType): void => {
-  for (const key in data) {
-    sessionStorage.setItem(key, data[key] as string)
+export const setData = (data: Common.StroageType): void => {
+  for (const [key, value] of Object.entries(data)) {
+    sessionStorage.setItem(key, value)
   }
 }
 
