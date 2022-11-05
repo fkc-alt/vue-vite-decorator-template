@@ -67,8 +67,9 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
       Components({
         dts: 'typings/components.d.ts',
         extensions: ['vue'],
+        deep: true,
         dirs: ['src/components'], // 配置需要默认导入的自定义组件文件夹，该文件夹下的所有组件都会自动 import
-        resolvers: [ElementPlusResolver(), IconResolver()]
+        resolvers: [ElementPlusResolver({ importStyle: mode === 'dev' ? false : 'sass' }), IconResolver()]
       }),
       AutoImport({
         dts: 'typings/auto-imports.d.ts',
@@ -81,7 +82,7 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
           'pinia',
           'vue-i18n'
         ],
-        resolvers: [ElementPlusResolver(), IconResolver({ prefix: 'ep' })]
+        resolvers: [ElementPlusResolver({ importStyle: mode === 'dev' ? false : 'sass' }), IconResolver({ prefix: 'ep' })]
       }),
       ViteCompression({
         verbose: true,
@@ -95,7 +96,23 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
         localEnabled: command === 'serve' && VITE_APP_MOCK === 'true', // 开发打包开关
         prodEnabled: command !== 'serve', // 生产打包开关
         logger: true
-      })
+      }),
+      {
+        name: 'import-element-plus-style',
+        transform (code, id) {
+          if (/src\/main.ts$/.test(id)) {
+            return {
+              code: `${code}\n ${
+                {
+                  true: 'import \'element-plus/dist/index.css\'',
+                  false: 'import \'element-plus/theme-chalk/src/message-box.scss\'\nimport \'element-plus/theme-chalk/src/message.scss\''
+                }[String(mode === 'dev')] as string
+              }`,
+              map: null
+            }
+          }
+        }
+      }
     ],
     resolve: {
       alias: {
