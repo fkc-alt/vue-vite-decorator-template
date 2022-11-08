@@ -5,7 +5,7 @@ import Navbar from './components/navbar.vue'
 import SidebarItem from './components/sidebarItem.vue'
 import useResizeHandler from './hooks/ResizeHandler'
 
-type RoutesRaw = RouteRecordRaw[];
+type RoutesFn = (routes: RouteRecordRaw[]) => RouteRecordRaw[]
 const [route, router, roles] = [useRoute(), useRouter(), ref(getRoleIdList())]
 const { device, opened, isCollapse, setOpened, setCollapse } =
   useResizeHandler()
@@ -26,7 +26,7 @@ const classObj = computed(() => {
   }
 })
 
-const handleMapRoutes = (routes: RoutesRaw): RoutesRaw => {
+const handleMapRoutes: RoutesFn = (routes) => {
   return routes.map((v) => {
     if (v?.children?.length === 1 && v?.meta?.alwaysShow) {
       v = v.children[0]
@@ -37,7 +37,7 @@ const handleMapRoutes = (routes: RoutesRaw): RoutesRaw => {
     return v
   })
 }
-const handleTreeRoutes = (routes: RoutesRaw): RoutesRaw => {
+const handleTreeRoutes: RoutesFn = (routes) => {
   return routes.filter((v) => {
     if (v.meta?.roles?.length) {
       return v.meta.roles.some((o) => roles.value.includes(o))
