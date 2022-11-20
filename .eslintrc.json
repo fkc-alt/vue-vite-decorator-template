@@ -35,7 +35,8 @@
     },
     "plugins": [
         "vue",
-        "@typescript-eslint"
+        "@typescript-eslint",
+        "html"
     ],
     "rules": {
         "semi": [
