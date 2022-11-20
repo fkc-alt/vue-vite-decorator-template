@@ -12,6 +12,7 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import IconResolver from 'unplugin-icons/resolver'
 import Icons from 'unplugin-icons/vite'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
+import { createHtmlPlugin } from 'vite-plugin-html'
 /**
   * 在setup语法糖中，解决无法自定义组件的 name 属性
   * 使用方法  defineOptions({ name: 'my-component' })
@@ -37,7 +38,8 @@ const _APP_INFO_ = {
 
 // https://vitejs.dev/config/
 export default ({ mode, command }: ConfigEnv): UserConfigExport => {
-  const { VITE_APP_BASE_URL, VITE_APP_BASE_API, VITE_APP_MOCK } = loadEnv(mode, process.cwd())
+  const { VITE_APP_BASE_URL, VITE_APP_BASE_API, VITE_APP_MOCK, VITE_APP_PROJECT_TITLE } = loadEnv(mode, process.cwd())
+  console.log(VITE_APP_PROJECT_TITLE)
   return defineConfig({
     plugins: [
       Vue(),
@@ -48,6 +50,24 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
         // 指定要缓存的文件夹
         iconDirs: [resolve(process.cwd(), 'src/assets/icons')],
         symbolId: '[name]'
+      }),
+      createHtmlPlugin({
+        minify: true,
+        /**
+         * 在这里写entry后，你将不需要在`index.html`内添加 script 标签，原有标签需要删除
+         * @default src/main.ts
+         */
+        entry: '/src/main.ts',
+        /**
+       * 需要注入 index.html ejs 模版的数据
+       */
+        inject: {
+          data: {
+            // 查找.env文件里面的VITE_APP_PROJECT_TITLE，请以VITE_标识开头
+            title: VITE_APP_PROJECT_TITLE,
+            injectScript: '<script src="/inject.js"></script>'
+          }
+        }
       }),
       EslintPlugin({
         include: [
