@@ -64,8 +64,7 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
           data: {
             // 查找.env文件里面的VITE_APP_PROJECT_TITLE，请以VITE_标识开头
             title: VITE_APP_PROJECT_TITLE,
-            icon: VITE_APP_PROJECT_ICON,
-            injectScript: `<script ${mode === 'prod' ? 'type="module"' : ''} src="/inject.js"></script>`
+            icon: VITE_APP_PROJECT_ICON
           }
         }
       }),
