@@ -38,8 +38,7 @@ const _APP_INFO_ = {
 
 // https://vitejs.dev/config/
 export default ({ mode, command }: ConfigEnv): UserConfigExport => {
-  const { VITE_APP_BASE_URL, VITE_APP_BASE_API, VITE_APP_MOCK, VITE_APP_PROJECT_TITLE } = loadEnv(mode, process.cwd())
-  console.log(VITE_APP_PROJECT_TITLE)
+  const { VITE_APP_BASE_URL, VITE_APP_BASE_API, VITE_APP_MOCK, VITE_APP_PROJECT_ICON, VITE_APP_PROJECT_TITLE } = loadEnv(mode, process.cwd())
   return defineConfig({
     plugins: [
       Vue(),
@@ -65,6 +64,7 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
           data: {
             // 查找.env文件里面的VITE_APP_PROJECT_TITLE，请以VITE_标识开头
             title: VITE_APP_PROJECT_TITLE,
+            icon: VITE_APP_PROJECT_ICON,
             injectScript: '<script src="/inject.js"></script>'
           }
         }
