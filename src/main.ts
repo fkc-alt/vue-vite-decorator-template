@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-
+import 'virtual:svg-icons-register'
 import router from '@/router'
 import i18n from '@/locales/i18n'
 import useIcons from './hooks/useIcons'

@@ -12,6 +12,7 @@ state.tableList = d.data.tableList
 
 <template>
   <div>
+    <svg-icon name="test"></svg-icon>
     <el-table :data="state.articleList">
       <el-table-column
         prop="id"

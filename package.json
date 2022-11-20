@@ -9,7 +9,7 @@
     "test": "vue-tsc --noEmit && vite build --mode=test",
     "build": "vue-tsc --noEmit && vite build --mode=prod",
     "preview": "vite preview",
-    "lint": "eslint {src,typings,mock}/**/*.{ts,d.ts,tsx,vue} vite.config.ts --fix",
+    "lint": "eslint {src,typings,mock}/**/*.{ts,d.ts,tsx,vue} vite.config.ts --no-error-on-unmatched-pattern --fix",
     "pre-commit": "lint-staged"
   },
   "dependencies": {
@@ -57,6 +57,7 @@
     "vite-plugin-compression": "^0.5.1",
     "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-mock": "^2.9.6",
+    "vite-plugin-svg-icons": "^2.0.1",
     "vue-eslint-parser": "^9.1.0",
     "vue-tsc": "^1.0.9"
   },

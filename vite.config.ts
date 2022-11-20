@@ -11,6 +11,7 @@ import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import IconResolver from 'unplugin-icons/resolver'
 import Icons from 'unplugin-icons/vite'
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 /**
   * 在setup语法糖中，解决无法自定义组件的 name 属性
   * 使用方法  defineOptions({ name: 'my-component' })
@@ -43,6 +44,11 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
       VueJsx(),
       Tenser(),
       DefineOptions(),
+      createSvgIconsPlugin({
+        // 指定要缓存的文件夹
+        iconDirs: [resolve(process.cwd(), 'src/assets/icons')],
+        symbolId: '[name]'
+      }),
       EslintPlugin({
         include: [
           '{src,typings,mock}/**/*.{ts,d.ts,tsx,vue}',
