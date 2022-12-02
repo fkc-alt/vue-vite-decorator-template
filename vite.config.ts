@@ -39,6 +39,7 @@ const _APP_INFO_ = {
 // https://vitejs.dev/config/
 export default ({ mode, command }: ConfigEnv): UserConfigExport => {
   const { VITE_APP_BASE_URL, VITE_APP_BASE_API, VITE_APP_MOCK, VITE_APP_PROJECT_ICON, VITE_APP_PROJECT_TITLE } = loadEnv(mode, process.cwd())
+  const hasMode = mode === 'env'
   return defineConfig({
     plugins: [
       Vue(),
@@ -94,7 +95,7 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
         extensions: ['vue'],
         deep: true,
         dirs: ['src/components'], // 配置需要默认导入的自定义组件文件夹，该文件夹下的所有组件都会自动 import
-        resolvers: [ElementPlusResolver({ importStyle: mode === 'dev' ? false : 'sass' }), IconResolver()]
+        resolvers: [ElementPlusResolver({ importStyle: hasMode ? false : 'sass' }), IconResolver()]
       }),
       AutoImport({
         dts: 'typings/auto-imports.d.ts',
@@ -107,7 +108,7 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
           'pinia',
           'vue-i18n'
         ],
-        resolvers: [ElementPlusResolver({ importStyle: mode === 'dev' ? false : 'sass' }), IconResolver({ prefix: 'ep' })]
+        resolvers: [ElementPlusResolver({ importStyle: hasMode ? false : 'sass' }), IconResolver({ prefix: 'ep' })]
       }),
       ViteCompression({
         verbose: true,
@@ -131,7 +132,7 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
                 {
                   true: 'import \'element-plus/dist/index.css\'',
                   false: 'import \'element-plus/theme-chalk/src/message-box.scss\'\nimport \'element-plus/theme-chalk/src/message.scss\''
-                }[String(mode === 'dev')] as string
+                }[String(hasMode)] as string
               }`,
               map: null
             }
@@ -166,7 +167,7 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
       }
     },
     build: {
-      sourcemap: mode === 'dev',
+      sourcemap: hasMode,
       // 大文件报警阈值设置,不建议使用
       chunkSizeWarningLimit: 5000,
       minify: 'terser',
