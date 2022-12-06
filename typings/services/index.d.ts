@@ -9,3 +9,5 @@ declare namespace Services.Common {
     data: T
   }
 }
+
+declare type ServerRes<T, U = Promise> = U extends Promise ? Promise<Services.Common.Response<T>> : Services.Common.Response<T>
