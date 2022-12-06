@@ -2,7 +2,7 @@
 import { TableColumnCtx } from '@/components/Table'
 import { ElButton } from 'element-plus'
 
-export const headers: Array<Partial<TableColumnCtx<Service.ArticleListRes>>> = [
+export const headers: Array<Partial<TableColumnCtx<Service.ArticleItem>>> = [
   {
     prop: 'id',
     label: 'Id',
