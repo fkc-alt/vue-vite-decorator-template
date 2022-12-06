@@ -26,6 +26,7 @@ export const headers: Array<Partial<TableColumnCtx<Service.ArticleItem>>> = [
           type="primary"
           link
           onClick={ () => console.log(row, column, cellValue, index) }
+          class="btn"
         >
           Render
         </ElButton>

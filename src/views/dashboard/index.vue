@@ -17,3 +17,9 @@ state.tableList = d.data.tableList
     <Table :data="state.articleList" :headers="headers" />
   </div>
 </template>
+
+<style lang="scss" scoped>
+:deep(.btn) {
+  font-size: 14px;
+}
+</style>
