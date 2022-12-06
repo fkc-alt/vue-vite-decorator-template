@@ -21,7 +21,15 @@ export const headers: Array<Partial<TableColumnCtx<Service.ArticleListRes>>> = [
   {
     label: 'Operation',
     render (row, column, cellValue, index) {
-      return <ElButton type="primary" link onClick={ () => console.log(row, column, cellValue, index) }>Render</ElButton>
+      return (
+        <ElButton
+          type="primary"
+          link
+          onClick={ () => console.log(row, column, cellValue, index) }
+        >
+          Render
+        </ElButton>
+      )
     }
   }
 ]
