@@ -60,7 +60,7 @@ export interface TableColumnCtx<T> {
   render?: (row: T, column: TableColumnCtx<T>, cellValue: unknown, index: number) => JSX.Element
 }
 
-export const Table = (props: InstanceType<typeof ElTable> & { headers: Array<TableColumnCtx<unknown>> }): JSX.Element => {
+export default function (props: InstanceType<typeof ElTable> & { headers: Array<TableColumnCtx<unknown>> }): JSX.Element {
   return (
     <ElTable {...props}>
       { props.headers.map(v => {
@@ -73,5 +73,3 @@ export const Table = (props: InstanceType<typeof ElTable> & { headers: Array<Tab
     </ElTable>
   )
 }
-
-export { }

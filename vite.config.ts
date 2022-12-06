@@ -92,7 +92,7 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
       ElementPlus({ useSource: true }),
       Components({
         dts: 'typings/components.d.ts',
-        extensions: ['vue'],
+        extensions: ['vue', 'tsx'],
         deep: true,
         dirs: ['src/components'], // 配置需要默认导入的自定义组件文件夹，该文件夹下的所有组件都会自动 import
         resolvers: [ElementPlusResolver({ importStyle: hasMode ? false : 'sass' }), IconResolver()]

@@ -1,5 +1,5 @@
 
-import { TableColumnCtx } from '@/components/ElTable'
+import { TableColumnCtx } from '@/components/Table'
 import { ElButton } from 'element-plus'
 
 export const headers: Array<Partial<TableColumnCtx<Service.ArticleListRes>>> = [

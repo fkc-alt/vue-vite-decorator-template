@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { GetArticleList, GetTableDataList } from '@/apis'
-import { Table } from '@/components/ElTable'
 import { headers } from './constant'
 const state = reactive<Service.ArticleListRes & Service.TableDataRes>({
   articleList: [],
