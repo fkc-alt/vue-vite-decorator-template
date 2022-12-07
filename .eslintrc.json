@@ -9,8 +9,7 @@
     "globals": {
         "defineOptions": "readonly",
         "Service": "readonly",
-        "_APP_INFO_": "readonly",
-        "log": "readonly"
+        "_APP_INFO_": "readonly"
     },
     "extends": [
         "plugin:vue/vue3-essential",
