@@ -57,10 +57,10 @@ class Service {
   /**
      * @method request
      * @param { Object } config
-     * @return { Services.Common.Response<U> }
+     * @return { ServerRes<U> }
     */
-  public async request<T, U> (config: AxiosRequestConfig<T>): Promise<Services.Common.Response<U>> {
-    return await this.instance.request<{}, Services.Common.Response<U>, T>(config)
+  public async request<T, U> (config: AxiosRequestConfig<T>): ServerRes<U> {
+    return await this.instance.request<{}, ServerRes<U>, T>(config)
   }
 }
 
