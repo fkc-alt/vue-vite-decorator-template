@@ -23,6 +23,7 @@ import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
 
 import ViteCompression from 'vite-plugin-compression'
 import { viteMockServe } from 'vite-plugin-mock'
+import fullImportPlugin from './plugins/fullImportPlugin'
 import pkg from './package.json'
 
 const { dependencies, devDependencies, name, version } = pkg
@@ -71,7 +72,7 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
       }),
       EslintPlugin({
         include: [
-          '{src,typings,mock}/**/*.{ts,d.ts,tsx,vue}',
+          '{src,typings,mock,plugins}/**/*.{ts,d.ts,tsx,vue}',
           'vite.config.ts'
         ],
         cache: false
@@ -89,7 +90,7 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
         include: resolve(__dirname, './src/locales/**')
       }),
       Icons({ scale: 1, defaultClass: 'inline-block', autoInstall: true }),
-      ElementPlus({ useSource: true }),
+      hasMode ? fullImportPlugin() : ElementPlus({ useSource: true }),
       Components({
         dts: 'typings/components.d.ts',
         extensions: ['vue', 'tsx'],
