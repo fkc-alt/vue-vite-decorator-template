@@ -76,7 +76,8 @@ type TableInstance = InstanceType<typeof ElTable>
 
 export type Headers<T> = Pick<TableColumnCtx<T>, 'id' | 'align' | 'className' | 'type' | 'index' | 'label' | 'columnKey' | 'prop' | 'width' | 'minWidth' | 'fixed' | 'renderHeader' | 'sortable' | 'sortMethod' | 'sortBy' | 'sortOrders' | 'resizable' | 'formatter' | 'showOverflowTooltip' | 'headerAlign' | 'labelClassName' | 'selectable' | 'reserveSelection' | 'filters' | 'filterPlacement' | 'filterMultiple' | 'filterMethod' | 'filteredValue' | 'render'>
 
-export default function (props: TableInstance['$props'] & { headers: Array<Headers<unknown>> }): JSX.Element {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export default function (props: TableInstance['$props'] & { headers: Array<Partial<Headers<any>>> }): JSX.Element {
   const { headers, ...attributes } = props
   return (
     <ElTable {...attributes}>
@@ -88,7 +89,7 @@ export default function (props: TableInstance['$props'] & { headers: Array<Heade
               column,
               index: $index,
               cellValue: ''
-            }) ?? attributes?.formatter?.(row, column, '', $index) ?? row[attributes.prop]
+            }) ?? attributes?.formatter?.(row, column, '', $index) ?? row[attributes?.prop as string]
           }}
         </ElTableColumn>
       })}

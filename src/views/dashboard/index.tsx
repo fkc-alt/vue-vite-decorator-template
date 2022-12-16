@@ -1,5 +1,5 @@
 import { GetArticleList, GetTableDataList } from '@/apis'
-import Table, { Headers, type HandleFunc } from '@/components/Table'
+import Table from '@/components/Table'
 import SvgIcon from '@/components/SvgIcon/index.vue'
 import { mspHeaders } from './constant'
 import './index'
@@ -10,10 +10,11 @@ export default defineComponent({
       tableList: []
     })
     const router = useRouter()
-    const handleClick: HandleFunc<Service.ArticleItem> = ({ row }): void => {
-      void router.push(`/order/detail?id=${row.id}`)
-    }
-    const headers = computed(() => mspHeaders({ handleClick })) as import('vue').ComputedRef<Array<Headers<unknown>>>
+    const headers = computed(() => mspHeaders<Service.ArticleItem>({
+      handleClick: ({ row }) => {
+        void router.push(`/order/detail?id=${row.id}`)
+      }
+    }))
     onMounted(async () => {
       const [r, d] = [await GetArticleList(), await GetTableDataList()]
       state.articleList = r.data.articleList
