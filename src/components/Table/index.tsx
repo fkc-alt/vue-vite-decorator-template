@@ -78,7 +78,6 @@ export type Headers<T> = Pick<TableColumnCtx<T>, 'id' | 'align' | 'className' | 
 
 export default function (props: TableInstance['$props'] & { headers: Array<Headers<unknown>> }): JSX.Element {
   const { headers, ...attributes } = props
-  console.log(headers)
   return (
     <ElTable {...attributes}>
       {headers.map(attributes => {

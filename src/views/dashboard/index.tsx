@@ -1,8 +1,9 @@
 import { ComputedRef } from 'vue'
 import { GetArticleList, GetTableDataList } from '@/apis'
 import Table, { Headers, type HandleFunc } from '@/components/Table'
-import SvgIcon from '@/components/SvgIcon/index.vue'
+// import SvgIcon from '@/components/SvgIcon/index.vue'
 import { mspHeaders } from './constant'
+import './index'
 export default defineComponent({
   setup () {
     const state = reactive<Service.ArticleListRes & Service.TableDataRes>({
@@ -21,7 +22,7 @@ export default defineComponent({
     })
     return () => (
       <div>
-        <SvgIcon name={'123' as unknown as string} />
+        {/* <SvgIcon name={'123' as unknown as string} /> */}
         <Table data={state.articleList} headers={headers.value}></Table>
       </div>
     )
