@@ -1,8 +1,8 @@
 
-import { HandleFunc, TableColumnCtx } from '@/components/Table'
+import { HandleFunc, Headers } from '@/components/Table'
 import { ElButton } from 'element-plus'
 
-export const mspHeaders = (param?: Record<string, HandleFunc<Service.ArticleItem>>): Array<Partial<TableColumnCtx<Service.ArticleItem>>> => {
+export const mspHeaders = (param?: Record<string, HandleFunc<Service.ArticleItem>>): Array<Partial<Headers<Service.ArticleItem>>> => {
   return [
     {
       prop: 'id',

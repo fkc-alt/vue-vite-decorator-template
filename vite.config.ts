@@ -2,9 +2,9 @@ import { ConfigEnv, defineConfig, loadEnv, UserConfigExport } from 'vite'
 import { resolve } from 'path'
 import { terser as Tenser } from 'rollup-plugin-terser'
 import EslintPlugin from 'vite-plugin-eslint'
-import checker from 'vite-plugin-checker'
+import Checker from 'vite-plugin-checker'
 import Vue from '@vitejs/plugin-vue'
-import VueJsx from '@vitejs/plugin-vue-jsx'
+import vueJsx from '@vitejs/plugin-vue-jsx'
 import ElementPlus from 'unplugin-element-plus/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
@@ -44,7 +44,7 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
   return defineConfig({
     plugins: [
       Vue(),
-      VueJsx(),
+      vueJsx(),
       Tenser(),
       DefineOptions(),
       createSvgIconsPlugin({
@@ -77,7 +77,7 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
         ],
         cache: false
       }),
-      checker({
+      Checker({
         typescript: true,
         // vueTsc: true,
         eslint: {
@@ -123,23 +123,7 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
         localEnabled: command === 'serve' && VITE_APP_MOCK === 'true', // 开发打包开关
         prodEnabled: command !== 'serve', // 生产打包开关
         logger: true
-      }),
-      {
-        name: 'import-element-plus-style',
-        transform (code, id) {
-          if (/src\/main.ts$/.test(id)) {
-            return {
-              code: `${code}\n ${
-                {
-                  true: 'import \'element-plus/dist/index.css\'',
-                  false: 'import \'element-plus/theme-chalk/src/message-box.scss\'\nimport \'element-plus/theme-chalk/src/message.scss\''
-                }[String(hasMode)] as string
-              }`,
-              map: null
-            }
-          }
-        }
-      }
+      })
     ],
     resolve: {
       alias: {

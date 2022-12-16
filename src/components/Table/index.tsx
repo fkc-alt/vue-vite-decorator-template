@@ -72,10 +72,16 @@ export interface TableColumnCtx<T> {
   }) => JSX.Element
 }
 
-export default function (props: InstanceType<typeof ElTable> & { headers: Array<TableColumnCtx<unknown>> }): JSX.Element {
+type TableInstance = InstanceType<typeof ElTable>
+
+export type Headers<T> = Pick<TableColumnCtx<T>, 'id' | 'align' | 'className' | 'type' | 'index' | 'label' | 'columnKey' | 'prop' | 'width' | 'minWidth' | 'fixed' | 'renderHeader' | 'sortable' | 'sortMethod' | 'sortBy' | 'sortOrders' | 'resizable' | 'formatter' | 'showOverflowTooltip' | 'headerAlign' | 'labelClassName' | 'selectable' | 'reserveSelection' | 'filters' | 'filterPlacement' | 'filterMultiple' | 'filterMethod' | 'filteredValue' | 'render'>
+
+export default function (props: TableInstance['$props'] & { headers: Array<Headers<unknown>> }): JSX.Element {
+  const { headers, ...attributes } = props
+  console.log(headers)
   return (
-    <ElTable {...props}>
-      {props.headers.map(attributes => {
+    <ElTable {...attributes}>
+      {headers.map(attributes => {
         return <ElTableColumn {...attributes}>
           {{
             default: ({ row, column, $index }: Cell) => attributes?.render?.({
