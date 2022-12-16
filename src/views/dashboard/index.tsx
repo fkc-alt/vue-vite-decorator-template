@@ -1,7 +1,6 @@
-import { ComputedRef } from 'vue'
 import { GetArticleList, GetTableDataList } from '@/apis'
 import Table, { Headers, type HandleFunc } from '@/components/Table'
-// import SvgIcon from '@/components/SvgIcon/index.vue'
+import SvgIcon from '@/components/SvgIcon/index.vue'
 import { mspHeaders } from './constant'
 import './index'
 export default defineComponent({
@@ -14,7 +13,7 @@ export default defineComponent({
     const handleClick: HandleFunc<Service.ArticleItem> = ({ row }): void => {
       void router.push(`/order/detail?id=${row.id}`)
     }
-    const headers = computed(() => mspHeaders({ handleClick })) as ComputedRef<Array<Headers<unknown>>>
+    const headers = computed(() => mspHeaders({ handleClick })) as import('vue').ComputedRef<Array<Headers<unknown>>>
     onMounted(async () => {
       const [r, d] = [await GetArticleList(), await GetTableDataList()]
       state.articleList = r.data.articleList
@@ -22,7 +21,7 @@ export default defineComponent({
     })
     return () => (
       <div>
-        {/* <SvgIcon name={'123' as unknown as string} /> */}
+        <SvgIcon {...{ name: 'test' }} />
         <Table data={state.articleList} headers={headers.value}></Table>
       </div>
     )
