@@ -1,9 +1,9 @@
 import * as path from 'path'
 import type { Plugin, ResolvedConfig } from 'vite'
 
-export default function fullImportPlugin () {
+export default function fullImportPlugin (): Plugin {
   let config: ResolvedConfig
-  return <Plugin>{
+  return {
     name: 'fullImportElementPlus',
     async configResolved (conf) {
       config = conf

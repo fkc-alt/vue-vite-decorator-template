@@ -2,7 +2,7 @@
 import { HandleFunc, Headers } from '@/components/Table'
 import { ElButton } from 'element-plus'
 
-export const mspHeaders = (param?: Record<string, HandleFunc<Service.ArticleItem>>): Array<Partial<Headers<Service.ArticleItem>>> => {
+export const mspHeaders = <T extends Service.ArticleItem>(param?: Record<string, HandleFunc<T>>): Array<Partial<Headers<T>>> => {
   return [
     {
       prop: 'id',
