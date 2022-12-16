@@ -5,11 +5,11 @@ import { mspHeaders } from './constant'
 import './index'
 export default defineComponent({
   setup () {
+    const router = useRouter()
     const state = reactive<Service.ArticleListRes & Service.TableDataRes>({
       articleList: [],
       tableList: []
     })
-    const router = useRouter()
     const headers = computed(() => mspHeaders<Service.ArticleItem>({
       handleClick: ({ row }) => {
         void router.push(`/order/detail?id=${row.id}`)
