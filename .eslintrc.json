@@ -9,6 +9,7 @@
     "globals": {
         "defineOptions": "readonly",
         "Service": "readonly",
+        "Services": "readonly",
         "_APP_INFO_": "readonly"
     },
     "extends": [

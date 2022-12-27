@@ -27,11 +27,11 @@ class Service {
   private interceptorsReq (): void {
     this.instance.interceptors.request.use((config: AxiosRequestConfig) => {
       const Authorization = getToken()
-      // 在发送请求之前做些什么
+      // before handler send request
       if ((Authorization !== '') && (config.headers != null)) config.headers.Authorization = 'Bearer ' + Authorization
       return config
     }, async (err: unknown) => {
-      // 对请求错误做些什么
+      // request error handler
       return await Promise.reject(err)
     })
   }
@@ -41,15 +41,16 @@ class Service {
      * @return { Promise } Promise
     */
   private interceptorsRes (): void {
-    this.instance.interceptors.response.use((res: AxiosResponse) => {
-      // 对响应数据做点什么
+    this.instance.interceptors.response.use((res: AxiosResponse<Services.Common.Response>) => {
+      // response data handler
       const { status, data } = res
-      if ([0, 200].includes(status) && [0, 200].includes(((Boolean(data)) && (Boolean((data?.code)))) ? data?.code : 200)) return data
+      const HTTPCODE = [0, 200]
+      if (HTTPCODE.includes(status) && HTTPCODE.includes(data.code)) return data
       ElMessage.error({ message: data.message })
       return Promise.reject(data.message)
     }, async (err) => {
       ElMessage.error({ message: err?.response.data.message })
-      // 对响应错误做点什么
+      // request error handler
       return await Promise.reject(err?.response.data.message)
     })
   }

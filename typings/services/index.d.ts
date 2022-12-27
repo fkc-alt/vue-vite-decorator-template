@@ -4,7 +4,7 @@ declare namespace Services.Common {
      * @descrption 请求返回类型
      */
   export interface Response<T = unknown> {
-    readonly code: number | string
+    readonly code: number
     readonly message: string
     data: T
   }
