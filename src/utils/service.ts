@@ -26,9 +26,9 @@ class Service {
     */
   private interceptorsReq (): void {
     this.instance.interceptors.request.use((config: AxiosRequestConfig) => {
-      const Authorization = getToken();
+      const Authorization = getToken()
       // 在发送请求之前做些什么
-      (Authorization.length > 0) && config.headers !== undefined && (config.headers.Authorization = 'Bearer ' + Authorization)
+      if ((Authorization !== '') && (config.headers != null)) config.headers.Authorization = 'Bearer ' + Authorization
       return config
     }, async (err: unknown) => {
       // 对请求错误做些什么
