@@ -25,3 +25,12 @@ export const removeStorage = (...data: string[]): boolean => {
 export const setLang = (lang: string): void => {
   sessionStorage.setItem('lang', lang)
 }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const deepClone = <T extends Record<string, any>>(obj: T, cb: (obj: T) => void): void => {
+  const { port1, port2 } = new MessageChannel()
+  port1.postMessage(obj)
+  port2.onmessage = ({ data }) => {
+    cb(data)
+  }
+}
