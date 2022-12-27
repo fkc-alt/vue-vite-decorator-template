@@ -30,7 +30,5 @@ export const setLang = (lang: string): void => {
 export const deepClone = <T extends Record<string, any>>(obj: T, cb: (obj: T) => void): void => {
   const { port1, port2 } = new MessageChannel()
   port1.postMessage(obj)
-  port2.onmessage = ({ data }) => {
-    cb(data)
-  }
+  port2.onmessage = ({ data }) => cb(data)
 }
