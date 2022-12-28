@@ -1,4 +1,4 @@
-import Axios, { AxiosRequestConfig, AxiosResponse, AxiosInstance } from 'axios'
+import Axios, { AxiosRequestConfig, AxiosResponse, AxiosInstance, AxiosError } from 'axios'
 import { ElMessage } from 'element-plus'
 import { getToken } from '@/utils'
 const instance: AxiosRequestConfig = {
@@ -22,7 +22,7 @@ class Service {
 
   /**
      * @method interceptorsReq
-     * @return { Promise } Promise
+     * @return { Promise<AxiosRequestConfig | AxiosError> } Promise
     */
   private interceptorsReq (): void {
     this.instance.interceptors.request.use((config: AxiosRequestConfig) => {
@@ -30,7 +30,7 @@ class Service {
       // before handler send request
       if ((Authorization !== '') && (config.headers != null)) config.headers.Authorization = 'Bearer ' + Authorization
       return config
-    }, async (err: unknown) => {
+    }, async (err: AxiosError) => {
       // request error handler
       return await Promise.reject(err)
     })
@@ -38,7 +38,7 @@ class Service {
 
   /**
      * @method interceptorsRes
-     * @return { Promise } Promise
+     * @return { Promise<AxiosResponse<Services.Common.Response> | AxiosError<Services.Common.Response>> } Promise
     */
   private interceptorsRes (): void {
     this.instance.interceptors.response.use((res: AxiosResponse<Services.Common.Response>) => {
@@ -48,10 +48,10 @@ class Service {
       if (HTTPCODE.includes(status) && HTTPCODE.includes(data.code)) return data
       ElMessage.error({ message: data.message })
       return Promise.reject(data.message)
-    }, async (err) => {
-      ElMessage.error({ message: err?.response.data.message })
+    }, async (err: AxiosError<Services.Common.Response>) => {
+      ElMessage.error({ message: err.response?.data.message ?? '' })
       // request error handler
-      return await Promise.reject(err?.response.data.message)
+      return await Promise.reject(err.response?.data.message ?? '')
     })
   }
 
