@@ -3,5 +3,4 @@ declare const _APP_INFO_: {
   lastBuildTime: string
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type, @typescript-eslint/no-empty-function
-declare const getAppInfo = (ctx: Window) => {}
+declare const getAppInfo: (ctx: Window) => void
