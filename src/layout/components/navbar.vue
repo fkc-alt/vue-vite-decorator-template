@@ -21,7 +21,7 @@ const [{ locale }, route, router, { proxy }] = [
 
 const logout = (): void => {
   removeStorage('token', 'roleIdList')
-  if (proxy) ElMessage.success(proxy.$t('SYSTEM.LOGOUTMESSAGE'))
+  ElMessage.success(proxy?.$t('SYSTEM.LOGOUTMESSAGE'))
   router.push(`/login?redirect=${route.fullPath}`)
 }
 const changeMenu = (): void => {
@@ -34,7 +34,7 @@ const changeMenu = (): void => {
 const langChange = (lang: string): void => {
   locale.value = lang
   setLang(lang)
-  if (proxy) ElMessage.success(proxy.$t('MESSAGE.SUCCESS'))
+  ElMessage.success(proxy?.$t('MESSAGE.SUCCESS'))
 }
 </script>
 <template>

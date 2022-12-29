@@ -19,26 +19,26 @@ const formRules = reactive<FormRules>({
   username: [
     {
       required: true,
-      message: proxy ? proxy.$t('LOGIN.FORMRULES.USERNAME[0]') : '',
+      message: proxy?.$t('LOGIN.FORMRULES.USERNAME[0]'),
       trigger: 'blur'
     },
     {
       min: 3,
       max: 12,
-      message: proxy ? proxy.$t('LOGIN.FORMRULES.USERNAME[1]') : '',
+      message: proxy?.$t('LOGIN.FORMRULES.USERNAME[1]'),
       trigger: 'blur'
     }
   ],
   password: [
     {
       required: true,
-      message: proxy ? proxy.$t('LOGIN.FORMRULES.PASSWORD[0]') : '',
+      message: proxy?.$t('LOGIN.FORMRULES.PASSWORD[0]'),
       trigger: 'blur'
     },
     {
       min: 6,
       max: 18,
-      message: proxy ? proxy.$t('LOGIN.FORMRULES.PASSWORD[1]') : '',
+      message: proxy?.$t('LOGIN.FORMRULES.PASSWORD[1]'),
       trigger: 'blur'
     }
   ]
@@ -57,7 +57,7 @@ const submit = async (formEl: FormInstance | undefined) => {
           setData({ token: res.data.token, roleIdList: res.data.roles })
           const redirect = (route.query &&
             route.query.redirect) as RouteLocationRaw
-          ElMessage.success(proxy ? proxy.$t('SYSTEM.LOGINMESSAGE') : '')
+          ElMessage.success(proxy?.$t('SYSTEM.LOGINMESSAGE'))
           router.push(redirect || '/')
         })
         .catch((error: string) => {
