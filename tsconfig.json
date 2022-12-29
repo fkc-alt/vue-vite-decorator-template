@@ -54,8 +54,7 @@
     "typings/**/*.d.ts",
     "mock/**/*.ts",
     "mock/**/*.d.ts",
-    "vite.config.ts",
-    "./inject.js"
+    "vite.config.ts"
   ],
   "exclude": [
     "node_modules",
