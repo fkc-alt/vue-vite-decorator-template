@@ -6,7 +6,7 @@ const state = reactive<Service.ArticleListRes & Service.TableDataRes>({
   tableList: []
 })
 const router = useRouter()
-const headers = computed(() => mapHeaders({
+const headers = reactive(mapHeaders({
   handleClick: ({ row }) => {
     router.push(`/order/detail?id=${row.id}`)
   }

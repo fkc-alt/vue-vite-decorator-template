@@ -1,7 +1,7 @@
 import { GetArticleList, GetTableDataList } from '@/apis'
 import Table from '@/components/Table'
 import SvgIcon from '@/components/SvgIcon/index.vue'
-import { mspHeaders } from './tableConfig'
+import { mapHeaders } from './tableConfig'
 import '.'
 export default defineComponent({
   setup () {
@@ -10,7 +10,7 @@ export default defineComponent({
       articleList: [],
       tableList: []
     })
-    const headers = computed(() => mspHeaders<Service.ArticleItem>({
+    const headers = reactive(mapHeaders<Service.ArticleItem>({
       handleClick: ({ row }) => {
         void router.push(`/order/detail?id=${row.id}`)
       }
@@ -23,7 +23,7 @@ export default defineComponent({
     return () => (
       <div>
         <SvgIcon {...{ name: 'test' }} />
-        <Table data={state.articleList} headers={headers.value}></Table>
+        <Table data={state.articleList} headers={headers} />
       </div>
     )
   }
