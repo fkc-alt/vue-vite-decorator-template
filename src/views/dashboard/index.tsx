@@ -22,8 +22,8 @@ export default defineComponent({
     })
     return () => (
       <div>
-        <SvgIcon {...{ name: 'test' }} />
-        <Table data={state.articleList} headers={headers} />
+        <SvgIcon { ...{ name: 'test' } } />
+        <Table { ...{ data: state.articleList, headers } } />
       </div>
     )
   }
