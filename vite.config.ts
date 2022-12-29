@@ -1,4 +1,5 @@
-import { ConfigEnv, defineConfig, loadEnv, UserConfigExport } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
+import type { ConfigEnv, UserConfigExport } from 'vite'
 import { resolve } from 'path'
 import { terser as Tenser } from 'rollup-plugin-terser'
 import EslintPlugin from 'vite-plugin-eslint'
@@ -11,9 +12,9 @@ import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import IconResolver from 'unplugin-icons/resolver'
 import Icons from 'unplugin-icons/vite'
-import { ElementPlusResolve, createStyleImportPlugin } from 'vite-plugin-style-import'
-import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
-import { createHtmlPlugin } from 'vite-plugin-html'
+import { ElementPlusResolve, createStyleImportPlugin as CreateStyleImportPlugin } from 'vite-plugin-style-import'
+import { createSvgIconsPlugin as CreateSvgIconsPlugin } from 'vite-plugin-svg-icons'
+import { createHtmlPlugin as CreateHtmlPlugin } from 'vite-plugin-html'
 import ViteImages from 'vite-plugin-vue-images'
 /**
   * 在setup语法糖中，解决无法自定义组件的 name 属性
@@ -24,8 +25,8 @@ import DefineOptions from 'unplugin-vue-define-options/vite'
 import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
 
 import ViteCompression from 'vite-plugin-compression'
-import { viteMockServe } from 'vite-plugin-mock'
-import fullImportPlugin from './plugins/fullImportPlugin'
+import { viteMockServe as ViteMockServe } from 'vite-plugin-mock'
+import FullImportPlugin from './plugins/fullImportPlugin'
 import pkg from './package.json'
 
 const { dependencies, devDependencies, name, version } = pkg
@@ -49,12 +50,12 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
       vueJsx(),
       Tenser(),
       DefineOptions(),
-      createSvgIconsPlugin({
+      CreateSvgIconsPlugin({
         // 指定要缓存的文件夹
         iconDirs: [resolve(process.cwd(), 'src/icons')],
         symbolId: '[name]'
       }),
-      createHtmlPlugin({
+      CreateHtmlPlugin({
         minify: true,
         /**
          * 在这里写entry后，你将不需要在`index.html`内添加 script 标签，原有标签需要删除
@@ -93,7 +94,7 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
         include: resolve(__dirname, './src/locales/**')
       }),
       Icons({ scale: 1, defaultClass: 'inline-block', autoInstall: true }),
-      hasMode ? fullImportPlugin() : ElementPlus({ useSource: true }),
+      hasMode ? FullImportPlugin() : ElementPlus({ useSource: true }),
       Components({
         dts: 'typings/components.d.ts',
         extensions: ['vue', 'tsx'],
@@ -114,7 +115,7 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
         ],
         resolvers: [ElementPlusResolver({ importStyle: hasMode ? 'sass' : false }), IconResolver({ prefix: 'ep' })]
       }),
-      createStyleImportPlugin({
+      CreateStyleImportPlugin({
         resolves: [
           ElementPlusResolve()
         ]
@@ -132,7 +133,7 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
         algorithm: 'gzip',
         ext: '.gz'
       }),
-      viteMockServe({
+      ViteMockServe({
         mockPath: 'mock',
         localEnabled: command === 'serve' && VITE_APP_MOCK === 'true', // 开发打包开关
         prodEnabled: command !== 'serve', // 生产打包开关
