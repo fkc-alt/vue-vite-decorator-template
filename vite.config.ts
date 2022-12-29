@@ -11,8 +11,10 @@ import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import IconResolver from 'unplugin-icons/resolver'
 import Icons from 'unplugin-icons/vite'
+import { ElementPlusResolve, createStyleImportPlugin } from 'vite-plugin-style-import'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import { createHtmlPlugin } from 'vite-plugin-html'
+import ViteImages from 'vite-plugin-vue-images'
 /**
   * 在setup语法糖中，解决无法自定义组件的 name 属性
   * 使用方法  defineOptions({ name: 'my-component' })
@@ -49,7 +51,7 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
       DefineOptions(),
       createSvgIconsPlugin({
         // 指定要缓存的文件夹
-        iconDirs: [resolve(process.cwd(), 'src/assets/icons')],
+        iconDirs: [resolve(process.cwd(), 'src/icons')],
         symbolId: '[name]'
       }),
       createHtmlPlugin({
@@ -110,6 +112,17 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
           'vue-i18n'
         ],
         resolvers: [ElementPlusResolver({ importStyle: hasMode ? false : 'sass' }), IconResolver({ prefix: 'ep' })]
+      }),
+      createStyleImportPlugin({
+        resolves: [
+          ElementPlusResolve()
+        ]
+      }),
+      ViteImages({
+        dirs: ['src/assets'], // 图像目录的相对路径
+        extensions: ['jpg', 'jpeg', 'png', 'svg', 'webp'], // 有效的图像扩展
+        customResolvers: [], // 覆盖名称->图像路径解析的默认行为
+        customSearchRegex: '([a-zA-Z0-9]+)' // 重写搜索要替换的变量的Regex。
       }),
       ViteCompression({
         verbose: true,

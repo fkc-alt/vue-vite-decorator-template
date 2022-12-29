@@ -9,22 +9,22 @@ const message = 'The webmaster said that you can not enter this page...'
       <div class="pic-404">
         <img
           class="pic-404__parent"
-          src="@/assets/404_images/404.png"
+          :src="NotImagesNot"
           alt="404"
         >
         <img
           class="pic-404__child left"
-          src="@/assets/404_images/404_cloud.png"
+          :src="NotImagesNotCloud"
           alt="404"
         >
         <img
           class="pic-404__child mid"
-          src="@/assets/404_images/404_cloud.png"
+          :src="NotImagesNotCloud"
           alt="404"
         >
         <img
           class="pic-404__child right"
-          src="@/assets/404_images/404_cloud.png"
+          :src="NotImagesNotCloud"
           alt="404"
         >
       </div>

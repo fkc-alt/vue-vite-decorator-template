@@ -8,6 +8,7 @@ state.orderList = r.data.orderList
 
 <template>
   <div>
+    <img :src="IconsTest" alt="" />
     <ul>
       <li
         v-for="item in state.orderList"
