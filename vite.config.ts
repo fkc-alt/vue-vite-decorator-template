@@ -42,7 +42,7 @@ const _APP_INFO_ = {
 // https://vitejs.dev/config/
 export default ({ mode, command }: ConfigEnv): UserConfigExport => {
   const { VITE_APP_BASE_URL, VITE_APP_BASE_API, VITE_APP_MOCK, VITE_APP_PROJECT_ICON, VITE_APP_PROJECT_TITLE } = loadEnv(mode, process.cwd())
-  const hasMode = mode === 'env'
+  const hasMode = mode === 'dev'
   return defineConfig({
     plugins: [
       Vue(),
@@ -68,7 +68,8 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
           data: {
             // 查找.env文件里面的VITE_APP_PROJECT_TITLE，请以VITE_标识开头
             title: VITE_APP_PROJECT_TITLE,
-            icon: VITE_APP_PROJECT_ICON
+            icon: VITE_APP_PROJECT_ICON,
+            injectScript: hasMode ? '<script src="inject.js" type="text/javascript"></script>' : ''
           }
         }
       }),
@@ -98,7 +99,7 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
         extensions: ['vue', 'tsx'],
         deep: true,
         dirs: ['src/components'], // 配置需要默认导入的自定义组件文件夹，该文件夹下的所有组件都会自动 import
-        resolvers: [ElementPlusResolver({ importStyle: hasMode ? false : 'sass' }), IconResolver()]
+        resolvers: [ElementPlusResolver(), IconResolver()]
       }),
       AutoImport({
         dts: 'typings/auto-imports.d.ts',
@@ -111,7 +112,7 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
           'pinia',
           'vue-i18n'
         ],
-        resolvers: [ElementPlusResolver({ importStyle: hasMode ? false : 'sass' }), IconResolver({ prefix: 'ep' })]
+        resolvers: [ElementPlusResolver({ importStyle: hasMode ? 'sass' : false }), IconResolver({ prefix: 'ep' })]
       }),
       createStyleImportPlugin({
         resolves: [

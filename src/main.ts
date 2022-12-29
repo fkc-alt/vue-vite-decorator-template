@@ -13,8 +13,9 @@ import '@/router/permission'
 const pinia = createPinia()
 
 const app = createApp(App)
+
 app.use(pinia).use(router).use(useIcons).use(i18n)
 router.isReady().then(() => {
   app.mount('#app')
-  console.table([_APP_INFO_])
+  import.meta.env.MODE === 'dev' && getAppInfo(window)
 }).catch(err => console.error(err))

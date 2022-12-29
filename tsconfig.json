@@ -10,6 +10,7 @@
     "jsxFactory": "h",
     "jsxFragmentFactory": "Fragment",
     "sourceMap": true,
+    "allowJs": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "esModuleInterop": true,
@@ -54,6 +55,7 @@
     "mock/**/*.ts",
     "mock/**/*.d.ts",
     "vite.config.ts",
+    "./inject.js"
   ],
   "exclude": [
     "node_modules",
