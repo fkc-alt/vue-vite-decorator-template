@@ -22,13 +22,13 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/login',
     name: 'Login',
-    component: async () => await import('@/views/Login.vue'),
+    component: async () => await import('@/views/login.vue'),
     hidden: true
   },
   {
     path: '/error',
     name: 'Error',
-    component: async () => await import('@/views/Error.vue'),
+    component: async () => await import('@/views/error.vue'),
     hidden: true
   },
 
