@@ -1,4 +1,3 @@
-import { ColumnCls } from 'element-plus'
 import { GetArticleList, GetTableDataList } from '@/apis'
 import Table from '@/components/Table'
 import SvgIcon from '@/components/SvgIcon/index.vue'
@@ -12,12 +11,12 @@ export default defineComponent({
       articleList: [],
       tableList: []
     })
-    const headers = reactive(mapHeaders<Service.ArticleItem>({
+    const headers = reactive(mapHeaders({
       handleClick: ({ row }) => {
-        void router.push(`/order/detail?id=${row.id}`)
+        void router.push(`/order/detail?id=${row.id as string}`)
       }
     }))
-    const rowClassName: ColumnCls<Service.ArticleItem> = ({ rowIndex }) => {
+    const rowClassName: ElTableCustom.ColumnCls<Service.ArticleItem> = ({ rowIndex }) => {
       return ({
         1: 'warning-row',
         3: 'success-row'
