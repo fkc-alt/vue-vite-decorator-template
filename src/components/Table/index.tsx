@@ -1,5 +1,5 @@
 import { VNode } from 'vue'
-import { ElTable, ElTableColumn } from 'element-plus'
+import { ColumnCls, ElTable, ElTableColumn } from 'element-plus'
 import { FilterMethods, Filters } from 'element-plus/es/components/table/src/table-column/defaults'
 
 export interface CI<T> {
@@ -24,6 +24,7 @@ export interface TableColumnCtx<T> {
   type: string
   label: string
   className: string
+  rowClassName?: ColumnCls<T>
   labelClassName: string
   property: string
   prop: string
@@ -74,7 +75,7 @@ export interface TableColumnCtx<T> {
 
 type TableInstance = InstanceType<typeof ElTable>
 
-export type Headers<T> = Pick<TableColumnCtx<T>, 'id' | 'align' | 'className' | 'type' | 'index' | 'label' | 'columnKey' | 'prop' | 'width' | 'minWidth' | 'fixed' | 'renderHeader' | 'sortable' | 'sortMethod' | 'sortBy' | 'sortOrders' | 'resizable' | 'formatter' | 'showOverflowTooltip' | 'headerAlign' | 'labelClassName' | 'selectable' | 'reserveSelection' | 'filters' | 'filterPlacement' | 'filterMultiple' | 'filterMethod' | 'filteredValue' | 'render'>
+export type Headers<T> = Pick<TableColumnCtx<T>, 'id' | 'align' | 'className' | 'type' | 'index' | 'label' | 'columnKey' | 'prop' | 'width' | 'minWidth' | 'fixed' | 'renderHeader' | 'sortable' | 'sortMethod' | 'sortBy' | 'sortOrders' | 'resizable' | 'formatter' | 'showOverflowTooltip' | 'headerAlign' | 'labelClassName' | 'selectable' | 'reserveSelection' | 'filters' | 'filterPlacement' | 'filterMultiple' | 'filterMethod' | 'filteredValue' | 'render' | 'rowClassName'>
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function (props: TableInstance['$props'] & { headers: Array<Partial<Headers<any>>> }): JSX.Element {
