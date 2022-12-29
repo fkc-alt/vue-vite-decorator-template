@@ -8,13 +8,13 @@ export interface CI<T> {
 }
 
 export interface Cell extends CI<unknown> {
-  row: Record<string, unknown>
+  row: Record<string, string>
 }
 
 export type HandleFunc<T> = (param: {
   row: T
   column: TableColumnCtx<T>
-  cellValue: unknown
+  cellValue: Partial<Headers<T>>
   index: number
 }) => void
 
@@ -41,7 +41,7 @@ export interface TableColumnCtx<T> {
   showTooltipWhenOverflow: boolean
   showOverflowTooltip: boolean
   fixed: boolean | string
-  formatter: (row: T, column: TableColumnCtx<T>, cellValue: unknown, index: number) => VNode | string
+  formatter: (row: T, column: TableColumnCtx<T>, cellValue: string, index: number) => VNode | string
   selectable: (row: T, index: number) => boolean
   reserveSelection: boolean
   filterMethod: FilterMethods<T>
@@ -67,7 +67,7 @@ export interface TableColumnCtx<T> {
   render?: (param: {
     row: T
     column: TableColumnCtx<T>
-    cellValue: unknown
+    cellValue: Partial<Headers<T>>
     index: number
   }) => JSX.Element
 }
