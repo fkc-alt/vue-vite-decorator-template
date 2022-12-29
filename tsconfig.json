@@ -55,6 +55,7 @@
     "mock/**/*.ts",
     "mock/**/*.d.ts",
     "vite.config.ts",
+    "public/inject.js"
   ],
   "exclude": [
     "node_modules",
