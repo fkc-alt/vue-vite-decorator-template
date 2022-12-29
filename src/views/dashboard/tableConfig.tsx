@@ -13,6 +13,10 @@ export const mspHeaders = <T extends Service.ArticleItem>(param?: Record<string,
       prop: 'title',
       label: 'Title',
       align: 'center'
+      // formatter: (row, column, cellValue): string => {
+      //   console.log(cellValue)
+      //   return cellValue as string
+      // }
     },
     {
       prop: 'description',

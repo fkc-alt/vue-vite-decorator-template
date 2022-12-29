@@ -88,7 +88,7 @@ export default function (props: TableInstance['$props'] & { headers: Array<Parti
               row,
               column,
               index: $index,
-              cellValue: row[attributes?.prop as string]
+              cellValue: attributes
             }) ?? attributes?.formatter?.(row, column, row[attributes?.prop as string], $index) ?? row[attributes?.prop as string]
           }}
         </ElTableColumn>
