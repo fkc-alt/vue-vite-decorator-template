@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { VNode } from 'vue'
 import { ColumnCls, ElTable, ElTableColumn } from 'element-plus'
 import { FilterMethods, Filters } from 'element-plus/es/components/table/src/table-column/defaults'
@@ -73,12 +74,29 @@ export interface TableColumnCtx<T> {
   }) => JSX.Element
 }
 
-type TableInstance = InstanceType<typeof ElTable>
+type CellCommType<T = string> = (props: {
+  row: any
+  column: TableColumnCtx<any>
+  columnIndex: number
+  rowIndex: number
+}) => any | T
+
+type TableInstance = InstanceType<typeof ElTable>['$props'] & {
+  height?: string | number
+  maxHeight?: string | number
+  fit?: boolean
+  showHeader?: boolean
+  highlightCurrentRow?: boolean
+  currentRowKey?: string | number
+  cellClassName?: CellCommType<string>
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  cellStyle?: CellCommType<Object>
+  headers: Array<Partial<Headers<any>>>
+}
 
 export type Headers<T> = Pick<TableColumnCtx<T>, 'id' | 'align' | 'className' | 'type' | 'index' | 'label' | 'columnKey' | 'prop' | 'width' | 'minWidth' | 'fixed' | 'renderHeader' | 'sortable' | 'sortMethod' | 'sortBy' | 'sortOrders' | 'resizable' | 'formatter' | 'showOverflowTooltip' | 'headerAlign' | 'labelClassName' | 'selectable' | 'reserveSelection' | 'filters' | 'filterPlacement' | 'filterMultiple' | 'filterMethod' | 'filteredValue' | 'render' | 'rowClassName'>
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default function (props: TableInstance['$props'] & { headers: Array<Partial<Headers<any>>> }): JSX.Element {
+export default function (props: TableInstance): JSX.Element {
   const { headers, ...attributes } = props
   return (
     <ElTable {...attributes}>
