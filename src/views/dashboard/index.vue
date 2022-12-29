@@ -1,7 +1,7 @@
 <script lang="tsx" setup>
 import { GetArticleList, GetTableDataList } from '@/apis'
 import type { HandleFunc } from '@/components/Table'
-import { mspHeaders } from './constant'
+import { mspHeaders } from './tableConfig'
 const state = reactive<Service.ArticleListRes & Service.TableDataRes>({
   articleList: [],
   tableList: []

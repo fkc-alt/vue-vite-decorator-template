@@ -1,7 +1,7 @@
 import { GetArticleList, GetTableDataList } from '@/apis'
 import Table from '@/components/Table'
 import SvgIcon from '@/components/SvgIcon/index.vue'
-import { mspHeaders } from './constant'
+import { mspHeaders } from './tableConfig'
 import '.'
 export default defineComponent({
   setup () {
