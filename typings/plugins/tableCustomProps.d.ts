@@ -34,7 +34,7 @@ declare namespace ElTableCustom {
       row: Record<string, string>
     }
 
-    interface TableProps<T> {
+    interface TableProps<T> extends TableEvents {
       data: T[]
       headers: Array<Partial<Headers<any>>>
       size?: string
@@ -88,6 +88,26 @@ declare namespace ElTableCustom {
       flexible?: boolean
     }
 
+    interface TableEvents {
+      onSelect?: ((...args: any[]) => any) | undefined
+      'onExpand-change'?: ((...args: any[]) => any) | undefined
+      'onCurrent-change'?: ((...args: any[]) => any) | undefined
+      'onSelect-all'?: ((...args: any[]) => any) | undefined
+      'onSelection-change'?: ((...args: any[]) => any) | undefined
+      'onCell-mouse-enter'?: ((...args: any[]) => any) | undefined
+      'onCell-mouse-leave'?: ((...args: any[]) => any) | undefined
+      'onCell-contextmenu'?: ((...args: any[]) => any) | undefined
+      'onCell-click'?: ((...args: any[]) => any) | undefined
+      'onCell-dblclick'?: ((...args: any[]) => any) | undefined
+      'onRow-click'?: ((...args: any[]) => any) | undefined
+      'onRow-contextmenu'?: ((...args: any[]) => any) | undefined
+      'onRow-dblclick'?: ((...args: any[]) => any) | undefined
+      'onHeader-click'?: ((...args: any[]) => any) | undefined
+      'onHeader-contextmenu'?: ((...args: any[]) => any) | undefined
+      'onSort-change'?: ((...args: any[]) => any) | undefined
+      'onFilter-change'?: ((...args: any[]) => any) | undefined
+      'onHeader-dragend'?: ((...args: any[]) => any) | undefined
+    }
     interface TableColumnCtx<T> {
       id: string
       realWidth: number
