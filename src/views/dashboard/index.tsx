@@ -36,6 +36,9 @@ export default defineComponent({
         refTable.value?.tableRef?.clearSelection()
       }
     }
+    const slotId: CustomerProps.CustomTable.SlotFunc<Service.ArticleItem> = ({ row }) => {
+      return <div>id = { row.id }</div>
+    }
     onMounted(async () => {
       const [r, d] = [await GetArticleList(), await GetTableDataList()]
       state.articleList = r.data.articleList
@@ -53,7 +56,7 @@ export default defineComponent({
       return (
         <div>
           <SvgIcon { ...svgIconProps } />
-          <CustomTable { ...attributes } />
+          <CustomTable {...attributes} v-slots={{ id: slotId }} />
           <ElButton onClick={() => toggleSelection([state.articleList[1], state.articleList[2]])}>Toggle selection status of second and third rows</ElButton>
         </div>
       )

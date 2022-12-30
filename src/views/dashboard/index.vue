@@ -32,7 +32,15 @@ state.tableList = d.data.tableList
 <template>
   <div>
     <svg-icon name="test"></svg-icon>
-    <CustomTable ref="refTable" :data="state.articleList" :headers="headers" @selection-change="selectionChange" />
+    <CustomTable ref="refTable" :data="state.articleList" :headers="headers" @selection-change="selectionChange">
+      <template #id="{ row }">
+        <div>id = {{ row.id }}</div>
+        <Render />
+      </template>
+      <template #title="{ row }">
+        <div>title = {{ row.title }}</div>
+      </template>
+    </CustomTable>
     <el-button @click="toggleSelection([state.articleList[1], state.articleList[2]])">Toggle selection status of second and third rows</el-button>
     <el-button @click="toggleSelection()">Clear selection</el-button>
   </div>
