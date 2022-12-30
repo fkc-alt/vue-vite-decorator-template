@@ -16,6 +16,9 @@ export default defineComponent({
         void router.push(`/order/detail?id=${row.id as string}`)
       }
     }))
+    const change = (e: unknown): void => {
+      console.log(e)
+    }
     const rowClassName: ElTableCustom.ColumnCls<Service.ArticleItem> = ({ rowIndex }) => {
       return ({
         1: 'warning-row',
@@ -30,7 +33,7 @@ export default defineComponent({
     return () => (
       <div>
         <SvgIcon { ...{ name: 'test' } } />
-        <Table { ...{ data: state.articleList, headers, rowClassName } } />
+        <Table { ...{ data: state.articleList, headers, rowClassName } } onSelection-change={change} />
       </div>
     )
   }

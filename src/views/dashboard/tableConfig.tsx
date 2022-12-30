@@ -3,6 +3,10 @@ import { ElButton } from 'element-plus'
 export const mapHeaders: ElTableCustom.MapHeaders<Service.ArticleItem> = (param) => {
   return [
     {
+      align: 'center',
+      type: 'selection'
+    },
+    {
       prop: 'id',
       label: 'Id',
       align: 'center'

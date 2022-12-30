@@ -90,6 +90,23 @@ declare namespace ElTableCustom {
 
     interface TableEvents {
       onSelect?: ((...args: any[]) => any) | undefined
+      onExpandChange?: ((...args: any[]) => any) | undefined
+      onCurrentChange?: ((...args: any[]) => any) | undefined
+      onSelectAll?: ((...args: any[]) => any) | undefined
+      onSelectionChange?: ((...args: any[]) => any) | undefined
+      onCellMouseEnter?: ((...args: any[]) => any) | undefined
+      onCellMouseLeave?: ((...args: any[]) => any) | undefined
+      onCellContextmenu?: ((...args: any[]) => any) | undefined
+      onCellClick?: ((...args: any[]) => any) | undefined
+      onCellDblclick?: ((...args: any[]) => any) | undefined
+      onRowClick?: ((...args: any[]) => any) | undefined
+      onRowContextmenu?: ((...args: any[]) => any) | undefined
+      onRowDblclick?: ((...args: any[]) => any) | undefined
+      onHeaderClick?: ((...args: any[]) => any) | undefined
+      onHeaderContextmenu?: ((...args: any[]) => any) | undefined
+      onSortChange?: ((...args: any[]) => any) | undefined
+      onFilterChange?: ((...args: any[]) => any) | undefined
+      onHeaderDragend?: ((...args: any[]) => any) | undefined
       'onExpand-change'?: ((...args: any[]) => any) | undefined
       'onCurrent-change'?: ((...args: any[]) => any) | undefined
       'onSelect-all'?: ((...args: any[]) => any) | undefined

@@ -1,4 +1,4 @@
-<script lang="tsx" setup>
+<script lang="ts" setup>
 import { GetArticleList, GetTableDataList } from '@/apis'
 import { mapHeaders } from './tableConfig'
 const state = reactive<Service.ArticleListRes & Service.TableDataRes>({
@@ -11,6 +11,9 @@ const headers = reactive(mapHeaders({
     router.push(`/order/detail?id=${row.id}`)
   }
 }))
+const selectionChange = (e: unknown) => {
+  console.log(e)
+}
 const [r, d] = [await GetArticleList(), await GetTableDataList()]
 state.articleList = r.data.articleList
 state.tableList = d.data.tableList
@@ -19,7 +22,7 @@ state.tableList = d.data.tableList
 <template>
   <div>
     <svg-icon name="test"></svg-icon>
-    <Table :data="state.articleList" :headers="headers" />
+    <Table :data="state.articleList" :headers="headers" @selection-change="selectionChange" />
   </div>
 </template>
 
