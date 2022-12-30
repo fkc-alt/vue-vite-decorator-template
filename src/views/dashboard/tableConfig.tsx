@@ -30,7 +30,7 @@ export const mapHeaders: ElTableCustom.MapHeaders<Service.ArticleItem> = (param)
           <ElButton
             type="primary"
             link
-            onClick={() => param?.handleClick(scope)}
+            onClick={() => param?.handleClick?.(scope)}
             class="btn"
           >
             Render

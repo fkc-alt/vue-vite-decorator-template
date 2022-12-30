@@ -180,12 +180,12 @@ declare namespace ElTableCustom {
       }) => JSX.Element
     }
 
-    type HandleFunc<T> = (param: {
+    type HandleFunc<T> = ((param: {
       row: T
       column: TableColumnCtx<T>
       cellValue: Partial<Headers<T>>
       index: number
-    }) => void
+    }) => any) | undefined
     type Headers<T> = Pick<TableColumnCtx<T>, 'id' | 'align' | 'className' | 'type' | 'index' | 'label' | 'columnKey' | 'prop' | 'width' | 'minWidth' | 'fixed' | 'renderHeader' | 'sortable' | 'sortMethod' | 'sortBy' | 'sortOrders' | 'resizable' | 'formatter' | 'showOverflowTooltip' | 'headerAlign' | 'labelClassName' | 'selectable' | 'reserveSelection' | 'filters' | 'filterPlacement' | 'filterMultiple' | 'filterMethod' | 'filteredValue' | 'render' | 'rowClassName'>
     type MapHeaders<T> = (param?: Record<string, ElTableCustom.HandleFunc<T>>) => Array<Partial<ElTableCustom.Headers<T>>>
 }
