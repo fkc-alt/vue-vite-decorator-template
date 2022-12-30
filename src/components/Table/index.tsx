@@ -15,10 +15,7 @@ export default function (props: ElTableCustom.TableProps<any>): JSX.Element {
               column,
               index: $index,
               cellValue: attributes
-            }) ?? attributes?.formatter?.(row, column, row[attributes?.prop as string], $index) ?? row[attributes?.prop as string],
-            [attributes.prop as string]: (row: ElTableCustom.Cell) => {
-              return <slot v-slots={attributes.prop}></slot>
-            }
+            }) ?? attributes?.formatter?.(row, column, row[attributes?.prop as string], $index) ?? row[attributes?.prop as string]
           }}
         </ElTableColumn>
       })}
