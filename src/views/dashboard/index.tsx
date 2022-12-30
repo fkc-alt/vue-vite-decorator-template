@@ -41,12 +41,21 @@ export default defineComponent({
       state.articleList = r.data.articleList
       state.tableList = d.data.tableList
     })
-    return () => (
-      <div>
-        <SvgIcon { ...{ name: 'test' } } />
-        <CustomTable { ...{ data: state.articleList, ref: refTable, headers, rowClassName } } onSelection-change={change} />
-        <ElButton onClick={() => toggleSelection([state.articleList[1], state.articleList[2]])}>Toggle selection status of second and third rows</ElButton>
-      </div>
-    )
+    return () => {
+      const attributes = {
+        data: state.articleList,
+        ref: refTable,
+        headers,
+        rowClassName
+      }
+      const svgIconProps = { name: 'test' }
+      return (
+        <div>
+          <SvgIcon { ...svgIconProps } />
+          <CustomTable { ...attributes } onSelection-change={change} />
+          <ElButton onClick={() => toggleSelection([state.articleList[1], state.articleList[2]])}>Toggle selection status of second and third rows</ElButton>
+        </div>
+      )
+    }
   }
 })
