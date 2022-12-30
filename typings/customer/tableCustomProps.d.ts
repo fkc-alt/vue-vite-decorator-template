@@ -193,11 +193,12 @@ declare namespace CustomerProps {
     }) => any) | undefined
     type HandlerEvents<T = TableEvents> = (methods: T) => T
     type Headers<T> = Pick<TableColumnCtx<T>, 'id' | 'align' | 'className' | 'type' | 'index' | 'label' | 'columnKey' | 'prop' | 'width' | 'minWidth' | 'fixed' | 'renderHeader' | 'sortable' | 'sortMethod' | 'sortBy' | 'sortOrders' | 'resizable' | 'formatter' | 'showOverflowTooltip' | 'headerAlign' | 'labelClassName' | 'selectable' | 'reserveSelection' | 'filters' | 'filterPlacement' | 'filterMultiple' | 'filterMethod' | 'filteredValue' | 'render' | 'rowClassName'>
-    type SlotFunc<T> = ((param: {
+    interface SlotProp<T> {
       row: T
       column: TableColumnCtx<T>
       $index: number
-    }) => any) | undefined
+    }
+    type SlotFunc<T> = ((param: SlotProp<T>) => any) | undefined
     type MapHeaders<T> = (param?: Record<string, HandleFunc<T>>) => Array<Partial<Headers<T>>>
   }
 }

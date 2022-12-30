@@ -33,11 +33,11 @@ state.tableList = d.data.tableList
   <div>
     <svg-icon name="test"></svg-icon>
     <CustomTable ref="refTable" :data="state.articleList" :headers="headers" @selection-change="selectionChange">
-      <template #id="{ row }">
+      <template #id="{ row }: CustomerProps.CustomTable.SlotProp<Service.ArticleItem>">
         <div>id = {{ row.id }}</div>
         <Render />
       </template>
-      <template #title="{ row }">
+      <template #title="{ row }: CustomerProps.CustomTable.SlotProp<Service.ArticleItem>">
         <div>title = {{ row.title }}</div>
       </template>
     </CustomTable>
