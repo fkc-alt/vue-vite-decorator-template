@@ -186,6 +186,7 @@ declare namespace ElTableCustom {
       cellValue: Partial<Headers<T>>
       index: number
     }) => any) | undefined
+    type HandlerEvents<T = TableEvents> = (methods: T) => T
     type Headers<T> = Pick<TableColumnCtx<T>, 'id' | 'align' | 'className' | 'type' | 'index' | 'label' | 'columnKey' | 'prop' | 'width' | 'minWidth' | 'fixed' | 'renderHeader' | 'sortable' | 'sortMethod' | 'sortBy' | 'sortOrders' | 'resizable' | 'formatter' | 'showOverflowTooltip' | 'headerAlign' | 'labelClassName' | 'selectable' | 'reserveSelection' | 'filters' | 'filterPlacement' | 'filterMultiple' | 'filterMethod' | 'filteredValue' | 'render' | 'rowClassName'>
     type MapHeaders<T> = (param?: Record<string, ElTableCustom.HandleFunc<T>>) => Array<Partial<ElTableCustom.Headers<T>>>
 }

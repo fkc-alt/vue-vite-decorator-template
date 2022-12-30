@@ -1,4 +1,4 @@
-export const handlerEvents = (methods: ElTableCustom.TableEvents): ElTableCustom.TableEvents => {
+export const handlerEvents: ElTableCustom.HandlerEvents = (methods) => {
   const mapEvents = {
     onSelect: methods.onSelect,
     'onExpand-change': methods.onExpandChange ?? methods['onExpand-change'],
