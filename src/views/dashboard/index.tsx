@@ -44,7 +44,7 @@ export default defineComponent({
     return () => (
       <div>
         <SvgIcon { ...{ name: 'test' } } />
-        <CustomTable ref={refTable} { ...{ data: state.articleList, headers, rowClassName } } onSelection-change={change} />
+        <CustomTable { ...{ data: state.articleList, ref: refTable, headers, rowClassName } } onSelection-change={change} />
         <ElButton onClick={() => toggleSelection([state.articleList[1], state.articleList[2]])}>Toggle selection status of second and third rows</ElButton>
       </div>
     )
