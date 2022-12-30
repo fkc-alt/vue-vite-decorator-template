@@ -1,6 +1,6 @@
 import { ElButton } from 'element-plus'
 
-export const mapHeaders: ElTableCustom.MapHeaders<Service.ArticleItem> = (param) => {
+export const mapHeaders: CustomerProps.CustomTable.MapHeaders<Service.ArticleItem> = (param) => {
   return [
     {
       align: 'center',

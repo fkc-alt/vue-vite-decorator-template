@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-declare namespace ElTableCustom {
+declare namespace CustomerProps {
+  declare namespace CustomTable {
     type Layout = 'fixed' | 'auto'
     type CSSProperties = import('vue').CSSProperties
     type VNode = import('vue').VNode
@@ -12,6 +13,9 @@ declare namespace ElTableCustom {
     type TreeNode = import('element-plus').TreeNode
     type FilterMethods<T> = import('element-plus/es/components/table/src/table-column/defaults').FilterMethods<T>
     type Filters = import('element-plus/es/components/table/src/table-column/defaults').Filters
+    interface TableRef {
+      tableRef: InstanceType<typeof import('element-plus').ElTable>
+    }
     type CellCls<T> = string | ((data: {
       row: T
       rowIndex: number
@@ -188,5 +192,6 @@ declare namespace ElTableCustom {
     }) => any) | undefined
     type HandlerEvents<T = TableEvents> = (methods: T) => T
     type Headers<T> = Pick<TableColumnCtx<T>, 'id' | 'align' | 'className' | 'type' | 'index' | 'label' | 'columnKey' | 'prop' | 'width' | 'minWidth' | 'fixed' | 'renderHeader' | 'sortable' | 'sortMethod' | 'sortBy' | 'sortOrders' | 'resizable' | 'formatter' | 'showOverflowTooltip' | 'headerAlign' | 'labelClassName' | 'selectable' | 'reserveSelection' | 'filters' | 'filterPlacement' | 'filterMultiple' | 'filterMethod' | 'filteredValue' | 'render' | 'rowClassName'>
-    type MapHeaders<T> = (param?: Record<string, ElTableCustom.HandleFunc<T>>) => Array<Partial<ElTableCustom.Headers<T>>>
+    type MapHeaders<T> = (param?: Record<string, HandleFunc<T>>) => Array<Partial<Headers<T>>>
+  }
 }

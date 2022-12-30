@@ -5,6 +5,7 @@ const state = reactive<Service.ArticleListRes & Service.TableDataRes>({
   articleList: [],
   tableList: []
 })
+const refTable = ref<CustomerProps.CustomTable.TableRef>()
 const router = useRouter()
 const headers = reactive(mapHeaders({
   handleClick: ({ row }) => {
@@ -14,6 +15,15 @@ const headers = reactive(mapHeaders({
 const selectionChange = (e: unknown) => {
   console.log(e)
 }
+const toggleSelection = (rows?: Service.ArticleItem[]): void => {
+  if (rows != null) {
+    rows.forEach((row) => {
+      refTable.value?.tableRef?.toggleRowSelection(row, undefined as unknown as boolean)
+    })
+  } else {
+    refTable.value?.tableRef?.clearSelection()
+  }
+}
 const [r, d] = [await GetArticleList(), await GetTableDataList()]
 state.articleList = r.data.articleList
 state.tableList = d.data.tableList
@@ -22,7 +32,9 @@ state.tableList = d.data.tableList
 <template>
   <div>
     <svg-icon name="test"></svg-icon>
-    <CustomTable :data="state.articleList" :headers="headers" @selection-change="selectionChange" />
+    <CustomTable ref="refTable" :data="state.articleList" :headers="headers" @selection-change="selectionChange" />
+    <el-button @click="toggleSelection([state.articleList[1], state.articleList[2]])">Toggle selection status of second and third rows</el-button>
+    <el-button @click="toggleSelection()">Clear selection</el-button>
   </div>
 </template>
 
