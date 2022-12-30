@@ -42,7 +42,7 @@ export default defineComponent({
       state.tableList = d.data.tableList
     })
     return () => {
-      const attributes = {
+      const attributes: CustomerProps.CustomTable.TableProps<Service.ArticleItem> = {
         data: state.articleList,
         ref: refTable,
         headers,

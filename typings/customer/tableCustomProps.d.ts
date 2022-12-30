@@ -40,6 +40,7 @@ declare namespace CustomerProps {
 
     interface TableProps<T> extends TableEvents {
       data: T[]
+      ref?: VNodeRef | undefined
       headers: Array<Partial<Headers<any>>>
       size?: string
       width?: string | number
