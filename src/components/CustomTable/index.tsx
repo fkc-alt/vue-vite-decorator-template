@@ -2,6 +2,12 @@
 import { ElTable, ElTableColumn } from 'element-plus'
 import { handlerEvents } from './utils'
 
+/**
+ * @author kaichao.feng
+ * @param { CustomerProps.CustomTable.TableProps<any> } props
+ * @returns { JSX.Element }
+ * @description ElTable二次封装
+ */
 export default defineComponent({
   setup (_props, ctx) {
     const { headers, ...attributes } = ctx.attrs as unknown as CustomerProps.CustomTable.TableProps<any>
