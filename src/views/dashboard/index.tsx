@@ -1,5 +1,5 @@
 import { GetArticleList, GetTableDataList } from '@/apis'
-import Table from '@/components/Table'
+import CustomTable from '@/components/CustomTable'
 import SvgIcon from '@/components/SvgIcon/index.vue'
 import { mapHeaders } from './tableConfig'
 import './index.scss'
@@ -33,7 +33,7 @@ export default defineComponent({
     return () => (
       <div>
         <SvgIcon { ...{ name: 'test' } } />
-        <Table { ...{ data: state.articleList, headers, rowClassName } } onSelection-change={change} />
+        <CustomTable { ...{ data: state.articleList, headers, rowClassName } } onSelection-change={change} />
       </div>
     )
   }

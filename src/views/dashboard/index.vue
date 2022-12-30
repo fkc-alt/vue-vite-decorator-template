@@ -22,7 +22,7 @@ state.tableList = d.data.tableList
 <template>
   <div>
     <svg-icon name="test"></svg-icon>
-    <Table :data="state.articleList" :headers="headers" @selection-change="selectionChange" />
+    <CustomTable :data="state.articleList" :headers="headers" @selection-change="selectionChange" />
   </div>
 </template>
 
