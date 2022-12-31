@@ -10,18 +10,17 @@ import { handlerEvents } from './utils'
  * @description ElTable二次封装
  */
 export default defineComponent({
-  setup (_props, ctx) {
-    const { headers, ...attributes } = ctx.attrs as unknown as CustomerProps.CustomTable.TableProps<any>
-    console.log(ctx.slots)
+  setup (_props, { attrs, emit, expose, slots }) {
+    const { headers, ...attributes } = attrs as unknown as CustomerProps.CustomTable.TableProps<any>
     Object.assign(attributes, handlerEvents(attributes))
     const tableRef = ref()
-    ctx.expose({ tableRef })
+    expose({ tableRef })
     return () => (
       <ElTable { ...attributes } ref={tableRef}>
         {headers.map(attributes => {
           return <ElTableColumn {...attributes}>
             {{
-              default: ({ row, column, $index }: CustomerProps.CustomTable.Cell) => ctx.slots.default?.({ row, column, $index }) ?? ctx.slots[attributes?.prop as string]?.({ row, column, $index }) ?? attributes?.render?.({
+              default: ({ row, column, $index }: CustomerProps.CustomTable.Cell) => slots.default?.({ row, column, $index }) ?? slots[attributes?.prop as string]?.({ row, column, $index }) ?? attributes?.render?.({
                 row,
                 column,
                 index: $index,

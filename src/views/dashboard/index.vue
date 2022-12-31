@@ -1,6 +1,8 @@
+<!-- eslint-disable @typescript-eslint/no-unused-vars -->
 <script lang="ts" setup>
 import { GetArticleList, GetTableDataList } from '@/apis'
 import { mapHeaders } from './tableConfig'
+type Row = CustomerProps.CustomTable.SlotProp<Service.ArticleItem>
 const state = reactive<Service.ArticleListRes & Service.TableDataRes>({
   articleList: [],
   tableList: []
@@ -33,11 +35,11 @@ state.tableList = d.data.tableList
   <div>
     <svg-icon name="test"></svg-icon>
     <CustomTable ref="refTable" :data="state.articleList" :headers="headers" @selection-change="selectionChange">
-      <template #id="{ row }: CustomerProps.CustomTable.SlotProp<Service.ArticleItem>">
+      <template #id="{ row }: Row">
         <div>id = {{ row.id }}</div>
         <Render />
       </template>
-      <template #title="{ row }: CustomerProps.CustomTable.SlotProp<Service.ArticleItem>">
+      <template #title="{ row }: Row">
         <div>title = {{ row.title }}</div>
       </template>
     </CustomTable>
