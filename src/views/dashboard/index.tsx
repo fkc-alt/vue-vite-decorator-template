@@ -36,7 +36,7 @@ export default defineComponent({
         refTable.value?.tableRef?.clearSelection()
       }
     }
-    const slots: Partial<Record<keyof Service.ArticleItem | 'operation', CustomerProps.CustomTable.SlotFunc<Service.ArticleItem>>> = {
+    const slots: Partial<Record<keyof Service.ArticleItem | 'custom', CustomerProps.CustomTable.SlotFunc<Service.ArticleItem>>> = {
       id: ({ row }) => <div>id = {row.id}</div>
     }
     onMounted(async () => {

@@ -23,7 +23,8 @@ export const mapHeaders: CustomerProps.CustomTable.MapHeaders<Service.ArticleIte
       align: 'center'
     },
     {
-      label: 'Operation',
+      label: 'Custom',
+      prop: 'custom',
       width: '120px',
       render (scope) {
         return (
