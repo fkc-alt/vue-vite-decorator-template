@@ -14,8 +14,8 @@ const headers = reactive(mapHeaders({
     router.push(`/order/detail?id=${row.id}`)
   }
 }))
-const selectionChange = (e: unknown) => {
-  console.log(e)
+const selectionChange = (rows: Service.ArticleItem[]) => {
+  console.log(rows)
 }
 const toggleSelection = (rows?: Service.ArticleItem[]): void => {
   if (rows != null) {

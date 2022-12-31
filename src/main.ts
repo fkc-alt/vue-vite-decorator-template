@@ -16,5 +16,5 @@ const app = createApp(App)
 app.use(pinia).use(router).use(useIcons).use(i18n)
 router.isReady().then(() => {
   app.mount('#app')
-  getAppInfo(_APP_INFO_)
+  AppLogger(_APP_INFO_)
 }).catch(err => console.error(err))

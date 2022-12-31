@@ -3,4 +3,4 @@ declare const _APP_INFO_: {
   lastBuildTime: string
 }
 
-declare const getAppInfo: (_APP_INFO_: _APP_INFO_) => void
+declare const AppLogger: (_APP_INFO_: _APP_INFO_) => void
