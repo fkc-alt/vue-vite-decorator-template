@@ -34,8 +34,8 @@ declare namespace CustomerProps {
       $index: number
     }
 
-    interface Cell extends CI<unknown> {
-      row: Record<string, string>
+    interface Cell extends CI<any> {
+      row: Record<string, any>
     }
 
     interface TableProps<T> extends TableEvents {
