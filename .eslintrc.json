@@ -26,7 +26,7 @@
         "sourceType": "module",
         "parser": "@typescript-eslint/parser",
         "tsconfigRootDir": "./",
-        "project": ["./tsconfig.json", "./tsconfig.node.json", "public/inject.js"],
+        "project": ["./tsconfig.json", "./tsconfig.node.json"],
         "extraFileExtensions": [
             ".vue"
         ],

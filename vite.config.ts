@@ -70,7 +70,7 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
             // 查找.env文件里面的VITE_APP_PROJECT_TITLE，请以VITE_标识开头
             title: VITE_APP_PROJECT_TITLE,
             icon: VITE_APP_PROJECT_ICON,
-            injectScript: '<script src="/inject.js" type="text/javascript"></script>'
+            injectScript: '<script src="/provider/inject.js" type="text/javascript"></script>'
           }
         }
       }),
