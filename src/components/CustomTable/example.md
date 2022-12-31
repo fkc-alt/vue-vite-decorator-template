@@ -5,19 +5,19 @@ import { ElTable, ElTableColumn } from 'element-plus'
 import { handlerEvents } from './utils'
 
 export default function (props: ElTableCustom.TableProps<any>): JSX.Element {
-  const { headers, ...attributes } = props
+  const { headers, slots, ...attributes } = props
   Object.assign(attributes, handlerEvents(attributes))
   return (
     <ElTable { ...attributes }>
       {headers.map(attributes => {
         return <ElTableColumn {...attributes}>
           {{
-            default: ({ row, column, $index }: ElTableCustom.Cell) => attributes?.render?.({
-              row,
-              column,
-              index: $index,
-              cellValue: attributes
-            }) ?? attributes?.formatter?.(row, column, row[attributes?.prop as string], $index) ?? row[attributes?.prop as string]
+            default: ({ row, column, $index }: ElTableCustom.Cell) => slots.default?.({ row, column, $index }) ?? slots[attributes?.prop as string]?.({ row, column, $index }) ?? attributes?.render?.({
+                row,
+                column,
+                index: $index,
+                cellValue: attributes
+              }) ?? attributes?.formatter?.(row, column, row[attributes?.prop as string], $index) ?? row[attributes?.prop as string]
           }}
         </ElTableColumn>
       })}
@@ -33,17 +33,17 @@ import { ElTable, ElTableColumn } from 'element-plus'
 import { handlerEvents } from './utils'
 
 export default defineComponent({
-  setup (_props, ctx) {
-    const { headers, ...attributes } = ctx.attrs as unknown as ElTableCustom.TableProps<any>
+  setup (_props, { attrs, emit, expose, slots }) {
+    const { headers, ...attributes } = attrs as unknown as CustomerProps.CustomTable.TableProps<any>
     Object.assign(attributes, handlerEvents(attributes))
     const tableRef = ref()
-    ctx.expose({ tableRef })
+    expose({ tableRef })
     return () => (
       <ElTable { ...attributes } ref={tableRef}>
         {headers.map(attributes => {
           return <ElTableColumn {...attributes}>
             {{
-              default: ({ row, column, $index }: ElTableCustom.Cell) => attributes?.render?.({
+              default: ({ row, column, $index }: CustomerProps.CustomTable.Cell) => slots.default?.({ row, column, $index }) ?? slots[attributes?.prop as string]?.({ row, column, $index }) ?? attributes?.render?.({
                 row,
                 column,
                 index: $index,
