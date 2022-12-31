@@ -41,7 +41,7 @@ declare namespace CustomerProps {
     interface TableProps<T> extends TableEvents {
       data: T[]
       ref?: VNodeRef | undefined
-      headers: Array<Partial<Headers<any>>>
+      column: Array<Partial<Column<any>>>
       size?: string
       width?: string | number
       height?: string | number
@@ -180,7 +180,7 @@ declare namespace CustomerProps {
       render?: (param: {
         row: T
         column: TableColumnCtx<T>
-        cellValue: Partial<Headers<T>>
+        cellValue: Partial<Column<T>>
         index: number
       }) => JSX.Element
     }
@@ -188,17 +188,17 @@ declare namespace CustomerProps {
     type HandleFunc<T> = ((param: {
       row: T
       column: TableColumnCtx<T>
-      cellValue: Partial<Headers<T>>
+      cellValue: Partial<Column<T>>
       index: number
     }) => any) | undefined
     type HandlerEvents<T = TableEvents> = (methods: T) => T
-    type Headers<T> = Pick<TableColumnCtx<T>, 'id' | 'align' | 'className' | 'type' | 'index' | 'label' | 'columnKey' | 'prop' | 'width' | 'minWidth' | 'fixed' | 'renderHeader' | 'sortable' | 'sortMethod' | 'sortBy' | 'sortOrders' | 'resizable' | 'formatter' | 'showOverflowTooltip' | 'headerAlign' | 'labelClassName' | 'selectable' | 'reserveSelection' | 'filters' | 'filterPlacement' | 'filterMultiple' | 'filterMethod' | 'filteredValue' | 'render' | 'rowClassName'>
+    type Column<T> = Pick<TableColumnCtx<T>, 'id' | 'align' | 'className' | 'type' | 'index' | 'label' | 'columnKey' | 'prop' | 'width' | 'minWidth' | 'fixed' | 'renderHeader' | 'sortable' | 'sortMethod' | 'sortBy' | 'sortOrders' | 'resizable' | 'formatter' | 'showOverflowTooltip' | 'headerAlign' | 'labelClassName' | 'selectable' | 'reserveSelection' | 'filters' | 'filterPlacement' | 'filterMultiple' | 'filterMethod' | 'filteredValue' | 'render' | 'rowClassName'>
     interface SlotProp<T> {
       row: T
       column: TableColumnCtx<T>
       $index: number
     }
     type SlotFunc<T> = ((param: SlotProp<T>) => any) | undefined
-    type MapHeaders<T> = (param?: Record<string, HandleFunc<T>>) => Array<Partial<Headers<T>>>
+    type MapColumn<T> = (param?: Record<string, HandleFunc<T>>) => Array<Partial<Column<T>>>
   }
 }

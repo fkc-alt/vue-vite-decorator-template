@@ -1,7 +1,7 @@
 import { GetArticleList, GetTableDataList } from '@/apis'
 import CustomTable from '@/components/CustomTable'
 import SvgIcon from '@/components/SvgIcon/index.vue'
-import { mapHeaders } from './tableConfig'
+import { mapColumn } from './tableConfig'
 import './index.scss'
 import { ElButton } from 'element-plus'
 
@@ -13,7 +13,7 @@ export default defineComponent({
       articleList: [],
       tableList: []
     })
-    const headers = reactive(mapHeaders({
+    const column = reactive(mapColumn({
       handleClick: ({ row }) => {
         void router.push(`/order/detail?id=${row.id as string}`)
       }
@@ -48,7 +48,7 @@ export default defineComponent({
       const attributes: CustomerProps.CustomTable.TableProps<Service.ArticleItem> = {
         data: state.articleList,
         ref: refTable,
-        headers,
+        column,
         rowClassName,
         'onSelection-change': change
       }

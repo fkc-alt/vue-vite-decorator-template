@@ -11,13 +11,13 @@ import { handlerEvents } from './utils'
  */
 export default defineComponent({
   setup (_props, { attrs, emit, expose, slots }) {
-    const { headers, ...attributes } = attrs as unknown as CustomerProps.CustomTable.TableProps<any>
+    const { column, ...attributes } = attrs as unknown as CustomerProps.CustomTable.TableProps<any>
     Object.assign(attributes, handlerEvents(attributes))
     const tableRef = ref()
     expose({ tableRef })
     return () => (
       <ElTable { ...attributes } ref={tableRef}>
-        {headers.map(attributes => {
+        {column.map(attributes => {
           return <ElTableColumn {...attributes}>
             {{
               default: ({ row, column, $index }: CustomerProps.CustomTable.Cell) => slots.default?.({ row, column, $index }) ?? slots[attributes?.prop as string]?.({ row, column, $index }) ?? attributes?.render?.({

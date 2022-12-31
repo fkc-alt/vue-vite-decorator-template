@@ -1,7 +1,7 @@
 <!-- eslint-disable @typescript-eslint/no-unused-vars -->
 <script lang="ts" setup>
 import { GetArticleList, GetTableDataList } from '@/apis'
-import { mapHeaders } from './tableConfig'
+import { mapColumn } from './tableConfig'
 type Row = CustomerProps.CustomTable.SlotProp<Service.ArticleItem>
 const state = reactive<Service.ArticleListRes & Service.TableDataRes>({
   articleList: [],
@@ -9,7 +9,7 @@ const state = reactive<Service.ArticleListRes & Service.TableDataRes>({
 })
 const refTable = ref<CustomerProps.CustomTable.TableRef>()
 const router = useRouter()
-const headers = reactive(mapHeaders({
+const column = reactive(mapColumn({
   handleClick: ({ row }) => {
     router.push(`/order/detail?id=${row.id}`)
   }
@@ -37,7 +37,7 @@ onActivated(() => {
 <template>
   <div>
     <svg-icon name="test"></svg-icon>
-    <CustomTable ref="refTable" :data="state.articleList" :headers="headers" @selection-change="selectionChange">
+    <CustomTable ref="refTable" :data="state.articleList" :column="column" @selection-change="selectionChange">
       <template #id="{ row }: Row">
         <div>id = {{ row.id }}</div>
         <Render />
