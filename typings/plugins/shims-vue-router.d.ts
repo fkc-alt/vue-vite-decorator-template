@@ -11,6 +11,7 @@ declare module 'vue-router' {
     icon?: string
     roles?: number[]
     alwaysShow?: boolean
+    keepAlive?: boolean
   }
   export interface RouteLocationMatched {
     redirect?: string

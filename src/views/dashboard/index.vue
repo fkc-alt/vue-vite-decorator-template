@@ -29,6 +29,9 @@ const toggleSelection = (rows?: Service.ArticleItem[]): void => {
 const [r, d] = [await GetArticleList(), await GetTableDataList()]
 state.articleList = r.data.articleList
 state.tableList = d.data.tableList
+onActivated(() => {
+  console.log('keep-alive')
+})
 </script>
 
 <template>

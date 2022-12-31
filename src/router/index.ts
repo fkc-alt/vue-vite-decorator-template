@@ -15,7 +15,7 @@ const routes: RouteRecordRaw[] = [
         path: '/dashboard',
         name: 'Dashboard',
         component: async () => await import('@/views/dashboard/index.vue'),
-        meta: { title: 'WORKBENCHMODULE.TITLE', icon: 'Platform' }
+        meta: { title: 'WORKBENCHMODULE.TITLE', icon: 'Platform', keepAlive: true }
       }
     ]
   },

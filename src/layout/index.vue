@@ -115,7 +115,14 @@ const handleTreeRoutes: RoutesFn = (routes) => {
               >
                 <suspense>
                   <template #default>
+                    <keep-alive v-if="route.meta.keepAlive">
+                      <component
+                      :is="Component"
+                      :key="routeRecord.path"
+                    />
+                    </keep-alive>
                     <component
+                      v-else
                       :is="Component"
                       :key="routeRecord.path"
                     />
