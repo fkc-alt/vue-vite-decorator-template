@@ -17,10 +17,10 @@ export default defineComponent({
     /**
      * @warning ***因为.vue文件的template模版使用tsx组件修改时不会热更新，所以此处加上key：随机字符串，便于骗过vite热重载进行render切记勿删！！！，以免挠头发 (T⌓T)
      */
-    Object.assign(attributes, handlerEvents(attributes), { ref: tableRef, key: randomKey() })
+    Object.assign(attributes, handlerEvents(attributes), { ref: tableRef })
     expose({ tableRef })
     return () => (
-      <ElTable { ...attributes }>
+      <ElTable { ...attributes } key={randomKey()}>
         {column.map(attributes => {
           return <ElTableColumn {...attributes}>
             {{
