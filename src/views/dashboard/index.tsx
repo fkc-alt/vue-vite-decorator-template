@@ -39,6 +39,9 @@ export default defineComponent({
     const slots: Partial<Record<keyof Service.ArticleItem | 'custom', CustomerProps.CustomTable.SlotFunc<Service.ArticleItem>>> = {
       id: ({ row }) => <div>id = {row.id}</div>
     }
+    onActivated(() => {
+      console.log('keep-alive')
+    })
     onMounted(async () => {
       const [r, d] = [await GetArticleList(), await GetTableDataList()]
       state.articleList = r.data.articleList
