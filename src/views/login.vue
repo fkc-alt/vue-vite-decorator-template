@@ -77,7 +77,7 @@ onMounted(() => {
 
 <template>
   <div class="login-container">
-    <el-form
+    <ElForm
       ref="ruleFormRef"
       :model="loginForm"
       :rules="formRules"
@@ -94,31 +94,31 @@ onMounted(() => {
         </h3>
       </div>
 
-      <el-form-item
+      <ElFormItem
         :label="$t('LOGIN.FORM.USERNAME')"
         prop="username"
       >
-        <el-input v-model="loginForm.username" />
-      </el-form-item>
-      <el-form-item
+        <ElInput v-model="loginForm.username" />
+      </ElFormItem>
+      <ElFormItem
         :label="$t('LOGIN.FORM.PASSWORD')"
         prop="password"
       >
-        <el-input
+        <ElInput
           v-model="loginForm.password"
           type="password"
         />
-      </el-form-item>
-      <el-form-item>
-        <el-button
+      </ElFormItem>
+      <ElFormItem>
+        <ElButton
           type="primary"
           :loading="loading"
           @click="submit(ruleFormRef)"
         >
           {{ $t("SYSTEM.LOGIN") }}
-        </el-button>
-      </el-form-item>
-    </el-form>
+        </ElButton>
+      </ElFormItem>
+    </ElForm>
   </div>
 </template>
 

@@ -16,8 +16,8 @@ const handleLink = (item: RouteLocationMatched) => {
 </script>
 
 <template>
-  <el-breadcrumb separator="/" class="breadcrumb">
-    <el-breadcrumb-item v-for="(item, index) in breadList" :key="item.path">
+  <ElBreadcrumb separator="/" class="breadcrumb">
+    <ElBreadcrumbItem v-for="(item, index) in breadList" :key="item.path">
       <span
         v-if="item.redirect === route.path || index === breadList.length - 1"
       >
@@ -26,8 +26,8 @@ const handleLink = (item: RouteLocationMatched) => {
       <a v-else @click.prevent="handleLink(item)">{{
         $t(`${item.meta.title}`)
       }}</a>
-    </el-breadcrumb-item>
-  </el-breadcrumb>
+    </ElBreadcrumbItem>
+  </ElBreadcrumb>
 </template>
 
 <style lang="scss" scoped>

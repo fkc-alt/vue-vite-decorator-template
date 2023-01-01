@@ -36,7 +36,7 @@ onActivated(() => {
 
 <template>
   <div>
-    <svg-icon name="test"></svg-icon>
+    <SvgIcon name="test" />
     <CustomTable ref="refTable" :data="state.articleList" :column="column" @selection-change="selectionChange">
       <template #id="{ row }: Row">
         <div>id = {{ row.id }}</div>
@@ -46,8 +46,8 @@ onActivated(() => {
         <div>title = {{ row.title }}</div>
       </template>
     </CustomTable>
-    <el-button @click="toggleSelection([state.articleList[1], state.articleList[2]])">Toggle selection status of second and third rows</el-button>
-    <el-button @click="toggleSelection()">Clear selection</el-button>
+    <ElButton @click="toggleSelection([state.articleList[1], state.articleList[2]])">Toggle selection status of second and third rows</ElButton>
+    <ElButton @click="toggleSelection()">Clear selection</ElButton>
   </div>
 </template>
 

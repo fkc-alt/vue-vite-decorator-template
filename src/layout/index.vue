@@ -54,90 +54,50 @@ const handleTreeRoutes: RoutesFn = (routes) => {
 
 <template>
   <div>
-    <el-container>
-      <div
-        v-if="device === 'mobile' && opened"
-        class="drawer-bg"
-        @click="setOpened(!opened)"
-      />
+    <ElContainer>
+      <div v-if="device === 'mobile' && opened" class="drawer-bg" @click="setOpened(!opened)" />
       <div :class="classObj">
-        <el-menu
-          router
-          mode="vertical"
-          text-color="#bfcbd9"
-          background-color="#304156"
-          active-text-color="#409EFF"
-          :collapse="isCollapse"
-          :unique-opened="true"
-          :collapse-transition="false"
-          :default-active="route.path"
-        >
-          <div
-            class="sidebar-logo-link collapse-logo"
-            @click="router.push('/')"
-          >
-            <img
-              src="/system-dev.svg"
-              class="sidebar-logo"
-            >
-            <h1
-              v-if="!isCollapse"
-              class="sidebar-title"
-            >
+        <ElMenu router mode="vertical" text-color="#bfcbd9" background-color="#304156" active-text-color="#409EFF"
+          :collapse="isCollapse" :unique-opened="true" :collapse-transition="false" :default-active="route.path">
+          <div class="sidebar-logo-link collapse-logo" @click="router.push('/')">
+            <img src="/system-dev.svg" class="sidebar-logo">
+            <h1 v-if="!isCollapse" class="sidebar-title">
               {{ $t("SYSTEM.TITLE") }}
             </h1>
           </div>
 
-          <sidebar-item
-            v-for="routeRecord in routes"
-            :key="routeRecord.path"
-            :item="routeRecord"
-          />
-        </el-menu>
+          <SidebarItem v-for="routeRecord in routes" :key="routeRecord.path" :item="routeRecord" />
+        </ElMenu>
       </div>
 
-      <el-container>
-        <el-header>
-          <Navbar
-            :device="device"
-            :is-collapse="isCollapse"
-            :set-collapse="setCollapse"
-          />
-        </el-header>
-        <el-main>
+      <ElContainer>
+        <ElHeader>
+          <Navbar :device="device" :is-collapse="isCollapse" :set-collapse="setCollapse" />
+        </ElHeader>
+        <ElMain>
           <div>
-            <router-view v-slot="{ Component, route: routeRecord }">
-              <transition
-                key="animation"
-                name="fade"
-                appear
-                mode="out-in"
-              >
-                <suspense>
+            <RouterView v-slot="{ Component, route }">
+              <Transition key="animation" name="fade" appear mode="out-in">
+                <Suspense>
                   <template #default>
-                    <keep-alive v-if="route.meta.keepAlive">
-                      <component
-                      :is="Component"
-                      :key="routeRecord.path"
-                    />
-                    </keep-alive>
-                    <component
-                      v-else
-                      :is="Component"
-                      :key="routeRecord.path"
-                    />
+                    <div>
+                      <keep-alive>
+                        <component v-if="route.meta.keepAlive" :is="Component" :key="route.path" />
+                      </keep-alive>
+                      <component v-if="!route.meta.keepAlive" :is="Component" :key="route.path" />
+                    </div>
                   </template>
                   <template #fallback>
                     Loading...
                   </template>
-                </suspense>
-              </transition>
-            </router-view>
+                </Suspense>
+              </Transition>
+            </RouterView>
           </div>
-        </el-main>
-        <!-- <el-footer>Footer</el-footer> -->
-      </el-container>
-    </el-container>
+        </ElMain>
+        <!-- <ElFooter>Footer</ElFooter> -->
+      </ElContainer>
+    </ElContainer>
   </div>
 </template>
 

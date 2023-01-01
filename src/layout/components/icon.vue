@@ -6,9 +6,9 @@ const route = inject<RouteRecordRaw>('route') || {} as RouteRecordRaw
 
 <template>
   <span>
-    <el-icon v-if="route?.meta?.icon">
+    <ElIcon v-if="route?.meta?.icon">
       <component :is="route.meta.icon" />
-    </el-icon>
+    </ElIcon>
     <span>{{ $t(`${route?.meta?.title}`) }}</span>
   </span>
 </template>

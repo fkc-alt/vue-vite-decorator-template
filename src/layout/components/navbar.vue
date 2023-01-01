@@ -40,55 +40,55 @@ const langChange = (lang: string): void => {
 <template>
   <div class="navbar">
     <div class="navbar-left">
-      <el-icon @click="changeMenu" :size="30">
+      <ElIcon @click="changeMenu" :size="30">
         <IEpExpand v-if="!isCollapse" />
         <IEpFold v-else />
-      </el-icon>
+      </ElIcon>
       <breadcurmb class="bread-curmb" />
     </div>
     <div class="navbar-right">
       <!-- <scroll-full class="scroll-full"></scroll-full> -->
-      <el-dropdown trigger="click" :hide-on-click="false">
+      <ElDropdown trigger="click" :hide-on-click="false">
         <div>
           <img
             src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Finews.gtimg.com%2Fnewsapp_bt%2F0%2F13942804647%2F641&refer=http%3A%2F%2Finews.gtimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1666323743&t=a59b3058eb3d19c2260914dc71f01add"
             class="user-avatar" />
-            <el-icon>
+            <ElIcon>
               <IEpArrowDownBold />
-            </el-icon>
+            </ElIcon>
         </div>
         <template #dropdown>
-          <el-dropdown-menu>
-            <router-link to="/" style="text-decoration: unset">
-              <el-dropdown-item>{{
+          <ElDropdownMenu>
+            <RouterLink to="/" style="text-decoration: unset">
+              <ElDropdownItem>{{
                   $t("WORKBENCHMODULE.TITLE")
-              }}</el-dropdown-item>
-            </router-link>
-            <el-dropdown-item divided>
-              <el-dropdown trigger="click" placement="left-start" @command="langChange">
+              }}</ElDropdownItem>
+            </RouterLink>
+            <ElDropdownItem divided>
+              <ElDropdown trigger="click" placement="left-start" @command="langChange">
                 <span>{{ $t("SYSTEM.LANG")
                 }}<i class="el-icon-arrow-down el-icon--right"></i></span>
                 <template #dropdown>
-                  <el-dropdown-menu>
-                    <el-dropdown-item command="zh">{{
+                  <ElDropdownMenu>
+                    <ElDropdownItem command="zh">{{
                         $t("SYSTEM.ZH")
-                    }}</el-dropdown-item>
-                    <el-dropdown-item divided command="hk">{{
+                    }}</ElDropdownItem>
+                    <ElDropdownItem divided command="hk">{{
                         $t("SYSTEM.HK")
-                    }}</el-dropdown-item>
-                    <el-dropdown-item divided command="en">{{
+                    }}</ElDropdownItem>
+                    <ElDropdownItem divided command="en">{{
                         $t("SYSTEM.EN")
-                    }}</el-dropdown-item>
-                  </el-dropdown-menu>
+                    }}</ElDropdownItem>
+                  </ElDropdownMenu>
                 </template>
-              </el-dropdown>
-            </el-dropdown-item>
-            <el-dropdown-item divided @click="logout">
+              </ElDropdown>
+            </ElDropdownItem>
+            <ElDropdownItem divided @click="logout">
               {{ $t("SYSTEM.LOGOUT") }}
-            </el-dropdown-item>
-          </el-dropdown-menu>
+            </ElDropdownItem>
+          </ElDropdownMenu>
         </template>
-      </el-dropdown>
+      </ElDropdown>
     </div>
   </div>
 </template>

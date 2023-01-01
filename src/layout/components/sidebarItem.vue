@@ -10,7 +10,7 @@ provide('route', item)
 <template>
   <div v-if="!item.hidden">
     <template v-if="item.children && item.children.length">
-      <el-sub-menu :index="item.path" popper-append-to-body>
+      <ElSubMenu :index="item.path" popper-append-to-body>
         <template #title>
           <Icon />
         </template>
@@ -19,12 +19,12 @@ provide('route', item)
           :key="route.path"
           :item="route"
         ></sidebar-item>
-      </el-sub-menu>
+      </ElSubMenu>
     </template>
     <template v-else>
-      <el-menu-item :index="item.path">
+      <ElMenuItem :index="item.path">
         <Icon />
-      </el-menu-item>
+      </ElMenuItem>
     </template>
   </div>
 </template>
