@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ElTable, ElTableColumn } from 'element-plus'
+import { randomKey } from '@/utils'
 import { handlerEvents } from './utils'
 
 /**
@@ -12,11 +13,14 @@ import { handlerEvents } from './utils'
 export default defineComponent({
   setup (_props, { attrs, emit, expose, slots }) {
     const { column, ...attributes } = attrs as unknown as CustomerProps.CustomTable.TableProps<any>
-    Object.assign(attributes, handlerEvents(attributes))
     const tableRef = ref()
+    /**
+     * @warning ***因为.vue文件的template模版使用tsx组件修改时不会热更新，所以此处加上key：随机字符串，便于骗过vite热重载进行render切记勿删！！！，以免挠头发 (T⌓T)
+     */
+    Object.assign(attributes, handlerEvents(attributes), { ref: tableRef, key: randomKey() })
     expose({ tableRef })
     return () => (
-      <ElTable { ...attributes } ref={tableRef}>
+      <ElTable { ...attributes }>
         {column.map(attributes => {
           return <ElTableColumn {...attributes}>
             {{
