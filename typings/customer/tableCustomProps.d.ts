@@ -181,7 +181,7 @@ declare namespace CustomerProps {
         row: T
         column: TableColumnCtx<T>
         cellValue: Partial<Column<T>>
-        index: number
+        $index: number
       }) => JSX.Element
     }
 
@@ -189,7 +189,7 @@ declare namespace CustomerProps {
       row: T
       column: TableColumnCtx<T>
       cellValue: Partial<Column<T>>
-      index: number
+      $index: number
     }) => any) | undefined
     type HandlerEvents<T = TableEvents> = (methods: T) => T
     type Column<T> = Pick<TableColumnCtx<T>, 'id' | 'align' | 'className' | 'type' | 'index' | 'label' | 'columnKey' | 'prop' | 'width' | 'minWidth' | 'fixed' | 'renderHeader' | 'sortable' | 'sortMethod' | 'sortBy' | 'sortOrders' | 'resizable' | 'formatter' | 'showOverflowTooltip' | 'headerAlign' | 'labelClassName' | 'selectable' | 'reserveSelection' | 'filters' | 'filterPlacement' | 'filterMultiple' | 'filterMethod' | 'filteredValue' | 'render' | 'rowClassName'>

@@ -27,7 +27,7 @@ export default defineComponent({
               default: ({ row, column, $index }: CustomerProps.CustomTable.Cell) => slots.default?.({ row, column, $index }) ?? slots[attributes?.prop as string]?.({ row, column, $index }) ?? attributes?.render?.({
                 row,
                 column,
-                index: $index,
+                $index,
                 cellValue: attributes
               }) ?? attributes?.formatter?.(row, column, row[attributes?.prop as string], $index) ?? row[attributes?.prop as string]
             }}
