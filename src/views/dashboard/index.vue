@@ -3,20 +3,32 @@
 import { GetArticleList, GetTableDataList } from '@/apis'
 import { mapColumn } from './tableConfig'
 type Row = CustomerProps.CustomTable.SlotProp<Service.ArticleItem>
+
 const state = reactive<Service.ArticleListRes & Service.TableDataRes>({
   articleList: [],
   tableList: []
 })
 const refTable = ref<CustomerProps.CustomTable.TableRef>()
 const router = useRouter()
-const column = reactive(mapColumn({
-  handleClick: ({ row }) => {
-    router.push(`/order/detail?id=${row.id}`)
+const loading = ref(false)
+const tableProps = computed<CustomerProps.CustomTable.TableProps<Service.ArticleItem>>(() => ({
+  data: state.articleList,
+  column: mapColumn({
+    handleClick: ({ row }) => {
+      router.push(`/order/detail?id=${row.id}`)
+    }
+  }),
+  border: false,
+  rowClassName: ({ rowIndex }) => {
+    return ({
+      1: 'warning-row',
+      3: 'success-row'
+    }[rowIndex] ?? '')
+  },
+  'onSelection-change': (rows: Service.ArticleItem[]) => {
+    console.log(rows)
   }
 }))
-const selectionChange = (rows: Service.ArticleItem[]) => {
-  console.log(rows)
-}
 const toggleSelection = (rows?: Service.ArticleItem[]): void => {
   if (rows != null) {
     rows.forEach((row) => {
@@ -26,18 +38,23 @@ const toggleSelection = (rows?: Service.ArticleItem[]): void => {
     refTable.value?.tableRef?.clearSelection()
   }
 }
-const [r, d] = [await GetArticleList(), await GetTableDataList()]
-state.articleList = r.data.articleList
-state.tableList = d.data.tableList
+const init = async () => {
+  loading.value = true
+  const [r, d] = [await GetArticleList(), await GetTableDataList()]
+  state.articleList = r.data.articleList
+  state.tableList = d.data.tableList
+  loading.value = false
+}
 onActivated(() => {
   console.log('keep-alive')
 })
+init()
 </script>
 
 <template>
   <div>
     <SvgIcon name="test" />
-    <CustomTable ref="refTable" :data="state.articleList" :column="column" @selection-change="selectionChange">
+    <CustomTable ref="refTable" v-bind="tableProps" v-loading="loading">
       <template #id="{ row }: Row">
         <div>id = {{ row.id }}</div>
         <Render />
@@ -52,7 +69,14 @@ onActivated(() => {
 </template>
 
 <style lang="scss" scoped>
+@import "./index.scss";
 :deep(.btn) {
   font-size: 14px;
+}
+:deep(.el-table .warning-row) {
+  background: #fdf6ec !important;
+}
+:deep(.el-table .success-row) {
+  background: #f0f9eb !important;
 }
 </style>

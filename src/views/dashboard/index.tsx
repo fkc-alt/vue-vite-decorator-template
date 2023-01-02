@@ -13,20 +13,24 @@ export default defineComponent({
       articleList: [],
       tableList: []
     })
-    const column = reactive(mapColumn({
-      handleClick: ({ row }) => {
-        void router.push(`/order/detail?id=${row.id as string}`)
+    const tableProps = computed<CustomerProps.CustomTable.TableProps<Service.ArticleItem>>(() => ({
+      data: state.articleList,
+      column: mapColumn({
+        handleClick: ({ row }) => {
+          void router.push(`/order/detail?id=${row.id}`)
+        }
+      }),
+      border: false,
+      rowClassName: ({ rowIndex }) => {
+        return ({
+          1: 'warning-row',
+          3: 'success-row'
+        }[rowIndex] ?? '')
+      },
+      'onSelection-change': (rows: Service.ArticleItem[]) => {
+        console.log(rows)
       }
     }))
-    const change = (e: unknown): void => {
-      console.log(e)
-    }
-    const rowClassName: CustomerProps.CustomTable.ColumnCls<Service.ArticleItem> = ({ rowIndex }) => {
-      return ({
-        1: 'warning-row',
-        3: 'success-row'
-      }[rowIndex] ?? '')
-    }
     const toggleSelection = (rows?: Service.ArticleItem[]): void => {
       if (rows != null) {
         rows.forEach((row) => {
@@ -48,18 +52,11 @@ export default defineComponent({
       state.tableList = d.data.tableList
     })
     return () => {
-      const attributes: CustomerProps.CustomTable.TableProps<Service.ArticleItem> = {
-        data: state.articleList,
-        ref: refTable,
-        column,
-        rowClassName,
-        'onSelection-change': change
-      }
       const svgIconProps = { name: 'test' }
       return (
         <div>
           <SvgIcon { ...svgIconProps } />
-          <CustomTable { ...attributes } v-slots={ slots } />
+          <CustomTable { ...tableProps.value } v-slots={ slots } ref={refTable} />
           <ElButton onClick={() => toggleSelection([state.articleList[1], state.articleList[2]])}>Toggle selection status of second and third rows</ElButton>
         </div>
       )
