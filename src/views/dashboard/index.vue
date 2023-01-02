@@ -69,7 +69,6 @@ init()
 </template>
 
 <style lang="scss" scoped>
-@import "./index.scss";
 :deep(.btn) {
   font-size: 14px;
 }
