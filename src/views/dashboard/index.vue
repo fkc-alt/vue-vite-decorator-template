@@ -14,7 +14,8 @@ const loading = ref(false)
 const tableProps = computed<CustomerProps.CustomTable.TableProps<Service.ArticleItem>>(() => ({
   data: state.articleList,
   column: mapColumn({
-    handleClick: ({ row }) => {
+    handleClick ({ row }, event) {
+      event.stopPropagation()
       router.push(`/order/detail?id=${row.id}`)
     }
   }),

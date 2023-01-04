@@ -31,7 +31,7 @@ export const mapColumn: CustomerProps.CustomTable.MapColumn<Service.ArticleItem>
           <ElButton
             type="primary"
             link
-            onClick={() => param?.handleClick?.(scope)}
+            onClick={(e) => param?.handleClick?.(scope, e)}
             class="btn"
           >
             Render

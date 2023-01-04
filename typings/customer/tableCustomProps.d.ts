@@ -190,7 +190,7 @@ declare namespace CustomerProps {
       column: TableColumnCtx<T>
       cellValue: Partial<Column<T>>
       $index: number
-    }) => any) | undefined
+    }, event: Event) => any) | undefined
     type HandlerEvents<T = TableEvents> = (methods: T) => T
     type Column<T> = Pick<TableColumnCtx<T>, 'id' | 'align' | 'className' | 'type' | 'index' | 'label' | 'columnKey' | 'prop' | 'width' | 'minWidth' | 'fixed' | 'renderHeader' | 'sortable' | 'sortMethod' | 'sortBy' | 'sortOrders' | 'resizable' | 'formatter' | 'showOverflowTooltip' | 'headerAlign' | 'labelClassName' | 'selectable' | 'reserveSelection' | 'filters' | 'filterPlacement' | 'filterMultiple' | 'filterMethod' | 'filteredValue' | 'render' | 'rowClassName'>
     interface SlotProp<T> {

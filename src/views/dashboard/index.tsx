@@ -16,18 +16,19 @@ export default defineComponent({
     const tableProps = computed<CustomerProps.CustomTable.TableProps<Service.ArticleItem>>(() => ({
       data: state.articleList,
       column: mapColumn({
-        handleClick: ({ row }) => {
+        handleClick ({ row }, event) {
+          event.stopPropagation()
           void router.push(`/order/detail?id=${row.id}`)
         }
       }),
       border: false,
-      rowClassName: ({ rowIndex }) => {
+      rowClassName ({ rowIndex }) {
         return ({
           1: 'warning-row',
           3: 'success-row'
         }[rowIndex] ?? '')
       },
-      'onSelection-change': (rows: Service.ArticleItem[]) => {
+      onSelectionChange (rows: Service.ArticleItem[]) {
         console.log(rows)
       }
     }))
