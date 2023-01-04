@@ -12,7 +12,7 @@ import { handlerEvents } from './utils'
  */
 export default defineComponent({
   /**
-   * @description 该参数并不在ElTable的props中定义，如果使用attrs的话,所以会绑定到根元素上.此处定义props是为了防止此原因
+   * @description 该参数并不在ElTable的props中定义，如果使用attrs的话,会绑定到根元素上.此处定义props是为了防止此原因
    */
   props: {
     column: Array<Partial<CustomerProps.CustomTable.Column<any>>>
@@ -24,7 +24,7 @@ export default defineComponent({
     /**
      * @warning ***因为.vue文件的template模版使用tsx组件修改时不会热更新，所以此处加上key：随机字符串，便于骗过vite热重载进行render切记勿删！！！，以免挠头发 (T⌓T)
      */
-    Object.assign(attributes, handlerEvents(attributes), { ref: tableRef })
+    Object.assign(handlerEvents(attributes), { ref: tableRef })
     expose({ tableRef })
     return () => (
       <ElTable { ...attributes } key={randomKey()}>
