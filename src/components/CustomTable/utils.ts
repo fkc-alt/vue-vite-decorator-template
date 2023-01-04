@@ -1,23 +1,31 @@
 export const handlerEvents: CustomerProps.CustomTable.HandlerEvents = methods => {
-  const mapEvents = {
-    onSelect: methods.onSelect,
-    'onExpand-change': methods.onExpandChange ?? methods['onExpand-change'],
-    'onCurrent-change': methods.onCurrentChange ?? methods['onCurrent-change'],
-    'onSelect-all': methods.onSelectAll ?? methods['onSelect-all'],
-    'onSelection-change': methods.onSelectionChange ?? methods['onSelection-change'],
-    'onCell-mouse-enter': methods.onCellMouseEnter ?? methods['onCell-mouse-enter'],
-    'onCell-mouse-leave': methods.onCellMouseLeave ?? methods['onCell-mouse-leave'],
-    'onCell-contextmenu': methods.onCellContextmenu ?? methods['onCell-contextmenu'],
-    'onCell-click': methods.onCellClick ?? methods['onCell-click'],
-    'onCell-dblclick': methods.onCellDblclick ?? methods['onCell-dblclick'],
-    'onRow-click': methods.onRowClick ?? methods['onRow-click'],
-    'onRow-contextmenu': methods.onRowContextmenu ?? methods['onRow-contextmenu'],
-    'onRow-dblclick': methods.onRowDblclick ?? methods['onRow-dblclick'],
-    'onHeader-click': methods.onHeaderClick ?? methods['onHeader-click'],
-    'onHeader-contextmenu': methods.onHeaderContextmenu ?? methods['onHeader-contextmenu'],
-    'onSort-change': methods.onSortChange ?? methods['onSort-change'],
-    'onFilter-change': methods.onFilterChange ?? methods['onFilter-change'],
-    'onHeader-dragend': methods.onHeaderDragend ?? methods['onHeader-dragend']
+  type MapEventKeys = keyof(typeof mapEventKeys)
+  const mapEventKeys = {
+    onExpandChange: 'onExpand-change',
+    onCurrentChange: 'onCurrent-change',
+    onSelectAll: 'onSelect-all',
+    onSelectionChange: 'onSelection-change',
+    onCellMouseEnter: 'onCell-mouse-enter',
+    onCellMouseLeave: 'onCell-mouse-leave',
+    onCellContextmenu: 'onCell-contextmenu',
+    onCellClick: 'onCell-click',
+    onCellDblclick: 'onCell-dblclick',
+    onRowClick: 'onRow-click',
+    onRowContextmenu: 'onRow-contextmenu',
+    onRowDblclick: 'onRow-dblclick',
+    onHeaderClick: 'onHeader-click',
+    onHeaderContextmenu: 'onHeader-contextmenu',
+    onSortChange: 'onSort-change',
+    onFilterChange: 'onFilter-change',
+    onHeaderDragend: 'onHeader-dragend'
   }
-  return (Object.keys(mapEvents) as unknown as Array<keyof(typeof mapEvents)>).filter(key => mapEvents[key]).reduce((prev, key) => ({ ...prev, [key]: mapEvents[key] }), {})
+  for (const key in methods) {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+    if (mapEventKeys[key as MapEventKeys]) {
+      methods[mapEventKeys[key as MapEventKeys] as MapEventKeys] = methods[key as MapEventKeys]
+      // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+      delete methods[key as MapEventKeys]
+    }
+  }
+  return methods
 }

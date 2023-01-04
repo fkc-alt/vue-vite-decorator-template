@@ -19,14 +19,17 @@ const tableProps = computed<CustomerProps.CustomTable.TableProps<Service.Article
     }
   }),
   border: false,
-  rowClassName: ({ rowIndex }) => {
+  rowClassName ({ rowIndex }) {
     return ({
       1: 'warning-row',
       3: 'success-row'
     }[rowIndex] ?? '')
   },
-  'onSelection-change': (rows: Service.ArticleItem[]) => {
+  onSelectionChange (rows: Service.ArticleItem[]) {
     console.log(rows)
+  },
+  onRowClick () {
+    console.log('onRowClick')
   }
 }))
 const toggleSelection = (rows?: Service.ArticleItem[]): void => {
