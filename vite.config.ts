@@ -5,7 +5,7 @@ import { terser as Tenser } from 'rollup-plugin-terser'
 import EslintPlugin from 'vite-plugin-eslint'
 import Checker from 'vite-plugin-checker'
 import Vue from '@vitejs/plugin-vue'
-import vueJsx from '@vitejs/plugin-vue-jsx'
+import VueJsx from '@vitejs/plugin-vue-jsx'
 import ElementPlus from 'unplugin-element-plus/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
@@ -47,7 +47,7 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
   return defineConfig({
     plugins: [
       Vue(),
-      vueJsx(),
+      VueJsx(),
       Tenser(),
       DefineOptions(),
       CreateSvgIconsPlugin({
@@ -99,7 +99,7 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
         dts: 'typings/components.d.ts',
         extensions: ['vue', 'tsx'],
         deep: true,
-        dirs: ['src/components'], // 配置需要默认导入的自定义组件文件夹，该文件夹下的所有组件都会自动 import
+        dirs: ['src/components'], // configure default customer components file, file all components auto import
         resolvers: [ElementPlusResolver(), IconResolver()]
       }),
       AutoImport({
