@@ -53,8 +53,8 @@ const submit = async (formEl: FormInstance | undefined) => {
   await formEl.validate((valid, fields) => {
     if (valid) {
       Login(loginForm)
-        .then((res) => {
-          setData({ token: res.data.token, roleIdList: res.data.roles })
+        .then(({ data: { token, roles: roleIdList } }) => {
+          setData({ token, roleIdList })
           const redirect = (route.query &&
             route.query.redirect) as RouteLocationRaw
           ElMessage.success(proxy?.$t('SYSTEM.LOGINMESSAGE'))

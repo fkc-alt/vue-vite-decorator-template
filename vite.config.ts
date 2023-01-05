@@ -39,7 +39,6 @@ const _APP_INFO_ = {
     return `${year}/${month}/${day} ${date.toLocaleTimeString([], { hourCycle: 'h24' })}`
   })(new Date())
 }
-
 // https://vitejs.dev/config/
 export default ({ mode, command }: ConfigEnv): UserConfigExport => {
   const { VITE_APP_BASE_URL, VITE_APP_BASE_API, VITE_APP_MOCK, VITE_APP_PROJECT_ICON, VITE_APP_PROJECT_TITLE } = loadEnv(mode, process.cwd())
@@ -69,8 +68,8 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
           data: {
             // 查找.env文件里面的VITE_APP_PROJECT_TITLE，请以VITE_标识开头
             title: VITE_APP_PROJECT_TITLE,
-            icon: VITE_APP_PROJECT_ICON,
-            injectScript: '<script src="/provider/inject.js" type="text/javascript"></script>'
+            icon: VITE_APP_PROJECT_ICON
+            // injectScript: '<script src="/provider/inject.js" type="text/javascript"></script>'
           }
         }
       }),
