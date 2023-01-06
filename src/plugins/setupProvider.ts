@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 const modulesFiles = import.meta.glob('/src/provider/*.ts', { eager: true }) as unknown as CostomProvider.Provider
 
 const convertSymbolToNormalStr = (obj: Pick<CostomProvider.Provider, 'inject' | 'test'>): Partial<CostomProvider.Provider> => {
@@ -10,6 +8,7 @@ const convertSymbolToNormalStr = (obj: Pick<CostomProvider.Provider, 'inject' | 
     return total
   }, {})
 }
+
 const provider = Object.keys(modulesFiles).reduce((modules, modulePath) => {
   const moduleName = modulePath.replace(/^\/src\/provider\/(.*)\.\w+$/, '$1')
   const scope = { [moduleName]: convertSymbolToNormalStr(modulesFiles[modulePath]) }
