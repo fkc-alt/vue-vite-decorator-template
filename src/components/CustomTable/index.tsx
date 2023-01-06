@@ -20,7 +20,7 @@ export default defineComponent({
   setup (props, { attrs, emit, expose, slots }) {
     const { column } = toRefs(props)
     const { ...attributes } = attrs as unknown as CustomerProps.CustomTable.TableProps<any>
-    const tableRef = ref()
+    const tableRef = ref<InstanceType<typeof import('element-plus').ElTable>>()
     /**
      * @warning ***因为.vue文件的template模版使用tsx组件修改时不会热更新，所以此处加上key：随机字符串，便于骗过vite热重载进行render切记勿删！！！，以免挠头发 (T⌓T)
      */
