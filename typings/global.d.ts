@@ -7,7 +7,7 @@ declare namespace CostomProvider {
     test: {
       default: () => void
     }
-    [key: string | keyof(Provider)]
+    [key: string | keyof Provider]
   }
   interface _APP_INFO_ {
     pkg: Pick<typeof import('package.json'), 'name' | 'version' | 'dependencies' | 'devDependencies'>

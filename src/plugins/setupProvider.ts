@@ -10,10 +10,14 @@ const convertSymbolToNormalStr = (obj: Pick<CostomProvider.Provider, 'inject' | 
     return total
   }, {})
 }
-const modules = Object.keys(modulesFiles).reduce((modules, modulePath) => {
+const provider = Object.keys(modulesFiles).reduce((modules, modulePath) => {
   const moduleName = modulePath.replace(/^\/src\/provider\/(.*)\.\w+$/, '$1')
   const scope = { [moduleName]: convertSymbolToNormalStr(modulesFiles[modulePath]) }
   return Object.assign(modules, scope)
 }, {}) as CostomProvider.Provider
 
-export default modules
+export const setupProvider = (): void => {
+  window.provider = provider
+}
+
+export default provider
