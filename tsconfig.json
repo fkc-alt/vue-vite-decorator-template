@@ -45,11 +45,12 @@
   },
   "include": [
     "provider/*.ts",
-    "plugins/*.ts",
     "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
+    "typings/*.ts",
+    "typings/*.d.ts",
     "typings/**/*.ts",
     "typings/**/*.d.ts",
     "mock/**/*.ts",

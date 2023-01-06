@@ -26,7 +26,6 @@ import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
 
 import ViteCompression from 'vite-plugin-compression'
 import { viteMockServe as ViteMockServe } from 'vite-plugin-mock'
-import FullImportPlugin from './plugins/fullImportPlugin'
 import pkg from './package.json'
 
 const { dependencies, devDependencies, name, version } = pkg
@@ -93,7 +92,7 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
         include: resolve(__dirname, './src/locales/**')
       }),
       Icons({ scale: 1, defaultClass: 'inline-block', autoInstall: true }),
-      hasMode ? FullImportPlugin() : ElementPlus({ useSource: true }),
+      ElementPlus({ useSource: true }),
       Components({
         dts: 'typings/components.d.ts',
         extensions: ['vue', 'tsx'],
