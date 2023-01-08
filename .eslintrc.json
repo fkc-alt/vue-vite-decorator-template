@@ -11,7 +11,7 @@
         "Service": "readonly",
         "Services": "readonly",
         "CustomerProps": "readonly",
-        "AppLogger": "readonly",
+        "provider": "readonly",
         "_APP_INFO_": "readonly"
     },
     "extends": [
