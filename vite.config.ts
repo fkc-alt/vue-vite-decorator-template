@@ -98,7 +98,10 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
         extensions: ['vue', 'tsx'],
         deep: true,
         dirs: ['src/components'], // configure default customer components file, file all components auto import
-        resolvers: [ElementPlusResolver(), IconResolver()]
+        resolvers: [ElementPlusResolver(), IconResolver()],
+        importPathTransform (str) {
+          return /(.tsx)$/g.test(str) ? str.slice(0, -4) : str
+        }
       }),
       AutoImport({
         dts: 'typings/auto-imports.d.ts',
