@@ -1,21 +1,17 @@
 <script lang="ts" setup>
-import type { RouteRecordRaw } from 'vue-router'
-import { getRoleIdList } from '@/utils'
+import { useUserStore } from '@/store/user'
 import Navbar from './components/navbar.vue'
 import SidebarItem from './components/sidebarItem.vue'
 import useResizeHandler from './hooks/ResizeHandler'
 
-type RoutesFn = (routes: RouteRecordRaw[]) => RouteRecordRaw[]
-const [route, router, roles] = [useRoute(), useRouter(), ref(getRoleIdList())]
-const { device, opened, isCollapse, setOpened, setCollapse } =
-  useResizeHandler()
+const user = useUserStore()
+const { roleIdList, routes } = storeToRefs(user)
+const { changeRoutes } = user
+const [route, router] = [useRoute(), useRouter()]
+const { device, opened, isCollapse, setOpened, setCollapse } = useResizeHandler()
 
-const routes = computed(() => {
-  const routes = router.options.routes.filter(
-    (v) => v.path !== '/login' && !v.hidden
-  )
-  return handleTreeRoutes(handleMapRoutes(routes))
-})
+watch([roleIdList], () => changeRoutes(router), { immediate: true })
+
 const classObj = computed(() => {
   return {
     'el-menu': true,
@@ -25,31 +21,6 @@ const classObj = computed(() => {
     'fixed-menu': device.value === 'mobile' && opened.value
   }
 })
-
-const handleMapRoutes: RoutesFn = (routes) => {
-  return routes.map((v) => {
-    if (v?.children?.length === 1 && v?.meta?.alwaysShow) {
-      v = v.children[0]
-    }
-    if (v?.children && v?.children.length > 1) {
-      v.children = handleMapRoutes(v.children)
-    }
-    return v
-  })
-}
-const handleTreeRoutes: RoutesFn = (routes) => {
-  return routes.filter((v) => {
-    if (v.meta?.roles?.length) {
-      return v.meta.roles.some((o) => roles.value.includes(o))
-    }
-    if (v?.children?.length) {
-      v.children = handleTreeRoutes(v.children)
-      return !!v.children?.length && !v.children.every((o) => o.hidden)
-    }
-    if (!v.meta?.roles || !v.meta?.roles.length) return true
-    return false
-  })
-}
 </script>
 
 <template>

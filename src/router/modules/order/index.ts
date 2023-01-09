@@ -27,7 +27,8 @@ const route: RouteRecordRaw[] = [
         component: async () => await import('@/views/order/voidOrder.vue'),
         meta: {
           title: 'ORDERMODULE.VOIDORDER.TITLE',
-          icon: 'Tickets'
+          icon: 'Tickets',
+          roles: [Enums.Roles.OP]
         }
       },
       {

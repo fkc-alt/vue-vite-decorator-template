@@ -2,6 +2,7 @@
 import type { ComponentInternalInstance } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
 import { FormInstance, FormRules, ElMessage } from 'element-plus'
+import { useUserStore } from '@/store/user'
 import { Login } from '@/apis'
 import { setData } from '@/utils'
 // Look Vue Prototype property
@@ -10,6 +11,8 @@ const [{ proxy }, MODE] = [
   import.meta.env.MODE === 'dev'
 ]
 const [router, route] = [useRouter(), useRoute()]
+const user = useUserStore()
+const { save } = user
 const [loading, ruleFormRef, myRef] = [
   ref<boolean>(false),
   ref<FormInstance>(),
@@ -54,6 +57,7 @@ const submit = async (formEl: FormInstance | undefined) => {
     if (valid) {
       Login(loginForm)
         .then(({ data: { token, roles: roleIdList } }) => {
+          save({ userInfo: 'Test', token, roleIdList })
           setData({ token, roleIdList })
           const redirect = (route.query &&
             route.query.redirect) as RouteLocationRaw
