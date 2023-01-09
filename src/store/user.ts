@@ -4,7 +4,7 @@ import { Router, RouteRecordRaw } from 'vue-router'
 import { getRoleIdList } from '@/utils'
 
 export const useUserStore = defineStore('user', {
-  state (): Common.StroageType & { routes: RouteRecordRaw[] } {
+  state (): Common.StroageType {
     return {
       userInfo: '',
       token: '',

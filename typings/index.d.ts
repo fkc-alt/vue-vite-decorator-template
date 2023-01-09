@@ -4,5 +4,6 @@ declare namespace Common {
     userInfo?: string
     token?: string
     roleIdList?: number[]
+    routes?: Array<import('vue-router').RouteRecordRaw>
   }
 }
