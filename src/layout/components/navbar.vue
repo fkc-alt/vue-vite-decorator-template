@@ -4,6 +4,7 @@ import { ElMessage } from 'element-plus'
 import { removeStorage, setLang } from '@/utils'
 import Breadcurmb from './breadcurmb.vue'
 
+const PROJECTICON = inject<string>('PROJECTICON')
 const Props = defineProps<{
   isCollapse: boolean;
   device: string;
@@ -51,7 +52,7 @@ const langChange = (lang: string): void => {
       <ElDropdown trigger="click" :hide-on-click="false">
         <div>
           <img
-            src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Finews.gtimg.com%2Fnewsapp_bt%2F0%2F13942804647%2F641&refer=http%3A%2F%2Finews.gtimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1666323743&t=a59b3058eb3d19c2260914dc71f01add"
+            :src="PROJECTICON"
             class="user-avatar" />
             <ElIcon>
               <IEpArrowDownBold />
@@ -132,8 +133,8 @@ const langChange = (lang: string): void => {
 
   .user-avatar {
     cursor: pointer;
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     border-radius: 10px;
   }
 }

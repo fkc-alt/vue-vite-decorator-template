@@ -16,7 +16,7 @@ export const useUserStore = defineStore('user', {
     save (userInfo: Common.StroageType) {
       Object.assign(this, userInfo)
     },
-    changeRoutes (router: Router) {
+    generateRoutes (router: Router) {
       const cloneRouter: Router = JSON.parse(JSON.stringify(router))
       const routes = cloneRouter.options.routes.filter(
         (v) => v.path !== '/login' && !v.hidden
