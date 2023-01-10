@@ -11,7 +11,7 @@ const [route, router] = [useRoute(), useRouter()]
 const { device, opened, isCollapse, setOpened, setCollapse } = useResizeHandler()
 
 watch([roleIdList], () => changeRoutes(router), { immediate: true })
-
+const PROJECTICON = import.meta.env.VITE_APP_PROJECT_ICON
 const classObj = computed(() => {
   return {
     'el-menu': true,
@@ -21,6 +21,7 @@ const classObj = computed(() => {
     'fixed-menu': device.value === 'mobile' && opened.value
   }
 })
+provide('PROJECTICON', PROJECTICON)
 </script>
 
 <template>
@@ -31,7 +32,7 @@ const classObj = computed(() => {
         <ElMenu router mode="vertical" text-color="#bfcbd9" background-color="#304156" active-text-color="#409EFF"
           :collapse="isCollapse" :unique-opened="true" :collapse-transition="false" :default-active="route.path">
           <div class="sidebar-logo-link collapse-logo" @click="router.push('/')">
-            <img src="/system-dev.svg" class="sidebar-logo">
+            <img :src="PROJECTICON" class="sidebar-logo">
             <h1 v-if="!isCollapse" class="sidebar-title">
               {{ $t("SYSTEM.TITLE") }}
             </h1>
