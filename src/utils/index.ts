@@ -32,8 +32,10 @@ export const randomKey = (): string => Math.random().toString(16).slice(2, 8)
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type, no-eval
 export const mapKeys = <T extends Record<string, any>>(obj: T, keyMap: T): T => JSON.parse(JSON.stringify(obj).replace(new RegExp(eval(`/(${Object.keys(obj).join('|')})/gi`)), ($0) => keyMap[$0]))
 
-export const deepClone = <T extends Record<string, any>>(obj: T, cb: (obj: T) => void): void => {
-  const { port1, port2 } = new MessageChannel()
-  port1.postMessage(obj)
-  port2.onmessage = ({ data }) => cb(data)
+export const deepClone = async <T extends Record<string, any>>(obj: T): Promise<T> => {
+  return await new Promise(resolve => {
+    const { port1, port2 } = new MessageChannel()
+    port1.postMessage(obj)
+    port2.onmessage = ({ data }) => resolve(data)
+  })
 }
