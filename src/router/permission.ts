@@ -1,4 +1,4 @@
-import type { RouteLocationNormalized } from 'vue-router'
+import type { NavigationGuardNext, RouteLocationNormalized } from 'vue-router'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import router from '@/router'
@@ -11,25 +11,25 @@ import { getToken, getRoleIdList, removeStorage } from '@/utils'
  */
 const rolesMap = (): number[] => getRoleIdList()
 
-function checkRoutes (to: RouteLocationNormalized, form: RouteLocationNormalized, next: unknown): void {
-  const roles: number[] = to.meta.roles ?? []
-  if ((roles == null) || ((roles?.length) === 0)) {
-    (next as () => void)()
+function checkRoutes (to: RouteLocationNormalized, form: RouteLocationNormalized, next: NavigationGuardNext): void {
+  const roles = to.meta.roles ?? []
+  if (!roles?.length) {
+    next()
   } else {
-    roles.some((o: number) => rolesMap().includes(o)) ? (next as () => void)() : (next as (navigate: unknown) => void)(form.path)
+    roles.some((o: number) => rolesMap().includes(o)) ? next() : next(form.path)
   }
 }
 
-router.beforeEach((to: RouteLocationNormalized, form: RouteLocationNormalized, next: unknown) => {
+router.beforeEach((to, form, next) => {
   NProgress.start()
-  if (to.matched.length === 0) {
-    (next as (navigate: unknown) => void)({ replace: true, path: '/error' })
+  if (!to.matched.length) {
+    next({ replace: true, path: '/error' })
     return
   }
-  if (getToken().length > 0) {
-    to.path === '/login' ? (next as (navigate: unknown) => void)('/') : checkRoutes(to, form, next)
+  if (getToken()) {
+    to.path === '/login' ? next('/') : checkRoutes(to, form, next)
   } else {
-    to.path === '/login' ? (next as () => void)() : (removeStorage('token', 'roleIdList') && (next as (navigate: unknown) => void)('/login'))
+    to.path === '/login' ? next() : (removeStorage('token', 'roleIdList') && next('/login'))
   }
   NProgress.done()
 })
