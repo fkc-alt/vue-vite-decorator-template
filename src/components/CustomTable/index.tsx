@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ElTable, ElTableColumn } from 'element-plus'
 import { randomKey } from '@/utils'
 import { handlerEvents } from './utils'

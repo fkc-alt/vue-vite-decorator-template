@@ -28,7 +28,6 @@ export default function (props: ElTableCustom.TableProps<any>): JSX.Element {
 
 ### Vue3版本
 ```
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ElTable, ElTableColumn } from 'element-plus'
 import { handlerEvents } from './utils'
 

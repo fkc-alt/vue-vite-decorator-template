@@ -28,7 +28,7 @@ class Service {
     this.instance.interceptors.request.use((config: AxiosRequestConfig) => {
       const Authorization = getToken()
       // before handler send request
-      if ((Authorization !== '') && (config.headers != null)) config.headers.Authorization = 'Bearer ' + Authorization
+      if (Authorization && config.headers) config.headers.Authorization = 'Bearer ' + Authorization
       return config
     }, async (err: AxiosError) => {
       // request error handler

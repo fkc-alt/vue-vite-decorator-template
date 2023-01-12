@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 export const getUserInfo = (): string | null => {
   return JSON.parse(sessionStorage.getItem('userInfo') ?? '')
 }
