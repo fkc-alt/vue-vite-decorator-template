@@ -15,6 +15,7 @@ const route: RouteRecordRaw[] = [
         path: '/order/completeOrder',
         name: 'CompleteOrder',
         component: async () => await import('@/views/order/completeOrder.vue'),
+        sort: 2,
         meta: {
           title: 'ORDERMODULE.COMPLETEORDER.TITLE',
           icon: 'Suitcase',
@@ -25,6 +26,7 @@ const route: RouteRecordRaw[] = [
         path: '/order/voidOrder',
         name: 'VoidOrder',
         component: async () => await import('@/views/order/voidOrder.vue'),
+        sort: 3,
         meta: {
           title: 'ORDERMODULE.VOIDORDER.TITLE',
           icon: 'Tickets',
@@ -35,6 +37,7 @@ const route: RouteRecordRaw[] = [
         path: '/order/detail',
         name: 'Detail',
         component: async () => await import('@/views/order/orderDetail.vue'),
+        sort: 1,
         meta: {
           title: 'ORDERMODULE.DETAIL.TITLE',
           icon: 'GoodsFilled'
