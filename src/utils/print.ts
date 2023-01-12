@@ -8,13 +8,13 @@
  */
 
 /**
-  * @param { el } String 要打印的dom元素 默认为空
-  * @param { stylesheet } String 外部样式表的URL地址 默认为空  使用时需要 require 引入
-  * @param { landscape } Boolean 横纵向打印 默认纵向打印
-  * @param { noPrintSelector } String 不想打印的元素的类选择器  默认为.no-print
-  * @param { append } String 将内容添加到打印内容的后面  默认为空
-  * @param { prepend } String 将内容添加到打印内容的前面 默认为空
-  * @param { hidden } Boolean 隐藏页头页脚  默认隐藏
+  * @param { String } el 要打印的dom元素 默认为空
+  * @param { String } stylesheet 外部样式表的URL地址 默认为空  使用时需要 require 引入
+  * @param { Boolean } landscape 横纵向打印 默认纵向打印
+  * @param { String } noPrintSelector 不想打印的元素的类选择器  默认为.no-print
+  * @param { String } append 将内容添加到打印内容的后面  默认为空
+  * @param { String } prepend 将内容添加到打印内容的前面 默认为空
+  * @param { Boolean } hidden 隐藏页头页脚  默认隐藏
   */
 const defaults = {
   el: '',
@@ -25,8 +25,8 @@ const defaults = {
   prepend: '',
   hidden: false
 }
-type defaultsType = Partial<Omit<typeof defaults, 'el'> & Pick<typeof defaults, 'el'>>
-export const open = (options: defaultsType): void => {
+
+export const customPrint = (options: Partial<typeof defaults>): void => {
   options = Object.assign(defaults, options)
   if ((options.el as string).length === 0) return
   // 获取打印区域的dom
