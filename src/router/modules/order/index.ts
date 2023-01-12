@@ -8,7 +8,7 @@ const route: RouteRecordRaw[] = [
     name: 'Order',
     redirect: '/order/completeOrder',
     component: Layout,
-    sort: 3,
+    sort: 2,
     meta: { title: 'ORDERMODULE.TITLE', icon: 'GoodsFilled' },
     children: [
       {

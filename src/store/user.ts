@@ -22,6 +22,7 @@ export const useUserStore = defineStore('user', {
         (v) => v.path !== '/login' && !v.hidden
       )
       this.routes = this.handleTreeRoutes(this.handleMapRoutes(routes))
+      this.routesSort(this.routes)
     },
     handleTreeRoutes (routes: RouteRecordRaw[]): RouteRecordRaw[] {
       return routes.filter((v) => {
@@ -46,6 +47,10 @@ export const useUserStore = defineStore('user', {
         }
         return v
       })
+    },
+    routesSort (routes: RouteRecordRaw[]): void {
+      routes.sort((a, b) => a.sort && b.sort ? a.sort - b.sort : -1)
+      routes.forEach(route => !!route.children?.length && this.routesSort(route.children))
     }
   }
 })
