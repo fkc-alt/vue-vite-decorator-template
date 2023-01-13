@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 declare namespace CustomerProps {
   declare namespace CustomTable {
     type Layout = 'fixed' | 'auto'

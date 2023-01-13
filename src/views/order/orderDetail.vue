@@ -21,7 +21,12 @@ const ruleForm = reactive({
       component: markRaw(ElInput),
       label: '姓名',
       prop: 'name',
-      placeholder: 'Please input'
+      placeholder: 'Please input',
+      slots: {
+        label (args: { label: string }): string {
+          return args.label
+        }
+      }
     },
     {
       component: markRaw(ElSelect),
