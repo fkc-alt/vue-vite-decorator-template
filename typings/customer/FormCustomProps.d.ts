@@ -1,6 +1,9 @@
 declare namespace CustomerProps {
   declare namespace CustomForm {
     type FormItemRule = import('element-plus').FormItemRule
+    interface FormRef {
+      formRef: import('element-plus').FormInstance
+    }
     interface CustomFormProps {
       formItems: Component[]
       model: Record<string, any>
