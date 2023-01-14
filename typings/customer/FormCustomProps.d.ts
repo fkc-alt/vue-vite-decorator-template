@@ -4,13 +4,14 @@ declare namespace CustomerProps {
     interface CustomFormProps {
       formItems: Component[]
       model: Record<string, any>
-      rules: Record<string, FormRules>
+      rules: import('element-plus').FormRules
     }
-    interface Component {
-      component: Element
+    interface Component extends FormComponentsEvents {
+      component: import('vue').Raw<any> | any
       prop: string
       label?: string
-      style?: Record<string, any>
+      placeholder?: string
+      style?: import('vue').CSSProperties
       labelWidth?: string | number
       required?: boolean
       rules?: FormItemRule | FormItemRule[]
@@ -19,12 +20,21 @@ declare namespace CustomerProps {
       inlineMessage?: boolean
       size?: 'large' | 'default' | 'small'
       slots?: {
-        label: (param: { label: string }) => string
-        error: (param: { error: string }) => string
+        label?: (param: { label: string }) => string
+        error?: (param: { error: string }) => string
       }
       option?: {
-        component: any
+        style?: import('vue').CSSProperties
+        component: import('vue').Raw<any> | any
         options: any[]
+      }
+    }
+    interface FormComponentsEvents {
+      events?: {
+        onInput?: (args: any) => void
+        onFocus?: (args: any) => void
+        onBlur?: (args: any) => void
+        onChange?: (args: any) => void
       }
     }
   }

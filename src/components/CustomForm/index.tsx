@@ -1,5 +1,6 @@
 import { ElForm, ElFormItem } from 'element-plus'
 import type { FormInstance } from 'element-plus'
+import { randomKey } from '@/utils'
 
 /**
  * @author kaichao.feng
@@ -13,17 +14,17 @@ export default defineComponent({
     const formRef = ref<FormInstance>()
     expose({ formRef })
     return () => (
-      <ElForm {...attributes} ref={formRef}>
-        {formItems.map(attribute => {
-          const { component, option, slots, ...attrs } = attribute
-          return <ElFormItem {...attrs}>
+      <ElForm {...attributes} ref={formRef} key={randomKey()}>
+        {formItems.map((attribute, index) => {
+          const { component, option, slots, events, ...props } = attribute
+          return <ElFormItem {...props}>
             {{
-              label: (args: { label: string }) => slots?.label(args),
-              error: (args: { error: string }) => slots?.error(args),
-              default: () => <component v-model={attributes.model[attribute.prop]} {...attrs}>
+              label: (args: { label: string }) => slots?.label?.(args),
+              error: (args: { error: string }) => slots?.error?.(args),
+              default: () => <component key={index} {...props} {...events} v-model={attributes.model[attribute.prop]}>
               {
                 option?.options?.map(item => {
-                  return <option.component {...item}></option.component>
+                  return <option.component {...item}>{ option.component.name === 'ElRadio' ? item.value : item.label }</option.component>
                 })
               }
             </component>
