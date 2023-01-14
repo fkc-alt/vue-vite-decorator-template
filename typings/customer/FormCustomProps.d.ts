@@ -8,6 +8,20 @@ declare namespace CustomerProps {
       formItems: Component[]
       model: Record<string, any>
       rules: import('element-plus').FormRules
+      inline?: boolean
+      labelPosition?: 'left' | 'right' | 'top'
+      labelWidth?: string | number
+      labelSuffix?: string
+      hideRequiredAsterisk?: boolean
+      requireAsteriskPosition?: 'left' | 'right'
+      showMessage?: boolean
+      inlineMessage?: boolean
+      statusIcon?: boolean
+      validateOnRuleChange?: boolean
+      size?: 'large' | 'default' | 'small'
+      disabled?: boolean
+      scrollToError?: boolean
+      style?: import('vue').CSSProperties
     }
     interface Component extends FormComponentsEvents {
       component: import('vue').Raw<any> | any

@@ -9,8 +9,9 @@ export default function (): CustomerProps.CustomForm.CustomFormProps {
       checkbox: [],
       switch: false
     },
-    labelWidth: 70,
+    labelWidth: 120,
     hideRequiredAsterisk: false,
+    labelSuffix: 'suff',
     rules: {
       name: [{ message: '请输入用户名', required: true }],
       city: [{ message: '请选择城市', required: true, trigger: ['blur', 'change'] }],

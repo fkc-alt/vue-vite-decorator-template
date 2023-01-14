@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { GetOrderDetail } from '@/apis/modules/order'
-import useForm from '../hooks/useForm'
+import useForm from './hooks/useForm'
 const route = useRoute()
 const ruleForm = useForm()
 const customForm = ref<CustomerProps.CustomForm.FormRef>()
