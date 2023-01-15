@@ -1,4 +1,4 @@
-import { ElInput, ElSelect, ElOption, ElRadioGroup, ElRadio, ElCheckboxGroup, ElCheckbox, ElSwitch } from 'element-plus'
+import { ElInput, ElSelect, ElOption, ElRadioGroup, ElRadio, ElCheckboxGroup, ElCheckbox, ElSwitch, ElCheckboxButton } from 'element-plus'
 
 export default function (): CustomerProps.CustomForm.CustomFormProps {
   const ruleForm: CustomerProps.CustomForm.CustomFormProps = reactive({
@@ -6,8 +6,9 @@ export default function (): CustomerProps.CustomForm.CustomFormProps {
       name: '',
       city: '',
       flag: 0,
-      checkbox: [],
-      switch: false
+      checkbox: ['Option B'],
+      switch: false,
+      type: ['Option B']
     },
     labelWidth: 120,
     hideRequiredAsterisk: false,
@@ -130,6 +131,41 @@ export default function (): CustomerProps.CustomForm.CustomFormProps {
           onInput (args) {
             console.log(args)
           }
+        }
+      },
+      {
+        component: markRaw(ElCheckboxGroup),
+        label: '按钮组',
+        prop: 'type',
+        style: {
+          width: '100%'
+        },
+        slots: {
+          label (args) {
+            return args.label + '#'
+          }
+        },
+        events: {
+          onChange (args) {
+            console.log(args)
+          }
+        },
+        option: {
+          component: markRaw(ElCheckboxButton),
+          options: [
+            {
+              label: 'Option A',
+              name: 'type'
+            },
+            {
+              label: 'Option B',
+              name: 'type'
+            },
+            {
+              label: 'Option C',
+              name: 'type'
+            }
+          ]
         }
       }
     ]
