@@ -25,13 +25,13 @@ export default defineComponent({
     expose({ formRef })
     return () => (
       <ElForm {...attributes} ref={formRef} key={randomKey()}>
-        {formItems.value?.map((attribute, index) => {
+        {formItems.value?.map(attribute => {
           const { component, option, slots, events, ...props } = attribute
           return <ElFormItem {...props}>
             {{
               label: (args: { label: string }) => slots?.label?.(args),
               error: (args: { error: string }) => slots?.error?.(args),
-              default: () => <component key={index} {...props} {...events} v-model={attributes.model[attribute.prop]}>
+              default: () => <component {...props} {...events} v-model={attributes.model[attribute.prop]}>
               {
                 option?.options?.map(item => {
                   return <option.component {...item}>{ option.component.name === 'ElRadio' ? item.value : item.label }</option.component>
