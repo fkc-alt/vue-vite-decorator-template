@@ -10,7 +10,7 @@ stages:
         name: build_nodejs
         displayName: Nodejs 构建
         # 支持8.16.2、10.17.0、12.16.1、14.16.0、15.12.0五个版本
-        nodeVersion: 14.16.0
+        nodeVersion: 16.14.0
         # 构建命令：安装依赖 -> 清除上次打包产物残留 -> 执行构建 【请根据项目实际产出进行填写】
         commands:
           - npm install && rm -rf ./dist && npm run build
