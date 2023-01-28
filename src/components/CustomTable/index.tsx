@@ -13,7 +13,7 @@ export default defineComponent({
    * @description 该参数并不在ElTable的props中定义，如果使用attrs的话,会绑定到根元素上.此处定义props是为了防止此原因
    */
   props: {
-    column: Array<Partial<CustomerProps.CustomTable.Column<any>>>
+    column: Array<Partial<CustomerProps.CustomTable.TableColumnCtx<any>>>
   },
   setup (props, { attrs, emit, expose, slots }) {
     const { column } = toRefs(props)
@@ -34,7 +34,7 @@ export default defineComponent({
                 column,
                 $index,
                 cellValue: attributes
-              }) ?? attributes?.formatter?.(row, column, row[attributes?.prop as string], $index) ?? row[attributes?.prop as string]
+              }) ?? attributes?.formatter?.(row, column, row[attributes?.prop as string], $index) ?? row[attributes?.prop as string] ?? ''
             }}
           </ElTableColumn>
         })}
