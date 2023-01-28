@@ -1,6 +1,6 @@
 type MapEventKeys = keyof(typeof mapEventKeys)
 type MapEventValues = typeof mapEventKeys[keyof(typeof mapEventKeys)]
-export type TableEvents = Partial<Record<MapEventValues, ((...args: any[]) => any) | undefined> & Record<MapEventKeys, ((...args: any[]) => any) | undefined>>
+export type TableEvents = Partial<Record<MapEventKeys | MapEventValues, ((...args: any[]) => any) | undefined>>
 
 const mapEventKeys = {
   onExpandChange: 'onExpand-change',
