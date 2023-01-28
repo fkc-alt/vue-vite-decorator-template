@@ -7,34 +7,19 @@ declare namespace CustomerProps {
     type CSSProperties = import('vue').CSSProperties
     type TableProps<T> = import('element-plus/es/components/table/src/table/defaults').TableProps<T> & TableEvents
     type TableColumnCtx<T> = import('element-plus/es/components/table/src/table-column/defaults').TableColumnCtx<T> & {
-      render?: (param: {
-        row: T
-        column: TableColumnCtx<T>
-        cellValue: Partial<TableColumnCtx<T>>
-        $index: number
-      }) => JSX.Element
+      render?: (param: TableColumnParameters<T>) => JSX.Element
     }
-    interface CI<T> {
-      column: TableColumnCtx<T>
-      $index: number
-    }
-    interface Cell extends CI<any> {
-      row: Record<string, any>
-    }
-
-    type HandleFunc<T> = ((param: {
+    interface TableColumnParameters<T> {
       row: T
       column: TableColumnCtx<T>
       cellValue: Partial<TableColumnCtx<T>>
       $index: number
-    }, event: Event) => any) | undefined
-    type HandlerEvents<T = TableEvents> = (methods: T) => T
-    interface SlotProp<T> {
-      row: T
-      column: TableColumnCtx<T>
-      $index: number
     }
+    type DefaultParameters = Omit<CustomerProps.CustomTable.TableColumnParameters<Record<string, any>>, 'cellValue'>
+    type HandleFunc<T> = ((param: TableColumnParameters<T>, event: Event) => any) | undefined
+    type HandlerEvents<T = TableEvents> = (methods: T) => T
     type SlotFunc<T> = ((param: SlotProp<T>) => any) | undefined
     type MapColumn<T> = (param?: Record<string, HandleFunc<T>>) => Array<Partial<TableColumnCtx<T>>>
+    interface SlotProp<T> extends Omit<TableColumnParameters<T>, 'cellValue'> { }
   }
 }

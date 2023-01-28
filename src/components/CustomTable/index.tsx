@@ -29,7 +29,7 @@ export default defineComponent({
         {column.value?.map(attributes => {
           return <ElTableColumn {...attributes}>
             {{
-              default: ({ row, column, $index }: CustomerProps.CustomTable.Cell) => slots.default?.({ row, column, $index }) ?? slots[attributes?.prop as string]?.({ row, column, $index }) ?? attributes?.render?.({
+              default: ({ row, column, $index }: CustomerProps.CustomTable.DefaultParameters) => slots.default?.({ row, column, $index }) ?? slots[attributes?.prop as string]?.({ row, column, $index }) ?? attributes?.render?.({
                 row,
                 column,
                 $index,
