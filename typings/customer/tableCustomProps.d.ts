@@ -10,6 +10,14 @@ declare namespace CustomerProps {
     type Table<T> = import('element-plus').Table<T>
     type TreeNode = import('element-plus').TreeNode
     type FilterMethods<T> = import('element-plus/es/components/table/src/table-column/defaults').FilterMethods<T>
+    type TableColumnCtx<T> = import('element-plus/es/components/table/src/table-column/defaults').TableColumnCtx<T> & {
+      render?: (param: {
+        row: T
+        column: TableColumnCtx<T>
+        cellValue: Partial<Column<T>>
+        $index: number
+      }) => JSX.Element
+    }
     type Filters = import('element-plus/es/components/table/src/table-column/defaults').Filters
     interface TableRef {
       tableRef: InstanceType<typeof import('element-plus').ElTable>
@@ -127,60 +135,6 @@ declare namespace CustomerProps {
       'onSort-change'?: ((...args: any[]) => any) | undefined
       'onFilter-change'?: ((...args: any[]) => any) | undefined
       'onHeader-dragend'?: ((...args: any[]) => any) | undefined
-    }
-    interface TableColumnCtx<T> {
-      id: string
-      realWidth: number
-      type: string
-      label: string
-      className: string
-      rowClassName?: ColumnCls<T>
-      labelClassName: string
-      property: string
-      prop: string
-      width: string | number
-      minWidth: string | number
-      renderHeader: (data: CI<T>) => VNode
-      sortable: boolean | string
-      sortMethod: (a: T, b: T) => number
-      sortBy: string | ((row: T, index: number) => string) | string[]
-      resizable: boolean
-      columnKey: string
-      rawColumnKey: string
-      align: string
-      headerAlign: string
-      showTooltipWhenOverflow: boolean
-      showOverflowTooltip: boolean
-      fixed: boolean | string
-      formatter: (row: T, column: TableColumnCtx<T>, cellValue: string, index: number) => VNode | string
-      selectable: (row: T, index: number) => boolean
-      reserveSelection: boolean
-      filterMethod: FilterMethods<T>
-      filteredValue: string[]
-      filters: Filters
-      filterPlacement: string
-      filterMultiple: boolean
-      index: number | ((index: number) => number)
-      sortOrders: Array<'ascending' | 'descending' | null>
-      renderCell: (data: unknown) => void
-      colSpan: number
-      rowSpan: number
-      children: Array<TableColumnCtx<T>>
-      level: number
-      filterable: boolean | FilterMethods<T> | Filters
-      order: string
-      isColumnGroup: boolean
-      isSubColumn: boolean
-      columns: Array<TableColumnCtx<T>>
-      getColumnIndex: () => number
-      no: number
-      filterOpened?: boolean
-      render?: (param: {
-        row: T
-        column: TableColumnCtx<T>
-        cellValue: Partial<Column<T>>
-        $index: number
-      }) => JSX.Element
     }
 
     type HandleFunc<T> = ((param: {
