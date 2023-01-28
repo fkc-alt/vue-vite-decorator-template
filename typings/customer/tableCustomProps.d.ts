@@ -5,7 +5,6 @@ declare namespace CustomerProps {
     }
     type TableEvents = import('@/components/CustomTable/utils').TableEvents
     type CSSProperties = import('vue').CSSProperties
-    type FilterMethods<T> = import('element-plus/es/components/table/src/table-column/defaults').FilterMethods<T>
     type TableProps<T> = import('element-plus/es/components/table/src/table/defaults').TableProps<T> & TableEvents
     type TableColumnCtx<T> = import('element-plus/es/components/table/src/table-column/defaults').TableColumnCtx<T> & {
       render?: (param: {
