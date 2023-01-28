@@ -4,10 +4,10 @@ declare namespace CustomerProps {
       tableRef: InstanceType<typeof import('element-plus').ElTable>
     }
     type TableEvents = import('@/components/CustomTable/utils').TableEvents
-    type CSSProperties = import('vue').CSSProperties
     type TableProps<T> = import('element-plus/es/components/table/src/table/defaults').TableProps<T> & TableEvents
     type TableColumnCtx<T> = import('element-plus/es/components/table/src/table-column/defaults').TableColumnCtx<T> & {
       render?: (param: TableColumnParameters<T>) => JSX.Element
+      style?: import('vue').CSSProperties
     }
     interface TableColumnParameters<T> {
       row: T
