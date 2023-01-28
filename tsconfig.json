@@ -24,6 +24,8 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "keyofStringsOnly": false,
+    "noImplicitOverride": true,
+    "extendedDiagnostics": true,
     "outDir": "./dist",
     "paths": {
       "@/*": [
