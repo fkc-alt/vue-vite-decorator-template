@@ -64,5 +64,8 @@ declare namespace CustomerProps {
         onClear?: (args: any) => void
       }
     }
+    /**
+     * @notes TS类型写不动了，这里偷个懒，就先这样吧~😭😭😭😭，后面有时间再补
+     */
   }
 }
