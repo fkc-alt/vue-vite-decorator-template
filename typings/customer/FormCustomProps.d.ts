@@ -1,41 +1,31 @@
 declare namespace CustomerProps {
   declare namespace CustomForm {
     type FormItemRule = import('element-plus').FormItemRule
+    type FormInstance = import('element-plus').FormInstance
+    type FormItemInstance = import('element-plus').FormItemInstance
+    type InputProps = import('element-plus').InputProps & {
+      maxlength: string | number
+      minlength: number
+      rows: number
+      name: string
+      max: string | number
+      min: string | number
+      step: string | number
+    }
+    type SelectProps = InstanceType<typeof import('element-plus').ElSelect>['$props']
+    type RadioGroupProps = import('element-plus').RadioGroupProps
     interface FormRef {
-      formRef: import('element-plus').FormInstance
+      formRef: FormInstance
     }
-    interface CustomFormProps {
-      formItems: Component[]
+    interface CustomFormProps extends Partial<FormInstance['$props']> {
       model: Record<string, any>
-      rules: import('element-plus').FormRules
-      inline?: boolean
-      labelPosition?: 'left' | 'right' | 'top'
-      labelWidth?: string | number
-      labelSuffix?: string
-      hideRequiredAsterisk?: boolean
-      requireAsteriskPosition?: 'left' | 'right'
-      showMessage?: boolean
-      inlineMessage?: boolean
-      statusIcon?: boolean
-      validateOnRuleChange?: boolean
-      size?: 'large' | 'default' | 'small'
-      disabled?: boolean
-      scrollToError?: boolean
+      formItems: Component[]
       style?: import('vue').CSSProperties
     }
-    interface Component extends FormComponentsEvents {
-      component: import('vue').Raw<any> | any
+    interface Component extends Partial<FormItemInstance['props']>, FormComponentsEvents {
       prop: string
-      label?: string
-      placeholder?: string
+      component: import('vue').Raw<any> | any
       style?: import('vue').CSSProperties
-      labelWidth?: string | number
-      required?: boolean
-      rules?: FormItemRule | FormItemRule[]
-      error?: string
-      showMessage?: boolean
-      inlineMessage?: boolean
-      size?: 'large' | 'default' | 'small'
       slots?: {
         label?: (param: { label: string }) => string
         error?: (param: { error: string }) => string
@@ -45,6 +35,7 @@ declare namespace CustomerProps {
         component: import('vue').Raw<any> | any
         options: any[]
       }
+      componentProps?: Partial<InputProps | SelectProps | RadioGroupProps & { style: import('vue').CSSProperties }>
     }
     interface FormComponentsEvents {
       events?: {
@@ -52,6 +43,7 @@ declare namespace CustomerProps {
         onFocus?: (args: any) => void
         onBlur?: (args: any) => void
         onChange?: (args: any) => void
+        onClear?: (args: any) => void
       }
     }
   }

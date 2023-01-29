@@ -23,7 +23,9 @@ export default function (): CustomerProps.CustomForm.CustomFormProps {
         component: markRaw(ElInput),
         label: '姓名',
         prop: 'name',
-        placeholder: 'Please input',
+        componentProps: {
+          placeholder: 'Please input'
+        },
         slots: {
           label (args) {
             return args.label + '#'
@@ -39,9 +41,11 @@ export default function (): CustomerProps.CustomForm.CustomFormProps {
         component: markRaw(ElSelect),
         label: '城市',
         prop: 'city',
-        placeholder: 'Please select',
-        style: {
-          width: '100%'
+        componentProps: {
+          placeholder: 'Please select',
+          style: {
+            width: '100%'
+          }
         },
         slots: {
           label (args) {
@@ -66,9 +70,8 @@ export default function (): CustomerProps.CustomForm.CustomFormProps {
         component: markRaw(ElRadioGroup),
         label: '晚饭',
         prop: 'flag',
-        placeholder: 'Please select',
-        style: {
-          width: '100%'
+        componentProps: {
+          size: 'small'
         },
         slots: {
           label (args) {
@@ -95,9 +98,6 @@ export default function (): CustomerProps.CustomForm.CustomFormProps {
         component: markRaw(ElCheckboxGroup),
         label: '多选框',
         prop: 'checkbox',
-        style: {
-          width: '100%'
-        },
         slots: {
           label (args) {
             return args.label + '#'
@@ -137,9 +137,6 @@ export default function (): CustomerProps.CustomForm.CustomFormProps {
         component: markRaw(ElCheckboxGroup),
         label: '按钮组',
         prop: 'type',
-        style: {
-          width: '100%'
-        },
         slots: {
           label (args) {
             return args.label + '#'
