@@ -14,7 +14,7 @@ class Service {
      * @method constructor
      * @param { Object } config
     */
-  constructor (config: axios.AxiosRequestConfig) {
+  constructor (config: axios.AxiosRequestConfig = { baseURL: import.meta.env.VITE_APP_BASE_API }) {
     this.instance = Axios.create(config)
     this.interceptorsReq()
     this.interceptorsRes()

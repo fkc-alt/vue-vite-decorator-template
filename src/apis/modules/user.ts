@@ -10,4 +10,4 @@ class UserModel extends Service {
   }
 }
 
-export default new UserModel({ baseURL: import.meta.env.VITE_APP_BASE_API })
+export default new UserModel()

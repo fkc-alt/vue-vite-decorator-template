@@ -15,4 +15,4 @@ class OrderModel extends Service {
   }
 }
 
-export default new OrderModel({ baseURL: import.meta.env.VITE_APP_BASE_API })
+export default new OrderModel()
