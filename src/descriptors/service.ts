@@ -1,5 +1,7 @@
 /* eslint-disable prefer-rest-params */
 import { AxiosRequestConfig } from 'axios'
+import { ElMessage } from 'element-plus'
+import { getToken } from '@/utils'
 
 export const Controller = (prifix = ''): any => {
   return function (target: any) {
@@ -46,6 +48,21 @@ export const Delete = (path: string): any => {
         method: 'DELETE'
       }, arguments.length ? { data: arguments[0] } : {})
       const result = fn.apply(this, [param])
+      return result
+    }
+  }
+}
+
+export const AuthGuard = (exclude: string[]) => {
+  return function (target: object, key: string, descriptor: PropertyDescriptor): void {
+    const fn: (...args: any) => any = descriptor.value
+    descriptor.value = function (...args: any) {
+      const hasAuth = exclude.every(item => !new RegExp(`${item}$`).test(args[0].url)) && !getToken()
+      if (hasAuth) {
+        ElMessage.error('请提供身份令牌')
+        throw new Error('Please provide a token')
+      }
+      const result = fn.apply(this, args)
       return result
     }
   }
