@@ -34,7 +34,7 @@ export default defineComponent({
                 column,
                 $index,
                 cellValue: attributes
-              }) ?? attributes?.formatter?.(row, column, row[attributes?.prop as string], $index) ?? row[attributes?.prop as string] ?? ''
+              }) ?? attributes?.formatter?.(row, column, row[attributes?.prop as string], $index) ?? row[attributes?.prop as string]
             }}
           </ElTableColumn>
         })}
