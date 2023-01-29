@@ -13,7 +13,24 @@ declare namespace CustomerProps {
       step: string | number
     }
     type SelectProps = InstanceType<typeof import('element-plus').ElSelect>['$props']
+    type SelectOptionProps = Readonly<import('vue').ExtractPropTypes<{
+      value: {
+        required: true
+        type: Array<BooleanConstructor | ObjectConstructor | StringConstructor | NumberConstructor>
+      }
+      label: Array<StringConstructor | NumberConstructor>
+      created: BooleanConstructor
+      disabled: {
+        type: BooleanConstructor
+        default: boolean
+      }
+    }>>
     type RadioGroupProps = import('element-plus').RadioGroupProps
+    type RadioProps = import('element-plus').RadioProps
+    type CheckboxProps = import('element-plus').CheckboxProps
+    type CheckboxGroupProps = import('element-plus').CheckboxGroupProps
+    type SwitchProps = import('element-plus').SwitchProps
+    type DatePickerProps = InstanceType<typeof import('element-plus').ElDatePicker>['$props']
     interface FormRef {
       formRef: FormInstance
     }
@@ -34,8 +51,9 @@ declare namespace CustomerProps {
         style?: import('vue').CSSProperties
         component: import('vue').Raw<any> | any
         options: any[]
+        componentProps?: Partial<SelectOptionProps & { style: import('vue').CSSProperties }>
       }
-      componentProps?: Partial<InputProps | SelectProps | RadioGroupProps & { style: import('vue').CSSProperties }>
+      componentProps?: Partial<InputProps | SelectProps | RadioGroupProps | RadioProps | CheckboxGroupProps | CheckboxProps | SwitchProps | DatePickerProps & { style: import('vue').CSSProperties }>
     }
     interface FormComponentsEvents {
       events?: {
