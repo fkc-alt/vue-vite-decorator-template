@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { GetOrderList } from '@/apis/modules/order'
+import OrderModel from '@/apis/modules/order'
 
 const state = reactive<Service.OrderListRes>({ orderList: [] })
-const r = await GetOrderList({ currentPage: 1, pageSize: 10 })
+const r = await OrderModel.GetOrderList({ currentPage: 1, pageSize: 10 })
 state.orderList = r.data.orderList
 </script>
 

@@ -3,7 +3,7 @@ import type { ComponentInternalInstance } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
 import { FormInstance, FormRules, ElMessage } from 'element-plus'
 import { useUserStore } from '@/store/user'
-import { Login } from '@/apis'
+import userModel from '@/apis/modules/user'
 import { setData } from '@/utils'
 // Look Vue Prototype property
 const [{ proxy }, MODE] = [
@@ -55,7 +55,7 @@ const submit = async (formEl: FormInstance | undefined) => {
   loading.value = true
   await formEl.validate((valid, fields) => {
     if (valid) {
-      Login(loginForm)
+      userModel.Login(loginForm)
         .then(({ data: { token, roles: roleIdList } }) => {
           save({ userInfo: 'Test', token, roleIdList })
           setData({ token, roleIdList })

@@ -20,7 +20,7 @@ const MockList: MockMethod[] = [
     }
   },
   {
-    url: '/rsapi/tableData',
+    url: '/rsapi/article/tableData',
     method: 'post',
     response: (): Services.Common.Response<Service.TableDataRes> => {
       return {
@@ -64,7 +64,7 @@ const MockList: MockMethod[] = [
     }
   },
   {
-    url: '/rsapi/orderList',
+    url: '/rsapi/order/orderList',
     method: 'post',
     response: (): Services.Common.Response<Service.OrderListRes> => {
       return {
@@ -86,7 +86,7 @@ const MockList: MockMethod[] = [
     }
   },
   {
-    url: '/rsapi/orderDetail',
+    url: '/rsapi/order/orderDetail',
     method: 'get',
     response: (): Services.Common.Response<Service.OrderDetailRes> => {
       return {

@@ -1,9 +1,18 @@
+import * as axios from 'axios'
+import { Controller, Get, Post } from '@/descriptors/service'
 import Service from '@/utils/service'
 
-export const GetOrderList = async <T extends Service.OrderListReq, U extends Service.OrderListRes>(data: T): ServerRes<U> => {
-  return await Service.request<T, U>({ method: 'post', url: '/orderList', data })
+@Controller('order')
+class OrderModel extends Service {
+  @Get('orderDetail')
+  async GetOrderDetail<T extends Service.OrderDetailReq, U = Service.OrderDetailRes>(param: T | axios.AxiosRequestConfig = {}): ServerRes<U> {
+    return await this.request<T, U>(param as axios.AxiosRequestConfig)
+  }
+
+  @Post('orderList')
+  async GetOrderList<T extends Service.OrderListReq, U = Service.OrderListRes>(param: T | axios.AxiosRequestConfig = {}): ServerRes<U> {
+    return await this.request<T, U>(param as axios.AxiosRequestConfig)
+  }
 }
 
-export const GetOrderDetail = async <T extends Service.OrderDetailReq, U extends Service.OrderDetailRes>(params: T): ServerRes<U> => {
-  return await Service.request<T, U>({ method: 'get', url: '/orderDetail', params })
-}
+export default new OrderModel({ baseURL: import.meta.env.VITE_APP_BASE_API })
