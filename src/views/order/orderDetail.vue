@@ -1,15 +1,15 @@
 <script lang="ts" setup>
-import OrderModel from '@/apis/modules/order'
+import ServiceModule from '@/apis'
 import useForm from './hooks/useForm'
 const route = useRoute()
 const ruleForm = useForm()
 const customForm = ref<CustomerProps.CustomForm.FormRef>()
 const state = reactive({}) as Service.OrderDetailRes
-
+console.log(ServiceModule)
 watch(ruleForm, () => {
   console.log(ruleForm)
 })
-const r = await OrderModel.GetOrderDetail({ orderId: route.query.id as string })
+const r = await ServiceModule.order.GetOrderDetail({ orderId: route.query.id as string })
 Object.assign(state, r.data)
 const valid = async () => {
   try {

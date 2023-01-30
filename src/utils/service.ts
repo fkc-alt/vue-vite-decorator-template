@@ -9,7 +9,7 @@ const exclude = ['login', 'register']
 /**
  * @author kaichao.Feng
 */
-class Service {
+export default class Service {
   private readonly instance: axios.AxiosInstance
   /**
      * @method constructor
@@ -63,9 +63,7 @@ class Service {
     */
   @AuthGuard(exclude)
   @CatchError()
-  protected async request<T, U> (config: axios.AxiosRequestConfig<T>): ServerRes<U> {
+  async request<T, U> (config: axios.AxiosRequestConfig<T>): ServerRes<U> {
     return await this.instance.request<{}, ServerRes<U>, T>(config)
   }
 }
-
-export default Service

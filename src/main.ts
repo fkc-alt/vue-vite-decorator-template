@@ -1,13 +1,13 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import 'virtual:svg-icons-register'
+import 'reflect-metadata'
 import { setupProvider } from '@/plugins/setupProvider'
 import router from '@/router'
 import i18n from '@/locales/i18n'
 import useIcons from './hooks/useIcons'
-
 import App from './App'
-
+import Demo from '@/descriptors/demo'
 import '@/assets/reset.css'
 import '@/router/permission'
 
@@ -26,5 +26,7 @@ const bootstrap = (): void => {
     AppLogger(_APP_INFO_)
   }).catch(err => console.error(err))
 }
+
+Demo.Log()
 
 bootstrap()

@@ -3,13 +3,31 @@ import { AxiosRequestConfig } from 'axios'
 import { ElMessage } from 'element-plus'
 import { getToken } from '@/utils'
 
-export const Controller = (prifix = ''): any => {
+interface ModuleMetadata {
+  controllers?: any[]
+  providers?: any[]
+}
+
+export const Module = (metadata: ModuleMetadata) => {
+  // const propsKeys = Object.keys(metadata)
+  return (target: any) => {
+    for (const property in metadata) {
+      if (metadata[property as keyof ModuleMetadata]) {
+        Reflect.defineMetadata(property, metadata[property as keyof ModuleMetadata], target)
+      }
+    }
+  }
+}
+
+export const Controller = (prifix = '') => {
   return function (target: any) {
     target.prototype.prifix = prifix ? prifix.replace(/^\//g, '') + '/' : ''
   }
 }
 
-export const Get = (path: string): any => {
+export const Injectable = (): ClassDecorator => (target) => {}
+
+export const Get = (path: string) => {
   return function (target: any, key: string, descriptor: PropertyDescriptor): void {
     // eslint-disable-next-line @typescript-eslint/ban-types
     const fn: (...args: any) => any = descriptor.value
@@ -24,7 +42,7 @@ export const Get = (path: string): any => {
   }
 }
 
-export const Post = (path: string): any => {
+export const Post = (path: string) => {
   return function (target: any, key: string, descriptor: PropertyDescriptor): void {
     // eslint-disable-next-line @typescript-eslint/ban-types
     const fn: (...args: any) => any = descriptor.value
@@ -39,7 +57,7 @@ export const Post = (path: string): any => {
   }
 }
 
-export const Delete = (path: string): any => {
+export const Delete = (path: string) => {
   return function (target: any, key: string, descriptor: PropertyDescriptor): void {
     const fn: (...args: any) => any = descriptor.value
     descriptor.value = function () {
