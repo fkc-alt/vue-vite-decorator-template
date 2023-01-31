@@ -5,7 +5,7 @@
 import { AxiosRequestConfig } from 'axios'
 import { ElMessage } from 'element-plus'
 import { getToken } from '@/utils'
-import { MODULE_METADATA, TYPE_METADATA, PARAMTYPES_METADATA, RETURNTYPE_METADATA, INJECTABLE_WATERMARK } from './constant'
+import { MODULE_METADATA, TYPE_METADATA, PARAMTYPES_METADATA, RETURNTYPE_METADATA, INJECTABLE_WATERMARK, REQUEST_SERVICE } from './constant'
 
 interface ModuleMetadata {
   controllers?: any[]
@@ -81,6 +81,36 @@ export const Factory = <T>(target: Constructor<T>, config: AxiosRequestConfig = 
   return new target(...controllers)
 }
 
+/**
+ * @module Injectable
+ * @class Injectable
+ * @async kaichao.feng
+ * @description 标注依赖注入
+ */
+export const Injectable = (): ClassDecorator => {
+  return (target: object) => {
+    Reflect.defineMetadata(INJECTABLE_WATERMARK, true, target)
+  }
+}
+
+/**
+ * @module Request
+ * @class Request
+ * @async kaichao.feng
+ * @description 标注是否为请求依赖
+ */
+export const Request = (): ClassDecorator => {
+  return (target: object) => {
+    Reflect.defineMetadata(REQUEST_SERVICE, true, target)
+  }
+}
+
+/**
+ * @module Inject
+ * @class Inject
+ * @async kaichao.feng
+ * @description 具名依赖注入
+ */
 export const Inject = (target?: Constructor<any>) => {
   return function (...args: any[]) {
     console.log(args, target)
@@ -115,12 +145,6 @@ export const Module = (metadata: ModuleMetadata) => {
 export const Controller = (prifix = '') => {
   return function (target: any) {
     target.prototype.prifix = prifix ? prifix.replace(/^\//g, '') + '/' : ''
-  }
-}
-
-export const Injectable = (): ClassDecorator => {
-  return (target: object) => {
-    Reflect.defineMetadata(INJECTABLE_WATERMARK, true, target)
   }
 }
 

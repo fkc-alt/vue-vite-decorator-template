@@ -1,7 +1,7 @@
 import Axios, * as axios from 'axios'
 import { ElMessage } from 'element-plus'
 import { CatchError } from '@/support'
-import { AuthGuard, Injectable, ParamTypes } from '@/support/core'
+import { AuthGuard, Injectable, ParamTypes, Request } from '@/support/core'
 import UtilService from './util.provider'
 
 const exclude = ['login', 'register']
@@ -10,8 +10,9 @@ const exclude = ['login', 'register']
  * @author kaichao.Feng
 */
 @Injectable()
+@Request()
 @ParamTypes(UtilService)
-export default class Service {
+export default class RequestService {
   private readonly instance: axios.AxiosInstance
   /**
      * @method constructor
