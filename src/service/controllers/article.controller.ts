@@ -1,11 +1,11 @@
 import * as axios from 'axios'
 import { Controller, Get, Post, ParamTypes } from '@/support/core'
-import Service from '@/service/providers/service.provider'
+import Service from '../providers/service.provider'
 import { Utils } from '../providers/utils.provider'
 
 @Controller('article')
 @ParamTypes(Service, Utils)
-class ArticleController {
+export default class ArticleController {
   constructor (readonly service: Service, private readonly utils: Utils) { }
 
   @Get('getArticleList')
@@ -18,5 +18,3 @@ class ArticleController {
     return await this.service.request<T, U>(<axios.AxiosRequestConfig>param)
   }
 }
-
-export default ArticleController

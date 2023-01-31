@@ -1,10 +1,10 @@
 import * as axios from 'axios'
 import { Controller, Get, Post, ParamTypes } from '@/support/core'
-import Service from '@/service/providers/service.provider'
+import Service from '../providers/service.provider'
 
 @Controller('order')
 @ParamTypes(Service)
-class OrderController {
+export default class OrderController {
   constructor (readonly service: Service) {}
   @Get('orderDetail')
   async GetOrderDetail<T extends Service.OrderDetailReq, U = Service.OrderDetailRes>(param: T | axios.AxiosRequestConfig = {}): ServerRes<U> {
@@ -16,5 +16,3 @@ class OrderController {
     return await this.service.request<T, U>(<axios.AxiosRequestConfig>param)
   }
 }
-
-export default OrderController
