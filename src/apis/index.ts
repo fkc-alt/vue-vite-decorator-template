@@ -3,10 +3,11 @@ import { Module, Factory } from '@/support/core'
 import ArticleController from './modules/article'
 import UserController from './modules/user'
 import OrderController from './modules/order'
+import { Utils } from '@/utils/utils.provider'
 
 @Module({
   controllers: [ArticleController, UserController, OrderController],
-  providers: [Service]
+  providers: [Service, Utils]
 })
 class ServiceModule {
   constructor (

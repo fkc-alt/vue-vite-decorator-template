@@ -10,7 +10,10 @@ export default defineComponent({
     const r = await ServiceModule.OrderController.GetOrderDetail({ orderId: route.query.id as string })
     Object.assign(state, r.data)
     return () => (
-      <CustomForm {...ruleForm} />
+      <>
+        <CustomForm {...ruleForm} />
+        {state.orderId + 'xxxx'}
+      </>
     )
   }
 })
