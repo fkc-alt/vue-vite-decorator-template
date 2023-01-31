@@ -2,21 +2,21 @@ import Axios, * as axios from 'axios'
 import { ElMessage } from 'element-plus'
 import { getToken } from '@/utils'
 import { CatchError } from '@/descriptors'
-import { AuthGuard, Demo, ParamTypes } from '@/descriptors/service'
+import { AuthGuard, Injectable } from '@/descriptors/service'
 
 const exclude = ['login', 'register']
 
 /**
  * @author kaichao.Feng
 */
-@ParamTypes(Demo)
+@Injectable()
 export default class Service {
   private readonly instance: axios.AxiosInstance
   /**
      * @method constructor
      * @param { Object } config
     */
-  constructor (readonly demo: Demo, config: axios.AxiosRequestConfig = { baseURL: import.meta.env.VITE_APP_BASE_API }) {
+  constructor (config?: axios.AxiosRequestConfig) {
     this.instance = Axios.create(config)
     this.interceptorsReq()
     this.interceptorsRes()

@@ -5,25 +5,22 @@
 import { AxiosRequestConfig } from 'axios'
 import { ElMessage } from 'element-plus'
 import { getToken } from '@/utils'
+import { MODULE_METADATA, TYPE_METADATA, PARAMTYPES_METADATA, RETURNTYPE_METADATA, INJECTABLE_WATERMARK } from './constant'
 
 interface ModuleMetadata {
   controllers?: any[]
   providers?: any[]
 }
 
-export class Demo {
-  age = 20
-}
-
 type Constructor<T = any> = new (...args: any[]) => T
 interface ClassProvider<T> {
-  provide: Constructor<T>
+  provide: string
   useClass: Constructor<T>
 }
 
-export const Type = (type: any): (target: Function) => void => Reflect.metadata('design:type', type)
-export const ParamTypes = (...type: any): (target: Function) => void => Reflect.metadata('design:paramtypes', type)
-export const ReturnType = (type: any): (target: Function) => void => Reflect.metadata('design:returntype', type)
+export const Type = (type: any): (target: Function) => void => Reflect.metadata(TYPE_METADATA, type)
+export const ParamTypes = (...type: any): (target: Function) => void => Reflect.metadata(PARAMTYPES_METADATA, type)
+export const ReturnType = (type: any): (target: Function) => void => Reflect.metadata(RETURNTYPE_METADATA, type)
 
 /**
  * @module Container
@@ -33,7 +30,7 @@ export const ReturnType = (type: any): (target: Function) => void => Reflect.met
  * @description 依赖容器
  */
 class Container {
-  providers = new Map<Constructor<any>, ClassProvider<any>>()
+  providers = new Map<string, ClassProvider<any>>()
   /**
    * 注册
    */
@@ -44,8 +41,8 @@ class Container {
   /**
    * 获取
    */
-  inject (token: Constructor<any>): Constructor<any> | undefined {
-    return this.providers.get(token)?.useClass
+  inject (token: string): Constructor<any> {
+    return this.providers.get(token)?.useClass as Constructor<any>
   }
 }
 
@@ -57,29 +54,29 @@ class Container {
  * @async kaichao.feng
  * @description 依赖注入工厂函数
  */
-export const Factory = <T>(target: Constructor<T>): T => {
-  // 获取所有注入的服务
-  const providers = Reflect.getMetadata('providers', target)
-  // 下面的Continer就是我们之前建立的数据仓库，我们把依赖放进去
+export const Factory = <T>(target: Constructor<T>, config: AxiosRequestConfig = { baseURL: import.meta.env.VITE_APP_BASE_API }): T => {
+  const providers: Array<Constructor<any>> = Reflect.getMetadata(MODULE_METADATA.PROVIDERS, target)
   const continer = new Container()
-  for (let i = 0; i < providers.length; i++) {
-    continer.addProvider({ provide: providers[i], useClass: providers[i] })
+  providers.forEach(provide => continer.addProvider({ provide: provide.name, useClass: provide }))
+  const registerDeepClass = (providers: Array<Constructor<any>>): Array<Constructor<any>> => {
+    return providers.map((provider: any) => {
+      const currentNeedPro: Constructor<any> = continer.inject(provider.name)
+      const deepNeedProviders = Reflect.getMetadata(PARAMTYPES_METADATA, provider)
+      return !deepNeedProviders ? new currentNeedPro(config) : new currentNeedPro(...registerDeepClass(deepNeedProviders), config)
+    })
   }
-  const controllers = Reflect.getMetadata('controllers', target)
-  for (let i = 0; i < controllers.length; i++) {
-    const currNeedProviders = Reflect.getMetadata('design:paramtypes', controllers[i])
-    if (!currNeedProviders) continue
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const registerDeepClass = (providers: Array<Constructor<any>>): Array<Constructor<any>> => {
-      return providers.map((provider: any) => {
-        const currentNeedPro: any = continer.inject(provider)
-        const deepNeedProviders = Reflect.getMetadata('design:paramtypes', provider)
-        return !deepNeedProviders ? new currentNeedPro() : new currentNeedPro(...registerDeepClass(deepNeedProviders))
-      })
-    }
-    controllers[i] = new controllers[i](...registerDeepClass(currNeedProviders))
-  }
+  const controllers = (Reflect.getMetadata(MODULE_METADATA.CONTROLLERS, target) as Array<Constructor<any>>).map((controller, index) => {
+    const currNeedProviders = Reflect.getMetadata(PARAMTYPES_METADATA, controller)
+    return new controller(...registerDeepClass(currNeedProviders))
+  })
+  console.log(continer)
   return new target(...controllers)
+}
+
+export const Inject = (target?: Constructor<any>) => {
+  return function (...args: any[]) {
+    console.log(args, target)
+  }
 }
 
 /**
@@ -113,7 +110,11 @@ export const Controller = (prifix = '') => {
   }
 }
 
-export const Injectable = (): ClassDecorator => (target) => {}
+export const Injectable = (): ClassDecorator => {
+  return (target: object) => {
+    Reflect.defineMetadata(INJECTABLE_WATERMARK, true, target)
+  }
+}
 
 /**
  * @module Get
@@ -199,12 +200,5 @@ export const AuthGuard = (exclude: string[]) => {
       const result = fn.apply(this, args)
       return result
     }
-  }
-}
-
-export const ParamDec = (): any => {
-  return function (target: any, key: string, descriptor: PropertyDescriptor): void {
-    // eslint-disable-next-line prefer-rest-params
-    console.log(target, key, descriptor, '餐宿装饰器', arguments)
   }
 }
