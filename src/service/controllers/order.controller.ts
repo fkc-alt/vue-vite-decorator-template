@@ -1,18 +1,18 @@
 import * as axios from 'axios'
 import { Controller, Get, Post, ParamTypes } from '@/support/core'
-import Service from '../providers/service.provider'
+import RequestService from '../providers/request.provider'
 
 @Controller('order')
-@ParamTypes(Service)
+@ParamTypes(RequestService)
 export default class OrderController {
-  constructor (readonly service: Service) {}
+  constructor (private readonly requestService: RequestService) {}
   @Get('orderDetail')
   async GetOrderDetail<T extends Service.OrderDetailReq, U = Service.OrderDetailRes>(param: T | axios.AxiosRequestConfig = {}): ServerRes<U> {
-    return await this.service.request<T, U>(<axios.AxiosRequestConfig>param)
+    return await this.requestService.request<T, U>(<axios.AxiosRequestConfig>param)
   }
 
   @Post('orderList')
   async GetOrderList<T extends Service.OrderListReq, U = Service.OrderListRes>(param: T | axios.AxiosRequestConfig = {}): ServerRes<U> {
-    return await this.service.request<T, U>(<axios.AxiosRequestConfig>param)
+    return await this.requestService.request<T, U>(<axios.AxiosRequestConfig>param)
   }
 }

@@ -1,8 +1,8 @@
 import Axios, * as axios from 'axios'
 import { ElMessage } from 'element-plus'
-import { getToken } from '@/utils'
 import { CatchError } from '@/support'
-import { AuthGuard, Injectable } from '@/support/core'
+import { AuthGuard, Injectable, ParamTypes } from '@/support/core'
+import UtilService from './util.provider'
 
 const exclude = ['login', 'register']
 
@@ -10,13 +10,14 @@ const exclude = ['login', 'register']
  * @author kaichao.Feng
 */
 @Injectable()
+@ParamTypes(UtilService)
 export default class Service {
   private readonly instance: axios.AxiosInstance
   /**
      * @method constructor
      * @param { Object } config
     */
-  constructor (config?: axios.AxiosRequestConfig) {
+  constructor (private readonly utilService: UtilService, config?: axios.AxiosRequestConfig) {
     this.instance = Axios.create(config)
     this.interceptorsReq()
     this.interceptorsRes()
@@ -28,7 +29,7 @@ export default class Service {
     */
   private interceptorsReq (): void {
     this.instance.interceptors.request.use((config: axios.AxiosRequestConfig) => {
-      const Authorization = getToken()
+      const Authorization = this.utilService.getToken()
       // before handler send request
       if (Authorization && config.headers) config.headers.Authorization = 'Bearer ' + Authorization
       return config
@@ -67,8 +68,4 @@ export default class Service {
   async request<T, U> (config: axios.AxiosRequestConfig<T>): ServerRes<U> {
     return await this.instance.request<{}, ServerRes<U>, T>(config)
   }
-
-  // register (config: axios.AxiosRequestConfig = { baseURL: import.meta.env.VITE_APP_BASE_API }, ...param: any): Service {
-  //   return new this(config, ...param)
-  // }
 }

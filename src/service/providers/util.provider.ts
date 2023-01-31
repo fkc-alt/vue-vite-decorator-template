@@ -2,7 +2,7 @@ import { Injectable } from '@/support/core'
 import { randomKey, deepClone, getRoleIdList, getToken, getUserInfo, mapKeys, removeStorage, setData, setLang } from '@/utils'
 
 @Injectable()
-export class Utils {
+export default class UtilService {
   randomKey (): ReturnType<typeof randomKey> {
     return randomKey()
   }

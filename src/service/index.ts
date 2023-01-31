@@ -2,12 +2,12 @@ import { Module, Factory } from '@/support/core'
 import ArticleController from './controllers/article.controller'
 import UserController from './controllers/user.controller'
 import OrderController from './controllers/order.controller'
-import Service from './providers/service.provider'
-import { Utils } from './providers/utils.provider'
+import RequestService from './providers/request.provider'
+import UtilService from './providers/util.provider'
 
 @Module({
   controllers: [ArticleController, UserController, OrderController],
-  providers: [Service, Utils]
+  providers: [RequestService, UtilService]
 })
 class ServiceModule {
   constructor (
