@@ -1,10 +1,7 @@
 import * as axios from 'axios'
-import { Controller, Injectable, Post } from '@/descriptors/service'
+import { Controller, Post, ParamTypes } from '@/descriptors/service'
 import Service from '@/utils/service'
-import { ParamTypes } from '@/descriptors/demo'
-
 @Controller('user')
-@Injectable()
 @ParamTypes(Service)
 class UserController {
   constructor (readonly service: Service) {}

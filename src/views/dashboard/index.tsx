@@ -48,7 +48,7 @@ export default defineComponent({
       console.log('keep-alive')
     })
     onMounted(async () => {
-      const [r, d] = [await ServiceModule.article.GetArticleList(), await ServiceModule.article.GetTableDataList()]
+      const [r, d] = [await ServiceModule.ArticleController.GetArticleList(), await ServiceModule.ArticleController.GetTableDataList()]
       state.articleList = r.data.articleList
       state.tableList = d.data.tableList
     })

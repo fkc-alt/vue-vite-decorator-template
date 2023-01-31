@@ -1,13 +1,15 @@
 import * as axios from 'axios'
-import { Controller, Get, Injectable, Post } from '@/descriptors/service'
+import { Controller, Get, Post, ParamTypes } from '@/descriptors/service'
 import Service from '@/utils/service'
-import { ParamTypes } from '@/descriptors/demo'
 
 @Controller('article')
-@Injectable()
 @ParamTypes(Service)
 class ArticleController {
-  constructor (readonly service: Service) {}
+  a: string
+  constructor (readonly service: Service) {
+    this.a = 'article'
+  }
+
   @Get('getArticleList')
   async GetArticleList<T = unknown, U = Service.ArticleListRes>(param: T | axios.AxiosRequestConfig = {}): ServerRes<U> {
     return await this.service.request<T, U>(<axios.AxiosRequestConfig>param)

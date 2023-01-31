@@ -2,7 +2,7 @@
 import ServiceModule from '@/apis'
 
 const state = reactive<Service.OrderListRes>({ orderList: [] })
-const r = await ServiceModule.order.GetOrderList({ currentPage: 1, pageSize: 10 })
+const r = await ServiceModule.OrderController.GetOrderList({ currentPage: 1, pageSize: 10 })
 state.orderList = r.data.orderList
 </script>
 

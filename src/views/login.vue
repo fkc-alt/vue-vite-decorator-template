@@ -55,7 +55,7 @@ const submit = async (formEl: FormInstance | undefined) => {
   loading.value = true
   await formEl.validate((valid, fields) => {
     if (valid) {
-      ServiceModule.user.Login(loginForm)
+      ServiceModule.UrderController.Login(loginForm)
         .then(({ data: { token, roles: roleIdList } }) => {
           save({ userInfo: 'Test', token, roleIdList })
           setData({ token, roleIdList })

@@ -1,18 +1,19 @@
-import { Module } from '@/descriptors/service'
-import ArticleController from './modules/article'
-import UserConroller from './modules/user'
-import OrderConroller from './modules/order'
 import Service from '@/utils/service'
-import { Factory } from '@/descriptors/demo'
+import { Module, Factory, Demo } from '@/descriptors/service'
+import ArticleController from './modules/article'
+import UserController from './modules/user'
+import OrderController from './modules/order'
 
 @Module({
-  controllers: [ArticleController, UserConroller, OrderConroller],
-  providers: [Service]
+  controllers: [ArticleController, UserController, OrderController],
+  providers: [Service, Demo]
 })
 class ServiceModule {
-  constructor (readonly article: ArticleController,
-    readonly user: UserConroller,
-    readonly order: OrderConroller) {}
+  constructor (
+    readonly ArticleController: ArticleController,
+    readonly UrderController: UserController,
+    readonly OrderController: OrderController
+  ) {}
 }
-console.log(Factory(ServiceModule))
+
 export default Factory(ServiceModule)
