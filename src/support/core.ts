@@ -57,7 +57,16 @@ class Container {
 export const Factory = <T>(target: Constructor<T>, config: AxiosRequestConfig = { baseURL: import.meta.env.VITE_APP_BASE_API }): T => {
   const providers: Array<Constructor<any>> = Reflect.getMetadata(MODULE_METADATA.PROVIDERS, target)
   const continer = new Container()
-  providers.forEach(provide => continer.addProvider({ provide: provide.name, useClass: provide }))
+  try {
+    providers.forEach((provide: any) => {
+      const hasInject = Reflect.getMetadata(INJECTABLE_WATERMARK, provide)
+      continer.addProvider({ provide: provide.name, useClass: provide })
+      if (!hasInject) throw new Error(`Please use @Injectable() ${provide.name as string}`)
+      continer.addProvider({ provide: provide.name, useClass: provide })
+    })
+  } catch (error) {
+    console.log(error)
+  }
   const registerDeepClass = (providers: Array<Constructor<any>>): Array<Constructor<any>> => {
     return providers.map((provider: any) => {
       const currentNeedPro: Constructor<any> = continer.inject(provider.name)
@@ -65,11 +74,10 @@ export const Factory = <T>(target: Constructor<T>, config: AxiosRequestConfig = 
       return !deepNeedProviders ? new currentNeedPro(config) : new currentNeedPro(...registerDeepClass(deepNeedProviders), config)
     })
   }
-  const controllers = (Reflect.getMetadata(MODULE_METADATA.CONTROLLERS, target) as Array<Constructor<any>>).map((controller, index) => {
+  const controllers: Array<Constructor<any>> = (Reflect.getMetadata(MODULE_METADATA.CONTROLLERS, target) as Array<Constructor<any>>).map((controller, index) => {
     const currNeedProviders = Reflect.getMetadata(PARAMTYPES_METADATA, controller)
     return new controller(...registerDeepClass(currNeedProviders))
   })
-  console.log(continer)
   return new target(...controllers)
 }
 

@@ -1,8 +1,8 @@
 import Axios, * as axios from 'axios'
 import { ElMessage } from 'element-plus'
 import { getToken } from '@/utils'
-import { CatchError } from '@/descriptors'
-import { AuthGuard, Injectable } from '@/descriptors/service'
+import { CatchError } from '@/support'
+import { AuthGuard, Injectable } from '@/support/core'
 
 const exclude = ['login', 'register']
 

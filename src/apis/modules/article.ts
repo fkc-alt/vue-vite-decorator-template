@@ -1,5 +1,5 @@
 import * as axios from 'axios'
-import { Controller, Get, Post, ParamTypes } from '@/descriptors/service'
+import { Controller, Get, Post, ParamTypes } from '@/support/core'
 import Service from '@/utils/service'
 
 @Controller('article')

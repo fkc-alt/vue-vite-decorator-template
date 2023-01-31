@@ -1,5 +1,5 @@
 import Service from '@/utils/service'
-import { Module, Factory } from '@/descriptors/service'
+import { Module, Factory } from '@/support/core'
 import ArticleController from './modules/article'
 import UserController from './modules/user'
 import OrderController from './modules/order'
