@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import ServiceModule from '@/apis'
+import ServiceModule from '@/service'
 import useForm from './hooks/useForm'
 const route = useRoute()
 const ruleForm = useForm()

@@ -1,4 +1,4 @@
-import ServiceModule from '@/apis'
+import ServiceModule from '@/service'
 import CustomTable from '@/components/CustomTable'
 import SvgIcon from '@/components/SvgIcon/index.vue'
 import { mapColumn } from './tableConfig'

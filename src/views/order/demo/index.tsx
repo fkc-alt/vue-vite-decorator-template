@@ -1,4 +1,4 @@
-import ServiceModule from '@/apis'
+import ServiceModule from '@/service'
 import CustomForm from '@/components/CustomForm'
 import useForm from '../hooks/useForm'
 

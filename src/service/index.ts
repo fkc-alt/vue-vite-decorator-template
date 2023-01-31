@@ -1,9 +1,9 @@
-import Service from '@/utils/service'
+import Service from '@/service/providers/service.provider'
 import { Module, Factory } from '@/support/core'
-import ArticleController from './modules/article'
-import UserController from './modules/user'
-import OrderController from './modules/order'
-import { Utils } from '@/utils/utils.provider'
+import ArticleController from './controllers/article.controller'
+import UserController from './controllers/user.controller'
+import OrderController from './controllers/order.controller'
+import { Utils } from './providers/utils.provider'
 
 @Module({
   controllers: [ArticleController, UserController, OrderController],
@@ -12,7 +12,7 @@ import { Utils } from '@/utils/utils.provider'
 class ServiceModule {
   constructor (
     readonly ArticleController: ArticleController,
-    readonly UrderController: UserController,
+    readonly UserController: UserController,
     readonly OrderController: OrderController
   ) {}
 }

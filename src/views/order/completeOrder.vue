@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import ServiceModule from '@/apis'
+import ServiceModule from '@/service'
 
 const state = reactive<Service.OrderListRes>({ orderList: [] })
 const r = await ServiceModule.OrderController.GetOrderList({ currentPage: 1, pageSize: 10 })
