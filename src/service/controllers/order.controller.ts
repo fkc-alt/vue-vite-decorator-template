@@ -7,12 +7,12 @@ import RequestService from '../providers/request.provider'
 export default class OrderController {
   constructor (private readonly requestService: RequestService) {}
   @Get('orderDetail')
-  async GetOrderDetail<T extends Service.OrderDetailReq, U = Service.OrderDetailRes>(param: T | axios.AxiosRequestConfig = {}): ServerRes<U> {
+  public async GetOrderDetail<T extends Service.OrderDetailReq, U = Service.OrderDetailRes>(param: T | axios.AxiosRequestConfig = {}): ServerRes<U> {
     return await this.requestService.request<T, U>(<axios.AxiosRequestConfig>param)
   }
 
   @Post('orderList')
-  async GetOrderList<T extends Service.OrderListReq, U = Service.OrderListRes>(param: T | axios.AxiosRequestConfig = {}): ServerRes<U> {
+  public async GetOrderList<T extends Service.OrderListReq, U = Service.OrderListRes>(param: T | axios.AxiosRequestConfig = {}): ServerRes<U> {
     return await this.requestService.request<T, U>(<axios.AxiosRequestConfig>param)
   }
 }

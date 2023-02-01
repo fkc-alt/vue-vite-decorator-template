@@ -9,12 +9,12 @@ export default class ArticleController {
   constructor (private readonly requestService: RequestService, private readonly utilService: UtilService) { }
 
   @Get('getArticleList')
-  async GetArticleList<T = unknown, U = Service.ArticleListRes>(param: T | axios.AxiosRequestConfig = {}): ServerRes<U> {
+  public async GetArticleList<T = unknown, U = Service.ArticleListRes>(param: T | axios.AxiosRequestConfig = {}): ServerRes<U> {
     return await this.requestService.request<T, U>(<axios.AxiosRequestConfig>param)
   }
 
   @Post('tableData')
-  async GetTableDataList<T = unknown, U = Service.TableDataRes>(param: T | axios.AxiosRequestConfig = {}): ServerRes<U> {
+  public async GetTableDataList<T = unknown, U = Service.TableDataRes>(param: T | axios.AxiosRequestConfig = {}): ServerRes<U> {
     return await this.requestService.request<T, U>(<axios.AxiosRequestConfig>param)
   }
 }

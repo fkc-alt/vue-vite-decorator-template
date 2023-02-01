@@ -14,7 +14,7 @@ interface ModuleMetadata {
 
 type Constructor<T = any> = new (...args: any[]) => T
 interface ClassProvider<T> {
-  provide: string
+  provide: Constructor<T>
   useClass: Constructor<T>
 }
 
@@ -30,7 +30,7 @@ export const ReturnType = (type: any): (target: Function) => void => Reflect.met
  * @description 依赖容器
  */
 class Container {
-  providers = new Map<string, ClassProvider<any>>()
+  providers = new Map<Constructor<any>, ClassProvider<any>>()
   /**
    * 注册
    */
@@ -41,7 +41,7 @@ class Container {
   /**
    * 获取
    */
-  inject (token: string): Constructor<any> {
+  inject (token: Constructor<any>): Constructor<any> {
     return this.providers.get(token)?.useClass as Constructor<any>
   }
 }
@@ -60,16 +60,16 @@ export const Factory = <T>(target: Constructor<T>, config: AxiosRequestConfig = 
   try {
     providers.forEach((provide: any) => {
       const hasInject = Reflect.getMetadata(INJECTABLE_WATERMARK, provide)
-      continer.addProvider({ provide: provide.name, useClass: provide })
+      continer.addProvider({ provide, useClass: provide })
       if (!hasInject) throw new Error(`Please use @Injectable() ${provide.name as string}`)
-      continer.addProvider({ provide: provide.name, useClass: provide })
+      continer.addProvider({ provide, useClass: provide })
     })
   } catch (error) {
     console.log(error)
   }
   const registerDeepClass = (providers: Array<Constructor<any>>): Array<Constructor<any>> => {
     return providers.map((provider: any) => {
-      const currentNeedPro: Constructor<any> = continer.inject(provider.name)
+      const currentNeedPro: Constructor<any> = continer.inject(provider)
       const deepNeedProviders = Reflect.getMetadata(PARAMTYPES_METADATA, provider)
       return !deepNeedProviders ? new currentNeedPro(config) : new currentNeedPro(...registerDeepClass(deepNeedProviders), config)
     })

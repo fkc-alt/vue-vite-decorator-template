@@ -1,41 +1,46 @@
 import { Injectable } from '@/support/core'
 import { randomKey, deepClone, getRoleIdList, getToken, getUserInfo, mapKeys, removeStorage, setData, setLang } from '@/utils'
+import { customPrint } from '@/utils/print'
 
 @Injectable()
 export default class UtilService {
-  randomKey (): ReturnType<typeof randomKey> {
+  public randomKey (): ReturnType<typeof randomKey> {
     return randomKey()
   }
 
-  async deepClone (obj: Parameters<typeof deepClone>[0]): ReturnType<typeof deepClone> {
+  public async deepClone (obj: Parameters<typeof deepClone>[0]): ReturnType<typeof deepClone> {
     return await deepClone(obj)
   }
 
-  getRoleIdList (): ReturnType<typeof getRoleIdList> {
+  public getRoleIdList (): ReturnType<typeof getRoleIdList> {
     return getRoleIdList()
   }
 
-  getToken (): ReturnType<typeof getToken> {
+  public getToken (): ReturnType<typeof getToken> {
     return getToken()
   }
 
-  getUserInfo (): ReturnType<typeof getUserInfo> {
+  public getUserInfo (): ReturnType<typeof getUserInfo> {
     return getUserInfo()
   }
 
-  mapKeys (obj: Parameters<typeof mapKeys>[0], keymap: Parameters<typeof mapKeys>[1]): ReturnType<typeof mapKeys> {
+  public mapKeys (obj: Parameters<typeof mapKeys>[0], keymap: Parameters<typeof mapKeys>[1]): ReturnType<typeof mapKeys> {
     return mapKeys(obj, keymap)
   }
 
-  removeStorage (...data: string[]): ReturnType<typeof removeStorage> {
+  public removeStorage (...data: string[]): ReturnType<typeof removeStorage> {
     return removeStorage(...data)
   }
 
-  setData (data: Common.StroageType): ReturnType<typeof setData> {
+  public setData (data: Common.StroageType): ReturnType<typeof setData> {
     setData(data)
   }
 
-  setLang (lang: string): ReturnType<typeof setLang> {
+  public setLang (lang: string): ReturnType<typeof setLang> {
     setLang(lang)
+  }
+
+  public customPrint (options: Parameters<typeof customPrint>[0]): ReturnType<typeof customPrint> {
+    customPrint(options)
   }
 }

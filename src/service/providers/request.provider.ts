@@ -66,7 +66,7 @@ export default class RequestService {
     */
   @AuthGuard(exclude)
   @CatchError()
-  async request<T, U> (config: axios.AxiosRequestConfig<T>): ServerRes<U> {
+  public async request<T, U> (config: axios.AxiosRequestConfig<T>): ServerRes<U> {
     return await this.instance.request<{}, ServerRes<U>, T>(config)
   }
 }
