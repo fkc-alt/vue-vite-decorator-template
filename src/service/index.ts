@@ -1,20 +1,16 @@
-import { Module, Factory } from '@/support/core'
-import ArticleController from './controllers/article.controller'
-import UserController from './controllers/user.controller'
-import OrderController from './controllers/order.controller'
-import RequestService from './providers/request.provider'
-import UtilService from './providers/util.provider'
+import { CreateModule, Module } from '@/support/core'
+import ArticleModule from './article/article.module'
+import UserModule from './user/user.module'
+import OrderModule from './order/order.module'
 
 @Module({
-  controllers: [ArticleController, UserController, OrderController],
-  providers: [RequestService, UtilService]
+  imports: [ArticleModule, UserModule, OrderModule]
 })
 class ServiceModule {
   constructor (
-    readonly ArticleController: ArticleController,
-    readonly UserController: UserController,
-    readonly OrderController: OrderController
+    readonly ArticleModule: ArticleModule,
+    readonly UserModule: UserModule,
+    readonly OrderModule: OrderModule
   ) {}
 }
-
-export default Factory(ServiceModule)
+export default CreateModule(ServiceModule)

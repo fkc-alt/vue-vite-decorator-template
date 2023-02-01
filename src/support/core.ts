@@ -8,8 +8,9 @@ import { getToken } from '@/utils'
 import { MODULE_METADATA, TYPE_METADATA, PARAMTYPES_METADATA, RETURNTYPE_METADATA, INJECTABLE_WATERMARK, REQUEST_SERVICE } from './constant'
 
 interface ModuleMetadata {
-  controllers?: any[]
-  providers?: any[]
+  imports?: any[]
+  controllers?: Array<Constructor<any>>
+  providers?: Array<Constructor<any>>
 }
 
 type Constructor<T = any> = new (...args: any[]) => T
@@ -46,6 +47,11 @@ class Container {
   }
 }
 
+export const CreateModule = <T>(target: Constructor<T>): T => {
+  const modules: [] = Reflect.getMetadata(MODULE_METADATA.IMPORTS, target)
+  return new target(...modules.map(item => Factory(item)))
+}
+
 /**
  * @module Factory
  * @class Factory
@@ -60,7 +66,6 @@ export const Factory = <T>(target: Constructor<T>, config: AxiosRequestConfig = 
   try {
     providers.forEach((provide: any) => {
       const hasInject = Reflect.getMetadata(INJECTABLE_WATERMARK, provide)
-      continer.addProvider({ provide, useClass: provide })
       if (!hasInject) throw new Error(`Please use @Injectable() ${provide.name as string}`)
       continer.addProvider({ provide, useClass: provide })
     })

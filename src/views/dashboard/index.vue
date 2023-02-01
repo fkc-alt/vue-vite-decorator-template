@@ -1,6 +1,6 @@
 <!-- eslint-disable @typescript-eslint/no-unused-vars -->
 <script lang="ts" setup>
-import ServiceModule from '@/service'
+import { ArticleModuleFactory } from '@/service/article/article.module'
 import { mapColumn } from './tableConfig'
 type Row = CustomerProps.CustomTable.SlotProp<Service.ArticleItem>
 
@@ -44,7 +44,7 @@ const toggleSelection = (rows?: Service.ArticleItem[]): void => {
 }
 const init = async () => {
   loading.value = true
-  const [r, d] = [await ServiceModule.ArticleController.GetArticleList(), await ServiceModule.ArticleController.GetTableDataList()]
+  const [r, d] = [await ArticleModuleFactory.ArticleController.GetArticleList(), await ArticleModuleFactory.ArticleController.GetTableDataList()]
   state.articleList = r.data.articleList
   state.tableList = d.data.tableList
   loading.value = false

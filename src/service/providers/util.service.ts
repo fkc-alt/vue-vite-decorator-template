@@ -1,5 +1,5 @@
 import { Injectable } from '@/support/core'
-import { randomKey, deepClone, getRoleIdList, getToken, getUserInfo, mapKeys, removeStorage, setData, setLang } from '@/utils'
+import { randomKey, deepClone, getRoleIdList, getToken, getUserInfo, mapKeys, removeStorage, setData, setLang, hasString, hasNumber, hasObject, hasArray, hasFunction, hasSymbol } from '@/utils'
 import { customPrint } from '@/utils/print'
 
 @Injectable()
@@ -42,5 +42,29 @@ export default class UtilService {
 
   public customPrint (options: Parameters<typeof customPrint>[0]): ReturnType<typeof customPrint> {
     customPrint(options)
+  }
+
+  public hasString (target: any): boolean {
+    return hasString(target)
+  }
+
+  public hasNumber (target: any): boolean {
+    return hasNumber(target)
+  }
+
+  public hasObject (target: any): boolean {
+    return hasObject(target)
+  }
+
+  public hasArray (target: any): boolean {
+    return hasArray(target)
+  }
+
+  public hasFunction (target: any): boolean {
+    return hasFunction(target)
+  }
+
+  public hasSymbol (target: any): boolean {
+    return hasSymbol(target)
   }
 }

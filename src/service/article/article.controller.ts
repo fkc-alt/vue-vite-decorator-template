@@ -1,15 +1,17 @@
 import * as axios from 'axios'
 import { Controller, Get, Post, ParamTypes } from '@/support/core'
-import RequestService from '../providers/request.provider'
-import UtilService from '../providers/util.provider'
+import RequestService from '../providers/request.service'
+import UtilService from '../providers/util.service'
+import ArticleService from './article.service'
 
 @Controller('article')
-@ParamTypes(RequestService, UtilService)
+@ParamTypes(RequestService, ArticleService, UtilService)
 export default class ArticleController {
-  constructor (private readonly requestService: RequestService, private readonly utilService: UtilService) { }
+  constructor (private readonly requestService: RequestService, private readonly articleService: ArticleService, private readonly utilService: UtilService) { }
 
   @Get('getArticleList')
   public async GetArticleList<T = unknown, U = Service.ArticleListRes>(param: T | axios.AxiosRequestConfig = {}): ServerRes<U> {
+    this.articleService.Log()
     return await this.requestService.request<T, U>(<axios.AxiosRequestConfig>param)
   }
 

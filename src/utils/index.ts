@@ -1,3 +1,29 @@
+import { ARRAY, FUNCTION, NUMBER, OBJECT, STRING, SYMBOL } from './contsant'
+
+export const hasString = (target: any): boolean => {
+  return Object.prototype.toString.call(target) === STRING
+}
+
+export const hasNumber = (target: any): boolean => {
+  return Object.prototype.toString.call(target) === NUMBER
+}
+
+export const hasObject = (target: any): boolean => {
+  return Object.prototype.toString.call(target) === OBJECT
+}
+
+export const hasArray = (target: any): boolean => {
+  return Object.prototype.toString.call(target) === ARRAY
+}
+
+export const hasFunction = (target: any): boolean => {
+  return Object.prototype.toString.call(target) === FUNCTION
+}
+
+export const hasSymbol = (target: any): boolean => {
+  return Object.prototype.toString.call(target) === SYMBOL
+}
+
 export const getUserInfo = (): string | null => {
   return JSON.parse(sessionStorage.getItem('userInfo') ?? '')
 }

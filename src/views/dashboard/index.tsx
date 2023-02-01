@@ -1,4 +1,4 @@
-import ServiceModule from '@/service'
+import { ArticleModuleFactory } from '@/service/article/article.module'
 import CustomTable from '@/components/CustomTable'
 import SvgIcon from '@/components/SvgIcon/index.vue'
 import { mapColumn } from './tableConfig'
@@ -48,7 +48,7 @@ export default defineComponent({
       console.log('keep-alive')
     })
     onMounted(async () => {
-      const [r, d] = [await ServiceModule.ArticleController.GetArticleList(), await ServiceModule.ArticleController.GetTableDataList()]
+      const [r, d] = [await ArticleModuleFactory.ArticleController.GetArticleList(), await ArticleModuleFactory.ArticleController.GetTableDataList()]
       state.articleList = r.data.articleList
       state.tableList = d.data.tableList
     })
