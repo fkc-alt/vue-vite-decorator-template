@@ -1,7 +1,7 @@
 import { Factory, Module } from '@/support/core'
 import OrderController from './order.controller'
-import RequestService from '../providers/request.service'
-import UtilService from '../providers/util.service'
+import RequestService from '../../providers/request.service'
+import UtilService from '../../providers/util.service'
 import OrderService from './order.service'
 
 @Module({

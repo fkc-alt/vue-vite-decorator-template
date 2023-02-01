@@ -1,4 +1,4 @@
-import { OrderModuleFactory } from '@/service/order/order.module'
+import { OrderModuleFactory } from '@/service/modules/order/order.module'
 import CustomForm from '@/components/CustomForm'
 import useForm from '../hooks/useForm'
 
