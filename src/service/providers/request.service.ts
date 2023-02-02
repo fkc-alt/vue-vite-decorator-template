@@ -10,7 +10,7 @@ const exclude = ['login', 'register']
 */
 @Injectable()
 export default class RequestService {
-  private readonly instance: axios.AxiosInstance
+  private _instance!: axios.AxiosInstance
   /**
      * @method constructor
      * @param { Object } config
@@ -19,8 +19,6 @@ export default class RequestService {
     this.instance = Axios.create({
       baseURL: import.meta.env.VITE_APP_BASE_API
     })
-    this.interceptorsReq()
-    this.interceptorsRes()
   }
 
   /**
@@ -67,5 +65,34 @@ export default class RequestService {
   @CatchError()
   public async request<T, U> (config: axios.AxiosRequestConfig<T>): ServerRes<U> {
     return await this.instance.request<{}, ServerRes<U>, T>(config)
+  }
+
+  /**
+     * @method forRoot
+     * @param { axios.AxiosRequestConfig } config
+     * @description 传递配置参数
+    */
+  public forRoot (config: axios.AxiosRequestConfig = {}): void {
+    this.instance = Axios.create(config)
+  }
+
+  /**
+     * @method getters
+     * @return { axios.AxiosInstance }
+     * @description instance Getter
+    */
+  private get instance (): axios.AxiosInstance {
+    return this._instance
+  }
+
+  /**
+     * @method setters
+     * @return { axios.AxiosInstance }
+     * @description instance Setter
+    */
+  private set instance (axiosInstance: axios.AxiosInstance) {
+    this._instance = axiosInstance
+    this.interceptorsReq()
+    this.interceptorsRes()
   }
 }

@@ -7,7 +7,7 @@ import UserService from './user.service'
 export default class UserController {
   constructor (private readonly requestService: RequestService, private readonly userService: UserService) {}
   @Post('login')
-  public async Login<T extends Service.LoginReq, U extends Service.LoginRes>(param: axios.AxiosRequestConfig | T): ServerRes<U> {
+  public async Login<T extends Service.LoginReq, U extends Service.LoginRes>(param: T): ServerRes<U> {
     this.userService.Log()
     return await this.requestService.request<T, U>(<axios.AxiosRequestConfig>param)
   }

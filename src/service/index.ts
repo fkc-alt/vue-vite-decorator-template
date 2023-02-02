@@ -1,9 +1,9 @@
-import { CreateModule, Injectable } from '@/support/core'
+import { CreateModule, Module } from '@/support/core'
 import ArticleModule from './modules/article/article.module'
 import UserModule from './modules/user/user.module'
 import OrderModule from './modules/order/order.module'
 
-@Injectable()
+@Module({})
 class ServiceModule {
   constructor (
     readonly articleModule: ArticleModule,
