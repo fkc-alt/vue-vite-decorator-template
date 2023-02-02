@@ -9,7 +9,7 @@ export default defineComponent({
     const route = useRoute()
     const customForm = ref<CustomerProps.CustomForm.FormRef>()
     const state = reactive({}) as Service.OrderDetailReq
-    const r = await OrderModuleFactory.OrderController.GetOrderDetail({ orderId: route.query.id as string })
+    const r = await OrderModuleFactory.orderController.GetOrderDetail({ orderId: route.query.id as string })
     Object.assign(state, r.data)
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     const valid = async () => {

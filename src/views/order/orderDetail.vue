@@ -8,7 +8,7 @@ const state = reactive({}) as Service.OrderDetailRes
 watch(ruleForm, () => {
   console.log(ruleForm)
 })
-const r = await OrderModuleFactory.OrderController.GetOrderDetail({ orderId: route.query.id as string })
+const r = await OrderModuleFactory.orderController.GetOrderDetail({ orderId: route.query.id as string })
 Object.assign(state, r.data)
 const valid = async () => {
   try {

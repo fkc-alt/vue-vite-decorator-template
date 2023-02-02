@@ -44,7 +44,7 @@ const toggleSelection = (rows?: Service.ArticleItem[]): void => {
 }
 const init = async () => {
   loading.value = true
-  const [r, d] = [await ArticleModuleFactory.ArticleController.GetArticleList(), await ArticleModuleFactory.ArticleController.GetTableDataList()]
+  const [r, d] = [await ArticleModuleFactory.articleController.GetArticleList(), await ArticleModuleFactory.articleController.GetTableDataList()]
   state.articleList = r.data.articleList
   state.tableList = d.data.tableList
   loading.value = false

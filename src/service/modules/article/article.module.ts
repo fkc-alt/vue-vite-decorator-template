@@ -9,7 +9,7 @@ import ArticleService from './article.service'
   providers: [RequestService, UtilService, ArticleService]
 })
 export default class ArticleModule {
-  constructor (readonly ArticleController: ArticleController) {}
+  constructor (readonly articleController: ArticleController) {}
 }
 
 export const ArticleModuleFactory = Factory(ArticleModule)
