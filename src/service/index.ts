@@ -1,16 +1,14 @@
-import { CreateModule, Module } from '@/support/core'
+import { CreateModule, Injectable } from '@/support/core'
 import ArticleModule from './article/article.module'
 import UserModule from './user/user.module'
 import OrderModule from './order/order.module'
 
-@Module({
-  imports: [ArticleModule, UserModule, OrderModule]
-})
+@Injectable()
 class ServiceModule {
   constructor (
-    readonly ArticleModule: ArticleModule,
-    readonly UserModule: UserModule,
-    readonly OrderModule: OrderModule
+    readonly articleModule: ArticleModule,
+    readonly orderModule: OrderModule,
+    readonly userModule: UserModule
   ) {}
 }
 export default CreateModule(ServiceModule)

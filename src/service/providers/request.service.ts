@@ -1,7 +1,7 @@
 import Axios, * as axios from 'axios'
 import { ElMessage } from 'element-plus'
 import { CatchError } from '@/support'
-import { AuthGuard, Injectable, ParamTypes, Request } from '@/support/core'
+import { AuthGuard, Injectable } from '@/support/core'
 import UtilService from './util.service'
 
 const exclude = ['login', 'register']
@@ -10,16 +10,16 @@ const exclude = ['login', 'register']
  * @author kaichao.Feng
 */
 @Injectable()
-@Request()
-@ParamTypes(UtilService)
 export default class RequestService {
   private readonly instance: axios.AxiosInstance
   /**
      * @method constructor
      * @param { Object } config
     */
-  constructor (private readonly utilService: UtilService, config?: axios.AxiosRequestConfig) {
-    this.instance = Axios.create(config)
+  constructor (private readonly utilService: UtilService) {
+    this.instance = Axios.create({
+      baseURL: import.meta.env.VITE_APP_BASE_API
+    })
     this.interceptorsReq()
     this.interceptorsRes()
   }

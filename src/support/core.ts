@@ -48,7 +48,8 @@ class Container {
 }
 
 export const CreateModule = <T>(target: Constructor<T>): T => {
-  const modules: [] = Reflect.getMetadata(MODULE_METADATA.IMPORTS, target)
+  const modules: [] = Reflect.getMetadata(PARAMTYPES_METADATA, target)
+  console.log(modules, 'modules')
   return new target(...modules.map(item => Factory(item)))
 }
 
@@ -76,7 +77,7 @@ export const Factory = <T>(target: Constructor<T>, config: AxiosRequestConfig = 
     return providers.map((provider: any) => {
       const currentNeedPro: Constructor<any> = continer.inject(provider)
       const deepNeedProviders = Reflect.getMetadata(PARAMTYPES_METADATA, provider)
-      return !deepNeedProviders ? new currentNeedPro(config) : new currentNeedPro(...registerDeepClass(deepNeedProviders), config)
+      return !deepNeedProviders ? new currentNeedPro() : new currentNeedPro(...registerDeepClass(deepNeedProviders))
     })
   }
   const controllers: Array<Constructor<any>> = (Reflect.getMetadata(MODULE_METADATA.CONTROLLERS, target) as Array<Constructor<any>>).map((controller, index) => {

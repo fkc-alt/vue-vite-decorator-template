@@ -26,6 +26,7 @@ import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
 
 import ViteCompression from 'vite-plugin-compression'
 import { viteMockServe as ViteMockServe } from 'vite-plugin-mock'
+import Swc from 'unplugin-swc'
 import pkg from './package.json'
 
 const { dependencies, devDependencies, name, version } = pkg
@@ -139,7 +140,10 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
         localEnabled: command === 'serve' && VITE_APP_MOCK === 'true', // 开发打包开关
         prodEnabled: command !== 'serve', // 生产打包开关
         logger: true
-      })
+      }),
+      Swc.vite()
+      // Rollup plugin
+      // Swc.rollup()
     ],
     resolve: {
       alias: {
