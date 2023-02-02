@@ -1,6 +1,6 @@
 import * as axios from 'axios'
 import { Controller, Get, Post } from '@/support/core'
-import RequestService from '../providers/request.service'
+import RequestService from '../../providers/request.service'
 import OrderService from './order.service'
 
 @Controller('order')

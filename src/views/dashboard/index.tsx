@@ -1,4 +1,4 @@
-import { ArticleModuleFactory } from '@/service/article/article.module'
+import { ArticleModuleFactory } from '@/service/modules/article/article.module'
 import CustomTable from '@/components/CustomTable'
 import SvgIcon from '@/components/SvgIcon/index.vue'
 import { mapColumn } from './tableConfig'

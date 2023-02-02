@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { OrderModuleFactory } from '@/service/order/order.module'
+import { OrderModuleFactory } from '@/service/modules/order/order.module'
 import useForm from './hooks/useForm'
 const route = useRoute()
 const ruleForm = useForm()

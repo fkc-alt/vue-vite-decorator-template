@@ -27,7 +27,7 @@ export const ReturnType = (type: any): (target: Function) => void => Reflect.met
  * @module Container
  * @class Container
  * @param { ClassProvider<T> }
- * @async kaichao.feng
+ * @auther kaichao.feng
  * @description 依赖容器
  */
 class Container {
@@ -55,10 +55,9 @@ export const CreateModule = <T>(target: Constructor<T>): T => {
 
 /**
  * @module Factory
- * @class Factory
  * @param { Constructor<T> }
  * @returns { T }
- * @async kaichao.feng
+ * @auther kaichao.feng
  * @description 依赖注入工厂函数
  */
 export const Factory = <T>(target: Constructor<T>, config: AxiosRequestConfig = { baseURL: import.meta.env.VITE_APP_BASE_API }): T => {
@@ -89,8 +88,7 @@ export const Factory = <T>(target: Constructor<T>, config: AxiosRequestConfig = 
 
 /**
  * @module Injectable
- * @class Injectable
- * @async kaichao.feng
+ * @auther kaichao.feng
  * @description 标注依赖注入
  */
 export const Injectable = (): ClassDecorator => {
@@ -101,8 +99,7 @@ export const Injectable = (): ClassDecorator => {
 
 /**
  * @module Request
- * @class Request
- * @async kaichao.feng
+ * @auther kaichao.feng
  * @description 标注是否为请求依赖
  */
 export const Request = (): ClassDecorator => {
@@ -113,8 +110,7 @@ export const Request = (): ClassDecorator => {
 
 /**
  * @module Inject
- * @class Inject
- * @async kaichao.feng
+ * @auther kaichao.feng
  * @description 具名依赖注入
  */
 export const Inject = (target?: Constructor<any>) => {
@@ -125,9 +121,8 @@ export const Inject = (target?: Constructor<any>) => {
 
 /**
  * @module Module
- * @class Module
  * @param { ModuleMetadata }
- * @async kaichao.feng
+ * @auther kaichao.feng
  * @description 模块管理函数
  */
 export const Module = (metadata: ModuleMetadata) => {
@@ -143,9 +138,8 @@ export const Module = (metadata: ModuleMetadata) => {
 
 /**
  * @module Controller
- * @class Controller
  * @param { string }
- * @async kaichao.feng
+ * @auther kaichao.feng
  * @description 接口控制器
  */
 export const Controller = (prifix = '') => {
@@ -156,9 +150,8 @@ export const Controller = (prifix = '') => {
 
 /**
  * @module Get
- * @class Get
  * @param { string }
- * @async kaichao.feng
+ * @auther kaichao.feng
  * @description 请求方法
  */
 export const Get = (path: string) => {
@@ -178,9 +171,8 @@ export const Get = (path: string) => {
 
 /**
  * @module Post
- * @class Post
  * @param { string }
- * @async kaichao.feng
+ * @auther kaichao.feng
  * @description 请求方法
  */
 export const Post = (path: string) => {
@@ -200,9 +192,8 @@ export const Post = (path: string) => {
 
 /**
  * @module Delete
- * @class Delete
  * @param { string }
- * @async kaichao.feng
+ * @auther kaichao.feng
  * @description 请求方法
  */
 export const Delete = (path: string) => {
@@ -221,9 +212,8 @@ export const Delete = (path: string) => {
 
 /**
  * @module AuthGuard
- * @class AuthGuard
  * @param { string[] }
- * @async kaichao.feng
+ * @auther kaichao.feng
  * @description 请求路由鉴权守卫
  */
 export const AuthGuard = (exclude: string[]) => {
@@ -237,6 +227,26 @@ export const AuthGuard = (exclude: string[]) => {
       }
       const result = fn.apply(this, args)
       return result
+    }
+  }
+}
+
+/**
+ * @module CatchError
+ * @auther kaichao.feng
+ * @description TryCatch异常捕获
+ */
+export const CatchError = () => {
+  return function (target: object, key: string, descriptor: PropertyDescriptor): void {
+    const fn: (...args: any) => any = descriptor.value
+    descriptor.value = function (...args: any) {
+      try {
+        const result = fn.apply(this, args)
+        return result
+      } catch (error: any) {
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+        console.log(`CatchError: ${error}`)
+      }
     }
   }
 }

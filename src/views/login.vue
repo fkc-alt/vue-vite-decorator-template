@@ -3,7 +3,7 @@ import type { ComponentInternalInstance } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
 import { FormInstance, FormRules, ElMessage } from 'element-plus'
 import { useUserStore } from '@/store/user'
-import { UserModuleFactory } from '@/service/user/user.module'
+import { UserModuleFactory } from '@/service/modules/user/user.module'
 import { setData } from '@/utils'
 // Look Vue Prototype property
 const [{ proxy }, MODE] = [
