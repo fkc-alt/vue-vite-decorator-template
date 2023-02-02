@@ -20,11 +20,7 @@ export const mapColumn: CustomerProps.CustomTable.MapColumn<Service.ArticleItem>
     {
       prop: 'description',
       label: 'Description',
-      align: 'center',
-      renderHeader (data) {
-        console.log(data)
-        return <div>Custom Header</div>
-      }
+      align: 'center'
     },
     {
       label: 'Custom',

@@ -5,23 +5,9 @@
 import { AxiosRequestConfig } from 'axios'
 import { ElMessage } from 'element-plus'
 import { getToken } from '@/utils'
-import { MODULE_METADATA, TYPE_METADATA, PARAMTYPES_METADATA, RETURNTYPE_METADATA, INJECTABLE_WATERMARK, REQUEST_SERVICE } from './constant'
-
-interface ModuleMetadata {
-  imports?: any[]
-  controllers?: Array<Constructor<any>>
-  providers?: Array<Constructor<any>>
-}
-
-type Constructor<T = any> = new (...args: any[]) => T
-interface ClassProvider<T> {
-  provide: Constructor<T>
-  useClass: Constructor<T>
-}
-
-export const Type = (type: any): (target: Function) => void => Reflect.metadata(TYPE_METADATA, type)
-export const ParamTypes = (...type: any): (target: Function) => void => Reflect.metadata(PARAMTYPES_METADATA, type)
-export const ReturnType = (type: any): (target: Function) => void => Reflect.metadata(RETURNTYPE_METADATA, type)
+import { Core } from './types/core'
+import { Method } from './types/enums'
+import { MODULE_METADATA, PARAMTYPES_METADATA, INJECTABLE_WATERMARK, REQUEST_SERVICE } from './constant'
 
 /**
  * @module Container
@@ -31,25 +17,24 @@ export const ReturnType = (type: any): (target: Function) => void => Reflect.met
  * @description 依赖容器
  */
 class Container {
-  providers = new Map<Constructor<any>, ClassProvider<any>>()
+  providers = new Map<Core.Constructor<any>, Core.ClassProvider<any>>()
   /**
    * 注册
    */
-  addProvider<T>(provider: ClassProvider<T>): void {
+  addProvider<T>(provider: Core.ClassProvider<T>): void {
     this.providers.set(provider.provide, provider)
   }
 
   /**
    * 获取
    */
-  inject (token: Constructor<any>): Constructor<any> {
-    return this.providers.get(token)?.useClass as Constructor<any>
+  inject (token: Core.Constructor<any>): Core.Constructor<any> {
+    return this.providers.get(token)?.useClass as Core.Constructor<any>
   }
 }
 
-export const CreateModule = <T>(target: Constructor<T>): T => {
+export const CreateModule = <T>(target: Core.Constructor<T>): T => {
   const modules: [] = Reflect.getMetadata(PARAMTYPES_METADATA, target)
-  console.log(modules, 'modules')
   return new target(...modules.map(item => Factory(item)))
 }
 
@@ -60,8 +45,8 @@ export const CreateModule = <T>(target: Constructor<T>): T => {
  * @auther kaichao.feng
  * @description 依赖注入工厂函数
  */
-export const Factory = <T>(target: Constructor<T>, config: AxiosRequestConfig = { baseURL: import.meta.env.VITE_APP_BASE_API }): T => {
-  const providers: Array<Constructor<any>> = Reflect.getMetadata(MODULE_METADATA.PROVIDERS, target)
+export const Factory = <T>(target: Core.Constructor<T>, config: AxiosRequestConfig = { baseURL: import.meta.env.VITE_APP_BASE_API }): T => {
+  const providers: Array<Core.Constructor<any>> = Reflect.getMetadata(MODULE_METADATA.PROVIDERS, target)
   const continer = new Container()
   try {
     providers.forEach((provide: any) => {
@@ -72,14 +57,14 @@ export const Factory = <T>(target: Constructor<T>, config: AxiosRequestConfig = 
   } catch (error) {
     console.log(error)
   }
-  const registerDeepClass = (providers: Array<Constructor<any>>): Array<Constructor<any>> => {
+  const registerDeepClass = (providers: Array<Core.Constructor<any>>): Array<Core.Constructor<any>> => {
     return providers.map((provider: any) => {
-      const currentNeedPro: Constructor<any> = continer.inject(provider)
+      const currentNeedPro: Core.Constructor<any> = continer.inject(provider)
       const deepNeedProviders = Reflect.getMetadata(PARAMTYPES_METADATA, provider)
       return !deepNeedProviders ? new currentNeedPro() : new currentNeedPro(...registerDeepClass(deepNeedProviders))
     })
   }
-  const controllers: Array<Constructor<any>> = (Reflect.getMetadata(MODULE_METADATA.CONTROLLERS, target) as Array<Constructor<any>>).map((controller, index) => {
+  const controllers: Array<Core.Constructor<any>> = (Reflect.getMetadata(MODULE_METADATA.CONTROLLERS, target) as Array<Core.Constructor<any>>).map((controller, index) => {
     const currNeedProviders = Reflect.getMetadata(PARAMTYPES_METADATA, controller)
     return new controller(...registerDeepClass(currNeedProviders))
   })
@@ -113,7 +98,7 @@ export const Request = (): ClassDecorator => {
  * @auther kaichao.feng
  * @description 具名依赖注入
  */
-export const Inject = (target?: Constructor<any>) => {
+export const Inject = (target?: Core.Constructor<any>) => {
   return function (...args: any[]) {
     console.log(args, target)
   }
@@ -125,12 +110,12 @@ export const Inject = (target?: Constructor<any>) => {
  * @auther kaichao.feng
  * @description 模块管理函数
  */
-export const Module = (metadata: ModuleMetadata) => {
+export const Module = (metadata: Core.ModuleMetadata) => {
   // const propsKeys = Object.keys(metadata)
   return (target: any) => {
     for (const property in metadata) {
-      if (metadata[property as keyof ModuleMetadata]) {
-        Reflect.defineMetadata(property, metadata[property as keyof ModuleMetadata], target)
+      if (metadata[property as keyof Core.ModuleMetadata]) {
+        Reflect.defineMetadata(property, metadata[property as keyof Core.ModuleMetadata], target)
       }
     }
   }
@@ -161,7 +146,7 @@ export const Get = (path: string) => {
     descriptor.value = function () {
       const param: AxiosRequestConfig = Object.assign({
         url: `${target.prifix as string}${path.replace(/^\//g, '')}`,
-        method: 'GET'
+        method: Method.GET
       }, arguments.length ? { params: arguments[0] } : {})
       const result = fn.apply(this, [param])
       return result
@@ -182,7 +167,7 @@ export const Post = (path: string) => {
     descriptor.value = function () {
       const param: AxiosRequestConfig = Object.assign({
         url: `${target.prifix as string}${path.replace(/^\//g, '')}`,
-        method: 'POST'
+        method: Method.POST
       }, arguments.length ? { data: arguments[0] } : {})
       const result = fn.apply(this, [param])
       return result
@@ -202,7 +187,7 @@ export const Delete = (path: string) => {
     descriptor.value = function () {
       const param: AxiosRequestConfig = Object.assign({
         url: `${target.prifix as string}${path.replace(/^\//g, '')}`,
-        method: 'DELETE'
+        method: Method.DELETE
       }, arguments.length ? { data: arguments[0] } : {})
       const result = fn.apply(this, [param])
       return result

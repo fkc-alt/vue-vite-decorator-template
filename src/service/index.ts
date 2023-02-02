@@ -3,7 +3,9 @@ import ArticleModule from './modules/article/article.module'
 import UserModule from './modules/user/user.module'
 import OrderModule from './modules/order/order.module'
 
-@Module({})
+@Module({
+  imports: [ArticleModule, UserModule, OrderModule]
+})
 class ServiceModule {
   constructor (
     readonly articleModule: ArticleModule,
