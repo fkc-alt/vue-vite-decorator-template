@@ -7,7 +7,7 @@ declare namespace CustomProvider {
     test: {
       default: () => void
     }
-    [key: string | keyof Provider]
+    [key: string]
   }
   interface _APP_INFO_ {
     pkg: Pick<typeof import('package.json'), 'name' | 'version' | 'dependencies' | 'devDependencies'>

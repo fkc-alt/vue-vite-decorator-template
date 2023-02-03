@@ -104,9 +104,9 @@ export const Inject = (target: any, propertyName: string, descriptor: TypedPrope
   descriptor.value = function (...args: any[]) {
     const values = Object.values(data)
     if (values.length) {
-      return method.apply(this, values.map(v => {
-        const item = args.find((t, index) => index === v.index)
-        return item[v.data as unknown as string] || item
+      return method.apply(this, values.map(value => {
+        const item = args.find((_, index) => index === value.index)
+        return item[value.data as unknown as string] || item
       }))
     }
     return method.apply(this, args)

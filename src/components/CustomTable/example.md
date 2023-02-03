@@ -57,7 +57,6 @@ export default defineComponent({
 ### Vue3版本
 ```
 <script lang="ts" setup>
-import { GetArticleList, GetTableDataList } from '@/apis'
 import { mapColumn } from './tableConfig'
 type Row = CustomerProps.CustomTable.SlotProp<Service.ArticleItem>
 
