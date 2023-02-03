@@ -12,6 +12,7 @@ export const PARAMTYPES_METADATA = 'design:paramtypes'
 export const RETURNTYPE_METADATA = 'design:returntype'
 export const INJECTABLE_WATERMARK = '__injectable__'
 export const REQUEST_SERVICE = '__request__'
+export const ROUTE_ARGS_METADATA = '__routeArguments__'
 
 export const Type = (type: any): (target: Core.Constructor<any>) => void => Reflect.metadata(TYPE_METADATA, type)
 export const ParamTypes = (...type: any): (target: Core.Constructor<any>) => void => Reflect.metadata(PARAMTYPES_METADATA, type)

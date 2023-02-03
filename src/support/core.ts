@@ -4,10 +4,10 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { AxiosRequestConfig } from 'axios'
 import { ElMessage } from 'element-plus'
-import { getToken } from '@/utils'
+import { getToken, isNil, isString } from '@/utils'
 import { Core } from './types/core'
-import { Method } from './types/enums'
-import { MODULE_METADATA, PARAMTYPES_METADATA, INJECTABLE_WATERMARK, REQUEST_SERVICE } from './constant'
+import { Method, RouteParamtypes } from './types/enums'
+import { MODULE_METADATA, PARAMTYPES_METADATA, INJECTABLE_WATERMARK, REQUEST_SERVICE, ROUTE_ARGS_METADATA } from './constant'
 
 /**
  * @module Container
@@ -98,10 +98,48 @@ export const Request = (): ClassDecorator => {
  * @auther kaichao.feng
  * @description 具名依赖注入
  */
-export const Inject = (target?: Core.Constructor<any>) => {
-  return function (...args: any[]) {
-    console.log(args, target)
+export const Inject = (target: any, propertyName: string, descriptor: TypedPropertyDescriptor<any>): any => {
+  const method: (...params: any[]) => any = descriptor.value
+  const data: Record<string, any> = Reflect.getMetadata(ROUTE_ARGS_METADATA, target.constructor, propertyName) || {}
+  descriptor.value = function (...args: any[]) {
+    const values = Object.values(data)
+    if (values.length) {
+      return method.apply(this, values.map(v => {
+        const item = args.find((t, index) => index === v.index)
+        return item[v.data as unknown as string] || item
+      }))
+    }
+    return method.apply(this, args)
   }
+}
+
+export const assignMetadata = <TParamtype = any, TArgs = any> (args: TArgs, paramtype: TParamtype, index: number, data?: any): any => {
+  return {
+    ...args,
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+    [`${paramtype}:${index}`]: {
+      index,
+      data
+    }
+  }
+}
+
+export const createPipesRouteParamDecorator = (paramtype: RouteParamtypes) => (data?: any): ParameterDecorator => (target, key, index) => {
+  const args = Reflect.getMetadata(ROUTE_ARGS_METADATA, target.constructor, key) || {}
+  const hasParamData = isNil(data) || isString(data)
+  const paramData = hasParamData ? data : undefined
+  Reflect.defineMetadata(
+    ROUTE_ARGS_METADATA,
+    assignMetadata(args, paramtype, index, paramData),
+    target.constructor,
+    key
+  )
+}
+
+export function Param (
+  property?: string
+): ParameterDecorator {
+  return createPipesRouteParamDecorator(RouteParamtypes.PARAM)(property)
 }
 
 /**
@@ -133,26 +171,30 @@ export const Controller = (prifix = '') => {
   }
 }
 
+export const RequestMapping = (path: string, method: Method): any => {
+  return function (target: any, key: string, descriptor: PropertyDescriptor) {
+    const fn: (params: any) => any = descriptor.value
+    descriptor.value = function (params: any) {
+      Reflect.defineMetadata(ROUTE_ARGS_METADATA, { a: 1 }, target, key)
+      const hasGet = [Method.GET, Method.get].includes(method)
+      const data = { [hasGet ? 'params' : 'data']: params || {} }
+      const reqJson: AxiosRequestConfig = {
+        url: `${target.prifix as string}${path.replace(/^\//g, '')}`,
+        method,
+        ...data
+      }
+      return fn.apply(this, [reqJson])
+    }
+  }
+}
+
 /**
  * @module Get
  * @param { string }
  * @auther kaichao.feng
  * @description 请求方法
  */
-export const Get = (path: string) => {
-  return function (target: any, key: string, descriptor: PropertyDescriptor): void {
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    const fn: (...args: any) => any = descriptor.value
-    descriptor.value = function () {
-      const param: AxiosRequestConfig = Object.assign({
-        url: `${target.prifix as string}${path.replace(/^\//g, '')}`,
-        method: Method.GET
-      }, arguments.length ? { params: arguments[0] } : {})
-      const result = fn.apply(this, [param])
-      return result
-    }
-  }
-}
+export const Get = (path: string): Function => RequestMapping(path, Method.GET)
 
 /**
  * @module Post
@@ -160,20 +202,7 @@ export const Get = (path: string) => {
  * @auther kaichao.feng
  * @description 请求方法
  */
-export const Post = (path: string) => {
-  return function (target: any, key: string, descriptor: PropertyDescriptor): void {
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    const fn: (...args: any) => any = descriptor.value
-    descriptor.value = function () {
-      const param: AxiosRequestConfig = Object.assign({
-        url: `${target.prifix as string}${path.replace(/^\//g, '')}`,
-        method: Method.POST
-      }, arguments.length ? { data: arguments[0] } : {})
-      const result = fn.apply(this, [param])
-      return result
-    }
-  }
-}
+export const Post = (path: string): Function => RequestMapping(path, Method.POST)
 
 /**
  * @module Delete
@@ -181,19 +210,7 @@ export const Post = (path: string) => {
  * @auther kaichao.feng
  * @description 请求方法
  */
-export const Delete = (path: string) => {
-  return function (target: any, key: string, descriptor: PropertyDescriptor): void {
-    const fn: (...args: any) => any = descriptor.value
-    descriptor.value = function () {
-      const param: AxiosRequestConfig = Object.assign({
-        url: `${target.prifix as string}${path.replace(/^\//g, '')}`,
-        method: Method.DELETE
-      }, arguments.length ? { data: arguments[0] } : {})
-      const result = fn.apply(this, [param])
-      return result
-    }
-  }
-}
+export const Delete = (path: string): Function => RequestMapping(path, Method.DELETE)
 
 /**
  * @module AuthGuard

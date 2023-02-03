@@ -1,28 +1,33 @@
 import { ARRAY, FUNCTION, NUMBER, OBJECT, STRING, SYMBOL } from './contsant'
 
-export const hasString = (target: any): boolean => {
+export const isString = (target: any): boolean => {
   return Object.prototype.toString.call(target) === STRING
 }
 
-export const hasNumber = (target: any): boolean => {
+export const isNumber = (target: any): boolean => {
   return Object.prototype.toString.call(target) === NUMBER
 }
 
-export const hasObject = (target: any): boolean => {
+export const isObject = (target: any): boolean => {
   return Object.prototype.toString.call(target) === OBJECT
 }
 
-export const hasArray = (target: any): boolean => {
+export const isArray = (target: any): boolean => {
   return Object.prototype.toString.call(target) === ARRAY
 }
 
-export const hasFunction = (target: any): boolean => {
+export const isFunction = (target: any): boolean => {
   return Object.prototype.toString.call(target) === FUNCTION
 }
 
-export const hasSymbol = (target: any): boolean => {
+export const isSymbol = (target: any): boolean => {
   return Object.prototype.toString.call(target) === SYMBOL
 }
+
+export const isUndefined = (obj: any): obj is undefined => typeof obj === 'undefined'
+
+export const isNil = (val: any): val is null | undefined =>
+  isUndefined(val) || val === null
 
 export const getUserInfo = (): string | null => {
   return JSON.parse(sessionStorage.getItem('userInfo') ?? '')
