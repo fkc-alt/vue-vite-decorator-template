@@ -1,4 +1,4 @@
-import * as axios from 'axios'
+import type { AxiosRequestConfig } from 'axios'
 import { Controller, Post } from '@/support/core'
 import RequestService from '../../providers/request.service'
 import UserService from './user.service'
@@ -9,6 +9,6 @@ export default class UserController {
   @Post('login')
   public async Login<T extends Service.LoginReq, U extends Service.LoginRes>(data: T): ServerRes<U> {
     this.userService.Log()
-    return await this.requestService.request<T, U>(<axios.AxiosRequestConfig>data)
+    return await this.requestService.request<T, U>(<AxiosRequestConfig>data)
   }
 }

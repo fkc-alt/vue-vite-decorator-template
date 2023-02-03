@@ -1,16 +1,16 @@
-export declare namespace Core {
-  export interface ModuleMetadata {
+declare namespace Core {
+  interface ModuleMetadata {
     imports?: Array<Constructor<any>>
     controllers?: Array<Constructor<any>>
     providers?: Array<Constructor<any>>
   }
-  export type Constructor<T = any> = new (...args: any[]) => T
-  export interface ClassProvider<T> {
+  type Constructor<T = any> = new (...args: any[]) => T
+  interface ClassProvider<T> {
     provide: Constructor<T>
     useClass: Constructor<T>
   }
-  export type ParamData = object | string | number
-  export interface RouteParamMetadata {
+  type ParamData = object | string | number
+  interface RouteParamMetadata {
     index: number
     data?: ParamData
   }

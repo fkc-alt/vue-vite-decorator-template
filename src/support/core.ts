@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable prefer-rest-params */
 /* eslint-disable no-new */
 /* eslint-disable new-cap */
@@ -5,7 +6,6 @@
 import { AxiosRequestConfig } from 'axios'
 import { ElMessage } from 'element-plus'
 import { getToken, isNil, isString } from '@/utils'
-import { Core } from './types/core'
 import { Method, RouteParamtypes } from './types/enums'
 import { MODULE_METADATA, PARAMTYPES_METADATA, INJECTABLE_WATERMARK, REQUEST_SERVICE, ROUTE_ARGS_METADATA } from './constant'
 
@@ -116,7 +116,6 @@ export const Inject = (target: any, propertyName: string, descriptor: TypedPrope
 export const assignMetadata = <TParamtype = any, TArgs = any> (args: TArgs, paramtype: TParamtype, index: number, data?: any): any => {
   return {
     ...args,
-    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     [`${paramtype}:${index}`]: {
       index,
       data

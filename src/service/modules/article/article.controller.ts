@@ -1,4 +1,4 @@
-import * as axios from 'axios'
+import type { AxiosRequestConfig } from 'axios'
 import { Controller, Get, Post } from '@/support/core'
 import RequestService from '../../providers/request.service'
 import UtilService from '../../providers/util.service'
@@ -12,11 +12,11 @@ export default class ArticleController {
   public async GetArticleList<T = unknown, U = Service.ArticleListRes>(param?: T): ServerRes<U> {
     this.articleService.Log({ id: 20 })
     console.log(this.utilService)
-    return await this.requestService.request<T, U>(<axios.AxiosRequestConfig>param)
+    return await this.requestService.request<T, U>(<AxiosRequestConfig>param)
   }
 
   @Post('tableData')
   public async GetTableDataList<T = unknown, U = Service.TableDataRes>(param?: T): ServerRes<U> {
-    return await this.requestService.request<T, U>(<axios.AxiosRequestConfig>param)
+    return await this.requestService.request<T, U>(<AxiosRequestConfig>param)
   }
 }

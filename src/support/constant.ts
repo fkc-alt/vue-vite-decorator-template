@@ -1,5 +1,3 @@
-import { Core } from './types/core'
-
 export const MODULE_METADATA = {
   IMPORTS: 'imports',
   PROVIDERS: 'providers',
