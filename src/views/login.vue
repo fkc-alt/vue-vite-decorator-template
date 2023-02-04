@@ -12,7 +12,6 @@ const [{ proxy }, MODE] = [
 ]
 const [router, route] = [useRouter(), useRoute()]
 const user = useUserStore()
-const { save } = user
 const [loading, ruleFormRef, myRef] = [
   ref<boolean>(false),
   ref<FormInstance>(),
@@ -57,7 +56,7 @@ const submit = async (formEl: FormInstance | undefined) => {
     if (valid) {
       UserModuleFactory.userController.Login(loginForm)
         .then(({ data: { token, roles: roleIdList } }) => {
-          save({ userInfo: 'Test', token, roleIdList })
+          user.forRoot({ userInfo: 'Test', token, roleIdList })
           setData({ token, roleIdList })
           const redirect = (route.query &&
             route.query.redirect) as RouteLocationRaw

@@ -13,7 +13,7 @@ export const useUserStore = defineStore('user', {
     }
   },
   actions: {
-    save (userInfo: Common.StroageType) {
+    forRoot (userInfo: Common.StroageType) {
       Object.assign(this, userInfo)
     },
     generateRoutes (router: Router) {

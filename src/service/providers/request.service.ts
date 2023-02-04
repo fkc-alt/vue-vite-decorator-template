@@ -17,9 +17,7 @@ export default class RequestService {
      * @param { Object } config
     */
   constructor (private readonly utilService: UtilService) {
-    this.instance = axios.create({
-      baseURL: import.meta.env.VITE_APP_BASE_API
-    })
+    this.forRoot({ baseURL: import.meta.env.VITE_APP_BASE_API })
   }
 
   /**
@@ -59,7 +57,7 @@ export default class RequestService {
 
   /**
      * @method request
-     * @param { Object } config
+     * @param { AxiosRequestConfig } config
      * @return { ServerRes<U> }
     */
   @AuthGuard(exclude)
@@ -71,7 +69,7 @@ export default class RequestService {
   /**
      * @method forRoot
      * @param { AxiosRequestConfig } config
-     * @description 传递配置参数
+     * @description Set Configure
     */
   public forRoot (config: AxiosRequestConfig = {}): void {
     this.instance = axios.create(config)
