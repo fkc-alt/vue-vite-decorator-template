@@ -5,8 +5,16 @@
 import { AxiosRequestConfig } from 'axios'
 import { ElMessage } from 'element-plus'
 import { getToken, isNil, isString } from '@/utils'
-import { Method, RouteParamtypes } from './types/enums'
-import { MODULE_METADATA, PARAMTYPES_METADATA, INJECTABLE_WATERMARK, REQUEST_SERVICE, ROUTE_ARGS_METADATA } from './constant'
+import { Method, RouteParamtypes, ModuleMetadata, MetadataKey } from './types/enums'
+
+/**
+ *
+ * @param type
+ * @returns
+ */
+export const Type = (type: any): (target: Core.Constructor<any>) => void => Reflect.metadata(MetadataKey.TYPE_METADATA, type)
+export const ParamTypes = (...type: any): (target: Core.Constructor<any>) => void => Reflect.metadata(MetadataKey.PARAMTYPES_METADATA, type)
+export const ReturnType = (type: any): (target: Core.Constructor<any>) => void => Reflect.metadata(MetadataKey.RETURNTYPE_METADATA, type)
 
 /**
  * @module Container
@@ -40,7 +48,7 @@ class Container {
  * @description 依赖注入工厂函数
  */
 export const CreateModule = <T>(target: Core.Constructor<T>): T => {
-  const modules: [] = Reflect.getMetadata(PARAMTYPES_METADATA, target)
+  const modules: [] = Reflect.getMetadata(MetadataKey.PARAMTYPES_METADATA, target)
   return new target(...modules.map(item => Factory(item)))
 }
 
@@ -52,11 +60,11 @@ export const CreateModule = <T>(target: Core.Constructor<T>): T => {
  * @description 依赖注入工厂函数
  */
 export const Factory = <T>(target: Core.Constructor<T>, config: AxiosRequestConfig = { baseURL: import.meta.env.VITE_APP_BASE_API }): T => {
-  const providers: Array<Core.Constructor<any>> = Reflect.getMetadata(MODULE_METADATA.PROVIDERS, target)
+  const providers: Array<Core.Constructor<any>> = Reflect.getMetadata(ModuleMetadata.PROVIDERS, target)
   const continer = new Container()
   try {
     providers.forEach((provide: any) => {
-      const hasInject = Reflect.getMetadata(INJECTABLE_WATERMARK, provide)
+      const hasInject = Reflect.getMetadata(MetadataKey.INJECTABLE_WATERMARK, provide)
       if (!hasInject) throw new Error(`Please use @Injectable() ${provide.name as string}`)
       continer.addProvider({ provide, useClass: provide })
     })
@@ -66,12 +74,12 @@ export const Factory = <T>(target: Core.Constructor<T>, config: AxiosRequestConf
   const registerDeepClass = (providers: Array<Core.Constructor<any>>): Array<Core.Constructor<any>> => {
     return providers.map((provider: any) => {
       const currentNeedPro: Core.Constructor<any> = continer.inject(provider)
-      const deepNeedProviders = Reflect.getMetadata(PARAMTYPES_METADATA, provider)
+      const deepNeedProviders = Reflect.getMetadata(MetadataKey.PARAMTYPES_METADATA, provider)
       return !deepNeedProviders ? new currentNeedPro() : new currentNeedPro(...registerDeepClass(deepNeedProviders))
     })
   }
-  const controllers: Array<Core.Constructor<any>> = (Reflect.getMetadata(MODULE_METADATA.CONTROLLERS, target) as Array<Core.Constructor<any>>).map((controller, index) => {
-    const currNeedProviders = Reflect.getMetadata(PARAMTYPES_METADATA, controller)
+  const controllers: Array<Core.Constructor<any>> = (Reflect.getMetadata(ModuleMetadata.CONTROLLERS, target) as Array<Core.Constructor<any>>).map((controller, index) => {
+    const currNeedProviders = Reflect.getMetadata(MetadataKey.PARAMTYPES_METADATA, controller)
     return new controller(...registerDeepClass(currNeedProviders))
   })
   return new target(...controllers)
@@ -84,7 +92,7 @@ export const Factory = <T>(target: Core.Constructor<T>, config: AxiosRequestConf
  */
 export const Injectable = (): ClassDecorator => {
   return (target: object) => {
-    Reflect.defineMetadata(INJECTABLE_WATERMARK, true, target)
+    Reflect.defineMetadata(MetadataKey.INJECTABLE_WATERMARK, true, target)
   }
 }
 
@@ -95,25 +103,25 @@ export const Injectable = (): ClassDecorator => {
  */
 export const Request = (): ClassDecorator => {
   return (target: object) => {
-    Reflect.defineMetadata(REQUEST_SERVICE, true, target)
+    Reflect.defineMetadata(MetadataKey.REQUEST_SERVICE, true, target)
   }
 }
 
 /**
  * @module Inject
  * @auther kaichao.feng
- * @description 具名依赖注入
+ * @description 具名依赖注入 搭配Param使用
  */
 export const Inject = (): MethodDecorator => {
   return function (target, propertyName, descriptor: PropertyDescriptor) {
     const method: (...params: any[]) => any = descriptor.value
-    const data: Record<string, any> = Reflect.getMetadata(ROUTE_ARGS_METADATA, target.constructor, propertyName) || {}
+    const data: Record<string, any> = Reflect.getMetadata(MetadataKey.ROUTE_ARGS_METADATA, target.constructor, propertyName) || {}
     descriptor.value = function (...args: any[]) {
-      const values = Object.values(data)
+      const values: Core.RouteParamMetadata[] = Object.values(data)
       if (values.length) {
         return method.apply(this, values.map(value => {
           const item = args.find((_, index) => index === value.index)
-          return item[value.data as unknown as string] || item
+          return item[value.data as string] || item
         }))
       }
       return method.apply(this, args)
@@ -121,6 +129,11 @@ export const Inject = (): MethodDecorator => {
   }
 }
 
+/**
+ * @module assignMetadata
+ * @auther kaichao.feng
+ * @returns { Record<string, any> } Record<string, any>
+ */
 export const assignMetadata = <TParamtype = any, TArgs = any> (args: TArgs, paramtype: TParamtype, index: number, data?: any): Record<string, any> => {
   return {
     ...args,
@@ -131,19 +144,29 @@ export const assignMetadata = <TParamtype = any, TArgs = any> (args: TArgs, para
   }
 }
 
-export const createPipesRouteParamDecorator = (paramtype: RouteParamtypes) => (data?: any): ParameterDecorator => (target, key, index): void => {
-  const args = Reflect.getMetadata(ROUTE_ARGS_METADATA, target.constructor, key) || {}
+/**
+ * @method createParamDecorator
+ * @auther kaichao.feng
+ * @description this is @Param Helper Function
+ */
+export const createParamDecorator = (paramtype: RouteParamtypes) => (data?: any): ParameterDecorator => (target, key, index): void => {
+  const args = Reflect.getMetadata(MetadataKey.ROUTE_ARGS_METADATA, target.constructor, key) || {}
   const hasParamData = isNil(data) || isString(data)
   const paramData = hasParamData ? data : undefined
   Reflect.defineMetadata(
-    ROUTE_ARGS_METADATA,
+    MetadataKey.ROUTE_ARGS_METADATA,
     assignMetadata(args, paramtype, index, paramData),
     target.constructor,
     key
   )
 }
 
-export const Param = (property?: string): ParameterDecorator => createPipesRouteParamDecorator(RouteParamtypes.PARAM)(property)
+/**
+ * @method Param
+ * @auther kaichao.feng
+ * @description 搭配Inject使用，Param传递的property会通过Inject读取原始参数并返回指定的key对应的value，并返回到当前装饰器形参位置
+ */
+export const Param = (property?: string): ParameterDecorator => createParamDecorator(RouteParamtypes.PARAM)(property)
 
 /**
  * @module Module
@@ -166,7 +189,7 @@ export const Module = (metadata: Core.ModuleMetadata): ClassDecorator => {
  * @module Controller
  * @param { string }
  * @auther kaichao.feng
- * @description 接口控制器
+ * @description Request Controller
  */
 export const Controller = (prifix = ''): ClassDecorator => {
   return function (target: any) {

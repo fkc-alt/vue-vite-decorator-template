@@ -1,3 +1,19 @@
+export enum ModuleMetadata {
+  IMPORTS = 'imports',
+  PROVIDERS = 'providers',
+  CONTROLLERS = 'controllers',
+  EXPORTS = 'exports'
+}
+
+export enum MetadataKey {
+  TYPE_METADATA = 'design:type',
+  PARAMTYPES_METADATA = 'design:paramtypes',
+  RETURNTYPE_METADATA = 'design:returntype',
+  INJECTABLE_WATERMARK = '__injectable__',
+  REQUEST_SERVICE = '__request__',
+  ROUTE_ARGS_METADATA = '__routeArguments__'
+}
+
 export enum Method {
   get = 'get',
   post = 'post',
