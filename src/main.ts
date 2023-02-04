@@ -18,12 +18,12 @@ const bootstrap = (): void => {
   router.isReady().then(() => {
     /**
      * @description 全局挂载属性方法,使用的时候只需 provider.[provider文件夹下的文件名].[文件里面的(方法 | 变量)]
-     */
+    */
     setupProvider()
     app.mount('#app')
     const { AppLogger } = provider.inject
     AppLogger(_APP_INFO_)
-  }).catch(err => console.error(err))
+  }).catch(console.error)
 }
 
 bootstrap()

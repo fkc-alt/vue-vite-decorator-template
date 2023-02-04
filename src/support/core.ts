@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
-/* eslint-disable prefer-rest-params */
 /* eslint-disable no-new */
 /* eslint-disable new-cap */
 /* eslint-disable @typescript-eslint/ban-types */
@@ -33,6 +32,13 @@ class Container {
   }
 }
 
+/**
+ * @module CreateModule
+ * @param { Core.Constructor<T> } Core.Constructor<T>
+ * @returns { T } Function
+ * @auther kaichao.feng
+ * @description 依赖注入工厂函数
+ */
 export const CreateModule = <T>(target: Core.Constructor<T>): T => {
   const modules: [] = Reflect.getMetadata(PARAMTYPES_METADATA, target)
   return new target(...modules.map(item => Factory(item)))
@@ -98,22 +104,24 @@ export const Request = (): ClassDecorator => {
  * @auther kaichao.feng
  * @description 具名依赖注入
  */
-export const Inject = (target: any, propertyName: string, descriptor: TypedPropertyDescriptor<any>): any => {
-  const method: (...params: any[]) => any = descriptor.value
-  const data: Record<string, any> = Reflect.getMetadata(ROUTE_ARGS_METADATA, target.constructor, propertyName) || {}
-  descriptor.value = function (...args: any[]) {
-    const values = Object.values(data)
-    if (values.length) {
-      return method.apply(this, values.map(value => {
-        const item = args.find((_, index) => index === value.index)
-        return item[value.data as unknown as string] || item
-      }))
+export const Inject = (): MethodDecorator => {
+  return function (target, propertyName, descriptor: PropertyDescriptor) {
+    const method: (...params: any[]) => any = descriptor.value
+    const data: Record<string, any> = Reflect.getMetadata(ROUTE_ARGS_METADATA, target.constructor, propertyName) || {}
+    descriptor.value = function (...args: any[]) {
+      const values = Object.values(data)
+      if (values.length) {
+        return method.apply(this, values.map(value => {
+          const item = args.find((_, index) => index === value.index)
+          return item[value.data as unknown as string] || item
+        }))
+      }
+      return method.apply(this, args)
     }
-    return method.apply(this, args)
   }
 }
 
-export const assignMetadata = <TParamtype = any, TArgs = any> (args: TArgs, paramtype: TParamtype, index: number, data?: any): any => {
+export const assignMetadata = <TParamtype = any, TArgs = any> (args: TArgs, paramtype: TParamtype, index: number, data?: any): Record<string, any> => {
   return {
     ...args,
     [`${paramtype}:${index}`]: {
@@ -123,7 +131,7 @@ export const assignMetadata = <TParamtype = any, TArgs = any> (args: TArgs, para
   }
 }
 
-export const createPipesRouteParamDecorator = (paramtype: RouteParamtypes) => (data?: any): ParameterDecorator => (target, key, index) => {
+export const createPipesRouteParamDecorator = (paramtype: RouteParamtypes) => (data?: any): ParameterDecorator => (target, key, index): void => {
   const args = Reflect.getMetadata(ROUTE_ARGS_METADATA, target.constructor, key) || {}
   const hasParamData = isNil(data) || isString(data)
   const paramData = hasParamData ? data : undefined
@@ -135,11 +143,7 @@ export const createPipesRouteParamDecorator = (paramtype: RouteParamtypes) => (d
   )
 }
 
-export function Param (
-  property?: string
-): ParameterDecorator {
-  return createPipesRouteParamDecorator(RouteParamtypes.PARAM)(property)
-}
+export const Param = (property?: string): ParameterDecorator => createPipesRouteParamDecorator(RouteParamtypes.PARAM)(property)
 
 /**
  * @module Module
@@ -147,7 +151,7 @@ export function Param (
  * @auther kaichao.feng
  * @description 模块管理函数
  */
-export const Module = (metadata: Core.ModuleMetadata) => {
+export const Module = (metadata: Core.ModuleMetadata): ClassDecorator => {
   // const propsKeys = Object.keys(metadata)
   return (target: any) => {
     for (const property in metadata) {
@@ -164,21 +168,28 @@ export const Module = (metadata: Core.ModuleMetadata) => {
  * @auther kaichao.feng
  * @description 接口控制器
  */
-export const Controller = (prifix = '') => {
+export const Controller = (prifix = ''): ClassDecorator => {
   return function (target: any) {
     target.prototype.prifix = prifix ? prifix.replace(/^\//g, '') + '/' : ''
   }
 }
 
-export const RequestMapping = (path: string, method: Method): any => {
-  return function (target: any, key: string, descriptor: PropertyDescriptor) {
+/**
+ * @module RequestFactory
+ * @method RequestMapping
+ * @param { string }
+ * @auther kaichao.feng
+ * @returns { MethodDecorator } MethodDecorator
+ * @description Request Factory
+ */
+export const RequestMapping = (path: string, method: Method): MethodDecorator => {
+  return function (target, key, descriptor: PropertyDescriptor) {
     const fn: (params: any) => any = descriptor.value
     descriptor.value = function (params: any) {
-      Reflect.defineMetadata(ROUTE_ARGS_METADATA, { a: 1 }, target, key)
       const hasGet = [Method.GET, Method.get].includes(method)
       const data = { [hasGet ? 'params' : 'data']: params || {} }
       const reqJson: AxiosRequestConfig = {
-        url: `${target.prifix as string}${path.replace(/^\//g, '')}`,
+        url: `${(target as Record<'prifix', string>).prifix}${path.replace(/^\//g, '')}`,
         method,
         ...data
       }
@@ -188,37 +199,50 @@ export const RequestMapping = (path: string, method: Method): any => {
 }
 
 /**
- * @module Get
+ * @module Request
+ * @method Get
  * @param { string }
  * @auther kaichao.feng
- * @description 请求方法
+ * @description Request Method
  */
-export const Get = (path: string): Function => RequestMapping(path, Method.GET)
+export const Get = (path: string): MethodDecorator => RequestMapping(path, Method.GET)
 
 /**
- * @module Post
+ * @module Request
+ * @method Post
  * @param { string }
  * @auther kaichao.feng
- * @description 请求方法
+ * @description Request Method
  */
-export const Post = (path: string): Function => RequestMapping(path, Method.POST)
+export const Post = (path: string): MethodDecorator => RequestMapping(path, Method.POST)
 
 /**
- * @module Delete
+ * @module Request
+ * @method Delete
  * @param { string }
  * @auther kaichao.feng
- * @description 请求方法
+ * @description Request Method
  */
-export const Delete = (path: string): Function => RequestMapping(path, Method.DELETE)
+export const Delete = (path: string): MethodDecorator => RequestMapping(path, Method.DELETE)
 
 /**
- * @module AuthGuard
+ * @module Request
+ * @method Put
+ * @param { string }
+ * @auther kaichao.feng
+ * @description Request Method
+ */
+export const Put = (path: string): MethodDecorator => RequestMapping(path, Method.PUT)
+
+/**
+ * @module UseGuards
+ * @method AuthGuard
  * @param { string[] }
  * @auther kaichao.feng
  * @description 请求路由鉴权守卫
  */
-export const AuthGuard = (exclude: string[]) => {
-  return function (target: object, key: string, descriptor: PropertyDescriptor): void {
+export const AuthGuard = (exclude: string[]): MethodDecorator => {
+  return function (target, key, descriptor: PropertyDescriptor): void {
     const fn: (...args: any) => any = descriptor.value
     descriptor.value = function (...args: any) {
       const hasAuth = exclude.every(item => !new RegExp(`${item}$`).test(args[0].url)) && !getToken()
@@ -233,19 +257,19 @@ export const AuthGuard = (exclude: string[]) => {
 }
 
 /**
- * @module CatchError
+ * @module Catch
+ * @method CatchError
  * @auther kaichao.feng
  * @description TryCatch异常捕获
  */
-export const CatchError = () => {
-  return function (target: object, key: string, descriptor: PropertyDescriptor): void {
+export const CatchError = (): MethodDecorator => {
+  return function (target, key, descriptor: PropertyDescriptor): void {
     const fn: (...args: any) => any = descriptor.value
     descriptor.value = function (...args: any) {
       try {
         const result = fn.apply(this, args)
         return result
       } catch (error: any) {
-        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         console.log(`CatchError: ${error}`)
       }
     }
