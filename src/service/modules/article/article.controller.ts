@@ -1,7 +1,7 @@
 import type { AxiosRequestConfig } from 'axios'
 import { Controller, Get, Post } from '@/support/core'
-import RequestService from '../../providers/request.service'
-import UtilService from '../../providers/util.service'
+import RequestService from '@/service/providers/request.service'
+import UtilService from '@/service/providers/util.service'
 import ArticleService from './article.service'
 
 @Controller('article')

@@ -1,7 +1,7 @@
 import { Factory, Module } from '@/support/core'
+import RequestService from '@/service/providers/request.service'
+import UtilService from '@/service/providers/util.service'
 import ArticleController from './article.controller'
-import RequestService from '../../providers/request.service'
-import UtilService from '../../providers/util.service'
 import ArticleService from './article.service'
 
 @Module({
