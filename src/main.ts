@@ -7,7 +7,6 @@ import router from '@/router'
 import i18n from '@/locales/i18n'
 import useIcons from './hooks/useIcons'
 import App from './App'
-import '@/assets/reset.css'
 import '@/router/permission'
 
 const pinia = createPinia()
