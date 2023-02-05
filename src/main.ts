@@ -21,6 +21,8 @@ const bootstrap = (): void => {
     */
     setupProvider()
     app.mount('#app')
+    const loader = document.getElementsByClassName('loader')[0] as HTMLElement
+    loader.style.display = 'none'
     const { AppLogger } = provider.inject
     AppLogger(_APP_INFO_)
   }).catch(console.error)
