@@ -40,10 +40,10 @@ const _APP_INFO_ = {
   })(new Date())
 }
 // https://vitejs.dev/config/
-export default ({ mode, command }: ConfigEnv): UserConfigExport => {
+export default defineConfig(({ command, mode }) => {
   const { VITE_APP_BASE_URL, VITE_APP_BASE_API, VITE_APP_MOCK, VITE_APP_PROJECT_ICON, VITE_APP_PROJECT_TITLE } = loadEnv(mode, process.cwd())
   const hasMode = mode === 'dev'
-  return defineConfig({
+  return {
     plugins: [
       Vue(),
       VueJsx(),
@@ -198,5 +198,5 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
     define: {
       _APP_INFO_: JSON.stringify(_APP_INFO_)
     }
-  })
-}
+  }
+})
