@@ -1,5 +1,4 @@
 import { defineConfig, loadEnv } from 'vite'
-import type { ConfigEnv, UserConfigExport } from 'vite'
 import { resolve } from 'path'
 import { terser as Tenser } from 'rollup-plugin-terser'
 import EslintPlugin from 'vite-plugin-eslint'
