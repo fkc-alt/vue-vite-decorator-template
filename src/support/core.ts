@@ -48,8 +48,8 @@ class Container {
  * @description 依赖注入工厂函数
  */
 export const CreateModule = <T>(target: Core.Constructor<T>): T => {
-  const modules: [] = Reflect.getMetadata(MetadataKey.PARAMTYPES_METADATA, target)
-  return new target(...modules.map(item => Factory(item)))
+  const modules: Array<Core.Constructor<any>> = Reflect.getMetadata(MetadataKey.PARAMTYPES_METADATA, target)
+  return new target(...modules.map(constructor => Factory(constructor)))
 }
 
 /**
@@ -59,7 +59,7 @@ export const CreateModule = <T>(target: Core.Constructor<T>): T => {
  * @auther kaichao.feng
  * @description 依赖注入工厂函数
  */
-export const Factory = <T>(target: Core.Constructor<T>, config: AxiosRequestConfig = { baseURL: import.meta.env.VITE_APP_BASE_API }): T => {
+export const Factory = <T>(target: Core.Constructor<T>): T => {
   const providers: Array<Core.Constructor<any>> = Reflect.getMetadata(ModuleMetadata.PROVIDERS, target)
   const continer = new Container()
   try {
