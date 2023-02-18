@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { AxiosRequestConfig } from 'axios'
 import { ElMessage } from 'element-plus'
-import { getToken, isNil, isString } from '@/utils'
+import { getToken, isFunction, isNil, isString } from '@/utils'
 import { Method, RouteParamtypes, ModuleMetadata, MetadataKey } from './types/enums'
 
 /**
@@ -15,6 +15,11 @@ import { Method, RouteParamtypes, ModuleMetadata, MetadataKey } from './types/en
 export const Type = (type: any): (target: Core.Constructor<any>) => void => Reflect.metadata(MetadataKey.TYPE_METADATA, type)
 export const ParamTypes = (...type: any): (target: Core.Constructor<any>) => void => Reflect.metadata(MetadataKey.PARAMTYPES_METADATA, type)
 export const ReturnType = (type: any): (target: Core.Constructor<any>) => void => Reflect.metadata(MetadataKey.RETURNTYPE_METADATA, type)
+export const BindPipeType = (pipeType: MetadataKey): any => {
+  return function (target: Core.Constructor<any>) {
+    Reflect.defineMetadata(pipeType, true, target)
+  }
+}
 
 /**
  * @module Container
@@ -119,8 +124,14 @@ export const Inject = (): MethodDecorator => {
     descriptor.value = function (...args: any[]) {
       const values: Core.RouteParamMetadata[] = Object.values(data)
       if (values.length) {
-        return method.apply(this, values.map(value => {
+        return method.apply(this, values.sort((a, b) => a.index - b.index).map(value => {
           const item = args.find((_, index) => index === value.index)
+          if (value.pipe?.length) {
+            value.pipe.forEach((target, index) => {
+              const pipe = isFunction(target) ? new (target as Core.Constructor<any>)() : target
+              item[value.data as string] = pipe.constructor.name === 'DefaultValuePipe' ? item[value.data as string] || pipe.defaultValue : pipe.transform(item[value.data as string])
+            })
+          }
           return item[value.data as string] || item
         }))
       }
@@ -134,12 +145,13 @@ export const Inject = (): MethodDecorator => {
  * @auther kaichao.feng
  * @returns { Record<string, any> } Record<string, any>
  */
-export const assignMetadata = <TParamtype = any, TArgs = any> (args: TArgs, paramtype: TParamtype, index: number, data?: any): Record<string, any> => {
+export const assignMetadata = <TParamtype = any, TArgs = any> (args: TArgs, paramtype: TParamtype, index: number, data?: any, pipe?: Array<Core.Constructor<any> | Object>): Record<string, any> => {
   return {
     ...args,
     [`${paramtype}:${index}`]: {
       index,
-      data
+      data,
+      pipe
     }
   }
 }
@@ -149,13 +161,13 @@ export const assignMetadata = <TParamtype = any, TArgs = any> (args: TArgs, para
  * @auther kaichao.feng
  * @description this is @Param Helper Function
  */
-export const createParamDecorator = (paramtype: RouteParamtypes) => (data?: any): ParameterDecorator => (target, key, index): void => {
+export const createParamDecorator = (paramtype: RouteParamtypes) => (data?: any, pipe?: Array<Core.Constructor<any> | Object>): ParameterDecorator => (target, key, index): void => {
   const args = Reflect.getMetadata(MetadataKey.ROUTE_ARGS_METADATA, target.constructor, key) || {}
   const hasParamData = isNil(data) || isString(data)
   const paramData = hasParamData ? data : undefined
   Reflect.defineMetadata(
     MetadataKey.ROUTE_ARGS_METADATA,
-    assignMetadata(args, paramtype, index, paramData),
+    assignMetadata(args, paramtype, index, paramData, pipe),
     target.constructor,
     key
   )
@@ -166,7 +178,7 @@ export const createParamDecorator = (paramtype: RouteParamtypes) => (data?: any)
  * @auther kaichao.feng
  * @description 搭配Inject使用，Param传递的property会通过Inject读取原始参数并返回指定的key对应的value，并返回到当前装饰器形参位置
  */
-export const Param = (property?: string): ParameterDecorator => createParamDecorator(RouteParamtypes.PARAM)(property)
+export const Param = (property?: string, ...pipe: Array<Core.Constructor<any> | Object>): ParameterDecorator => createParamDecorator(RouteParamtypes.PARAM)(property, pipe)
 
 /**
  * @module Module
@@ -296,5 +308,32 @@ export const CatchError = (): MethodDecorator => {
         console.log(`CatchError: ${error}`)
       }
     }
+  }
+}
+
+/**
+ * @module Pipe
+ * @method ParseIntPipe
+ * @auther kaichao.feng
+ * @description 字符串转化为整数
+ */
+@BindPipeType(MetadataKey.PARSE_INT_PIPE)
+export class ParseIntPipe {
+  transform (integer: any): number {
+    return parseInt(integer)
+  }
+}
+
+/**
+ * @module Pipe
+ * @method DefaultValuePipe
+ * @auther kaichao.feng
+ * @description 参数绑定默认值
+ */
+BindPipeType(MetadataKey.DEFAULT_VALUE_PIPE)
+export class DefaultValuePipe {
+  defaultValue!: any
+  constructor (defaultValue: any) {
+    Object.assign(this, { defaultValue })
   }
 }

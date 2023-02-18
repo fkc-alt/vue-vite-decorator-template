@@ -13,5 +13,6 @@ declare namespace Core {
   interface RouteParamMetadata {
     index: number
     data?: ParamData
+    pipe?: Array<Constructor<any> | Record<string, any>>
   }
 }

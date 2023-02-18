@@ -11,7 +11,9 @@ export enum MetadataKey {
   RETURNTYPE_METADATA = 'design:returntype',
   INJECTABLE_WATERMARK = '__injectable__',
   REQUEST_SERVICE = '__request__',
-  ROUTE_ARGS_METADATA = '__routeArguments__'
+  ROUTE_ARGS_METADATA = '__routeArguments__',
+  PARSE_INT_PIPE = '__parseIntPipe__',
+  DEFAULT_VALUE_PIPE = '__defaultValuePipe__'
 }
 
 export enum Method {
