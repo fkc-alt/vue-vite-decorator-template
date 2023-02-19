@@ -15,11 +15,6 @@ import { Method, RouteParamtypes, ModuleMetadata, MetadataKey } from './types/en
 export const Type = (type: any): (target: Core.Constructor<any>) => void => Reflect.metadata(MetadataKey.TYPE_METADATA, type)
 export const ParamTypes = (...type: any): (target: Core.Constructor<any>) => void => Reflect.metadata(MetadataKey.PARAMTYPES_METADATA, type)
 export const ReturnType = (type: any): (target: Core.Constructor<any>) => void => Reflect.metadata(MetadataKey.RETURNTYPE_METADATA, type)
-export const BindPipeType = (pipeType: MetadataKey): any => {
-  return function (target: Core.Constructor<any>) {
-    Reflect.defineMetadata(pipeType, true, target)
-  }
-}
 
 /**
  * @module Container
@@ -317,10 +312,9 @@ export const CatchError = (): MethodDecorator => {
  * @auther kaichao.feng
  * @description 字符串转化为整数
  */
-@BindPipeType(MetadataKey.PARSE_INT_PIPE)
 export class ParseIntPipe {
   transform (integer: any): number {
-    return parseInt(integer)
+    return /^\d+$/g.test(integer) ? parseInt(integer) : integer
   }
 }
 
@@ -330,7 +324,6 @@ export class ParseIntPipe {
  * @auther kaichao.feng
  * @description 参数绑定默认值
  */
-BindPipeType(MetadataKey.DEFAULT_VALUE_PIPE)
 export class DefaultValuePipe {
   defaultValue!: any
   constructor (defaultValue: any) {
