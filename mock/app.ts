@@ -102,6 +102,17 @@ const MockList: MockMethod[] = [
         })[0]
       }
     }
+  },
+  {
+    url: '/rsapi/order/upload',
+    method: 'post',
+    response: (): Services.Common.Response<Services.Common.UplaodRes> => {
+      return {
+        code: 200,
+        message: '成功',
+        data: { url: 'https://img1.baidu.com/it/u=3527187906,1947135853&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1676998800&t=d87261632cf4313fcab070b28a78764f' }
+      }
+    }
   }
 ]
 

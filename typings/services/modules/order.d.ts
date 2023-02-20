@@ -17,8 +17,8 @@ declare namespace Service {
   }
   interface OrderDetailRes extends OrderItem { }
 
-    type TableDataRecord = Record<'date' | 'name' | 'address', string>
-    interface TableDataRes {
-      tableList: TableDataRecord[]
-    }
+  type TableDataRecord = Record<'date' | 'name' | 'address', string>
+  interface TableDataRes {
+    tableList: TableDataRecord[]
+  }
 }

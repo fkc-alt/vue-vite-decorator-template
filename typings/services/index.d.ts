@@ -8,6 +8,12 @@ declare namespace Services.Common {
     readonly message: string
     data: T
   }
+  export interface UplaodReq {
+    file: import('element-plus').UploadFile
+  }
+  export interface UplaodRes {
+    url: string
+  }
 }
 
 declare type ServerRes<T, U = Promise> = U extends Promise ? Promise<Services.Common.Response<T>> : Services.Common.Response<T>
