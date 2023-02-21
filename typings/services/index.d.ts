@@ -14,7 +14,7 @@ declare namespace Services.Common {
   export interface UplaodRes {
     url: string
   }
-  export interface UplaodBase64Req extends UplaodReq {
+  export interface UplaodBase64Req extends Partial<UplaodReq> {
     ext: string
     base64: string
   }
