@@ -14,6 +14,10 @@ declare namespace Services.Common {
   export interface UplaodRes {
     url: string
   }
+  export interface UplaodBase64Req extends UplaodReq {
+    ext: string
+    base64: string
+  }
 }
 
 declare type ServerRes<T, U = Promise> = U extends Promise ? Promise<Services.Common.Response<T>> : Services.Common.Response<T>
