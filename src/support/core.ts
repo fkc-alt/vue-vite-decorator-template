@@ -217,7 +217,7 @@ export const RequestMapping = (path: string, method: Method): MethodDecorator =>
     const fn: (params: any) => any = descriptor.value
     descriptor.value = function (params: any) {
       const hasGet = [Method.GET, Method.get].includes(method)
-      const data = { [hasGet ? 'params' : 'data']: params || {} }
+      const data = { [hasGet ? 'params' : 'data']: params }
       const reqJson: AxiosRequestConfig = {
         url: `${(target as Record<'prifix', string>).prifix}${path.replace(/^\//g, '')}`,
         method,
