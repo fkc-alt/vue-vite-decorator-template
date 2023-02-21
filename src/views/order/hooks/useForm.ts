@@ -172,7 +172,7 @@ export default function (): CustomerProps.CustomForm.CustomFormProps {
         prop: 'fileList',
         componentProps: {
           autoUpload: false,
-          fileList: [],
+          fileList: model.fileList,
           showFileList: false,
           listType: 'picture-card'
         },

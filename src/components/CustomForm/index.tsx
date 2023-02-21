@@ -28,6 +28,7 @@ export default defineComponent({
       <ElForm {...attributes} ref={formRef} key={randomKey()}>
         {formItems.value?.map(attribute => {
           const { component, componentProps, option, slots, events, ...props } = attribute
+          // const property = component.name === 'ElUpload' ? { 'v-model:file-list': attributes.model[attribute.prop] } : {}
           return <ElFormItem {...props}>
             {{
               label: (args: { label: string }) => slots?.label?.(args),
