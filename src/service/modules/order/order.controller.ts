@@ -18,12 +18,12 @@ export default class OrderController {
     return await this.requestService.request<T, U>(<AxiosRequestConfig>configure)
   }
 
-  @Post('upload')
+  @Post('uploadFile')
   public async uploadFile<T extends Services.Common.UplaodReq, U extends Services.Common.UplaodReq>(configure: T): ServerRes<U> {
     return await this.uploadService.uploadFile<AxiosRequestConfig<T>, U>(<AxiosRequestConfig>configure)
   }
 
-  @Post('upload/base64')
+  @Post('uploadBase64')
   public async UploadBase64<T extends Services.Common.UplaodReq, U extends Services.Common.UplaodRes>(configure: T): ServerRes<U> {
     return await this.uploadService.uploadBase64<AxiosRequestConfig<T>, U>(<AxiosRequestConfig<T>>configure)
   }

@@ -104,7 +104,7 @@ const MockList: MockMethod[] = [
     }
   },
   {
-    url: '/rsapi/order/upload',
+    url: '/rsapi/order/uploadFile',
     method: 'post',
     response: (): Services.Common.Response<Services.Common.UplaodRes> => {
       return {
@@ -115,7 +115,7 @@ const MockList: MockMethod[] = [
     }
   },
   {
-    url: '/rsapi/order/upload/base64',
+    url: '/rsapi/order/uploadBase64',
     method: 'post',
     response: (): Services.Common.Response<Services.Common.UplaodRes> => {
       return {
