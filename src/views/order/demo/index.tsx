@@ -13,6 +13,9 @@ export default defineComponent({
     Object.assign(state, r.data)
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     const valid = async () => {
+      // const data = await OrderModuleFactory.orderController.UploadBase64({ file: ruleForm.model.fileList[0] })
+      const data = await OrderModuleFactory.orderController.uploadFile({ file: ruleForm.model.fileList[0] })
+      console.log(data)
       try {
         await customForm.value?.formRef.validate()
       } catch (error) {

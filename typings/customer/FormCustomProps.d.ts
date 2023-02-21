@@ -31,6 +31,7 @@ declare namespace CustomerProps {
     type CheckboxGroupProps = import('element-plus').CheckboxGroupProps
     type SwitchProps = import('element-plus').SwitchProps
     type DatePickerProps = InstanceType<typeof import('element-plus').ElDatePicker>['$props']
+    type UploadProps = import('element-plus/es/components/upload/src/upload').UploadProps
     interface FormRef {
       formRef: FormInstance
     }
@@ -46,6 +47,7 @@ declare namespace CustomerProps {
       slots?: {
         label?: (param: { label: string }) => string
         error?: (param: { error: string }) => string
+        file?: (...args: any) => any
       }
       option?: {
         style?: import('vue').CSSProperties
@@ -53,14 +55,14 @@ declare namespace CustomerProps {
         options: any[]
         componentProps?: Partial<SelectOptionProps & { style: import('vue').CSSProperties }>
       }
-      componentProps?: Partial<InputProps | SelectProps | RadioGroupProps | RadioProps | CheckboxGroupProps | CheckboxProps | SwitchProps | DatePickerProps & { style: import('vue').CSSProperties }>
+      componentProps?: Partial<InputProps | SelectProps | RadioGroupProps | RadioProps | CheckboxGroupProps | CheckboxProps | SwitchProps | DatePickerProps | UploadProps & { style: import('vue').CSSProperties }>
     }
     interface FormComponentsEvents {
       events?: {
         onInput?: (args: any) => void
         onFocus?: (args: any) => void
         onBlur?: (args: any) => void
-        onChange?: (args: any) => void
+        onChange?: (...args: any) => void
         onClear?: (args: any) => void
       }
     }

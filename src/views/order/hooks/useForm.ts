@@ -1,15 +1,17 @@
-import { ElInput, ElSelect, ElOption, ElRadioGroup, ElRadio, ElCheckboxGroup, ElCheckbox, ElSwitch, ElCheckboxButton } from 'element-plus'
+import { ElInput, ElSelect, ElOption, ElRadioGroup, ElRadio, ElCheckboxGroup, ElCheckbox, ElSwitch, ElCheckboxButton, ElUpload, UploadFile } from 'element-plus'
 
 export default function (): CustomerProps.CustomForm.CustomFormProps {
+  const model = reactive({
+    name: '',
+    city: '',
+    flag: 0,
+    checkbox: ['Option B'],
+    switch: false,
+    type: ['Option B'],
+    fileList: [] as any[]
+  })
   const ruleForm: CustomerProps.CustomForm.CustomFormProps = reactive({
-    model: {
-      name: '',
-      city: '',
-      flag: 0,
-      checkbox: ['Option B'],
-      switch: false,
-      type: ['Option B']
-    },
+    model,
     labelWidth: 120,
     hideRequiredAsterisk: false,
     labelSuffix: 'suff',
@@ -163,6 +165,21 @@ export default function (): CustomerProps.CustomForm.CustomFormProps {
               name: 'type'
             }
           ]
+        }
+      },
+      {
+        component: markRaw(ElUpload),
+        prop: 'fileList',
+        componentProps: {
+          autoUpload: false,
+          fileList: [],
+          showFileList: false,
+          listType: 'picture-card'
+        },
+        events: {
+          onChange (file: UploadFile, fileList: UploadFile[]) {
+            model.fileList = fileList
+          }
         }
       }
     ]

@@ -27,10 +27,7 @@ export default class UploadService {
           const base64 = (e.target?.result as string)?.split(',').pop()
           const ext = `.${data?.file.name.split('.').pop() as string}`
           const result = await this.requestService.request<T, U>({
-            data: <any>{
-              ext,
-              base64
-            },
+            data: <any>{ ext, base64 },
             ...reqJson
           })
           resolve(result)
