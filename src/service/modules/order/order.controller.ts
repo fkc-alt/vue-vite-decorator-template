@@ -8,13 +8,13 @@ import OrderService from './order.service'
 export default class OrderController {
   constructor (private readonly requestService: RequestService, private readonly orderService: OrderService, private readonly uploadService: UploadService) {}
   @Get('orderDetail')
-  public async GetOrderDetail<T extends Service.OrderDetailReq, U = Service.OrderDetailRes>(configure: T): ServerRes<U> {
+  public async GetOrderDetail<T extends Service.OrderDetailReq, U extends Service.OrderDetailRes>(configure: T): ServerRes<U> {
     this.orderService.Log()
     return await this.requestService.request<T, U>(<AxiosRequestConfig>configure)
   }
 
   @Post('orderList')
-  public async GetOrderList<T extends Service.OrderListReq, U = Service.OrderListRes>(configure: T): ServerRes<U> {
+  public async GetOrderList<T extends Service.OrderListReq, U extends Service.OrderListRes>(configure: T): ServerRes<U> {
     return await this.requestService.request<T, U>(<AxiosRequestConfig>configure)
   }
 
