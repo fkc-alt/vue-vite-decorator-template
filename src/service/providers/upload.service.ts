@@ -7,12 +7,12 @@ export default class UploadService {
   constructor (private readonly requestService: RequestService) { }
 
   public async uploadFile<T extends AxiosRequestConfig<Services.Common.UplaodReq>, U = Services.Common.UplaodRes>(configure: T): ServerRes<U> {
-    const { data, ...reqJson } = configure
+    const { data: { file, ...params } = { }, ...reqJson } = configure
     const fileLoder = new FormData()
-    fileLoder.append('file', data?.file.raw as Blob)
-    return await this.requestService.request<T, U>({
+    fileLoder.append('file', <Blob>file?.raw)
+    return await this.requestService.request<Services.Common.UplaodFileReq, U>({
       ...reqJson,
-      data: <T><unknown>fileLoder,
+      data: { file: <FormDataEntryValue>fileLoder.get('file'), ...(params || {}) },
       headers: { 'Content-Type': 'multipart/form-data' }
     })
   }
@@ -21,15 +21,15 @@ export default class UploadService {
     type UploadFile = Services.Common.UplaodReq extends { file: infer U } ? U : never
     return await new Promise((resolve, reject) => {
       try {
-        const { data, ...reqJson } = configure
-        const filerender = new FileReader()
-        filerender.onload = async (e: ProgressEvent<FileReader>) => {
-          const base64 = (e.target?.result as string)?.split(',').pop() ?? ''
-          const ext = `.${<string>((<UploadFile>data?.file).name.split('.').pop())}`
-          const result = await this.requestService.request<T, U>({ ...reqJson, data: <T><unknown>{ ext, base64 } })
+        const { data: { file, ...params } = {}, ...reqJson } = configure
+        const render = new FileReader()
+        render.onload = async (e: ProgressEvent<FileReader>) => {
+          const base64 = (<string>e.target?.result)?.split(',').pop() ?? ''
+          const ext = `.${<string>((<UploadFile>file).name.split('.').pop())}`
+          const result = await this.requestService.request<Services.Common.UplaodBase64Req, U>({ ...reqJson, data: { base64, ext, ...(params || {}) } })
           resolve(result)
         }
-        filerender.readAsDataURL((<UploadFile>data?.file).raw as Blob)
+        render.readAsDataURL(<Blob>(<UploadFile>file).raw)
       } catch (error) {
         reject(error)
       }
