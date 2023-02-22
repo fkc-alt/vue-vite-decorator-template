@@ -23,11 +23,10 @@ export default class UploadService {
       try {
         const { data: { file, ...params } = {}, ...reqJson } = configure
         const render = new FileReader()
-        render.onload = async (e: ProgressEvent<FileReader>) => {
+        render.onload = (e: ProgressEvent<FileReader>) => {
           const base64 = (<string>e.target?.result)?.split(',').pop() ?? ''
           const ext = `.${<string>((<UploadFile>file).name.split('.').pop())}`
-          const result = await this.requestService.request<Services.Common.UplaodBase64Req, U>({ ...reqJson, data: { base64, ext, ...(params || {}) } })
-          resolve(result)
+          resolve(this.requestService.request<Services.Common.UplaodBase64Req, U>({ ...reqJson, data: { base64, ext, ...(params || {}) } }))
         }
         render.readAsDataURL(<Blob>(<UploadFile>file).raw)
       } catch (error) {

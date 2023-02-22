@@ -6,7 +6,8 @@ import OrderService from './order.service'
 
 @Controller('order')
 export default class OrderController {
-  constructor (private readonly requestService: RequestService, private readonly orderService: OrderService, private readonly uploadService: UploadService) {}
+  constructor (private readonly requestService: RequestService, private readonly orderService: OrderService, private readonly uploadService: UploadService) { }
+
   @Get('orderDetail')
   public async GetOrderDetail<T extends Service.OrderDetailReq, U extends Service.OrderDetailRes>(configure: T): ServerRes<U> {
     this.orderService.Log()

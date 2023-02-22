@@ -9,7 +9,7 @@ import UserService from './user.service'
   providers: [RequestService, UtilService, UserService]
 })
 export default class UserModule {
-  constructor (readonly userController: UserController) {}
+  constructor (readonly userController: UserController) { }
 }
 
 export const UserModuleFactory = Factory(UserModule)

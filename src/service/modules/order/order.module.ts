@@ -10,7 +10,7 @@ import OrderService from './order.service'
   providers: [RequestService, UtilService, OrderService, UploadService]
 })
 export default class OrderModule {
-  constructor (readonly orderController: OrderController) {}
+  constructor (readonly orderController: OrderController) { }
 }
 
 export const OrderModuleFactory = Factory(OrderModule)
