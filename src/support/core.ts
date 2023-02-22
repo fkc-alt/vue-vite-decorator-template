@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { AxiosRequestConfig } from 'axios'
 import { ElMessage } from 'element-plus'
-import { getToken, isFunction, isNil, isString } from '@/utils'
+import { getToken, isArray, isFunction, isString } from '@/utils'
 import { Method, RouteParamtypes, ModuleMetadata, MetadataKey } from './types/enums'
 
 /**
@@ -117,17 +117,31 @@ export const Inject = (): MethodDecorator => {
     const method: (...params: any[]) => any = descriptor.value
     const data: Record<string, any> = Reflect.getMetadata(MetadataKey.ROUTE_ARGS_METADATA, target.constructor, propertyName) || {}
     descriptor.value = function (...args: any[]) {
-      const values: Core.RouteParamMetadata[] = Object.values(data)
+      const values: Core.RouteParamMetadata[] = (Object.values(data) || []).sort((a, b) => a.index - b.index)
       if (values.length) {
-        return method.apply(this, values.sort((a, b) => a.index - b.index).map(value => {
-          const item = args.find((_, index) => index === value.index)
-          if (value.pipe?.length) {
-            value.pipe.forEach((target, index) => {
-              const pipe = isFunction(target) ? new (target as Core.Constructor<any>)() : target
-              item[value.data as string] = pipe.constructor.name === 'DefaultValuePipe' ? item[value.data as string] || pipe.defaultValue : pipe.transform(item[value.data as string])
+        return method.apply(this, args.map((param, index) => {
+          const item = values.find((_) => _.index === index)
+          if (item?.data) {
+            const registerClasses = item?.pipe?.map(target => isFunction(target) ? new (target as Core.Constructor<any>)() : target)
+            if (isArray(item.data)) {
+              return (<string[]>item.data).reduce((prev, next) => {
+                const paramObj = <Record<string, any>>{}
+                if (registerClasses?.length) {
+                  registerClasses?.forEach(target => {
+                    paramObj[next] = target.constructor.name === 'DefaultValuePipe' ? param[next] || target.defaultValue : target.transform(paramObj[next])
+                  })
+                } else {
+                  paramObj[next] = param[next]
+                }
+                return { ...prev, ...paramObj }
+              }, {})
+            }
+            registerClasses?.forEach(target => {
+              param[item.data as string] = target.constructor.name === 'DefaultValuePipe' ? param[item.data as string] || target.defaultValue : target.transform(param[item.data as string])
             })
+            return param[item.data as string]
           }
-          return item[value.data as string] || item
+          return param
         }))
       }
       return method.apply(this, args)
@@ -140,7 +154,7 @@ export const Inject = (): MethodDecorator => {
  * @auther kaichao.feng
  * @returns { Record<string, any> } Record<string, any>
  */
-export const assignMetadata = <TParamtype = any, TArgs = any> (args: TArgs, paramtype: TParamtype, index: number, data?: any, pipe?: Array<Core.Constructor<any> | Object>): Record<string, any> => {
+export const assignMetadata = <TParamtype = any, TArgs = any>(args: TArgs, paramtype: TParamtype, index: number, data?: any, pipe?: Array<Core.Constructor<any> | Object>): Record<string, any> => {
   return {
     ...args,
     [`${paramtype}:${index}`]: {
@@ -158,7 +172,7 @@ export const assignMetadata = <TParamtype = any, TArgs = any> (args: TArgs, para
  */
 export const createParamDecorator = (paramtype: RouteParamtypes) => (data?: any, pipe?: Array<Core.Constructor<any> | Object>): ParameterDecorator => (target, key, index): void => {
   const args = Reflect.getMetadata(MetadataKey.ROUTE_ARGS_METADATA, target.constructor, key) || {}
-  const hasParamData = isNil(data) || isString(data)
+  const hasParamData = isString(data) || isArray(data)
   const paramData = hasParamData ? data : undefined
   Reflect.defineMetadata(
     MetadataKey.ROUTE_ARGS_METADATA,
@@ -173,7 +187,7 @@ export const createParamDecorator = (paramtype: RouteParamtypes) => (data?: any,
  * @auther kaichao.feng
  * @description 搭配Inject使用，Param传递的property会通过Inject读取原始参数并返回指定的key对应的value，并返回到当前装饰器形参位置
  */
-export const Param = (property?: string, ...pipe: Array<Core.Constructor<any> | Object>): ParameterDecorator => createParamDecorator(RouteParamtypes.PARAM)(property, pipe)
+export const Param = (property?: string | string[], ...pipe: Array<Core.Constructor<any> | Object>): ParameterDecorator => createParamDecorator(RouteParamtypes.PARAM)(property, pipe)
 
 /**
  * @module Module

@@ -10,7 +10,7 @@ export default class ArticleController {
 
   @Get('getArticleList')
   public async GetArticleList<T = unknown, U = Service.ArticleListRes>(configure?: T): ServerRes<U> {
-    this.articleService.Log({ id: '1' }, { age: 20 })
+    this.articleService.Log(1, { age: 20 })
     console.log(this.utilService)
     return await this.requestService.request<T, U>(<AxiosRequestConfig>configure)
   }
