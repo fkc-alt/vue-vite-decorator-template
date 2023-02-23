@@ -48,6 +48,7 @@ declare namespace CustomerProps {
         label?: (param: { label: string }) => string
         error?: (param: { error: string }) => string
         file?: (...args: any) => any
+        default?: (...args: any) => any
       }
       option?: {
         style?: import('vue').CSSProperties

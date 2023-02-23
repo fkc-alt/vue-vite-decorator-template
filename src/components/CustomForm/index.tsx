@@ -1,6 +1,5 @@
-import { ElForm, ElFormItem, ElIcon } from 'element-plus'
+import { ElForm, ElFormItem } from 'element-plus'
 import type { FormInstance } from 'element-plus'
-import { Plus } from '@element-plus/icons-vue'
 import { randomKey } from '@/utils'
 
 /**
@@ -33,14 +32,11 @@ export default defineComponent({
             {{
               label: (args: { label: string }) => slots?.label?.(args),
               error: (args: { error: string }) => slots?.error?.(args),
-              default: () => <component {...componentProps} {...events} v-model={attributes.model[attribute.prop]}>
+              default: () => <component {...componentProps} v-slots={slots} {...events} v-model={attributes.model[attribute.prop]}>
               {
                 option?.options?.map(item => {
                   return <option.component {...item}>{ option.component.name === 'ElRadio' ? item.value : item.label }</option.component>
                 })
-              }
-              {
-                component.name === 'ElUpload' ? <ElIcon><Plus /></ElIcon> : ''
               }
             </component>
             }}

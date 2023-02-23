@@ -1,4 +1,5 @@
-import { ElInput, ElSelect, ElOption, ElRadioGroup, ElRadio, ElCheckboxGroup, ElCheckbox, ElSwitch, ElCheckboxButton, ElUpload, UploadFile } from 'element-plus'
+import { Plus } from '@element-plus/icons-vue'
+import { ElInput, ElSelect, ElOption, ElRadioGroup, ElRadio, ElCheckboxGroup, ElCheckbox, ElSwitch, ElCheckboxButton, ElUpload, UploadFile, ElIcon } from 'element-plus'
 
 export default function (): CustomerProps.CustomForm.CustomFormProps {
   const model = reactive({
@@ -173,8 +174,17 @@ export default function (): CustomerProps.CustomForm.CustomFormProps {
         componentProps: {
           autoUpload: false,
           fileList: model.fileList,
-          showFileList: false,
-          listType: 'picture-card'
+          showFileList: true,
+          listType: 'picture-card',
+          ref: 'uploadref'
+        },
+        slots: {
+          default: (...args): JSX.Element => {
+            return (<ElIcon><Plus /></ElIcon>)
+          },
+          file ({ file }): JSX.Element {
+            return (<img src={file.url} />)
+          }
         },
         events: {
           onChange (file: UploadFile, fileList: UploadFile[]) {
