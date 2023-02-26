@@ -6,7 +6,7 @@ import RequestService from './request.service'
 export default class UploadService {
   constructor (private readonly requestService: RequestService) { }
 
-  public async uploadFile<T extends AxiosRequestConfig<Services.Common.UplaodReq>, U = Services.Common.UplaodRes>(configure: T): ServerRes<U> {
+  public async uploadFile<T extends AxiosRequestConfig<Services.Common.UplaodReq>, U = Services.Common.UplaodRes> (configure: T): ServerRes<U> {
     const { data: { file, ...params } = { }, ...requestConfig } = configure
     const fileLoder = new FormData()
     fileLoder.append('file', <Blob>file?.raw)
@@ -17,7 +17,7 @@ export default class UploadService {
     })
   }
 
-  public async uploadBase64<T extends AxiosRequestConfig<Services.Common.UplaodReq>, U = Services.Common.UplaodRes>(configure: T): ServerRes<U> {
+  public async uploadBase64<T extends AxiosRequestConfig<Services.Common.UplaodReq>, U = Services.Common.UplaodRes> (configure: T): ServerRes<U> {
     type UploadFile = Services.Common.UplaodReq extends { file: infer U } ? U : never
     return await new Promise((resolve, reject) => {
       try {
