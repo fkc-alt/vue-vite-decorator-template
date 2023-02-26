@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
-/* eslint-disable no-new */
 /* eslint-disable new-cap */
 /* eslint-disable @typescript-eslint/ban-types */
 import { AxiosRequestConfig } from 'axios'
 import { ElMessage } from 'element-plus'
+import { validate } from 'class-validator'
 import { getToken, isArray, isFunction, isString } from '@/utils'
 import { Method, RouteParamtypes, ModuleMetadata, MetadataKey } from './types/enums'
 
@@ -28,7 +28,7 @@ class Container {
   /**
    * 注册
    */
-  addProvider<T>(provider: Core.ClassProvider<T>): void {
+  addProvider<T> (provider: Core.ClassProvider<T>): void {
     this.providers.set(provider.provide, provider)
   }
 
@@ -229,15 +229,38 @@ export const Controller = (prifix = ''): ClassDecorator => {
 export const RequestMapping = (path: string, method: Method): MethodDecorator => {
   return function (target, key, descriptor: PropertyDescriptor) {
     const fn: (params: any) => any = descriptor.value
-    descriptor.value = function (params: any) {
-      const hasGet = [Method.GET, Method.get].includes(method)
-      const data = { [hasGet ? 'params' : 'data']: params }
-      const reqJson: AxiosRequestConfig = {
-        url: `${(target as Record<'prifix', string>).prifix}${path.replace(/^\//g, '')}`,
-        method,
-        ...data
+    const DTO = Reflect.getMetadata(MetadataKey.PARAMTYPES_METADATA, target, key)
+    descriptor.value = async function (params: any) {
+      const handelParam = (): AxiosRequestConfig => {
+        const hasGet = [Method.GET, Method.get].includes(method)
+        const data = { [hasGet ? 'params' : 'data']: params }
+        const reqJson: AxiosRequestConfig = {
+          url: `${(target as Record<'prifix', string>).prifix}${path.replace(/^\//g, '')}`,
+          method,
+          ...data
+        }
+        return reqJson
       }
-      return fn.apply(this, [reqJson])
+      if (DTO[0].name !== 'Object') {
+        const instance = new DTO[0]()
+        for (const key in params) {
+          instance[key] = params[key]
+        }
+        const errors = await validate(instance)
+        if (errors.length) {
+          const messages = errors?.map(message => {
+            return `${message.property}: ${Object.values(<{ [type: string]: string }>message.constraints).join(',')}`
+          })
+          ElMessage.error({
+            dangerouslyUseHTMLString: true,
+            message: messages.map(message => `${message}<br/>`).join(''),
+            duration: 5 * 1000
+          })
+          return fn.apply(this, [handelParam()])
+        }
+        return fn.apply(this, [handelParam()])
+      }
+      return fn.apply(this, [handelParam()])
     }
   }
 }
