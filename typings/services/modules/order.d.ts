@@ -5,10 +5,7 @@ declare namespace Service {
     orderId: string
     price: number
   }
-  interface OrderListReq {
-    currentPage: number
-    pageSize: number
-  }
+  interface OrderListReq extends Services.Common.Pagination { }
   interface OrderListRes {
     orderList: OrderItem[]
   }
@@ -21,4 +18,5 @@ declare namespace Service {
   interface TableDataRes {
     tableList: TableDataRecord[]
   }
+  interface TableDataReq extends Services.Common.Pagination { }
 }

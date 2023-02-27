@@ -9,4 +9,5 @@ declare namespace Service {
   interface ArticleListRes {
     articleList: ArticleItem[]
   }
+  interface ArticleListReq extends Services.Common.Pagination { }
 }

@@ -22,6 +22,10 @@ declare namespace Services {
       ext: string
       base64: string
     }
+    interface Pagination {
+      currentPage: number
+      pageSize: number
+    }
   }
 }
 

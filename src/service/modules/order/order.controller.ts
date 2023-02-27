@@ -3,7 +3,8 @@ import { Controller, Get, Post } from '@/support/core'
 import RequestService from '@/service/providers/request.service'
 import UploadService from '@/service/providers/upload.service'
 import OrderService from './order.service'
-import { GetOrderDetailDto, GetOrderListDto } from './order.dto'
+import GetOrderListDto from './dto/orderList.dto'
+import GetOrderDetailDto from './dto/orderDetail.dto'
 
 @Controller('order')
 export default class OrderController {

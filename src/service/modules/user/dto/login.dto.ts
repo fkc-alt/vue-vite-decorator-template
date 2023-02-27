@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsString } from 'class-validator'
 
-export class LoginDto implements Service.LoginReq {
+export default class LoginDto implements Service.LoginReq {
   @IsString()
   @IsNotEmpty({ message: 'username 不能为空' })
   username!: string

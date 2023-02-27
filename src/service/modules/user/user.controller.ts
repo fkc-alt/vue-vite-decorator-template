@@ -2,7 +2,7 @@ import type { AxiosRequestConfig } from 'axios'
 import { Controller, Post } from '@/support/core'
 import RequestService from '@/service/providers/request.service'
 import UserService from './user.service'
-import { LoginDto } from './user.dto'
+import LoginDto from './dto/login.dto'
 
 @Controller('user')
 export default class UserController {
