@@ -3,8 +3,8 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { AxiosRequestConfig } from 'axios'
 import { ElMessage } from 'element-plus'
-import { validate } from 'class-validator'
-import { getToken, isArray, isFunction, isString } from '@/utils'
+import { validateSync } from 'class-validator'
+import { getToken, isArray, isFunction, isObject, isString } from '@/utils'
 import { Method, RouteParamtypes, ModuleMetadata, MetadataKey } from './types/enums'
 
 /**
@@ -230,7 +230,7 @@ export const RequestMapping = (path: string, method: Method): MethodDecorator =>
   return function (target, key, descriptor: PropertyDescriptor) {
     const fn: (params: any) => any = descriptor.value
     const DTO = Reflect.getMetadata(MetadataKey.PARAMTYPES_METADATA, target, key)
-    descriptor.value = async function (params: any) {
+    descriptor.value = function (params: any) {
       const handelParam = (): AxiosRequestConfig => {
         const hasGet = [Method.GET, Method.get].includes(method)
         const data = { [hasGet ? 'params' : 'data']: params }
@@ -243,13 +243,31 @@ export const RequestMapping = (path: string, method: Method): MethodDecorator =>
       }
       if (DTO[0].name !== 'Object') {
         const instance = new DTO[0]()
-        for (const key in params) {
-          instance[key] = params[key]
+        const instanceChild = Reflect.getMetadata(MetadataKey.TYPE_METADATA, DTO[0].prototype, 'demo')
+        if (instanceChild) {
+          instance.demo = new instanceChild()
+          for (const key in params) {
+            if (isObject(params[key]) || isArray(params[key])) {
+              Object.keys(params[key]).forEach(deepKey => { instance.demo[deepKey] = params[key][deepKey] })
+            } else {
+              instance[key] = params[key]
+            }
+          }
         }
-        const errors = await validate(instance)
+        for (const key in params) {
+          if (typeof params[key] !== 'object') {
+            instance[key] = params[key]
+          }
+        }
+        const errors = validateSync(instance)
         if (errors.length) {
           const messages = errors?.map(message => {
-            return `${message.property}: ${Object.values(<{ [type: string]: string }>message.constraints).join(',')}`
+            if (message.constraints) {
+              return `${message.property}: ${Object.values(<{ [type: string]: string }>message.constraints).join(',')}`
+            }
+            return message.children?.map(message => {
+              return `${message.property}: ${Object.values(<{ [type: string]: string }>message.constraints).join(',')}`
+            }).join(',') ?? ''
           })
           ElMessage.error({
             dangerouslyUseHTMLString: true,

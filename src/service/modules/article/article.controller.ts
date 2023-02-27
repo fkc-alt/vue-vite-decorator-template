@@ -1,5 +1,5 @@
 import type { AxiosRequestConfig } from 'axios'
-import { Controller, Get, Post } from '@/support/core'
+import { Controller, Post } from '@/support/core'
 import RequestService from '@/service/providers/request.service'
 import UtilService from '@/service/providers/util.service'
 import ArticleService from './article.service'
@@ -10,7 +10,7 @@ import TableDataDto from './dto/tableData.dto'
 export default class ArticleController {
   constructor (private readonly articleService: ArticleService, private readonly utilService: UtilService, private readonly requestService: RequestService) { }
 
-  @Get('getArticleList')
+  @Post('getArticleList')
   public async GetArticleList<T = Service.ArticleListReq, U = Service.ArticleListRes> (configure: ArticleListDto): ServerRes<U> {
     this.articleService.Log(1, { age: 20 })
     console.log(this.utilService)
