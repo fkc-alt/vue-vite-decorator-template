@@ -3,14 +3,14 @@ import { Controller, Get, Post } from '@/support/core'
 import RequestService from '@/service/providers/request.service'
 import UploadService from '@/service/providers/upload.service'
 import OrderService from './order.service'
-import { GetOrderListDto } from './order.dto'
+import { GetOrderDetailDto, GetOrderListDto } from './order.dto'
 
 @Controller('order')
 export default class OrderController {
   constructor (private readonly requestService: RequestService, private readonly orderService: OrderService, private readonly uploadService: UploadService) { }
 
   @Get('orderDetail')
-  public async GetOrderDetail<T extends Service.OrderDetailReq, U extends Service.OrderDetailRes> (configure: T): ServerRes<U> {
+  public async GetOrderDetail<T extends Service.OrderDetailReq, U extends Service.OrderDetailRes> (configure: GetOrderDetailDto): ServerRes<U> {
     this.orderService.Log()
     return await this.requestService.request<T, U>(<AxiosRequestConfig>configure)
   }
