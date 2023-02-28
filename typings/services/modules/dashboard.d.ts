@@ -9,11 +9,16 @@ declare namespace Service {
   interface ArticleListRes {
     articleList: ArticleItem[]
   }
+  interface CheckDemoItem {
+    name: string
+    age: number
+  }
   interface ArticleListReq extends Services.Common.Pagination {
     channel: string[]
     param: {
       title: string
       status: number
     }
+    checkDemoList: CheckDemoItem[]
   }
 }

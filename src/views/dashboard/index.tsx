@@ -54,7 +54,8 @@ export default defineComponent({
         channel: ['1'],
         param: {
           status: 0, title: '123'
-        }
+        },
+        checkDemoList: [{ age: 2, name: '123' }]
       }), await ArticleModuleFactory.articleController.GetTableDataList({ pageSize: 10, currentPage: 1 })]
       state.articleList = r.data.articleList
       state.tableList = d.data.tableList

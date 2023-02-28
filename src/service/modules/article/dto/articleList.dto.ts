@@ -11,8 +11,19 @@ class ArticleListParamDto {
   status!: number
 }
 
+class CheckDemoListDto implements Service.CheckDemoItem {
+  @IsString()
+  @IsNotEmpty({ message: '名称 不能为空' })
+  name!: string
+
+  @IsNumber()
+  @IsNotEmpty({ message: '年龄 不能为空' })
+  age!: number
+}
+
 export default class ArticleListDto implements Service.ArticleListReq {
   @ArrayNotEmpty()
+  @IsString({ each: true })
   channel!: string[]
 
   @IsNumber()
@@ -27,4 +38,9 @@ export default class ArticleListDto implements Service.ArticleListReq {
   @ValidateNested()
   @Type(() => ArticleListParamDto)
   param!: ArticleListParamDto
+
+  @IsNotEmpty()
+  @ValidateNested({ each: true })
+  @Type(() => CheckDemoListDto)
+  checkDemoList!: CheckDemoListDto[]
 }
