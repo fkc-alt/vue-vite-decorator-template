@@ -4,7 +4,9 @@
 import { AxiosRequestConfig } from 'axios'
 import { ElMessage } from 'element-plus'
 import { validateSync } from 'class-validator'
-import { getToken, isArray, isFunction, isObject, isString } from '@/utils'
+import type { ValidationError } from 'class-validator'
+import { plainToInstance } from 'class-transformer'
+import { getToken, isArray, isFunction, isString } from '@/utils'
 import { Method, RouteParamtypes, ModuleMetadata, MetadataKey } from './types/enums'
 
 /**
@@ -242,33 +244,24 @@ export const RequestMapping = (path: string, method: Method): MethodDecorator =>
         return reqJson
       }
       if (DTO[0].name !== 'Object') {
-        const instance = new DTO[0]()
-        const instanceChild = Reflect.getMetadata(MetadataKey.TYPE_METADATA, DTO[0].prototype, 'demo')
-        if (instanceChild) {
-          instance.demo = new instanceChild()
-          for (const key in params) {
-            if (isObject(params[key]) || isArray(params[key])) {
-              Object.keys(params[key]).forEach(deepKey => { instance.demo[deepKey] = params[key][deepKey] })
-            } else {
-              instance[key] = params[key]
-            }
-          }
-        }
-        for (const key in params) {
-          if (typeof params[key] !== 'object') {
-            instance[key] = params[key]
-          }
-        }
-        const errors = validateSync(instance)
+        const errors = validateSync(plainToInstance(DTO[0], params))
         if (errors.length) {
-          const messages = errors?.map(message => {
-            if (message.constraints) {
-              return `${message.property}: ${Object.values(<{ [type: string]: string }>message.constraints).join(',')}`
-            }
-            return message.children?.map(message => {
-              return `${message.property}: ${Object.values(<{ [type: string]: string }>message.constraints).join(',')}`
-            }).join(',') ?? ''
-          })
+          const deepError = (errors: ValidationError[]): any[] => {
+            return errors.map(error => {
+              if (error.children?.length) return deepError(error.children)
+              return Object.values(<{ [type: string]: string }>error.constraints)
+            })
+          }
+          const deepReduce = (arr: any[]): any[] => {
+            return arr.reduce((prev, next) => {
+              if (Array.isArray(next)) {
+                const child = deepReduce(next)
+                return [...prev, ...child]
+              }
+              return [...prev, next]
+            }, [])
+          }
+          const messages = deepReduce(deepError(errors))
           ElMessage.error({
             dangerouslyUseHTMLString: true,
             message: messages.map(message => `${message}<br/>`).join(''),

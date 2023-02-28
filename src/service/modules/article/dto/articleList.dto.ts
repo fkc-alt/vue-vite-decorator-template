@@ -1,35 +1,30 @@
-import { IsNotEmpty, IsNumber, IsString, ValidateNested } from 'class-validator'
+import { Type } from 'class-transformer'
+import { IsNumber, IsNotEmpty, ArrayNotEmpty, ValidateNested, IsString } from 'class-validator'
 
-class Child {
+class ArticleListParamDto {
+  @IsString()
+  @IsNotEmpty({ message: '标题 不能为空' })
+  title!: string
+
   @IsNumber()
-  @IsNotEmpty()
-  test!: number
+  @IsNotEmpty({ message: '状态 不能为空' })
+  status!: number
 }
 
-@Reflect.metadata('child', Child)
-class Demo {
-  @IsString()
-  @IsNotEmpty()
-  name!: string
-
-  @IsString()
-  @IsNotEmpty()
-  age!: string
-
-  @ValidateNested()
-  child!: Child
-}
-
-@Reflect.metadata('demo', Demo)
 export default class ArticleListDto implements Service.ArticleListReq {
-  @IsNumber({}, { message: 'currentPage 类型为number' })
-  @IsNotEmpty({ message: 'currentPage 不能为空' })
-  currentPage!: number
+  @ArrayNotEmpty()
+  channel!: string[]
 
   @IsNumber()
   @IsNotEmpty({ message: 'pageSize 不能为空' })
   pageSize!: number
 
+  @IsNumber()
+  @IsNotEmpty({ message: 'currentPage 不能为空' })
+  currentPage!: number
+
+  @IsNotEmpty()
   @ValidateNested()
-  demo!: Demo
+  @Type(() => ArticleListParamDto)
+  param!: ArticleListParamDto
 }
