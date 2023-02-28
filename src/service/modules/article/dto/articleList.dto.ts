@@ -1,7 +1,7 @@
 import { Type } from 'class-transformer'
 import { IsNumber, IsNotEmpty, ArrayNotEmpty, ValidateNested, IsString } from 'class-validator'
 
-class ArticleListParamDto {
+export class ArticleListParamDto {
   @IsString()
   @IsNotEmpty({ message: '标题 不能为空' })
   title!: string
@@ -11,7 +11,7 @@ class ArticleListParamDto {
   status!: number
 }
 
-class CheckDemoListDto implements Service.CheckDemoItem {
+export class CheckDemoListDto implements Service.CheckDemoItem {
   @IsString()
   @IsNotEmpty({ message: '名称 不能为空' })
   name!: string

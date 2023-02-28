@@ -253,13 +253,7 @@ export const RequestMapping = (path: string, method: Method): MethodDecorator =>
             })
           }
           const deepReduce = (arr: any[]): any[] => {
-            return arr.reduce((prev, next) => {
-              if (Array.isArray(next)) {
-                const child = deepReduce(next)
-                return [...prev, ...child]
-              }
-              return [...prev, next]
-            }, [])
+            return arr.reduce((prev, next) => Array.isArray(next) ? [...prev, ...deepReduce(next)] : [...prev, next], [])
           }
           const messages = deepReduce(deepError(errors))
           ElMessage.error({
