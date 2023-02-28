@@ -53,7 +53,7 @@ export default defineComponent({
         currentPage: 1,
         channel: ['1'],
         param: {
-          status: 0, title: '123'
+          status: 1, title: '123'
         },
         checkDemoList: [{ age: 2, name: '123' }]
       }), await ArticleModuleFactory.articleController.GetTableDataList({ pageSize: 10, currentPage: 1 })]

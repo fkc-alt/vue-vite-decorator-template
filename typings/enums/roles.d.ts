@@ -12,4 +12,14 @@ export namespace Enums {
     OWNER = 100,
     OP = 99,
   }
+
+  /**
+     * @description
+     * @VALID 有效
+     * @UNVALID 无效
+     */
+  export enum ArticleStatus {
+    VALID = 1,
+    UNVALID = 0
+  }
 }

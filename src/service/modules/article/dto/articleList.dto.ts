@@ -1,12 +1,13 @@
 import { Type } from 'class-transformer'
-import { IsNumber, IsNotEmpty, ArrayNotEmpty, ValidateNested, IsString } from 'class-validator'
+import { IsNumber, IsNotEmpty, ArrayNotEmpty, ValidateNested, IsString, IsEnum } from 'class-validator'
+import { Enums } from '~@/typings/enums/roles'
 
 export class ArticleListParamDto {
   @IsString()
   @IsNotEmpty({ message: '标题 不能为空' })
   title!: string
 
-  @IsNumber()
+  @IsEnum(Enums.ArticleStatus)
   @IsNotEmpty({ message: '状态 不能为空' })
   status!: number
 }
