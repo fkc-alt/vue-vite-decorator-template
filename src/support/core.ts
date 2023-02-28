@@ -63,19 +63,19 @@ export const CreateModule = <T>(target: Core.Constructor<T>): T => {
  */
 export const Factory = <T>(target: Core.Constructor<T>): T => {
   const providers: Array<Core.Constructor<any>> = Reflect.getMetadata(ModuleMetadata.PROVIDERS, target)
-  const continer = new Container()
+  const container = new Container()
   try {
     providers.forEach((provide: any) => {
       const hasInject = Reflect.getMetadata(MetadataKey.INJECTABLE_WATERMARK, provide)
       if (!hasInject) throw new Error(`Please use @Injectable() ${provide.name as string}`)
-      continer.addProvider({ provide, useClass: provide })
+      container.addProvider({ provide, useClass: provide })
     })
   } catch (error) {
     console.log(error)
   }
   const registerDeepClass = (providers: Array<Core.Constructor<any>>): Array<Core.Constructor<any>> => {
     return providers.map((provider: any) => {
-      const currentNeedPro: Core.Constructor<any> = continer.inject(provider)
+      const currentNeedPro: Core.Constructor<any> = container.inject(provider)
       const deepNeedProviders = Reflect.getMetadata(MetadataKey.PARAMTYPES_METADATA, provider)
       return !deepNeedProviders ? new currentNeedPro() : new currentNeedPro(...registerDeepClass(deepNeedProviders))
     })

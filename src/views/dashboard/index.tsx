@@ -55,6 +55,7 @@ export default defineComponent({
         param: {
           status: 1, title: '123'
         },
+        content: '123',
         checkDemoList: [{ age: 2, name: '123' }]
       }), await ArticleModuleFactory.articleController.GetTableDataList({ pageSize: 10, currentPage: 1 })]
       state.articleList = r.data.articleList

@@ -1,6 +1,7 @@
 import { Type } from 'class-transformer'
-import { IsNumber, IsNotEmpty, ArrayNotEmpty, ValidateNested, IsString, IsEnum } from 'class-validator'
+import { IsNumber, IsNotEmpty, ArrayNotEmpty, ValidateNested, IsString, IsEnum, Validate } from 'class-validator'
 import { Enums } from '~@/typings/enums/roles'
+import { ContentLength } from './validateDto/content.dto'
 
 export class ArticleListParamDto {
   @IsString()
@@ -44,4 +45,7 @@ export default class ArticleListDto implements Service.ArticleListReq {
   @ValidateNested({ each: true })
   @Type(() => CheckDemoListDto)
   checkDemoList!: CheckDemoListDto[]
+
+  @Validate(ContentLength, [3, 20])
+  content!: string
 }

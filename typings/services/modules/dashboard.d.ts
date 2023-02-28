@@ -20,5 +20,6 @@ declare namespace Service {
       status: number
     }
     checkDemoList: CheckDemoItem[]
+    content: string
   }
 }
