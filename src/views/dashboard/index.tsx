@@ -53,7 +53,7 @@ export default defineComponent({
         currentPage: 1,
         channel: ['1'],
         param: {
-          status: 1, title: '123'
+          status: 1, title: '1235', text: '123'
         },
         content: '123',
         checkDemoList: [{ age: 2, name: '123' }]

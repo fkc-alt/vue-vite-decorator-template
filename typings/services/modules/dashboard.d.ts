@@ -18,6 +18,7 @@ declare namespace Service {
     param: {
       title: string
       status: number
+      text: string
     }
     checkDemoList: CheckDemoItem[]
     content: string

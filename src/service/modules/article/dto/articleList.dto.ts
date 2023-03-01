@@ -1,7 +1,7 @@
 import { Type } from 'class-transformer'
 import { IsNumber, IsNotEmpty, ArrayNotEmpty, ValidateNested, IsString, IsEnum, Validate } from 'class-validator'
 import { Enums } from '~@/typings/enums/roles'
-import { ContentLength } from './validateDto/content.dto'
+import { ContentLength, IsLongerThan } from './validateDto/content.dto'
 
 export class ArticleListParamDto {
   @IsString()
@@ -11,6 +11,9 @@ export class ArticleListParamDto {
   @IsEnum(Enums.ArticleStatus)
   @IsNotEmpty({ message: '状态 不能为空' })
   status!: number
+
+  @IsLongerThan('title')
+  text!: string
 }
 
 export class CheckDemoListDto implements Service.CheckDemoItem {
