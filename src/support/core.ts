@@ -235,11 +235,15 @@ export const RequestMapping = (path: string, method: Method): MethodDecorator =>
     descriptor.value = function (params: any) {
       const handelParam = (): AxiosRequestConfig => {
         const hasGet = [Method.GET, Method.get].includes(method)
+        const requestURL = `${(target as Record<'prifix', string>).prifix}${path.replace(/^\//g, '')}`
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const [prifixUrl, ...paramList] = requestURL.split('/:')
         const data = { [hasGet ? 'params' : 'data']: params }
+        const url = paramList.reduce((prev, next) => prev.replace(new RegExp(next), params[next]), requestURL).replace(/:/g, '')
         const reqJson: AxiosRequestConfig = {
-          url: `${(target as Record<'prifix', string>).prifix}${path.replace(/^\//g, '')}`,
+          url,
           method,
-          ...data
+          ...(paramList.length ? {} : data)
         }
         return reqJson
       }

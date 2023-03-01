@@ -1,4 +1,4 @@
-import Mock, { Random } from 'mockjs'
+import { Random } from 'mockjs'
 import { MockMethod, Recordable } from 'vite-plugin-mock'
 import { create } from './utils'
 
@@ -15,7 +15,18 @@ const MockList: MockMethod[] = [
       return {
         code,
         message,
-        data: { token: Mock.Random.string(25, 50), roles: [101, 100] }
+        data: { token: Random.string(25, 50), roles: [101, 100] }
+      }
+    }
+  },
+  {
+    url: '/rsapi/user/info/1/15732943481',
+    method: 'get',
+    response: (req: Recordable): Services.Common.Response<Service.UserInfoRes> => {
+      return {
+        code: 200,
+        message: '成功',
+        data: { name: Random.cname(), point: Random.integer(0, 100000), registerTime: Random.time() }
       }
     }
   },

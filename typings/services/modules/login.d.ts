@@ -7,4 +7,14 @@ declare namespace Service {
     token: string
     roles: number[]
   }
+
+  interface UserInfoReq {
+    id: number
+    phone: string
+  }
+  interface UserInfoRes {
+    name: string
+    registerTime: string
+    point: number
+  }
 }
