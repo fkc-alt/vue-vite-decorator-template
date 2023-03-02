@@ -21,10 +21,10 @@ const handleLink = (item: RouteLocationMatched) => {
       <span
         v-if="item.redirect === route.path || index === breadList.length - 1"
       >
-        {{ $t(<string>item.meta.title) }}
+        {{ $t(`${item.meta.title}`) }}
       </span>
       <a v-else @click.prevent="handleLink(item)">{{
-        $t(<string>item.meta.title)
+        $t(`${item.meta.title}`)
       }}</a>
     </ElBreadcrumbItem>
   </ElBreadcrumb>
