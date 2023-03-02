@@ -4,7 +4,7 @@ import { UserModuleFactory } from '@/service/modules/user/user.module'
 
 const state = reactive<Service.OrderListRes>({ orderList: [] })
 const r = await OrderModuleFactory.orderController.GetOrderList({ currentPage: 1, pageSize: 10 })
-const p = await UserModuleFactory.userController.UserInfo({ id: 1, phone: '15732943481' })
+const p = await UserModuleFactory.userController.UserInfo({ id: 1, phone: '17223418891' })
 console.log(p)
 state.orderList = r.data.orderList
 </script>
