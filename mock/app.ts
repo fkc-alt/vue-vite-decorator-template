@@ -20,7 +20,7 @@ const MockList: MockMethod[] = [
     }
   },
   {
-    url: '/rsapi/user/info/1/15732943481',
+    url: '/rsapi/user/info/{:id}/{:phone}',
     method: 'get',
     response: (req: Recordable): Services.Common.Response<Service.UserInfoRes> => {
       return {
