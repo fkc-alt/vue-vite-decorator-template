@@ -15,7 +15,7 @@ const routes: RouteRecordRaw[] = [
         name: 'Dashboard',
         component: async () => await import('@/views/dashboard'),
         sort: 1,
-        meta: { title: 'WORKBENCHMODULE.TITLE', icon: 'Platform', keepAlive: true }
+        meta: { title: 'WORKBENCHMODULE.TITLE', icon: 'Platform', keepAlive: false }
       }
     ]
   },
