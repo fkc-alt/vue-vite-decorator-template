@@ -22,7 +22,7 @@ export default class OrderController {
   }
 
   @Post('uploadFile')
-  public async uploadFile<T extends Services.Common.UplaodReq, U extends Services.Common.UplaodReq> (configure: T): ServerRes<U> {
+  public async UploadFile<T extends Services.Common.UplaodReq, U extends Services.Common.UplaodRes> (configure: T): ServerRes<U> {
     return await this.uploadService.uploadFile<AxiosRequestConfig<T>, U>(<AxiosRequestConfig>configure)
   }
 
