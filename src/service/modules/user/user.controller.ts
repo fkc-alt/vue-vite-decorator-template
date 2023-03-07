@@ -1,6 +1,6 @@
 import type { AxiosRequestConfig } from 'axios'
 import { Controller, Get, Post } from '@/support/core'
-import RequestService from '@/service/providers/request.service'
+import RequestService from '@/service/common/providers/request.service'
 import UserService from './user.service'
 import LoginDto from './dto/login.dto'
 import UserInfoDto from './dto/userInfo.dto'

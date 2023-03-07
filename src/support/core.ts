@@ -89,9 +89,6 @@ export const Factory = <T>(target: Core.Constructor<T>): T => {
       return providers?.map((provider: any) => {
         const currentNeedPro: Core.Constructor<any> = container.inject(provider)
         if (!currentNeedPro) {
-          // 需要去找是否引入其他模块service
-          // const Module = Reflect.getMetadata(ModuleMetadata.IMPORTS, provider)
-          // const p = Reflect.getMetadata(ModuleMetadata.EXPORTS, Module[0])
           throw new Error(`Please use exports Service ${provider.name as string}`)
         }
         const deepNeedProviders = Reflect.getMetadata(MetadataKey.PARAMTYPES_METADATA, provider)

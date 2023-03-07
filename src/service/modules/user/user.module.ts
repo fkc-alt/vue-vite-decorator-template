@@ -1,12 +1,12 @@
 import { Factory, Module } from '@/support/core'
-import RequestService from '@/service/providers/request.service'
-import UtilService from '@/service/providers/util.service'
+import CommonModule from '../../common/common.module'
 import UserController from './user.controller'
 import UserService from './user.service'
 
 @Module({
+  imports: [CommonModule],
   controllers: [UserController],
-  providers: [RequestService, UtilService, UserService],
+  providers: [UserService],
   exports: [UserService]
 })
 export default class UserModule {

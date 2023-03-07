@@ -6,11 +6,11 @@ import OrderModule from './modules/order/order.module'
 @Module({
   imports: [ArticleModule, UserModule, OrderModule]
 })
-class ServiceModule {
+export default class ApplicationModule {
   constructor (
     readonly articleModule: ArticleModule,
     readonly orderModule: OrderModule,
     readonly userModule: UserModule
   ) {}
 }
-export default CreateModule(ServiceModule)
+export const app = CreateModule(ApplicationModule)
