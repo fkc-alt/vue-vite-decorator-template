@@ -43,16 +43,14 @@ class Container {
 }
 
 /**
- * @module CreateModule
+ * @module SupportFactory
  * @param { Core.Constructor<T> } Core.Constructor<T>
  * @returns { T } Function
  * @auther kaichao.feng
  * @description 依赖注入工厂函数
- */
-export const CreateModule = <T>(target: Core.Constructor<T>): T => {
-  const modules: Array<Core.Constructor<any>> = Reflect.getMetadata(MetadataKey.PARAMTYPES_METADATA, target)
-  return new target(...modules.map(constructor => Factory(constructor)))
-}
+ * @deprecated Function name changed, use the `Factory` method instead.
+ * */
+export const SupportFactory = <T>(target: Core.Constructor<T>): T => Factory(target)
 
 /**
  * @module Factory
@@ -62,17 +60,19 @@ export const CreateModule = <T>(target: Core.Constructor<T>): T => {
  * @description 依赖注入工厂函数
  */
 export const Factory = <T>(target: Core.Constructor<T>): T => {
-  const modules: Array<Core.Constructor<any>> = Reflect.getMetadata(ModuleMetadata.IMPORTS, target)
-  const providers: Array<Core.Constructor<any>> = Reflect.getMetadata(ModuleMetadata.PROVIDERS, target)
+  const modules: Array<Core.Constructor<any>> = Reflect.getMetadata(ModuleMetadata.IMPORTS, target) ?? []
+  const providers = new Set<Core.Constructor<any>>(Reflect.getMetadata(ModuleMetadata.PROVIDERS, target)) ?? []
+  const paramtypes: Array<Core.Constructor<any>> = Reflect.getMetadata(MetadataKey.PARAMTYPES_METADATA, target) ?? []
   if (modules) {
-    const deepRegisterModules = (modules: Array<Core.Constructor<any>>): any[] => {
-      return modules.reduce((prev: Array<Core.Constructor<any>>, target) => {
-        const modules = Reflect.getMetadata(ModuleMetadata.IMPORTS, target)
-        const providers = deepRegisterModules(modules ?? [])
-        return [...prev, ...providers, ...(Reflect.getMetadata(ModuleMetadata.EXPORTS, target) ?? [])]
+    const deepRegisterModules = (modules: Array<Core.Constructor<any>>): Array<Core.Constructor<any>> => {
+      return modules.reduce((prev: Array<Core.Constructor<any>>, constructor) => {
+        const modules = Reflect.getMetadata(ModuleMetadata.IMPORTS, constructor) ?? []
+        const providers = deepRegisterModules(modules)
+        const exports = Reflect.getMetadata(ModuleMetadata.EXPORTS, constructor) ?? []
+        return [...prev, ...providers, ...exports]
       }, [])
     }
-    providers.push(...deepRegisterModules(modules))
+    deepRegisterModules(modules).forEach(target => providers.add(target))
   }
   const container = new Container()
   try {
@@ -95,7 +95,7 @@ export const Factory = <T>(target: Core.Constructor<T>): T => {
         return !deepNeedProviders ? new currentNeedPro() : new currentNeedPro(...registerDeepClass(deepNeedProviders))
       }) ?? []
     }
-    const params: Array<Core.Constructor<any>> = (Reflect.getMetadata(MetadataKey.PARAMTYPES_METADATA, target) as Array<Core.Constructor<any>>).map((target) => {
+    const params: Array<Core.Constructor<any>> = paramtypes.map((target) => {
       const currNeedProviders = Reflect.getMetadata(MetadataKey.PARAMTYPES_METADATA, target)
       return new target(...registerDeepClass(currNeedProviders))
     })
@@ -122,11 +122,7 @@ export const Injectable = (): ClassDecorator => {
  * @auther kaichao.feng
  * @description 标注是否为请求依赖
  */
-export const Request = (): ClassDecorator => {
-  return (target: object) => {
-    Reflect.defineMetadata(MetadataKey.REQUEST_SERVICE, true, target)
-  }
-}
+export const Request = (): ClassDecorator => (target: object) => Reflect.defineMetadata(MetadataKey.REQUEST_SERVICE, true, target)
 
 /**
  * @module Inject

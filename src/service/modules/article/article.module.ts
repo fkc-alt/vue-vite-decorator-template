@@ -8,7 +8,8 @@ import ArticleService from './article.service'
 @Module({
   imports: [OrderModule, CommonModule],
   controllers: [ArticleController, OrderController],
-  providers: [ArticleService]
+  providers: [ArticleService],
+  exports: [ArticleService]
 })
 export default class ArticleModule {
   constructor (readonly articleController: ArticleController, readonly orderController: OrderController) { }
