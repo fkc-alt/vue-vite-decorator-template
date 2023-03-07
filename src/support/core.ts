@@ -62,7 +62,13 @@ export const CreateModule = <T>(target: Core.Constructor<T>): T => {
  * @description 依赖注入工厂函数
  */
 export const Factory = <T>(target: Core.Constructor<T>): T => {
+  const modules: Array<Core.Constructor<any>> = Reflect.getMetadata(ModuleMetadata.IMPORTS, target)
   const providers: Array<Core.Constructor<any>> = Reflect.getMetadata(ModuleMetadata.PROVIDERS, target)
+  if (modules) {
+    providers.push(...modules.reduce((prev: Array<Core.Constructor<any>>, target) => {
+      return [...prev, ...(Reflect.getMetadata(ModuleMetadata.EXPORTS, target) ?? [])]
+    }, []))
+  }
   const container = new Container()
   try {
     providers.forEach((provide: any) => {
@@ -73,18 +79,29 @@ export const Factory = <T>(target: Core.Constructor<T>): T => {
   } catch (error) {
     console.log(error)
   }
-  const registerDeepClass = (providers: Array<Core.Constructor<any>>): Array<Core.Constructor<any>> => {
-    return providers.map((provider: any) => {
-      const currentNeedPro: Core.Constructor<any> = container.inject(provider)
-      const deepNeedProviders = Reflect.getMetadata(MetadataKey.PARAMTYPES_METADATA, provider)
-      return !deepNeedProviders ? new currentNeedPro() : new currentNeedPro(...registerDeepClass(deepNeedProviders))
+  try {
+    const registerDeepClass = (providers: Array<Core.Constructor<any>>): Array<Core.Constructor<any>> => {
+      return providers?.map((provider: any) => {
+        const currentNeedPro: Core.Constructor<any> = container.inject(provider)
+        if (!currentNeedPro) {
+          // 需要去找是否引入其他模块service
+          // const Module = Reflect.getMetadata(ModuleMetadata.IMPORTS, provider)
+          // const p = Reflect.getMetadata(ModuleMetadata.EXPORTS, Module[0])
+          throw new Error(`Please use exports Service ${provider.name as string}`)
+        }
+        const deepNeedProviders = Reflect.getMetadata(MetadataKey.PARAMTYPES_METADATA, provider)
+        return !deepNeedProviders ? new currentNeedPro() : new currentNeedPro(...registerDeepClass(deepNeedProviders))
+      }) ?? []
+    }
+    const params: Array<Core.Constructor<any>> = (Reflect.getMetadata(MetadataKey.PARAMTYPES_METADATA, target) as Array<Core.Constructor<any>>).map((target) => {
+      const currNeedProviders = Reflect.getMetadata(MetadataKey.PARAMTYPES_METADATA, target)
+      return new target(...registerDeepClass(currNeedProviders))
     })
+    return new target(...params)
+  } catch (error) {
+    console.log(error)
+    return new target()
   }
-  const controllers: Array<Core.Constructor<any>> = (Reflect.getMetadata(ModuleMetadata.CONTROLLERS, target) as Array<Core.Constructor<any>>).map((controller, index) => {
-    const currNeedProviders = Reflect.getMetadata(MetadataKey.PARAMTYPES_METADATA, controller)
-    return new controller(...registerDeepClass(currNeedProviders))
-  })
-  return new target(...controllers)
 }
 
 /**

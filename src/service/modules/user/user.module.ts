@@ -6,7 +6,8 @@ import UserService from './user.service'
 
 @Module({
   controllers: [UserController],
-  providers: [RequestService, UtilService, UserService]
+  providers: [RequestService, UtilService, UserService],
+  exports: [UserService]
 })
 export default class UserModule {
   constructor (readonly userController: UserController) { }

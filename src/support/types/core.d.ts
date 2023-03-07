@@ -3,6 +3,7 @@ declare namespace Core {
     imports?: Array<Constructor<any>>
     controllers?: Array<Constructor<any>>
     providers?: Array<Constructor<any>>
+    exports?: Array<Constructor<any>>
   }
   type Constructor<T = any> = new (...args: any[]) => T
   interface ClassProvider<T> {
