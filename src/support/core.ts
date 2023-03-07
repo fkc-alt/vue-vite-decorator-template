@@ -65,9 +65,14 @@ export const Factory = <T>(target: Core.Constructor<T>): T => {
   const modules: Array<Core.Constructor<any>> = Reflect.getMetadata(ModuleMetadata.IMPORTS, target)
   const providers: Array<Core.Constructor<any>> = Reflect.getMetadata(ModuleMetadata.PROVIDERS, target)
   if (modules) {
-    providers.push(...modules.reduce((prev: Array<Core.Constructor<any>>, target) => {
-      return [...prev, ...(Reflect.getMetadata(ModuleMetadata.EXPORTS, target) ?? [])]
-    }, []))
+    const deepRegisterModules = (modules: Array<Core.Constructor<any>>): any[] => {
+      return modules.reduce((prev: Array<Core.Constructor<any>>, target) => {
+        const modules = Reflect.getMetadata(ModuleMetadata.IMPORTS, target)
+        const providers = deepRegisterModules(modules ?? [])
+        return [...prev, ...providers, ...(Reflect.getMetadata(ModuleMetadata.EXPORTS, target) ?? [])]
+      }, [])
+    }
+    providers.push(...deepRegisterModules(modules))
   }
   const container = new Container()
   try {
