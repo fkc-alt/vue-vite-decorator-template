@@ -1,30 +1,55 @@
+#example
 ```
-/**
- * 类装饰器
- * @param constructor 类的构造函数
- */
-function classDecorator(constructor: Function){}
+# demo.controller.ts
+import type { AxiosRequestConfig } from 'axios'
+import { Controller, Post } from '@/support/core'
+import RequestService from '@/service/common/providers/request.service'
+import UtilService from '@/service/common/providers/util.service'
+import DemoService from './demo.service'
 
-/**
- * 属性装饰器
- * @param target 静态属性是类的构造函数，实例的属性是类的原型对象
- * @param property 属性名称
- */
-function propertyDecorator(target:any, property: string) {}
+@Controller('article')
+export default class DemoController {
+  constructor (private readonly utilService: UtilService, private readonly requestService: RequestService, readonly demoServie: DemoService) { }
 
-/**
- * 方法装饰器
- * @param target 静态方法是类的构造函数，实例方法是类的原型对象
- * @param propery 方法名称
- * @param descriptor 方法描述符
- */
-function methodDecorator(target: any, propery: string, descriptor: PropertyDescriptor){}
+  @Post('getArticleList')
+  public async GetArticleList<T = Service.ArticleListReq, U = Service.ArticleListRes> (configure: T): ServerRes<U> {
+    console.log(this.utilService)
+    this.demoServie.Log(1, { age: 20 })
+    return await this.requestService.request<T, U>(<AxiosRequestConfig>configure)
+  }
 
-/**
- * 参数装饰器
- * @param target 静态方法是类的构造函数，实例方法是类的原型对象
- * @param methodName 方法名
- * @param paramIndex 参数索引
- */
-function paramDecorator(target: any, methodName: string, paramIndex){}
+  @Post('tableData')
+  public async GetTableDataList<T = Service.TableDataReq, U = Service.TableDataRes> (configure: T): ServerRes<U> {
+    return await this.requestService.request<T, U>(<AxiosRequestConfig>configure)
+  }
+}
+```
+```
+# demo.service.ts
+import { Inject, Injectable, Param, ParseIntPipe, DefaultValuePipe } from '@/support/core'
+
+@Injectable()
+export default class DemoService {
+  @Inject()
+  public Log (
+    @Param(['id', 'price'], new DefaultValuePipe('1000.99'), new ParseIntPipe()) record: number | Record<string, any>, @Param('name', new DefaultValuePipe('落魄前端')) name: string | Record<string, any>): void {
+    console.log('this is DemoService', record, name, '1')
+  }
+}
+```
+```
+#demo.module.ts
+import { Module } from '@/support/core'
+import RequestService from '../common/providers/request.service'
+import UtilService from '../common/providers/util.service'
+import DemoController from './demo.controller'
+import DemoService from './demo.service'
+
+@Module({
+  controllers: [DemoController],
+  providers: [DemoService, UtilService, RequestService],
+})
+export default class DemoModule { }
+
+export const application = SupportFactory.create(DemoModule)
 ```
