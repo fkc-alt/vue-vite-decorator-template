@@ -3,8 +3,8 @@ import type { ComponentInternalInstance } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
 import { FormInstance, FormRules, ElMessage } from 'element-plus'
 import { useUserStore } from '@/store/user'
-import { UserModuleFactory } from '@/service/modules/user/user.module'
 import { setData } from '@/utils'
+import { application } from '@/service/app.module'
 // Look Vue Prototype property
 const [{ proxy }, MODE] = [
   getCurrentInstance() as ComponentInternalInstance,
@@ -54,7 +54,7 @@ const submit = async (formEl: FormInstance | undefined) => {
   loading.value = true
   await formEl.validate((valid, fields) => {
     if (valid) {
-      UserModuleFactory.userController.Login(loginForm)
+      application.userController.Login(loginForm)
         .then(({ data: { token, roles: roleIdList } }) => {
           user.forRoot({ userInfo: 'Test', token, roleIdList })
           setData({ token, roleIdList })

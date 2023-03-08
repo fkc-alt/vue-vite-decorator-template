@@ -42,6 +42,20 @@ class Container {
   }
 }
 
+const deepRegisterModules = (modules: Array<Core.Constructor<any>>): Array<Core.Constructor<any>> => {
+  return modules.reduce((prev: Array<Core.Constructor<any>>, constructor) => {
+    const modules: Array<Core.Constructor<any>> = Reflect.getMetadata(ModuleMetadata.IMPORTS, constructor) ?? []
+    const isGlobalModule = Reflect.getMetadata(MetadataKey.GLOBAL, constructor)
+    const globalProviders = isGlobalModule ? Reflect.getMetadata(ModuleMetadata.PROVIDERS, constructor) ?? [] : []
+    const providers = deepRegisterModules(modules.filter(constructor => Reflect.getMetadata(MetadataKey.GLOBAL, constructor)))
+    const exports = Reflect.getMetadata(ModuleMetadata.EXPORTS, constructor) ?? []
+    const providerReduce = modules.filter(constructor => !(Reflect.getMetadata(MetadataKey.GLOBAL, constructor))).reduce((prev: Array<Core.Constructor<any>>, constructor) => {
+      return [...prev, ...(Reflect.getMetadata(ModuleMetadata.EXPORTS, constructor) ?? [])]
+    }, [])
+    return [...prev, ...providers, ...exports, ...globalProviders, ...providerReduce]
+  }, [])
+}
+
 /**
  * @publicApi
  */
@@ -85,19 +99,7 @@ export const Factory = <T>(target: Core.Constructor<T>): T => {
   const modules = new Set<Core.Constructor<any>>([...(Reflect.getMetadata(ModuleMetadata.IMPORTS, target) ?? []), ...(SupportFactory.globalModule || [])])
   const providers = new Set<Core.Constructor<any>>(Reflect.getMetadata(ModuleMetadata.PROVIDERS, target)) ?? []
   const paramtypes: Array<Core.Constructor<any>> = Reflect.getMetadata(MetadataKey.PARAMTYPES_METADATA, target) ?? []
-  if (modules) {
-    const deepRegisterModules = (modules: Array<Core.Constructor<any>>): Array<Core.Constructor<any>> => {
-      return modules.reduce((prev: Array<Core.Constructor<any>>, constructor) => {
-        const modules = Reflect.getMetadata(ModuleMetadata.IMPORTS, constructor) ?? []
-        const isGlobalModule = Reflect.getMetadata(MetadataKey.GLOBAL, constructor)
-        const globalProviders = isGlobalModule ? Reflect.getMetadata(ModuleMetadata.PROVIDERS, constructor) ?? [] : []
-        const providers = deepRegisterModules(modules)
-        const exports = Reflect.getMetadata(ModuleMetadata.EXPORTS, constructor) ?? []
-        return [...prev, ...providers, ...exports, ...globalProviders]
-      }, [])
-    }
-    deepRegisterModules(Array.from(modules)).forEach(target => providers.add(target))
-  }
+  deepRegisterModules(Array.from(modules)).forEach(target => providers.add(target))
   const container = new Container()
   try {
     Array.from(providers).forEach((provide: any) => {
@@ -121,6 +123,9 @@ export const Factory = <T>(target: Core.Constructor<T>): T => {
     }
     const params: Array<Core.Constructor<any>> = paramtypes.map((target) => {
       const currNeedProviders = Reflect.getMetadata(MetadataKey.PARAMTYPES_METADATA, target)
+      if (!container.inject(target) && Reflect.getMetadata(MetadataKey.INJECTABLE_WATERMARK, target)) {
+        throw new Error(`Please use exports Service ${target.name}`)
+      }
       return new target(...registerDeepClass(currNeedProviders))
     })
     return new target(...params)

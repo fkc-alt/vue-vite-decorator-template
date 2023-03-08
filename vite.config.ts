@@ -25,6 +25,7 @@ import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
 
 import ViteCompression from 'vite-plugin-compression'
 import { viteMockServe as ViteMockServe } from 'vite-plugin-mock'
+import Progress from 'vite-plugin-progress'
 import Swc from 'unplugin-swc'
 import pkg from './package.json'
 
@@ -140,6 +141,7 @@ export default defineConfig(({ command, mode }) => {
         prodEnabled: command !== 'serve', // 生产打包开关
         logger: true
       }),
+      Progress(),
       Swc.vite()
       // Rollup plugin
       // Swc.rollup()

@@ -8,6 +8,7 @@ import i18n from '@/locales/i18n'
 import useIcons from './hooks/useIcons'
 import App from './App'
 import '@/router/permission'
+import { application } from './service/test/app.module'
 
 const pinia = createPinia()
 
@@ -26,5 +27,6 @@ const bootstrap = (): void => {
     AppLogger(_APP_INFO_)
   }).catch(console.error)
 }
-
+console.log(application, 'test')
+application.demoService.Log({ id: '', price: 121233 }, { name: '123' })
 bootstrap()
