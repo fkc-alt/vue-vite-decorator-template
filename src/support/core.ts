@@ -50,7 +50,17 @@ export class SupportFactoryStatic {
 
   create <T> (target: Core.Constructor<T>): T {
     const imports: Array<Core.Constructor<any>> = Reflect.getMetadata(ModuleMetadata.IMPORTS, target) ?? []
-    this.globalModule = imports.filter(constructor => Reflect.getMetadata(MetadataKey.GLOBAL, constructor))
+    const deepGlobalModule = (modules: Array<Core.Constructor<any>>): Array<Core.Constructor<any>> => {
+      return modules.reduce((prev: Array<Core.Constructor<any>>, target) => {
+        const isGlobal = Reflect.getMetadata(MetadataKey.GLOBAL, target)
+        if (isGlobal) {
+          const isDeepModule: Array<Core.Constructor<any>> = Reflect.getMetadata(ModuleMetadata.IMPORTS, target)
+          return isDeepModule ? [...prev, ...isDeepModule, ...deepGlobalModule(isDeepModule)] : [...prev, target]
+        }
+        return prev
+      }, [])
+    }
+    this.globalModule = Array.from(new Set(deepGlobalModule(imports)))
     return Factory(target)
   }
 }
@@ -79,9 +89,11 @@ export const Factory = <T>(target: Core.Constructor<T>): T => {
     const deepRegisterModules = (modules: Array<Core.Constructor<any>>): Array<Core.Constructor<any>> => {
       return modules.reduce((prev: Array<Core.Constructor<any>>, constructor) => {
         const modules = Reflect.getMetadata(ModuleMetadata.IMPORTS, constructor) ?? []
+        const isGlobalModule = Reflect.getMetadata(MetadataKey.GLOBAL, constructor)
+        const globalProviders = isGlobalModule ? Reflect.getMetadata(ModuleMetadata.PROVIDERS, constructor) ?? [] : []
         const providers = deepRegisterModules(modules)
         const exports = Reflect.getMetadata(ModuleMetadata.EXPORTS, constructor) ?? []
-        return [...prev, ...providers, ...exports]
+        return [...prev, ...providers, ...exports, ...globalProviders]
       }, [])
     }
     deepRegisterModules(Array.from(modules)).forEach(target => providers.add(target))
