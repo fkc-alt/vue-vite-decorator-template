@@ -1,10 +1,9 @@
 <script lang="ts" setup>
-import { OrderModuleFactory } from '@/service/modules/order/order.module'
-import { UserModuleFactory } from '@/service/modules/user/user.module'
+import { application } from '@/service/app.module'
 
 const state = reactive<Service.OrderListRes>({ orderList: [] })
-const r = await OrderModuleFactory.orderController.GetOrderList({ currentPage: 1, pageSize: 10 })
-const p = await UserModuleFactory.userController.UserInfo({ id: 1, phone: '17223418891' })
+const r = await application.orderController.GetOrderList({ currentPage: 1, pageSize: 10 })
+const p = await application.userController.UserInfo({ id: 1, phone: '17223418891' })
 console.log(p)
 state.orderList = r.data.orderList
 </script>

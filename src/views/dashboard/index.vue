@@ -1,7 +1,8 @@
 <!-- eslint-disable @typescript-eslint/no-unused-vars -->
 <script lang="ts" setup>
-import { ArticleModuleFactory } from '@/service/modules/article/article.module'
+import { application } from '@/service/app.module'
 import { mapColumn } from './tableConfig'
+
 type Row = CustomerProps.CustomTable.SlotProp<Service.ArticleItem>
 
 const state = reactive<Service.ArticleListRes & Service.TableDataRes>({
@@ -44,14 +45,14 @@ const toggleSelection = (rows?: Service.ArticleItem[]): void => {
 }
 const init = async () => {
   loading.value = true
-  const [r, d] = [await ArticleModuleFactory.articleController.GetArticleList({
+  const [r, d] = [await application.articleController.GetArticleList({
     pageSize: 10,
     currentPage: 1,
     channel: ['1'],
     content: '123',
     param: { status: 0, title: '1235', text: '123' },
     checkDemoList: [{ age: 2, name: '123' }]
-  }), await ArticleModuleFactory.articleController.GetTableDataList({ pageSize: 10, currentPage: 1 })]
+  }), await application.articleController.GetTableDataList({ pageSize: 10, currentPage: 1 })]
   state.articleList = r.data.articleList
   state.tableList = d.data.tableList
   loading.value = false

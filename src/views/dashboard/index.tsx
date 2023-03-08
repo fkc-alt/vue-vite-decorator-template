@@ -1,9 +1,10 @@
-import { ArticleModuleFactory } from '@/service/modules/article/article.module'
+
+import { ElButton } from 'element-plus'
+import { application } from '@/service/app.module'
 import CustomTable from '@/components/CustomTable'
 import SvgIcon from '@/components/SvgIcon/index.vue'
 import { mapColumn } from './tableConfig'
 import './index.scss'
-import { ElButton } from 'element-plus'
 
 export default defineComponent({
   setup () {
@@ -48,7 +49,7 @@ export default defineComponent({
       console.log('keep-alive')
     })
     onMounted(async () => {
-      const [r, d] = [await ArticleModuleFactory.articleController.GetArticleList({
+      const [r, d] = [await application.articleController.GetArticleList({
         pageSize: 10,
         currentPage: 1,
         channel: ['1'],
@@ -57,7 +58,7 @@ export default defineComponent({
         },
         content: '123',
         checkDemoList: [{ age: 2, name: '123' }]
-      }), await ArticleModuleFactory.articleController.GetTableDataList({ pageSize: 10, currentPage: 1 })]
+      }), await application.articleController.GetTableDataList({ pageSize: 10, currentPage: 1 })]
       state.articleList = r.data.articleList
       state.tableList = d.data.tableList
     })

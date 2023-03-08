@@ -43,14 +43,22 @@ class Container {
 }
 
 /**
+ * @publicApi
+ */
+export class SupportFactoryStatic {
+  create <T> (target: Core.Constructor<T>): T {
+    return Factory(target)
+  }
+}
+
+/**
  * @module SupportFactory
  * @param { Core.Constructor<T> } Core.Constructor<T>
  * @returns { T } Function
  * @auther kaichao.feng
  * @description 依赖注入工厂函数
- * @deprecated Function name changed, use the `Factory` method instead.
  * */
-export const SupportFactory = <T>(target: Core.Constructor<T>): T => Factory(target)
+export const SupportFactory = new SupportFactoryStatic()
 
 /**
  * @module Factory
@@ -205,6 +213,17 @@ export const createParamDecorator = (paramtype: RouteParamtypes) => (data?: any,
  * @description 搭配Inject使用，Param传递的property会通过Inject读取原始参数并返回指定的key对应的value，并返回到当前装饰器形参位置
  */
 export const Param = (property?: string | string[], ...pipe: Array<Core.Constructor<any> | Object>): ParameterDecorator => createParamDecorator(RouteParamtypes.PARAM)(property, pipe)
+
+/**
+ * @module Global
+ * @auther kaichao.feng
+ * @description 全局模块
+ */
+export const Global = () => {
+  return (target: Core.Constructor<any>) => {
+    Reflect.defineMetadata(MetadataKey.GLOBAL, true, target)
+  }
+}
 
 /**
  * @module Module

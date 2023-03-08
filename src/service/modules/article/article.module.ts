@@ -1,4 +1,4 @@
-import { Factory, Module } from '@/support/core'
+import { Module } from '@/support/core'
 import CommonModule from '../../common/common.module'
 import OrderModule from '../order/order.module'
 import OrderController from '../order/order.controller'
@@ -11,8 +11,4 @@ import ArticleService from './article.service'
   providers: [ArticleService],
   exports: [ArticleService]
 })
-export default class ArticleModule {
-  constructor (readonly articleController: ArticleController, readonly orderController: OrderController) { }
-}
-
-export const ArticleModuleFactory = Factory(ArticleModule)
+export default class ArticleModule { }

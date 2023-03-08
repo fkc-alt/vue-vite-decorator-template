@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { OrderModuleFactory } from '@/service/modules/order/order.module'
+import { application } from '@/service/app.module'
 import useForm from './hooks/useForm'
 const route = useRoute()
 const ruleForm = useForm()
@@ -8,7 +8,7 @@ const state = reactive({}) as Service.OrderDetailRes
 watch(ruleForm, () => {
   console.log(ruleForm)
 })
-const r = await OrderModuleFactory.orderController.GetOrderDetail({ orderId: route.query.id as string })
+const r = await application.orderController.GetOrderDetail({ orderId: route.query.id as string })
 Object.assign(state, r.data)
 const valid = async () => {
   try {
