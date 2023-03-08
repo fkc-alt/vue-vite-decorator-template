@@ -46,7 +46,11 @@ class Container {
  * @publicApi
  */
 export class SupportFactoryStatic {
+  public globalModule!: Array<Core.Constructor<any>>
+
   create <T> (target: Core.Constructor<T>): T {
+    const imports: Array<Core.Constructor<any>> = Reflect.getMetadata(ModuleMetadata.IMPORTS, target) ?? []
+    this.globalModule = imports.filter(constructor => Reflect.getMetadata(MetadataKey.GLOBAL, constructor))
     return Factory(target)
   }
 }
@@ -68,7 +72,7 @@ export const SupportFactory = new SupportFactoryStatic()
  * @description 依赖注入工厂函数
  */
 export const Factory = <T>(target: Core.Constructor<T>): T => {
-  const modules: Array<Core.Constructor<any>> = Reflect.getMetadata(ModuleMetadata.IMPORTS, target) ?? []
+  const modules = new Set<Core.Constructor<any>>([...(Reflect.getMetadata(ModuleMetadata.IMPORTS, target) ?? []), ...(SupportFactory.globalModule || [])])
   const providers = new Set<Core.Constructor<any>>(Reflect.getMetadata(ModuleMetadata.PROVIDERS, target)) ?? []
   const paramtypes: Array<Core.Constructor<any>> = Reflect.getMetadata(MetadataKey.PARAMTYPES_METADATA, target) ?? []
   if (modules) {
@@ -80,11 +84,11 @@ export const Factory = <T>(target: Core.Constructor<T>): T => {
         return [...prev, ...providers, ...exports]
       }, [])
     }
-    deepRegisterModules(modules).forEach(target => providers.add(target))
+    deepRegisterModules(Array.from(modules)).forEach(target => providers.add(target))
   }
   const container = new Container()
   try {
-    providers.forEach((provide: any) => {
+    Array.from(providers).forEach((provide: any) => {
       const hasInject = Reflect.getMetadata(MetadataKey.INJECTABLE_WATERMARK, provide)
       if (!hasInject) throw new Error(`Please use @Injectable() ${provide.name as string}`)
       container.addProvider({ provide, useClass: provide })

@@ -1,4 +1,4 @@
-import { Module } from '@/support/core'
+import { Global, Module } from '@/support/core'
 import UploadService from '@/service/common/providers/upload.service'
 import CommonModule from '../../common/common.module'
 import UserModule from '../user/user.module'
@@ -6,6 +6,7 @@ import UserController from '../user/user.controller'
 import OrderController from './order.controller'
 import OrderService from './order.service'
 
+@Global()
 @Module({
   imports: [UserModule, CommonModule],
   controllers: [OrderController, UserController],
