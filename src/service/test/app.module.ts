@@ -6,6 +6,7 @@ import DemoModule from './demo/demo.module'
 import DemoService from './demo/demo.service'
 import MemberModule from './member/member.module'
 import MemberService from './member/member.service'
+import OrderService from './order/order.service'
 
 @Module({
   imports: [DemoModule, MemberModule],
@@ -13,6 +14,7 @@ import MemberService from './member/member.service'
   providers: [UtilService, RequestService]
 })
 export default class AppModule {
-  constructor (readonly demoService: DemoService, readonly demoController: DemoController, readonly memberService: MemberService) {}
+  constructor (readonly demoService: DemoService, readonly demoController: DemoController, readonly memberService: MemberService, readonly orderService: OrderService) {}
 }
+
 export const application = SupportFactory.create(AppModule)
