@@ -3,10 +3,10 @@ import 'virtual:svg-icons-register'
 import { setupProvider } from '@/plugins/setupProvider'
 import router from '@/router'
 import i18n from '@/locales/i18n'
-import useIcons from './hooks/useIcons'
-import App from './App'
 import '@/router/permission'
+import useIcons from './hooks/useIcons'
 import { application } from './service/test/app.module'
+import App from './App'
 
 const pinia = createPinia()
 
