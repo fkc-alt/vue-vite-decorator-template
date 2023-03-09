@@ -3,8 +3,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { AxiosRequestConfig } from 'axios'
 import { ElMessage } from 'element-plus'
-import { validateSync } from 'class-validator'
-import type { ValidationError } from 'class-validator'
+import { validateSync, ValidationError } from 'class-validator'
 import { plainToInstance } from 'class-transformer'
 import { getToken, isArray, isFunction, isString } from '@/utils'
 import { Method, RouteParamtypes, ModuleMetadata, MetadataKey } from './types/enums'

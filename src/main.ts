@@ -1,7 +1,5 @@
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
-import 'virtual:svg-icons-register'
 import 'reflect-metadata'
+import 'virtual:svg-icons-register'
 import { setupProvider } from '@/plugins/setupProvider'
 import router from '@/router'
 import i18n from '@/locales/i18n'
