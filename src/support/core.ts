@@ -102,8 +102,8 @@ export const Factory = <T>(target: Core.Constructor<T>): T => {
   const container = new Container()
   try {
     Array.from(providers).forEach((provide: any) => {
-      const hasInject = Reflect.getMetadata(MetadataKey.INJECTABLE_WATERMARK, provide)
-      if (!hasInject) throw new Error(`Please use @Injectable() ${provide.name as string}`)
+      const isInject = Reflect.getMetadata(MetadataKey.INJECTABLE_WATERMARK, provide)
+      if (!isInject) throw new Error(`Please use @Injectable() ${provide.name as string}`)
       container.addProvider({ provide, useClass: provide })
     })
   } catch (error) {
@@ -151,6 +151,26 @@ export const Injectable = (): ClassDecorator => {
  * @description 标注是否为请求依赖
  */
 export const Request = (): ClassDecorator => (target: object) => Reflect.defineMetadata(MetadataKey.REQUEST_SERVICE, true, target)
+
+export const Injection = (...args: any) => {
+  return function (target: any, propertyName: string) {
+    const registerDeepClass = (providers: Array<Core.Constructor<any>>): Array<Core.Constructor<any>> => {
+      try {
+        return providers?.map((provider: any) => {
+          const isInject = Reflect.getMetadata(MetadataKey.INJECTABLE_WATERMARK, provider)
+          if (!isInject) throw new Error(`Please use @Injectable() ${provider.name as string}`)
+          const deepNeedProviders = Reflect.getMetadata(MetadataKey.PARAMTYPES_METADATA, provider)
+          return !deepNeedProviders ? new provider() : new provider(...registerDeepClass(deepNeedProviders))
+        }) ?? []
+      } catch (error) {
+        console.log(error)
+        return []
+      }
+    }
+    const propertyValue = Reflect.getMetadata(MetadataKey.TYPE_METADATA, target, propertyName)
+    target[propertyName] = propertyValue && registerDeepClass([propertyValue])[0]
+  }
+}
 
 /**
  * @module Inject

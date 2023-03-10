@@ -1,20 +1,19 @@
 import type { RouteRecordRaw } from 'vue-router'
 declare module 'vue-router' {
-  export interface _RouteRecordBase {
+  interface _RouteRecordBase {
     hidden?: boolean
     sort?: number
     children?: RouteRecordRaw[]
     meta?: RouteMeta
   }
-  export interface RouteMeta {
+  interface RouteMeta {
     title?: string
     icon?: string
     roles?: number[]
     alwaysShow?: boolean
     keepAlive?: boolean
   }
-  export interface RouteLocationMatched {
+  interface RouteLocationMatched {
     redirect?: string
   }
-  export default vueRouter
 }

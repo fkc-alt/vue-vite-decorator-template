@@ -1,4 +1,4 @@
-import { Module, SupportFactory } from '@/support/core'
+import { Module, SupportFactory, Injection } from '@/support/core'
 import RequestService from '../common/providers/request.service'
 import UtilService from '../common/providers/util.service'
 import DemoController from './demo/demo.controller'
@@ -14,6 +14,12 @@ import OrderService from './order/order.service'
   providers: [UtilService, RequestService]
 })
 export default class AppModule {
+  @Injection()
+  readonly requestService!: RequestService
+
+  @Injection()
+  readonly utilService!: UtilService
+
   constructor (readonly demoService: DemoService, readonly demoController: DemoController, readonly memberService: MemberService, readonly orderService: OrderService) {}
 }
 
