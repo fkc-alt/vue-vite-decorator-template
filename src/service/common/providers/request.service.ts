@@ -41,13 +41,13 @@ export default class RequestService {
      * @return { Promise<AxiosResponse<Services.Common.Response> | AxiosError<Services.Common.Response>> } Promise
     */
   private interceptorsRes (): void {
-    this.instance.interceptors.response.use((res: AxiosResponse<Services.Common.Response>) => {
+    this.instance.interceptors.response.use(async (res: AxiosResponse<Services.Common.Response>) => {
       // response data handler
       const { status, data } = res
       const HTTPCODE = [0, 200]
       if (HTTPCODE.includes(status) && HTTPCODE.includes(data.code)) return data
       ElMessage.error({ message: data.message })
-      return Promise.reject(data.message)
+      return await Promise.reject(data.message)
     }, async (err: AxiosError<Services.Common.Response>) => {
       ElMessage.error({ message: err.response?.data.message ?? '' })
       // request error handler
