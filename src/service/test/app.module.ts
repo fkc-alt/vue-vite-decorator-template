@@ -7,10 +7,11 @@ import DemoService from './demo/demo.service'
 import MemberModule from './member/member.module'
 import MemberService from './member/member.service'
 import OrderService from './order/order.service'
+import MemberController from './member/member.controller'
 
 @Module({
   imports: [DemoModule, MemberModule],
-  controllers: [DemoController],
+  controllers: [DemoController, MemberController],
   providers: [UtilService, RequestService]
 })
 export default class AppModule {
@@ -20,7 +21,7 @@ export default class AppModule {
   @Injection()
   readonly utilService!: UtilService
 
-  constructor (readonly demoService: DemoService, readonly demoController: DemoController, readonly memberService: MemberService, readonly orderService: OrderService) {}
+  constructor (readonly demoService: DemoService, readonly demoController: DemoController, readonly memberService: MemberService, readonly orderService: OrderService, readonly memberController: MemberController) {}
 }
 
 export const application = SupportFactory.create(AppModule)

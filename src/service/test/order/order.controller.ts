@@ -5,7 +5,7 @@ import UtilService from '@/service/common/providers/util.service'
 import OrderService from './order.service'
 
 @Controller('article')
-export default class DemoController {
+export default class OrderController {
   constructor (private readonly utilService: UtilService, private readonly requestService: RequestService, readonly orderService: OrderService) { }
 
   @Post('getArticleList')
