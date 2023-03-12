@@ -1,4 +1,4 @@
-import { Module, SupportFactory } from '@/support/core'
+import { Module, SuperFactory } from '@/support/core'
 import ArticleModule from './modules/article/article.module'
 import UserModule from './modules/user/user.module'
 import OrderModule from './modules/order/order.module'
@@ -15,4 +15,4 @@ import DemoController from './modules/demo/demo.controller'
 export default class AppModule {
   constructor (readonly articleController: ArticleController, readonly orderController: OrderController, readonly userController: UserController, readonly orderSerive: OrderService, readonly demoController: DemoController) {}
 }
-export const application = SupportFactory.create(AppModule)
+export const application = SuperFactory.create(AppModule)

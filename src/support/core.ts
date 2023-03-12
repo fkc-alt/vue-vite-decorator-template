@@ -41,6 +41,14 @@ class Container {
   }
 }
 
+export const applyDecorators = (...decorators: Function[]): MethodDecorator => {
+  return function (target, key, descriptor: PropertyDescriptor) {
+    decorators.forEach((decorator) => {
+      decorator(target, key, descriptor)
+    })
+  }
+}
+
 const deepRegisterModules = (modules: Array<Core.Constructor<any>>): Array<Core.Constructor<any>> => {
   return modules.reduce((prev: Array<Core.Constructor<any>>, constructor) => {
     const modules: Array<Core.Constructor<any>> = Reflect.getMetadata(ModuleMetadata.IMPORTS, constructor) ?? []
@@ -58,7 +66,7 @@ const deepRegisterModules = (modules: Array<Core.Constructor<any>>): Array<Core.
 /**
  * @publicApi
  */
-export class SupportFactoryStatic {
+export class SuperFactoryStatic {
   public globalModule!: Array<Core.Constructor<any>>
 
   create <T> (target: Core.Constructor<T>): T {
@@ -85,7 +93,7 @@ export class SupportFactoryStatic {
  * @auther kaichao.feng
  * @description 依赖注入工厂函数
  * */
-export const SupportFactory = new SupportFactoryStatic()
+export const SuperFactory = new SuperFactoryStatic()
 
 /**
  * @module Factory
@@ -95,7 +103,7 @@ export const SupportFactory = new SupportFactoryStatic()
  * @description 依赖注入工厂函数
  */
 export const Factory = <T>(target: Core.Constructor<T>): T => {
-  const modules = new Set<Core.Constructor<any>>([...(Reflect.getMetadata(ModuleMetadata.IMPORTS, target) ?? []), ...(SupportFactory.globalModule || [])])
+  const modules = new Set<Core.Constructor<any>>([...(Reflect.getMetadata(ModuleMetadata.IMPORTS, target) ?? []), ...(SuperFactory.globalModule || [])])
   const providers = new Set<Core.Constructor<any>>(Reflect.getMetadata(ModuleMetadata.PROVIDERS, target)) ?? []
   const paramtypes: Array<Core.Constructor<any>> = Reflect.getMetadata(MetadataKey.PARAMTYPES_METADATA, target) ?? []
   deepRegisterModules(Array.from(modules)).forEach(target => providers.add(target))
