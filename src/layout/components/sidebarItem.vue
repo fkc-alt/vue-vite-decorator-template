@@ -10,7 +10,7 @@ provide('route', item)
 <template>
   <div v-if="!item.hidden">
     <template v-if="item.children && item.children.length">
-      <ElSubMenu :index="item.path" popper-append-to-body>
+      <ElSubMenu :index="item.path" teleported>
         <template #title>
           <Icon />
         </template>
