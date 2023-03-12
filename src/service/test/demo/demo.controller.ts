@@ -7,7 +7,12 @@ import MemberService from '../member/member.service'
 
 @Controller('article')
 export default class DemoController {
-  constructor (private readonly utilService: UtilService, private readonly requestService: RequestService, readonly demoServie: DemoService, readonly memberService: MemberService) { }
+  constructor (
+    private readonly utilService: UtilService,
+    private readonly requestService: RequestService,
+    private readonly demoServie: DemoService,
+    private readonly memberService: MemberService
+  ) { }
 
   @Post('getArticleList')
   public async GetArticleList<T = Service.ArticleListReq, U = Service.ArticleListRes> (configure: T): ServerRes<U> {
