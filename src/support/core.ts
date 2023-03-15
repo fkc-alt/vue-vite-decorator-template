@@ -5,7 +5,7 @@ import { AxiosRequestConfig } from 'axios'
 import { ElMessage } from 'element-plus'
 import { validateSync, ValidationError } from 'class-validator'
 import { plainToInstance } from 'class-transformer'
-import { getToken, isArray, isFunction, isString } from '@/utils'
+import { isArray, isFunction, isString } from '@/utils'
 import { Method, RouteParamtypes, ModuleMetadata, MetadataKey } from './types/enums'
 
 /**
@@ -391,48 +391,6 @@ export const Delete = (path: string): MethodDecorator => RequestMapping(path, Me
  * @description Request Method
  */
 export const Put = (path: string): MethodDecorator => RequestMapping(path, Method.PUT)
-
-/**
- * @module UseGuards
- * @method AuthGuard
- * @param { string[] }
- * @auther kaichao.feng
- * @description 请求路由鉴权守卫
- */
-export const AuthGuard = (exclude: string[]): MethodDecorator => {
-  return function (target, key, descriptor: PropertyDescriptor): void {
-    const fn: (...args: any) => any = descriptor.value
-    descriptor.value = function (...args: any) {
-      const hasAuth = exclude.every(item => !new RegExp(`${item}$`).test(args[0].url)) && !getToken()
-      if (hasAuth) {
-        ElMessage.error('请提供身份令牌')
-        throw new Error('Please provide a token')
-      }
-      const result = fn.apply(this, args)
-      return result
-    }
-  }
-}
-
-/**
- * @module Catch
- * @method CatchError
- * @auther kaichao.feng
- * @description TryCatch异常捕获
- */
-export const CatchError = (): MethodDecorator => {
-  return function (target, key, descriptor: PropertyDescriptor): void {
-    const fn: (...args: any) => any = descriptor.value
-    descriptor.value = function (...args: any) {
-      try {
-        const result = fn.apply(this, args)
-        return result
-      } catch (error: any) {
-        console.log(`CatchError: ${error}`)
-      }
-    }
-  }
-}
 
 /**
  * @module Pipe

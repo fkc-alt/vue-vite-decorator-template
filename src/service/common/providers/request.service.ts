@@ -1,8 +1,9 @@
 import axios from 'axios'
 import type { AxiosInstance, AxiosRequestConfig, AxiosError, AxiosResponse } from 'axios'
 import { ElMessage } from 'element-plus'
-import { AuthGuard, Injectable, CatchError } from '@/support/core'
+import { Injectable } from '@/support/core'
 import UtilService from './util.service'
+import Auth from '../decorators/request.decorators'
 
 const exclude = ['login', 'register']
 
@@ -60,8 +61,7 @@ export default class RequestService {
      * @param { AxiosRequestConfig } config
      * @return { ServerRes<U> }
     */
-  @AuthGuard(exclude)
-  @CatchError()
+  @Auth(exclude)
   public async request<T, U> (config: AxiosRequestConfig<T>): ServerRes<U> {
     return await this.instance.request<{}, ServerRes<U>, T>(config)
   }
