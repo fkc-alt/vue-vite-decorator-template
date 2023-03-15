@@ -26,4 +26,5 @@ const bootstrap = (): void => {
   }).catch(console.error)
 }
 console.log(application, 'test')
+application.demoService.Log({ id: '', price: 121233 }, { name: '123' })
 bootstrap()
