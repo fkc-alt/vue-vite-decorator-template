@@ -5,6 +5,7 @@ declare namespace Core {
     providers?: Array<Constructor<any>>
     exports?: Array<Constructor<any>>
   }
+
   type Constructor<T = any> = new (...args: any[]) => T
   interface ClassProvider<T> {
     provide: Constructor<T>
