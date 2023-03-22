@@ -57,6 +57,7 @@
     "typings/**/*.d.ts",
     "mock/**/*.ts",
     "mock/**/*.d.ts",
+    "types/**/*.d.ts",
     "vite.config.ts"
   ],
   "exclude": [
