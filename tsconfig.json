@@ -21,7 +21,6 @@
     "skipLibCheck": true,
     "baseUrl": ".",
     "declaration": true,
-    "emitDeclarationOnly": true,
     "declarationDir": "types",
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
@@ -55,7 +54,6 @@
     "src/**/*.vue",
     "typings/*.ts",
     "typings/*.d.ts",
-    "typings/**/*.ts",
     "typings/**/*.d.ts",
     "types/**/*.d.ts",
     "mock/**/*.ts",
@@ -64,7 +62,7 @@
   ],
   "exclude": [
     "node_modules",
-    "dist"
+    "dist",
   ],
   "ts-node": {
     "swc": true,

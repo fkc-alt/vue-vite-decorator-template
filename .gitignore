@@ -15,6 +15,7 @@ components.d.ts
 typings/auto-imports.d.ts
 .eslintrc-auto-import.json
 package-lock.json
+types
 *.local
 
 # Editor directories and files
