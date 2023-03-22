@@ -55,7 +55,6 @@
     "typings/*.ts",
     "typings/*.d.ts",
     "typings/**/*.d.ts",
-    "types/**/*.d.ts",
     "mock/**/*.ts",
     "mock/**/*.d.ts",
     "vite.config.ts"
