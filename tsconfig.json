@@ -20,6 +20,9 @@
     ],
     "skipLibCheck": true,
     "baseUrl": ".",
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "declarationDir": "types",
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
@@ -54,6 +57,7 @@
     "typings/*.d.ts",
     "typings/**/*.ts",
     "typings/**/*.d.ts",
+    "types/**/*.d.ts",
     "mock/**/*.ts",
     "mock/**/*.d.ts",
     "vite.config.ts"

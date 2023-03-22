@@ -63,8 +63,9 @@
         "@typescript-eslint/no-extraneous-class": "off",
         "@typescript-eslint/no-empty-function": "off",
         "@typescript-eslint/no-useless-constructor": "off",
+        "@typescript-eslint/no-invalid-void-type": "warn",
         "@typescript-eslint/ban-types": [
-            "error",
+            "warn",
             {
                 "extendDefaults": true,
                 "types": {

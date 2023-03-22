@@ -7,8 +7,9 @@
     "dev": "vite --mode=dev",
     "test": "vue-tsc --noEmit && vite build --mode=test",
     "build": "vue-tsc --noEmit && vite build --mode=prod",
+    "dts": "vue-tsc --emitDeclarationOnly --declaration",
     "preview": "vite preview",
-    "lint": "eslint {src,typings,mock}/**/*.{ts,d.ts,tsx,vue} vite.config.ts --no-error-on-unmatched-pattern --fix",
+    "lint": "eslint {src,typings,mock,types}/**/*.{ts,d.ts,tsx,vue} vite.config.ts --no-error-on-unmatched-pattern --fix",
     "pre-commit": "lint-staged"
   },
   "dependencies": {
