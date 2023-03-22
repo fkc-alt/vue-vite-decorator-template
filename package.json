@@ -7,7 +7,8 @@
     "dev": "vite --mode=dev",
     "test": "vue-tsc --noEmit && vite build --mode=test",
     "build": "vue-tsc --noEmit && vite build --mode=prod",
-    "dts": "vue-tsc --declaration --emitDeclarationOnly ",
+    "predts": "rimraf types",
+    "dts": "npm run predts && vue-tsc --declaration --emitDeclarationOnly && npm run lint",
     "preview": "vite preview",
     "lint": "eslint {src,typings,mock,types}/**/*.{ts,d.ts,tsx,vue} vite.config.ts --no-error-on-unmatched-pattern --fix",
     "pre-commit": "lint-staged"

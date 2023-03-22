@@ -20,7 +20,16 @@
         "plugin:@typescript-eslint/recommended",
         "./.eslintrc-auto-import.json"
     ],
-    "overrides": [],
+    "overrides": [
+        {
+            "files": ["types/**/*"],
+            "rules": {
+                "@typescript-eslint/no-invalid-void-type": "off",
+                "@typescript-eslint/no-unused-vars": "off",
+                "@typescript-eslint/ban-types": "off"
+            }
+        }
+    ],
     "parser": "vue-eslint-parser",
     "parserOptions": {
         "ecmaVersion": "latest",
