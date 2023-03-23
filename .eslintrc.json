@@ -36,7 +36,7 @@
         "sourceType": "module",
         "parser": "@typescript-eslint/parser",
         "tsconfigRootDir": "./",
-        "project": ["./tsconfig.json", "./tsconfig.node.json"],
+        "project": ["./tsconfig.json", "./tsconfig.node.json", "./types/**/*.d.ts"],
         "extraFileExtensions": [
             ".vue"
         ],
