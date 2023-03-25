@@ -1,6 +1,8 @@
-type MapEventKeys = keyof(typeof mapEventKeys)
-type MapEventValues = typeof mapEventKeys[keyof(typeof mapEventKeys)]
-export type TableEvents = Partial<Record<MapEventKeys | MapEventValues, ((...args: any[]) => any) | undefined>>
+type MapEventKeys = keyof typeof mapEventKeys
+type MapEventValues = (typeof mapEventKeys)[keyof typeof mapEventKeys]
+export type TableEvents = Partial<
+  Record<MapEventKeys | MapEventValues, ((...args: any[]) => any) | undefined>
+>
 
 const mapEventKeys = {
   onExpandChange: 'onExpand-change',
@@ -22,13 +24,15 @@ const mapEventKeys = {
   onHeaderDragend: 'onHeader-dragend'
 } as const
 
-export const handlerEvents: CustomerProps.CustomTable.HandlerEvents = methods => {
-  for (const key in methods) {
-    if (mapEventKeys[key as MapEventKeys & MapEventValues]) {
-      methods[mapEventKeys[key as MapEventKeys & MapEventValues]] = methods[key as MapEventKeys & MapEventValues]
-      // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
-      delete methods[key as MapEventKeys & MapEventValues]
+export const handlerEvents: CustomerProps.CustomTable.HandlerEvents =
+  methods => {
+    for (const key in methods) {
+      if (mapEventKeys[key as MapEventKeys & MapEventValues]) {
+        methods[mapEventKeys[key as MapEventKeys & MapEventValues]] =
+          methods[key as MapEventKeys & MapEventValues]
+        // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+        delete methods[key as MapEventKeys & MapEventValues]
+      }
     }
+    return methods
   }
-  return methods
-}

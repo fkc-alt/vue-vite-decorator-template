@@ -8,7 +8,9 @@ const state = reactive({}) as Service.OrderDetailRes
 watch(ruleForm, () => {
   console.log(ruleForm)
 })
-const r = await application.orderController.GetOrderDetail({ orderId: route.query.id as string })
+const r = await application.orderController.GetOrderDetail({
+  orderId: route.query.id as string
+})
 Object.assign(state, r.data)
 const valid = async () => {
   try {
@@ -21,7 +23,10 @@ const valid = async () => {
 <template>
   <div>
     {{ state.name }}
-    <CustomForm v-bind="ruleForm" ref="customForm"></CustomForm>
+    <CustomForm
+      v-bind="ruleForm"
+      ref="customForm"
+    ></CustomForm>
     <ElButton @click="valid">validate</ElButton>
   </div>
 </template>

@@ -13,6 +13,12 @@ import DemoController from './modules/demo/demo.controller'
   imports: [ArticleModule, UserModule, OrderModule, CommonModule]
 })
 export default class AppModule {
-  constructor (readonly articleController: ArticleController, readonly orderController: OrderController, readonly userController: UserController, readonly orderSerive: OrderService, readonly demoController: DemoController) {}
+  constructor(
+    readonly articleController: ArticleController,
+    readonly orderController: OrderController,
+    readonly userController: UserController,
+    readonly orderSerive: OrderService,
+    readonly demoController: DemoController
+  ) {}
 }
 export const application = SuperFactory.create(AppModule)

@@ -2,7 +2,7 @@ import { Injectable } from '@/support/core'
 
 @Injectable()
 export default class UserService {
-  public Log (): void {
+  public Log(): void {
     console.log('this is UserService')
   }
 }

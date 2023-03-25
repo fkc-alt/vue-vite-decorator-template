@@ -11,7 +11,11 @@ import { getToken, getRoleIdList, removeStorage } from '@/utils'
  */
 const rolesMap = (): number[] => getRoleIdList()
 
-function checkRoutes (to: RouteLocationNormalized, form: RouteLocationNormalized, next: NavigationGuardNext): void {
+function checkRoutes(
+  to: RouteLocationNormalized,
+  form: RouteLocationNormalized,
+  next: NavigationGuardNext
+): void {
   const roles = to.meta.roles ?? []
   if (!roles?.length) {
     next()
@@ -29,7 +33,9 @@ router.beforeEach((to, form, next) => {
   if (getToken()) {
     to.path === '/login' ? next('/') : checkRoutes(to, form, next)
   } else {
-    to.path === '/login' ? next() : (removeStorage('token', 'roleIdList') && next('/login'))
+    to.path === '/login'
+      ? next()
+      : removeStorage('token', 'roleIdList') && next('/login')
   }
   NProgress.done()
 })

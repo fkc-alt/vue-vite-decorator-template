@@ -1,21 +1,32 @@
 <script setup lang="ts">
 defineOptions({ name: 'SvgIcon' })
-const props = withDefaults(defineProps<{
+const props = withDefaults(
+  defineProps<{
     prefix?: string
     name: string
     className?: string
-}>(), {
-  prefix: 'icon',
-  name: '',
-  className: ''
-})
+  }>(),
+  {
+    prefix: 'icon',
+    name: '',
+    className: ''
+  }
+)
 const symbolId = computed(() => `#${props.name}`)
-const svgClass = computed(() => props.className ? `svg-icon ${props.className}` : 'svg-icon')
+const svgClass = computed(() =>
+  props.className ? `svg-icon ${props.className}` : 'svg-icon'
+)
 </script>
 <template>
-    <svg :class="svgClass" aria-hidden="true">
-        <use class="svg-use" :href="symbolId" />
-    </svg>
+  <svg
+    :class="svgClass"
+    aria-hidden="true"
+  >
+    <use
+      class="svg-use"
+      :href="symbolId"
+    />
+  </svg>
 </template>
 <style scope>
 .svg-icon {

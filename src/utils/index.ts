@@ -24,7 +24,8 @@ export const isSymbol = (target: any): boolean => {
   return Object.prototype.toString.call(target) === SYMBOL
 }
 
-export const isUndefined = (obj: any): obj is undefined => typeof obj === 'undefined'
+export const isUndefined = (obj: any): obj is undefined =>
+  typeof obj === 'undefined'
 
 export const isNil = (val: any): val is null | undefined =>
   isUndefined(val) || val === null
@@ -38,7 +39,12 @@ export const getToken = (): string => {
 }
 
 export const getRoleIdList = (): number[] => {
-  return (sessionStorage.getItem('roleIdList'))?.split(',').map((v: string | number) => +v) ?? []
+  return (
+    sessionStorage
+      .getItem('roleIdList')
+      ?.split(',')
+      .map((v: string | number) => +v) ?? []
+  )
 }
 
 export const setData = (data: Common.StroageType): void => {
@@ -59,9 +65,17 @@ export const setLang = (lang: string): void => {
 export const randomKey = (): string => Math.random().toString(16).slice(2, 8)
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export const mapKeys = <T extends Record<string, any>>(obj: T, keyMap: T): T => JSON.parse(JSON.stringify(obj).replace(new RegExp(`/(${Object.keys(obj).join('|')})/gi`), ($0) => keyMap[$0]))
+export const mapKeys = <T extends Record<string, any>>(obj: T, keyMap: T): T =>
+  JSON.parse(
+    JSON.stringify(obj).replace(
+      new RegExp(`/(${Object.keys(obj).join('|')})/gi`),
+      $0 => keyMap[$0]
+    )
+  )
 
-export const deepClone = async <T extends Record<string, any>>(obj: T): Promise<T> => {
+export const deepClone = async <T extends Record<string, any>>(
+  obj: T
+): Promise<T> => {
   return await new Promise(resolve => {
     const { port1, port2 } = new MessageChannel()
     port1.postMessage(obj)

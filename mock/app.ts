@@ -7,8 +7,12 @@ const MockList: MockMethod[] = [
     url: '/rsapi/user/login',
     method: 'post',
     response: (req: Recordable): Services.Common.Response<Service.LoginRes> => {
-      let code = 200; let message = '成功'
-      if (req.body?.username !== 'system' || req.body?.password !== '12345678') {
+      let code = 200
+      let message = '成功'
+      if (
+        req.body?.username !== 'system' ||
+        req.body?.password !== '12345678'
+      ) {
         code = -1
         message = '用户名或密码不正确'
       }
@@ -22,11 +26,17 @@ const MockList: MockMethod[] = [
   {
     url: '/rsapi/user/info/{:id}/{:phone}',
     method: 'get',
-    response: (req: Recordable): Services.Common.Response<Service.UserInfoRes> => {
+    response: (
+      req: Recordable
+    ): Services.Common.Response<Service.UserInfoRes> => {
       return {
         code: 200,
         message: '成功',
-        data: { name: Random.cname(), point: Random.integer(0, 100000), registerTime: Random.time() }
+        data: {
+          name: Random.cname(),
+          point: Random.integer(0, 100000),
+          registerTime: Random.time()
+        }
       }
     }
   },
@@ -39,7 +49,7 @@ const MockList: MockMethod[] = [
         message: '成功',
         data: {
           tableList: [
-            ...create<Service.TableDataRecord>(10, (_item) => {
+            ...create<Service.TableDataRecord>(10, _item => {
               return {
                 date: Random.date(),
                 name: Random.cname(),
@@ -60,7 +70,7 @@ const MockList: MockMethod[] = [
         message: '成功',
         data: {
           articleList: [
-            ...create<Service.ArticleItem>(10, (_item) => {
+            ...create<Service.ArticleItem>(10, _item => {
               return {
                 id: Random.integer(1, 100000),
                 description: Random.csentence(),
@@ -83,7 +93,7 @@ const MockList: MockMethod[] = [
         message: '成功',
         data: {
           orderList: [
-            ...create<Service.OrderItem>(20, (_item) => {
+            ...create<Service.OrderItem>(20, _item => {
               return {
                 name: Random.cname(),
                 orderId: `${Random.integer(1, 50)}${Random.string(2, 10)}`,
@@ -103,7 +113,7 @@ const MockList: MockMethod[] = [
       return {
         code: 200,
         message: '成功',
-        data: create<Service.OrderItem>(1, (_item) => {
+        data: create<Service.OrderItem>(1, _item => {
           return {
             name: Random.cname(),
             orderId: `${Random.integer(1, 50)}${Random.string(2, 10)}`,
@@ -121,7 +131,9 @@ const MockList: MockMethod[] = [
       return {
         code: 200,
         message: '成功',
-        data: { url: 'https://img1.baidu.com/it/u=3527187906,1947135853&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1676998800&t=d87261632cf4313fcab070b28a78764f' }
+        data: {
+          url: 'https://img1.baidu.com/it/u=3527187906,1947135853&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1676998800&t=d87261632cf4313fcab070b28a78764f'
+        }
       }
     }
   },
@@ -132,7 +144,9 @@ const MockList: MockMethod[] = [
       return {
         code: 200,
         message: '成功',
-        data: { url: 'https://img1.baidu.com/it/u=3527187906,1947135853&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1676998800&t=d87261632cf4313fcab070b28a78764f' }
+        data: {
+          url: 'https://img1.baidu.com/it/u=3527187906,1947135853&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1676998800&t=d87261632cf4313fcab070b28a78764f'
+        }
       }
     }
   }

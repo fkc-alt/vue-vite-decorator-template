@@ -5,7 +5,7 @@ const [route, router] = [useRoute(), useRouter()]
 
 const breadList = computed((): RouteLocationMatched[] => {
   return route.matched.filter(
-    (item) => item.meta.title && !item.meta.alwaysShow && item.name !== 'Login'
+    item => item.meta.title && !item.meta.alwaysShow && item.name !== 'Login'
   )
 })
 
@@ -16,16 +16,24 @@ const handleLink = (item: RouteLocationMatched) => {
 </script>
 
 <template>
-  <ElBreadcrumb separator="/" class="breadcrumb">
-    <ElBreadcrumbItem v-for="(item, index) in breadList" :key="item.path">
+  <ElBreadcrumb
+    separator="/"
+    class="breadcrumb"
+  >
+    <ElBreadcrumbItem
+      v-for="(item, index) in breadList"
+      :key="item.path"
+    >
       <span
         v-if="item.redirect === route.path || index === breadList.length - 1"
       >
         {{ $t(`${item.meta.title}`) }}
       </span>
-      <a v-else @click.prevent="handleLink(item)">{{
-        $t(`${item.meta.title}`)
-      }}</a>
+      <a
+        v-else
+        @click.prevent="handleLink(item)"
+        >{{ $t(`${item.meta.title}`) }}</a
+      >
     </ElBreadcrumbItem>
   </ElBreadcrumb>
 </template>

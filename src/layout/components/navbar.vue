@@ -6,9 +6,9 @@ import Breadcurmb from './breadcurmb.vue'
 
 const PROJECTICON = inject<string>('PROJECTICON')
 const Props = defineProps<{
-  isCollapse: boolean;
-  device: string;
-  setCollapse(collapse: boolean): void;
+  isCollapse: boolean
+  device: string
+  setCollapse(collapse: boolean): void
 }>()
 const { isCollapse, device } = toRefs(Props)
 // eslint-disable-next-line vue/no-setup-props-destructure
@@ -41,7 +41,10 @@ const langChange = (lang: string): void => {
 <template>
   <div class="navbar">
     <div class="navbar-left">
-      <ElIcon @click="changeMenu" :size="30">
+      <ElIcon
+        @click="changeMenu"
+        :size="30"
+      >
         <IEpExpand v-if="!isCollapse" />
         <IEpFold v-else />
       </ElIcon>
@@ -49,43 +52,61 @@ const langChange = (lang: string): void => {
     </div>
     <div class="navbar-right">
       <!-- <scroll-full class="scroll-full"></scroll-full> -->
-      <ElDropdown trigger="click" :hide-on-click="false">
+      <ElDropdown
+        trigger="click"
+        :hide-on-click="false"
+      >
         <div>
           <img
             :src="PROJECTICON"
-            class="user-avatar" />
-            <ElIcon>
-              <IEpArrowDownBold />
-            </ElIcon>
+            class="user-avatar"
+          />
+          <ElIcon>
+            <IEpArrowDownBold />
+          </ElIcon>
         </div>
         <template #dropdown>
           <ElDropdownMenu>
-            <RouterLink to="/" style="text-decoration: unset">
-              <ElDropdownItem>{{
-                  $t("WORKBENCHMODULE.TITLE")
-              }}</ElDropdownItem>
+            <RouterLink
+              to="/"
+              style="text-decoration: unset"
+            >
+              <ElDropdownItem>{{ $t('WORKBENCHMODULE.TITLE') }}</ElDropdownItem>
             </RouterLink>
             <ElDropdownItem divided>
-              <ElDropdown trigger="click" placement="left-start" @command="langChange">
-                <span>{{ $t("SYSTEM.LANG")
-                }}<i class="el-icon-arrow-down el-icon--right"></i></span>
+              <ElDropdown
+                trigger="click"
+                placement="left-start"
+                @command="langChange"
+              >
+                <span
+                  >{{ $t('SYSTEM.LANG')
+                  }}<i class="el-icon-arrow-down el-icon--right"></i
+                ></span>
                 <template #dropdown>
                   <ElDropdownMenu>
                     <ElDropdownItem command="zh">{{
-                        $t("SYSTEM.ZH")
+                      $t('SYSTEM.ZH')
                     }}</ElDropdownItem>
-                    <ElDropdownItem divided command="hk">{{
-                        $t("SYSTEM.HK")
-                    }}</ElDropdownItem>
-                    <ElDropdownItem divided command="en">{{
-                        $t("SYSTEM.EN")
-                    }}</ElDropdownItem>
+                    <ElDropdownItem
+                      divided
+                      command="hk"
+                      >{{ $t('SYSTEM.HK') }}</ElDropdownItem
+                    >
+                    <ElDropdownItem
+                      divided
+                      command="en"
+                      >{{ $t('SYSTEM.EN') }}</ElDropdownItem
+                    >
                   </ElDropdownMenu>
                 </template>
               </ElDropdown>
             </ElDropdownItem>
-            <ElDropdownItem divided @click="logout">
-              {{ $t("SYSTEM.LOGOUT") }}
+            <ElDropdownItem
+              divided
+              @click="logout"
+            >
+              {{ $t('SYSTEM.LOGOUT') }}
             </ElDropdownItem>
           </ElDropdownMenu>
         </template>

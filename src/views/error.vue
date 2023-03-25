@@ -11,53 +11,54 @@ const message = 'The webmaster said that you can not enter this page...'
           class="pic-404__parent"
           :src="NotImagesNot"
           alt="404"
-        >
+        />
         <img
           class="pic-404__child left"
           :src="NotImagesNotCloud"
           alt="404"
-        >
+        />
         <img
           class="pic-404__child mid"
           :src="NotImagesNotCloud"
           alt="404"
-        >
+        />
         <img
           class="pic-404__child right"
           :src="NotImagesNotCloud"
           alt="404"
-        >
+        />
       </div>
       <div class="bullshit">
-        <div class="bullshit__oops">
-          OOPS!
-        </div>
+        <div class="bullshit__oops">OOPS!</div>
         <div class="bullshit__info">
           All rights reserved
           <a
-            style="color:#20a0ff"
+            style="color: #20a0ff"
             href="https://wallstreetcn.com"
             target="_blank"
-          >wallstreetcn</a>
+            >wallstreetcn</a
+          >
         </div>
         <div class="bullshit__headline">
           {{ message }}
         </div>
         <div class="bullshit__info">
-          Please check that the URL you entered is correct, or click the button below to return to the homepage.
+          Please check that the URL you entered is correct, or click the button
+          below to return to the homepage.
         </div>
         <a
           href=""
           class="bullshit__return-home"
-        >Back to home</a>
+          >Back to home</a
+        >
       </div>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.wscn-http404-container{
-  transform: translate(-50%,-50%);
+.wscn-http404-container {
+  transform: translate(-50%, -50%);
   position: absolute;
   top: 40%;
   left: 50%;

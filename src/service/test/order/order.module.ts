@@ -7,4 +7,4 @@ import OrderService from './order.service'
   providers: [OrderService],
   exports: [OrderService]
 })
-export default class OrderModule { }
+export default class OrderModule {}

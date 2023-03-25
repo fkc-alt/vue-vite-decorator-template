@@ -11,14 +11,17 @@ import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import IconResolver from 'unplugin-icons/resolver'
 import Icons from 'unplugin-icons/vite'
-import { ElementPlusResolve, createStyleImportPlugin as CreateStyleImportPlugin } from 'vite-plugin-style-import'
+import {
+  ElementPlusResolve,
+  createStyleImportPlugin as CreateStyleImportPlugin
+} from 'vite-plugin-style-import'
 import { createSvgIconsPlugin as CreateSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import { createHtmlPlugin as CreateHtmlPlugin } from 'vite-plugin-html'
 import ViteImages from 'vite-plugin-vue-images'
 /**
-  * 在setup语法糖中，解决无法自定义组件的 name 属性
-  * 使用方法  defineOptions({ name: 'my-component' })
-*/
+ * 在setup语法糖中，解决无法自定义组件的 name 属性
+ * 使用方法  defineOptions({ name: 'my-component' })
+ */
 import DefineOptions from 'unplugin-vue-define-options/vite'
 // 解决控制台warning
 import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
@@ -33,15 +36,27 @@ const { dependencies, devDependencies, name, version } = pkg
 const _APP_INFO_ = {
   pkg: { dependencies, devDependencies, name, version },
   lastBuildTime: ((date: Date) => {
-    let [year, month, day] = [date.getFullYear(), date.getMonth() + 1, date.getDate()]
+    let [year, month, day] = [
+      date.getFullYear(),
+      date.getMonth() + 1,
+      date.getDate()
+    ]
     month < 10 && (month = `0${month}` as unknown as number)
     day < 10 && (day = `0${day}` as unknown as number)
-    return `${year}/${month}/${day} ${date.toLocaleTimeString([], { hourCycle: 'h24' })}`
+    return `${year}/${month}/${day} ${date.toLocaleTimeString([], {
+      hourCycle: 'h24'
+    })}`
   })(new Date())
 }
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }) => {
-  const { VITE_APP_BASE_URL, VITE_APP_BASE_API, VITE_APP_MOCK, VITE_APP_PROJECT_ICON, VITE_APP_PROJECT_TITLE } = loadEnv(mode, process.cwd())
+  const {
+    VITE_APP_BASE_URL,
+    VITE_APP_BASE_API,
+    VITE_APP_MOCK,
+    VITE_APP_PROJECT_ICON,
+    VITE_APP_PROJECT_TITLE
+  } = loadEnv(mode, process.cwd())
   const hasMode = mode === 'dev'
   return {
     plugins: [
@@ -62,8 +77,8 @@ export default defineConfig(({ command, mode }) => {
          */
         entry: '/src/main.ts',
         /**
-       * 需要注入 index.html ejs 模版的数据
-       */
+         * 需要注入 index.html ejs 模版的数据
+         */
         inject: {
           data: {
             // 查找.env文件里面的VITE_APP_PROJECT_TITLE，请以VITE_标识开头
@@ -100,7 +115,7 @@ export default defineConfig(({ command, mode }) => {
         deep: true,
         dirs: ['src/components'], // configure default customer components file, file all components auto import
         resolvers: [ElementPlusResolver(), IconResolver()],
-        importPathTransform (str) {
+        importPathTransform(str) {
           return /(.tsx)$/g.test(str) ? str.slice(0, -4) : str
         }
       }),
@@ -109,18 +124,14 @@ export default defineConfig(({ command, mode }) => {
         eslintrc: {
           enabled: true
         },
-        imports: [
-          'vue',
-          'vue-router',
-          'pinia',
-          'vue-i18n'
-        ],
-        resolvers: [ElementPlusResolver({ importStyle: hasMode ? 'sass' : false }), IconResolver({ prefix: 'ep' })]
+        imports: ['vue', 'vue-router', 'pinia', 'vue-i18n'],
+        resolvers: [
+          ElementPlusResolver({ importStyle: hasMode ? 'sass' : false }),
+          IconResolver({ prefix: 'ep' })
+        ]
       }),
       CreateStyleImportPlugin({
-        resolves: [
-          ElementPlusResolve()
-        ]
+        resolves: [ElementPlusResolve()]
       }),
       ViteImages({
         dirs: ['src/assets', 'src/icons'], // 图像目录的相对路径
@@ -185,9 +196,13 @@ export default defineConfig(({ command, mode }) => {
       },
       rollupOptions: {
         output: {
-          manualChunks (id) {
+          manualChunks(id) {
             if (id.includes('node_modules')) {
-              return id.toString().split('node_modules/')[1].split('/')[0].toString()
+              return id
+                .toString()
+                .split('node_modules/')[1]
+                .split('/')[0]
+                .toString()
             }
           },
           chunkFileNames: 'static/js/[name]-[hash].js',

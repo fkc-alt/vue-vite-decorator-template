@@ -10,7 +10,10 @@ provide('route', item)
 <template>
   <div v-if="!item.hidden">
     <template v-if="item.children && item.children.length">
-      <ElSubMenu :index="item.path" teleported>
+      <ElSubMenu
+        :index="item.path"
+        teleported
+      >
         <template #title>
           <Icon />
         </template>

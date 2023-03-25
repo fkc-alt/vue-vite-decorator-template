@@ -1,3 +1,3 @@
 <template>
-    <div>voidOrder</div>
+  <div>voidOrder</div>
 </template>

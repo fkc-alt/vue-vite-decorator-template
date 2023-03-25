@@ -7,4 +7,4 @@ import DemoService from './demo.service'
   controllers: [DemoController],
   providers: [DemoService]
 })
-export default class DemoModule { }
+export default class DemoModule {}

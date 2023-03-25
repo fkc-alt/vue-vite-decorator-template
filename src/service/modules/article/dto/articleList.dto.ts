@@ -1,5 +1,13 @@
 import { Type } from 'class-transformer'
-import { IsNumber, IsNotEmpty, ArrayNotEmpty, ValidateNested, IsString, IsEnum, Validate } from 'class-validator'
+import {
+  IsNumber,
+  IsNotEmpty,
+  ArrayNotEmpty,
+  ValidateNested,
+  IsString,
+  IsEnum,
+  Validate
+} from 'class-validator'
 import { Enums } from '~@/typings/enums/roles'
 import { ContentLength, IsLongerThan } from './validateDto/content.dto'
 

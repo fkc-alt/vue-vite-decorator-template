@@ -7,4 +7,4 @@ import MemberService from './member.service'
   providers: [MemberService],
   exports: [MemberService]
 })
-export default class MemberModule { }
+export default class MemberModule {}

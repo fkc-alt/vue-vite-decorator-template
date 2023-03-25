@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { RouteRecordRaw } from 'vue-router'
 defineOptions({ name: 'Icon' })
-const route = inject<RouteRecordRaw>('route') || {} as RouteRecordRaw
+const route = inject<RouteRecordRaw>('route') || ({} as RouteRecordRaw)
 </script>
 
 <template>

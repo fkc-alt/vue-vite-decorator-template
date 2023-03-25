@@ -12,32 +12,39 @@ const state = reactive<Service.ArticleListRes & Service.TableDataRes>({
 const refTable = ref<CustomerProps.CustomTable.TableRef>()
 const router = useRouter()
 const loading = ref(false)
-const tableProps = computed<CustomerProps.CustomTable.TableProps<Service.ArticleItem>>(() => ({
+const tableProps = computed<
+  CustomerProps.CustomTable.TableProps<Service.ArticleItem>
+>(() => ({
   data: state.articleList,
   column: mapColumn({
-    handleClick ({ row }, event) {
+    handleClick({ row }, event) {
       event.stopPropagation()
       router.push(`/order/detail?id=${row.id}`)
     }
   }),
   border: false,
-  rowClassName ({ rowIndex }) {
-    return ({
-      1: 'warning-row',
-      3: 'success-row'
-    }[rowIndex] ?? '')
+  rowClassName({ rowIndex }) {
+    return (
+      {
+        1: 'warning-row',
+        3: 'success-row'
+      }[rowIndex] ?? ''
+    )
   },
-  onSelectionChange (rows: Service.ArticleItem[]) {
+  onSelectionChange(rows: Service.ArticleItem[]) {
     console.log(rows)
   },
-  onRowClick () {
+  onRowClick() {
     console.log('onRowClick')
   }
 }))
 const toggleSelection = (rows?: Service.ArticleItem[]): void => {
   if (rows != null) {
-    rows.forEach((row) => {
-      refTable.value?.tableRef?.toggleRowSelection(row, undefined as unknown as boolean)
+    rows.forEach(row => {
+      refTable.value?.tableRef?.toggleRowSelection(
+        row,
+        undefined as unknown as boolean
+      )
     })
   } else {
     refTable.value?.tableRef?.clearSelection()
@@ -45,14 +52,20 @@ const toggleSelection = (rows?: Service.ArticleItem[]): void => {
 }
 const init = async () => {
   loading.value = true
-  const [r, d] = [await application.articleController.GetArticleList({
-    pageSize: 10,
-    currentPage: 1,
-    channel: ['1'],
-    content: '123',
-    param: { status: 0, title: '1235', text: '123' },
-    checkDemoList: [{ age: 2, name: '123' }]
-  }), await application.articleController.GetTableDataList({ pageSize: 10, currentPage: 1 })]
+  const [r, d] = [
+    await application.articleController.GetArticleList({
+      pageSize: 10,
+      currentPage: 1,
+      channel: ['1'],
+      content: '123',
+      param: { status: 0, title: '1235', text: '123' },
+      checkDemoList: [{ age: 2, name: '123' }]
+    }),
+    await application.articleController.GetTableDataList({
+      pageSize: 10,
+      currentPage: 1
+    })
+  ]
   state.articleList = r.data.articleList
   state.tableList = d.data.tableList
   loading.value = false
@@ -66,7 +79,11 @@ init()
 <template>
   <div>
     <SvgIcon name="test" />
-    <CustomTable ref="refTable" v-bind="tableProps" v-loading="loading">
+    <CustomTable
+      ref="refTable"
+      v-bind="tableProps"
+      v-loading="loading"
+    >
       <template #id="{ row }: Row">
         <div>id = {{ row.id }}</div>
         <Render />
@@ -75,7 +92,10 @@ init()
         <div>title = {{ row.title }}</div>
       </template>
     </CustomTable>
-    <ElButton @click="toggleSelection([state.articleList[1], state.articleList[2]])">Toggle selection status of second and third rows</ElButton>
+    <ElButton
+      @click="toggleSelection([state.articleList[1], state.articleList[2]])"
+      >Toggle selection status of second and third rows</ElButton
+    >
     <ElButton @click="toggleSelection()">Clear selection</ElButton>
   </div>
 </template>

@@ -22,7 +22,10 @@ export default {
     },
     FORMRULES: {
       USERNAME: ['enter one user name', 'User name is 3 to 12 characters long'],
-      PASSWORD: ['Please input a password', 'The password is 3 to 12 characters long']
+      PASSWORD: [
+        'Please input a password',
+        'The password is 3 to 12 characters long'
+      ]
     }
   },
   WORKBENCHMODULE: {

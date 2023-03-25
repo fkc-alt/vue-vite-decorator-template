@@ -10,7 +10,10 @@ declare namespace CustomProvider {
     [key: string]
   }
   interface _APP_INFO_ {
-    pkg: Pick<typeof import('package.json'), 'name' | 'version' | 'dependencies' | 'devDependencies'>
+    pkg: Pick<
+      typeof import('package.json'),
+      'name' | 'version' | 'dependencies' | 'devDependencies'
+    >
     lastBuildTime: string
   }
 }

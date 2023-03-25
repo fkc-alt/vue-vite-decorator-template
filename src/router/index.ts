@@ -8,14 +8,22 @@ const routes: RouteRecordRaw[] = [
     path: '/',
     component: Layout,
     redirect: '/dashboard',
-    meta: { title: 'WORKBENCHMODULE.TITLE', icon: 'Platform', alwaysShow: true },
+    meta: {
+      title: 'WORKBENCHMODULE.TITLE',
+      icon: 'Platform',
+      alwaysShow: true
+    },
     children: [
       {
         path: '/dashboard',
         name: 'Dashboard',
         component: async () => await import('@/views/dashboard'),
         sort: 1,
-        meta: { title: 'WORKBENCHMODULE.TITLE', icon: 'Platform', keepAlive: false }
+        meta: {
+          title: 'WORKBENCHMODULE.TITLE',
+          icon: 'Platform',
+          keepAlive: false
+        }
       }
     ]
   },

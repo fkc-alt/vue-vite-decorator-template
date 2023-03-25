@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 
 export const useStoreSettings = defineStore('settings', {
-  state (): Store.Settings<{}> {
+  state(): Store.Settings<{}> {
     return {
       isCollapse: false,
       device: 'desktop',
@@ -9,11 +9,11 @@ export const useStoreSettings = defineStore('settings', {
     }
   },
   actions: {
-    setCollapse (data: boolean): void {
+    setCollapse(data: boolean): void {
       this.isCollapse = data
       if (this.device === 'mobile') this.opened = !this.opened
     },
-    setDevice (data: string): void {
+    setDevice(data: string): void {
       this.device = data
       if (data === 'mobile' && !this.opened) {
         this.isCollapse = false
@@ -23,7 +23,7 @@ export const useStoreSettings = defineStore('settings', {
         this.isCollapse = true
       }
     },
-    setOpened (data: boolean): void {
+    setOpened(data: boolean): void {
       this.opened = data
     }
   }

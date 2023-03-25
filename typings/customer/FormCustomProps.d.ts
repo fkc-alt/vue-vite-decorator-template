@@ -12,26 +12,38 @@ declare namespace CustomerProps {
       min: string | number
       step: string | number
     }
-    type SelectProps = InstanceType<typeof import('element-plus').ElSelect>['$props']
-    type SelectOptionProps = Readonly<import('vue').ExtractPropTypes<{
-      value: {
-        required: true
-        type: Array<BooleanConstructor | ObjectConstructor | StringConstructor | NumberConstructor>
-      }
-      label: Array<StringConstructor | NumberConstructor>
-      created: BooleanConstructor
-      disabled: {
-        type: BooleanConstructor
-        default: boolean
-      }
-    }>>
+    type SelectProps = InstanceType<
+      typeof import('element-plus').ElSelect
+    >['$props']
+    type SelectOptionProps = Readonly<
+      import('vue').ExtractPropTypes<{
+        value: {
+          required: true
+          type: Array<
+            | BooleanConstructor
+            | ObjectConstructor
+            | StringConstructor
+            | NumberConstructor
+          >
+        }
+        label: Array<StringConstructor | NumberConstructor>
+        created: BooleanConstructor
+        disabled: {
+          type: BooleanConstructor
+          default: boolean
+        }
+      }>
+    >
     type RadioGroupProps = import('element-plus').RadioGroupProps
     type RadioProps = import('element-plus').RadioProps
     type CheckboxProps = import('element-plus').CheckboxProps
     type CheckboxGroupProps = import('element-plus').CheckboxGroupProps
     type SwitchProps = import('element-plus').SwitchProps
-    type DatePickerProps = InstanceType<typeof import('element-plus').ElDatePicker>['$props']
-    type UploadProps = import('element-plus/es/components/upload/src/upload').UploadProps
+    type DatePickerProps = InstanceType<
+      typeof import('element-plus').ElDatePicker
+    >['$props']
+    type UploadProps =
+      import('element-plus/es/components/upload/src/upload').UploadProps
     interface FormRef {
       formRef: FormInstance
     }
@@ -40,7 +52,9 @@ declare namespace CustomerProps {
       formItems: Component[]
       style?: import('vue').CSSProperties
     }
-    interface Component extends Partial<FormItemInstance['props']>, FormComponentsEvents {
+    interface Component
+      extends Partial<FormItemInstance['props']>,
+        FormComponentsEvents {
       prop: string
       component: import('vue').Raw<any> | any
       style?: import('vue').CSSProperties
@@ -54,9 +68,21 @@ declare namespace CustomerProps {
         style?: import('vue').CSSProperties
         component: import('vue').Raw<any> | any
         options: any[]
-        componentProps?: Partial<SelectOptionProps & { style: import('vue').CSSProperties }>
+        componentProps?: Partial<
+          SelectOptionProps & { style: import('vue').CSSProperties }
+        >
       }
-      componentProps?: Partial<InputProps | SelectProps | RadioGroupProps | RadioProps | CheckboxGroupProps | CheckboxProps | SwitchProps | DatePickerProps | UploadProps & { style: import('vue').CSSProperties }>
+      componentProps?: Partial<
+        | InputProps
+        | SelectProps
+        | RadioGroupProps
+        | RadioProps
+        | CheckboxGroupProps
+        | CheckboxProps
+        | SwitchProps
+        | DatePickerProps
+        | (UploadProps & { style: import('vue').CSSProperties })
+      >
     }
     interface FormComponentsEvents {
       events?: {

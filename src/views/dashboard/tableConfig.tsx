@@ -1,6 +1,8 @@
 import { ElButton } from 'element-plus'
 
-export const mapColumn: CustomerProps.CustomTable.MapColumn<Service.ArticleItem> = (param) => {
+export const mapColumn: CustomerProps.CustomTable.MapColumn<
+  Service.ArticleItem
+> = param => {
   return [
     {
       align: 'center',
@@ -26,12 +28,12 @@ export const mapColumn: CustomerProps.CustomTable.MapColumn<Service.ArticleItem>
       label: 'Custom',
       prop: 'custom',
       width: '120px',
-      render (scope) {
+      render(scope) {
         return (
           <ElButton
             type="primary"
             link
-            onClick={(e) => param?.handleClick?.(scope, e)}
+            onClick={e => param?.handleClick?.(scope, e)}
             class="btn"
           >
             Render

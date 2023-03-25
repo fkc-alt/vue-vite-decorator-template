@@ -35,7 +35,7 @@ export enum Method {
   PUT = 'PUT',
   PURGE = 'PURGE',
   LINK = 'LINK',
-  UNLINK = 'UNLINK',
+  UNLINK = 'UNLINK'
 }
 
 export enum RouteParamtypes {
@@ -50,5 +50,5 @@ export enum RouteParamtypes {
   FILE,
   FILES,
   HOST,
-  IP,
+  IP
 }

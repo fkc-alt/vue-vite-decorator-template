@@ -10,4 +10,4 @@ import ArticleService from './article.service'
   controllers: [ArticleController, OrderController],
   providers: [ArticleService]
 })
-export default class ArticleModule { }
+export default class ArticleModule {}

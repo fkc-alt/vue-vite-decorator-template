@@ -15,9 +15,10 @@ export default defineComponent({
   props: {
     column: Array<Partial<CustomerProps.CustomTable.TableColumnCtx<any>>>
   },
-  setup (props, { attrs, emit, expose, slots }) {
+  setup(props, { attrs, emit, expose, slots }) {
     const { column } = toRefs(props)
-    const { ...attributes } = attrs as unknown as CustomerProps.CustomTable.TableProps<any>
+    const { ...attributes } =
+      attrs as unknown as CustomerProps.CustomTable.TableProps<any>
     const tableRef = ref<InstanceType<typeof ElTable>>()
     /**
      * @warning ***因为.vue文件的template模版使用tsx组件修改时不会热更新，所以此处加上key：随机字符串，便于骗过vite热重载进行render切记勿删！！！，以免挠头发 (T⌓T)
@@ -25,18 +26,41 @@ export default defineComponent({
     Object.assign(handlerEvents(attributes), { ref: tableRef })
     expose({ tableRef })
     return () => (
-      <ElTable { ...attributes } key={randomKey()}>
+      <ElTable
+        {...attributes}
+        key={randomKey()}
+      >
         {column.value?.map(attributes => {
-          return <ElTableColumn {...attributes}>
-            {{
-              default: ({ row, column, $index }: CustomerProps.CustomTable.DefaultParameters) => slots.default?.({ row, column, $index }) ?? slots[attributes?.prop as string]?.({ row, column, $index }) ?? attributes?.render?.({
-                row,
-                column,
-                $index,
-                cellValue: attributes
-              }) ?? attributes?.formatter?.(row, column, row[attributes?.prop as string], $index) ?? row[attributes?.prop as string]
-            }}
-          </ElTableColumn>
+          return (
+            <ElTableColumn {...attributes}>
+              {{
+                default: ({
+                  row,
+                  column,
+                  $index
+                }: CustomerProps.CustomTable.DefaultParameters) =>
+                  slots.default?.({ row, column, $index }) ??
+                  slots[attributes?.prop as string]?.({
+                    row,
+                    column,
+                    $index
+                  }) ??
+                  attributes?.render?.({
+                    row,
+                    column,
+                    $index,
+                    cellValue: attributes
+                  }) ??
+                  attributes?.formatter?.(
+                    row,
+                    column,
+                    row[attributes?.prop as string],
+                    $index
+                  ) ??
+                  row[attributes?.prop as string]
+              }}
+            </ElTableColumn>
+          )
         })}
       </ElTable>
     )

@@ -1,5 +1,18 @@
 import { Plus } from '@element-plus/icons-vue'
-import { ElInput, ElSelect, ElOption, ElRadioGroup, ElRadio, ElCheckboxGroup, ElCheckbox, ElSwitch, ElCheckboxButton, ElUpload, UploadFile, ElIcon } from 'element-plus'
+import {
+  ElInput,
+  ElSelect,
+  ElOption,
+  ElRadioGroup,
+  ElRadio,
+  ElCheckboxGroup,
+  ElCheckbox,
+  ElSwitch,
+  ElCheckboxButton,
+  ElUpload,
+  UploadFile,
+  ElIcon
+} from 'element-plus'
 
 export default function (): CustomerProps.CustomForm.CustomFormProps {
   const model = reactive({
@@ -18,8 +31,12 @@ export default function (): CustomerProps.CustomForm.CustomFormProps {
     labelSuffix: 'suff',
     rules: {
       name: [{ message: '请输入用户名', required: true }],
-      city: [{ message: '请选择城市', required: true, trigger: ['blur', 'change'] }],
-      flag: [{ message: '请选择晚饭', required: true, trigger: ['blur', 'change'] }]
+      city: [
+        { message: '请选择城市', required: true, trigger: ['blur', 'change'] }
+      ],
+      flag: [
+        { message: '请选择晚饭', required: true, trigger: ['blur', 'change'] }
+      ]
     },
     formItems: [
       {
@@ -30,12 +47,12 @@ export default function (): CustomerProps.CustomForm.CustomFormProps {
           placeholder: 'Please input'
         },
         slots: {
-          label (args) {
+          label(args) {
             return args.label + '#'
           }
         },
         events: {
-          onInput (args) {
+          onInput(args) {
             console.log(args)
           }
         }
@@ -51,7 +68,7 @@ export default function (): CustomerProps.CustomForm.CustomFormProps {
           }
         },
         slots: {
-          label (args) {
+          label(args) {
             return args.label + '#'
           }
         },
@@ -77,7 +94,7 @@ export default function (): CustomerProps.CustomForm.CustomFormProps {
           size: 'small'
         },
         slots: {
-          label (args) {
+          label(args) {
             return args.label + '#'
           }
         },
@@ -102,7 +119,7 @@ export default function (): CustomerProps.CustomForm.CustomFormProps {
         label: '多选框',
         prop: 'checkbox',
         slots: {
-          label (args) {
+          label(args) {
             return args.label + '#'
           }
         },
@@ -126,12 +143,12 @@ export default function (): CustomerProps.CustomForm.CustomFormProps {
         label: '开关',
         prop: 'switch',
         slots: {
-          label (args) {
+          label(args) {
             return args.label + '#'
           }
         },
         events: {
-          onInput (args) {
+          onInput(args) {
             console.log(args)
           }
         }
@@ -141,12 +158,12 @@ export default function (): CustomerProps.CustomForm.CustomFormProps {
         label: '按钮组',
         prop: 'type',
         slots: {
-          label (args) {
+          label(args) {
             return args.label + '#'
           }
         },
         events: {
-          onChange (args) {
+          onChange(args) {
             console.log(args)
           }
         },
@@ -180,14 +197,18 @@ export default function (): CustomerProps.CustomForm.CustomFormProps {
         },
         slots: {
           default: (...args): JSX.Element => {
-            return (<ElIcon><Plus /></ElIcon>)
+            return (
+              <ElIcon>
+                <Plus />
+              </ElIcon>
+            )
           },
-          file ({ file }): JSX.Element {
-            return (<img src={file.url} />)
+          file({ file }): JSX.Element {
+            return <img src={file.url} />
           }
         },
         events: {
-          onChange (file: UploadFile, fileList: UploadFile[]) {
+          onChange(file: UploadFile, fileList: UploadFile[]) {
             model.fileList = fileList
           }
         }

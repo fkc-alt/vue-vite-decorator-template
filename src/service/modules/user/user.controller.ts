@@ -7,16 +7,28 @@ import UserInfoDto from './dto/userInfo.dto'
 
 @Controller('user')
 export default class UserController {
-  constructor (private readonly requestService: RequestService, private readonly userService: UserService) { }
+  constructor(
+    private readonly requestService: RequestService,
+    private readonly userService: UserService
+  ) {}
 
   @Post('login')
-  public async Login<T extends Service.LoginReq, U extends Service.LoginRes> (configure: LoginDto): ServerRes<U> {
+  public async Login<T extends Service.LoginReq, U extends Service.LoginRes>(
+    configure: LoginDto
+  ): ServerRes<U> {
     this.userService.Log()
-    return await this.requestService.request<T, U>(<AxiosRequestConfig>configure)
+    return await this.requestService.request<T, U>(
+      <AxiosRequestConfig>configure
+    )
   }
 
   @Get('info/:id/:phone')
-  public async UserInfo<T extends Service.UserInfoReq, U extends Service.UserInfoRes> (configure: UserInfoDto): ServerRes<U> {
-    return await this.requestService.request<T, U>(<AxiosRequestConfig>configure)
+  public async UserInfo<
+    T extends Service.UserInfoReq,
+    U extends Service.UserInfoRes
+  >(configure: UserInfoDto): ServerRes<U> {
+    return await this.requestService.request<T, U>(
+      <AxiosRequestConfig>configure
+    )
   }
 }

@@ -8,14 +8,14 @@
  */
 
 /**
-  * @param { String } el 要打印的dom元素 默认为空
-  * @param { String } stylesheet 外部样式表的URL地址 默认为空  使用时需要 require 引入
-  * @param { Boolean } landscape 横纵向打印 默认纵向打印
-  * @param { String } noPrintSelector 不想打印的元素的类选择器  默认为.no-print
-  * @param { String } append 将内容添加到打印内容的后面  默认为空
-  * @param { String } prepend 将内容添加到打印内容的前面 默认为空
-  * @param { Boolean } hidden 隐藏页头页脚  默认隐藏
-  */
+ * @param { String } el 要打印的dom元素 默认为空
+ * @param { String } stylesheet 外部样式表的URL地址 默认为空  使用时需要 require 引入
+ * @param { Boolean } landscape 横纵向打印 默认纵向打印
+ * @param { String } noPrintSelector 不想打印的元素的类选择器  默认为.no-print
+ * @param { String } append 将内容添加到打印内容的后面  默认为空
+ * @param { String } prepend 将内容添加到打印内容的前面 默认为空
+ * @param { Boolean } hidden 隐藏页头页脚  默认隐藏
+ */
 const defaults = {
   el: '',
   stylesheet: '',
@@ -39,8 +39,8 @@ export const customPrint = (options: Partial<typeof defaults>): void => {
   let styleStr = `
       <style media="print">
         @page {
-            size: ${options.landscape as boolean ? 'landscape' : 'portrait'};
-            ${options.hidden as boolean ? '' : 'margin:5mm'};
+            size: ${(options.landscape as boolean) ? 'landscape' : 'portrait'};
+            ${(options.hidden as boolean) ? '' : 'margin:5mm'};
         }
         ${options.noPrintSelector as string} {
             display:none;
@@ -55,7 +55,10 @@ export const customPrint = (options: Partial<typeof defaults>): void => {
   // 写入iframe
   const contentWindow = iframe.contentWindow as WindowProxy
   const doc = contentWindow.document
-  if ((options.stylesheet as string).length > 0) doc.write(`<link rel="stylesheet" href="${options.stylesheet as string}" />`)
+  if ((options.stylesheet as string).length > 0)
+    doc.write(
+      `<link rel="stylesheet" href="${options.stylesheet as string}" />`
+    )
   doc.write(`
       <html>
         <head>

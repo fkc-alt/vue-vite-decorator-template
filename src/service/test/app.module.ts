@@ -21,13 +21,13 @@ export default class AppModule {
   @Injection()
   readonly utilService!: UtilService
 
-  constructor (
+  constructor(
     readonly demoService: DemoService,
     readonly demoController: DemoController,
     readonly memberService: MemberService,
     readonly orderService: OrderService,
     readonly memberController: MemberController
-  ) { }
+  ) {}
 }
 
 export const application = SuperFactory.create(AppModule)

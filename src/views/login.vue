@@ -54,7 +54,8 @@ const submit = async (formEl: FormInstance | undefined) => {
   loading.value = true
   await formEl.validate((valid, fields) => {
     if (valid) {
-      application.userController.Login(loginForm)
+      application.userController
+        .Login(loginForm)
         .then(({ data: { token, roles: roleIdList } }) => {
           user.forRoot({ userInfo: 'Test', token, roleIdList })
           setData({ token, roleIdList })
@@ -93,7 +94,7 @@ onMounted(() => {
           ref="myRef"
           class="title mixin"
         >
-          {{ $t("SYSTEM.TITLE") }}
+          {{ $t('SYSTEM.TITLE') }}
         </h3>
       </div>
 
@@ -118,7 +119,7 @@ onMounted(() => {
           :loading="loading"
           @click="submit(ruleFormRef)"
         >
-          {{ $t("SYSTEM.LOGIN") }}
+          {{ $t('SYSTEM.LOGIN') }}
         </ElButton>
       </ElFormItem>
     </ElForm>

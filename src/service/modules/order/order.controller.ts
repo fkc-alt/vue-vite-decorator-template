@@ -8,26 +8,50 @@ import GetOrderDetailDto from './dto/orderDetail.dto'
 
 @Controller('order')
 export default class OrderController {
-  constructor (private readonly requestService: RequestService, private readonly orderService: OrderService, private readonly uploadService: UploadService) { }
+  constructor(
+    private readonly requestService: RequestService,
+    private readonly orderService: OrderService,
+    private readonly uploadService: UploadService
+  ) {}
 
   @Get('orderDetail')
-  public async GetOrderDetail<T extends Service.OrderDetailReq, U extends Service.OrderDetailRes> (configure: GetOrderDetailDto): ServerRes<U> {
+  public async GetOrderDetail<
+    T extends Service.OrderDetailReq,
+    U extends Service.OrderDetailRes
+  >(configure: GetOrderDetailDto): ServerRes<U> {
     this.orderService.Log()
-    return await this.requestService.request<T, U>(<AxiosRequestConfig>configure)
+    return await this.requestService.request<T, U>(
+      <AxiosRequestConfig>configure
+    )
   }
 
   @Post('orderList')
-  public async GetOrderList<T extends Service.OrderListReq, U extends Service.OrderListRes> (configure: GetOrderListDto): ServerRes<U> {
-    return await this.requestService.request<T, U>(<AxiosRequestConfig>configure)
+  public async GetOrderList<
+    T extends Service.OrderListReq,
+    U extends Service.OrderListRes
+  >(configure: GetOrderListDto): ServerRes<U> {
+    return await this.requestService.request<T, U>(
+      <AxiosRequestConfig>configure
+    )
   }
 
   @Post('uploadFile')
-  public async UploadFile<T extends Services.Common.UplaodReq, U extends Services.Common.UplaodRes> (configure: T): ServerRes<U> {
-    return await this.uploadService.uploadFile<AxiosRequestConfig<T>, U>(<AxiosRequestConfig>configure)
+  public async UploadFile<
+    T extends Services.Common.UplaodReq,
+    U extends Services.Common.UplaodRes
+  >(configure: T): ServerRes<U> {
+    return await this.uploadService.uploadFile<AxiosRequestConfig<T>, U>(
+      <AxiosRequestConfig>configure
+    )
   }
 
   @Post('uploadBase64')
-  public async UploadBase64<T extends Services.Common.UplaodReq, U extends Services.Common.UplaodRes> (configure: T): ServerRes<U> {
-    return await this.uploadService.uploadBase64<AxiosRequestConfig<T>, U>(<AxiosRequestConfig<T>>configure)
+  public async UploadBase64<
+    T extends Services.Common.UplaodReq,
+    U extends Services.Common.UplaodRes
+  >(configure: T): ServerRes<U> {
+    return await this.uploadService.uploadBase64<AxiosRequestConfig<T>, U>(
+      <AxiosRequestConfig<T>>configure
+    )
   }
 }

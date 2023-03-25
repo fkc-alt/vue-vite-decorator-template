@@ -6,4 +6,4 @@ import UtilService from './providers/util.service'
 @Module({
   providers: [RequestService, UtilService]
 })
-export default class CommonModule { }
+export default class CommonModule {}
