@@ -1,4 +1,6 @@
 /// <reference types="vite/client" />
+/// <reference types="reflect-metadata" />
+
 interface ImportMetaEnv {
   readonly VITE_APP_PROJECT_ICON: string
   readonly VITE_PROJECT_TITLE: string
