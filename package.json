@@ -5,12 +5,13 @@
   "scripts": {
     "prepare": "husky install",
     "dev": "vite --mode=dev",
-    "test": "vue-tsc --noEmit && vite build --mode=test",
+    "build:release": "vue-tsc --noEmit && vite build --mode=release",
     "build": "vue-tsc --noEmit && vite build --mode=prod",
     "predts": "rimraf types",
-    "dts": "npm run predts && vue-tsc --declaration --emitDeclarationOnly && npm run lint",
+    "declaration": "vue-tsc --emitDeclarationOnly",
+    "dts": "npm run predts && npm run declaration && npm run lint",
     "preview": "vite preview",
-    "lint": "eslint {src,typings,mock,types}/**/*.{ts,d.ts,tsx,vue} vite.config.ts --no-error-on-unmatched-pattern --fix",
+    "lint": "eslint types {src,typings,mock}/**/*.{ts,d.ts,tsx,vue} vite.config.ts --no-error-on-unmatched-pattern --fix",
     "pre-commit": "lint-staged"
   },
   "dependencies": {
