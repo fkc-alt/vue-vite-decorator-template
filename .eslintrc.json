@@ -10,6 +10,7 @@
         "defineOptions": "readonly",
         "Service": "readonly",
         "Services": "readonly",
+        "Common": "readonly",
         "CustomerProps": "readonly",
         "provider": "readonly",
         "_APP_INFO_": "readonly"

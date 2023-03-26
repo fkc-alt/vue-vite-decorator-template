@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { defineStore } from 'pinia'
 import { Router, RouteRecordRaw } from 'vue-router'
-import { getRoleIdList } from '@/utils'
+import { getRoleIdList, getToken } from '@/utils'
 
 export const useUserStore = defineStore('user', {
   state(): Common.StroageType {
     return {
       userInfo: '',
-      token: '',
+      token: getToken(),
       roleIdList: getRoleIdList(),
       routes: []
     }

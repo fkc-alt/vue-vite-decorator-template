@@ -1,6 +1,7 @@
 <script lang="ts">
 import { application } from '@/service/app.module'
-import { Vue, Options, Ref } from 'vue-property-decorator'
+import { useUserStore } from '@/store/user'
+import { Vue, Options, Ref, Watch } from 'vue-property-decorator'
 
 @Options({ name: 'Index' })
 export default class Index extends Vue {
@@ -9,6 +10,20 @@ export default class Index extends Vue {
   public state: Service.OrderListRes = {
     orderList: []
   }
+
+  @Watch('storeState', { deep: true })
+  onStateChanged(val: Common.StroageType, oldVal: Common.StroageType) {
+    console.log(val?.token, oldVal?.token)
+  }
+
+  @Watch('storeState.token')
+  onStateTokenChanged(val: string, oldVal: string) {
+    console.log(val, oldVal)
+  }
+
+  public store = useUserStore()
+
+  public storeState = storeToRefs(this.store)
 
   public override activated() {}
 
@@ -27,11 +42,13 @@ export default class Index extends Vue {
         phone: '17223418891'
       })
     ]
-    console.log(p2, this.Image, this.CustomTable.tableRef)
+    console.log(p2, this.Image, this.CustomTable.tableRef, this.store)
     this.state.orderList = p1.data.orderList
   }
 
   toggleSelection(rows?: Service.OrderItem[]): void {
+    // 测试修改状态
+    this.store.$patch({ token: '123' })
     if (rows != null) {
       rows.forEach(row => {
         this.CustomTable.tableRef.toggleRowSelection(
@@ -56,6 +73,7 @@ export default class Index extends Vue {
     <ElButton @click="toggleSelection([state.orderList[1], state.orderList[2]])"
       >Toggle selection status of second and third rows</ElButton
     >
+    {{ storeState.token }},123
     <CustomTable
       :column="[
         {
