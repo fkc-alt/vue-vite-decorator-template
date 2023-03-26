@@ -24,7 +24,9 @@
     "pinia": "^2.0.16",
     "reflect-metadata": "^0.1.13",
     "vue": "^3.2.45",
+    "vue-class-component": "^8.0.0-rc.1",
     "vue-i18n": "^9.1.10",
+    "vue-property-decorator": "^10.0.0-rc.3",
     "vue-router": "^4.1.6"
   },
   "devDependencies": {
