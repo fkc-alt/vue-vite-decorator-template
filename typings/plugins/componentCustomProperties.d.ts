@@ -12,7 +12,9 @@ declare module 'vue' {
     [P in K]: T[P]
   }
   export interface ComponentCustomProperties
-    extends ForVuePropertyCustomAssetsInstanceType<VuePropertyCustomAssetsInstanceType> {}
+    extends ForVuePropertyCustomAssetsInstanceType<VuePropertyCustomAssetsInstanceType> {
+    application: InstanceType<typeof import('@/service/app.module').default>
+  }
   export default VuePropertyCustomAssets
 }
 

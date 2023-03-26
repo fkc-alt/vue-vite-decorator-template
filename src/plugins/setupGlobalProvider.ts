@@ -21,7 +21,11 @@ const provider = Object.keys(modulesFiles).reduce((modules, modulePath) => {
   return Object.assign(modules, scope)
 }, {}) as CustomProvider.Provider
 
-export const setupProvider = (): void => {
+/**
+ * @method setupGlobalProvider
+ * @description 全局挂载属性方法,使用的时候只需 provider.[provider文件夹下的文件名].[文件里面的(方法 | 变量)]
+ */
+export const setupGlobalProvider = (): void => {
   window.provider = provider
 }
 

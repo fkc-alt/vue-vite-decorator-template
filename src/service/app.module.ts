@@ -21,4 +21,5 @@ export default class AppModule {
     readonly demoController: DemoController
   ) {}
 }
+
 export const application = SuperFactory.create(AppModule)

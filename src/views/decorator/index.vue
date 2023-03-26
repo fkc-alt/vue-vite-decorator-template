@@ -1,7 +1,12 @@
 <script lang="ts">
 import { Options, Vue } from 'vue-property-decorator'
+
 @Options({})
-export default class Index extends Vue {}
+export default class Index extends Vue {
+  override mounted() {
+    console.log(this.application, 'mounted')
+  }
+}
 </script>
 <template>
   <div>

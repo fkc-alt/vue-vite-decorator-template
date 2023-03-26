@@ -1,7 +1,8 @@
 <script lang="ts">
 import { Vue, Options, Prop } from 'vue-property-decorator'
+import Render from '@/components/Render'
 
-@Options({ name: 'Index' })
+@Options({ name: 'Index', components: { Render } })
 export default class Index extends Vue {
   @Prop({
     type: String,
@@ -25,7 +26,7 @@ export default class Index extends Vue {
   public destroyed(): void {}
 
   public Log() {
-    console.log('decortaor Component Index')
+    console.log('decortaor Component Index', this.application.articleController)
   }
 }
 </script>
@@ -33,6 +34,7 @@ export default class Index extends Vue {
   <div>
     <h1>{{ state.name }}我是自定义组件</h1>
     <h1>我是props: {{ relationName }}</h1>
+    <Render />
   </div>
 </template>
 <style lang="scss" scoped>
