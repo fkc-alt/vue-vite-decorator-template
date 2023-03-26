@@ -372,16 +372,14 @@ export const createParamDecorator =
     const args =
       Reflect.getMetadata(
         MetadataKey.ROUTE_ARGS_METADATA,
-        target.constructor,
-        key
+        target.constructor
       ) || {}
     const hasParamData = isString(data) || isArray(data)
     const paramData = hasParamData ? data : undefined
     Reflect.defineMetadata(
       MetadataKey.ROUTE_ARGS_METADATA,
       assignMetadata(args, paramtype, index, paramData, pipe),
-      target.constructor,
-      key
+      target.constructor
     )
   }
 
