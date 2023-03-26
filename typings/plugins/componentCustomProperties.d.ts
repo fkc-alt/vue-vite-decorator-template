@@ -6,8 +6,13 @@ declare module 'vue' {
     readonly NotImagesNot: string
     readonly NotImagesNotCloud: string
   }
+  interface VuePropertyCustomAssetsInstanceType
+    extends InstanceType<typeof VuePropertyCustomAssets> {}
+  type ForVuePropertyCustomAssetsInstanceType<T, K = keyof T> = {
+    [P in K]: T[P]
+  }
   export interface ComponentCustomProperties
-    extends Pick<VuePropertyCustomAssets, keyof VuePropertyCustomAssets> {}
+    extends ForVuePropertyCustomAssetsInstanceType<VuePropertyCustomAssetsInstanceType> {}
   export default VuePropertyCustomAssets
 }
 
