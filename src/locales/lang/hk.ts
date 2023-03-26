@@ -51,5 +51,8 @@ export default {
   },
   ECHARTSMODULE: {
     TITLE: '圖表管理'
+  },
+  DECORATOR: {
+    TITLE: 'Decorator Demo'
   }
 }

@@ -23,6 +23,7 @@ const valid = async () => {
 <template>
   <div>
     {{ state.name }}
+    <CustomDecorator relationName="orderDetail" />
     <CustomForm
       v-bind="ruleForm"
       ref="customForm"

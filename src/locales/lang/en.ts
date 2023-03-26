@@ -54,5 +54,8 @@ export default {
   },
   ECHARTSMODULE: {
     TITLE: 'Chart'
+  },
+  DECORATOR: {
+    TITLE: 'Decorator Demo'
   }
 }

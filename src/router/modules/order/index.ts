@@ -36,7 +36,7 @@ const route: RouteRecordRaw[] = [
       {
         path: '/order/detail',
         name: 'Detail',
-        component: async () => await import('@/views/order/demo'),
+        component: async () => await import('@/views/order/orderDetail.vue'),
         sort: 1,
         meta: {
           title: 'ORDERMODULE.DETAIL.TITLE',
