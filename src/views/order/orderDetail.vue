@@ -19,11 +19,18 @@ const valid = async () => {
     console.log(error)
   }
 }
+const getPager = (pager: Record<string, any>) => {
+  console.log(pager)
+}
 </script>
 <template>
   <div>
     {{ state.name }}
-    <CustomDecorator relationName="orderDetail" />
+    <CustomDecorator
+      relationName="orderDetail"
+      @addToCurrentPage="getPager"
+      @reset="getPager"
+    />
     <CustomForm
       v-bind="ruleForm"
       ref="customForm"

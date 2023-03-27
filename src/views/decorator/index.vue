@@ -6,6 +6,10 @@ export default class Index extends Vue {
   override mounted() {
     console.log(this.application, 'mounted')
   }
+
+  public getPager(pager: Record<string, any>): void {
+    console.log(pager)
+  }
 }
 </script>
 <template>
@@ -14,6 +18,10 @@ export default class Index extends Vue {
     <br />
     <br />
     <br />
-    <CustomDecorator relationName="decorator" />
+    <CustomDecorator
+      relationName="decorator"
+      @addToCurrentPage="getPager"
+      @reset="getPager"
+    />
   </div>
 </template>

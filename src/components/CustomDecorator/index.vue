@@ -1,5 +1,5 @@
 <script lang="ts">
-import { Options, Prop, mixins } from 'vue-property-decorator'
+import { Options, Prop, mixins, Emit } from 'vue-property-decorator'
 import Pager from './mixins/pager'
 import Test from './mixins/test'
 
@@ -14,6 +14,22 @@ export default class Index extends mixins(Pager, Test) {
 
   public state = {
     name: 'Decortaor'
+  }
+
+  @Emit()
+  public addToCurrentPage(n: number): Record<string, any> {
+    this.pager.currentPage += n
+    return this.pager
+  }
+
+  @Emit('reset')
+  public resetPager(): Record<string, any> {
+    this.pager = {
+      pageSize: 10,
+      currentPage: 1,
+      total: 0
+    }
+    return this.pager
   }
 
   public override created(): void {
@@ -39,8 +55,8 @@ export default class Index extends mixins(Pager, Test) {
 </script>
 <template>
   <div>
-    <h1>{{ state.name }}我是自定义组件</h1>
-    <h1>我是props: {{ relationName }}</h1>
+    <h1 @click="addToCurrentPage(2)">{{ state.name }}我是自定义组件</h1>
+    <h1 @click="resetPager">我是props: {{ relationName }}</h1>
     <Render />
   </div>
 </template>
