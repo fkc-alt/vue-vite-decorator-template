@@ -50,7 +50,7 @@ export default class Index extends mixins(Pager, Test) {
   }
 
   public override mounted(): void {
-    console.log('Decortaor Component: mounted')
+    console.log('Decortaor Component: mounted', this.application)
   }
 
   public destroyed(): void {}
