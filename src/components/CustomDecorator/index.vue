@@ -1,12 +1,13 @@
 <script lang="ts">
-import { Vue, Options, Prop } from 'vue-property-decorator'
-import Render from '@/components/Render'
+import { Options, Prop, mixins } from 'vue-property-decorator'
+import Pager from './mixins/pager'
+import Test from './mixins/test'
 
-@Options({ name: 'Index', components: { Render } })
-export default class Index extends Vue {
+@Options({ name: 'Index' })
+export default class Index extends mixins(Pager, Test) {
   @Prop({
     type: String,
-    required: true,
+    required: false,
     default: 'Index'
   })
   relationName!: string
@@ -17,6 +18,7 @@ export default class Index extends Vue {
 
   public override created(): void {
     console.log('Decortaor Component: created')
+    this.Log()
   }
 
   public override mounted(): void {
@@ -26,7 +28,12 @@ export default class Index extends Vue {
   public destroyed(): void {}
 
   public Log() {
-    console.log('decortaor Component Index', this.application.articleController)
+    console.log(
+      'decortaor Component Index',
+      this.application.articleController,
+      'mixins: pager=====',
+      this.pager
+    )
   }
 }
 </script>
