@@ -1,6 +1,6 @@
 import { Options, Vue } from 'vue-property-decorator'
 
-@Options({})
+@Options({ name: 'Pager' })
 export default class Pager extends Vue {
   public pager = {
     pageSize: 10,
