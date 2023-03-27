@@ -12,6 +12,13 @@ export default class Index extends mixins(Pager, Test) {
   })
   relationName!: string
 
+  @Prop({
+    type: Boolean,
+    required: false,
+    default: 'change'
+  })
+  checked!: boolean
+
   public state = {
     name: 'Decortaor'
   }
@@ -30,6 +37,11 @@ export default class Index extends mixins(Pager, Test) {
       total: 0
     }
     return this.pager
+  }
+
+  @Emit('change')
+  public changeChecked(): boolean {
+    return !this.checked
   }
 
   public override created(): void {
@@ -57,6 +69,7 @@ export default class Index extends mixins(Pager, Test) {
   <div>
     <h1 @click="addToCurrentPage(2)">{{ state.name }}我是自定义组件</h1>
     <h1 @click="resetPager">我是props: {{ relationName }}</h1>
+    <h2 @click="changeChecked">{{ checked + '' }}</h2>
     <Render />
   </div>
 </template>
