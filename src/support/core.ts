@@ -297,7 +297,7 @@ export const Inject = (): MethodDecorator => {
           args.map((param, index) => {
             const item = values.find(_ => _.index === index)
             if (item?.data) {
-              const registerClasses = item?.pipe?.map(target =>
+              const registerClasses = item?.pipe?.map((target: any) =>
                 isFunction(target)
                   ? new (target as Core.Constructor<any>)()
                   : target
@@ -372,14 +372,16 @@ export const createParamDecorator =
     const args =
       Reflect.getMetadata(
         MetadataKey.ROUTE_ARGS_METADATA,
-        target.constructor
+        target.constructor,
+        key
       ) || {}
     const hasParamData = isString(data) || isArray(data)
     const paramData = hasParamData ? data : undefined
     Reflect.defineMetadata(
       MetadataKey.ROUTE_ARGS_METADATA,
       assignMetadata(args, paramtype, index, paramData, pipe),
-      target.constructor
+      target.constructor,
+      key
     )
   }
 
