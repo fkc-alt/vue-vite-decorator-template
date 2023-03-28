@@ -15,7 +15,7 @@ export default class Index extends mixins(Pager, Test) {
   @Prop({
     type: Boolean,
     required: false,
-    default: 'change'
+    default: false
   })
   checked!: boolean
 
