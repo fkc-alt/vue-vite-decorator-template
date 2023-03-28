@@ -29,7 +29,8 @@
             "rules": {
                 "@typescript-eslint/no-invalid-void-type": "off",
                 "@typescript-eslint/no-unused-vars": "off",
-                "@typescript-eslint/ban-types": "off"
+                "@typescript-eslint/ban-types": "off",
+                "@typescript-eslint/naming-convention": "off"
             }
         }
     ],
@@ -76,6 +77,7 @@
         "@typescript-eslint/no-empty-function": "off",
         "@typescript-eslint/no-useless-constructor": "off",
         "@typescript-eslint/no-invalid-void-type": "warn",
+        "@typescript-eslint/naming-convention": "off",
         "@typescript-eslint/ban-types": [
             "warn",
             {
