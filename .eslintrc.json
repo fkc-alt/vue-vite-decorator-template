@@ -78,6 +78,7 @@
         "@typescript-eslint/no-useless-constructor": "off",
         "@typescript-eslint/no-invalid-void-type": "warn",
         "@typescript-eslint/naming-convention": "off",
+        "@typescript-eslint/explicit-function-return-type": "off",
         "@typescript-eslint/ban-types": [
             "warn",
             {

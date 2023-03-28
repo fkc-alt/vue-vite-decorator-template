@@ -9,9 +9,10 @@
     "build": "vue-tsc --noEmit && vite build --mode=prod",
     "predts": "rimraf types",
     "declaration": "vue-tsc --emitDeclarationOnly",
-    "dts": "npm run predts && npm run declaration && npm run lint",
+    "dts": "npm run predts && npm run declaration && npm run lint:types",
     "preview": "vite preview",
-    "lint": "eslint types {src,typings,mock}/**/*.{ts,d.ts,tsx,vue} vite.config.ts --no-error-on-unmatched-pattern --fix",
+    "lint:types": "eslint types --no-error-on-unmatched-pattern --fix",
+    "lint": "eslint {src,typings,mock}/**/*.{ts,d.ts,tsx,vue} vite.config.ts --no-error-on-unmatched-pattern --fix",
     "pre-commit": "lint-staged"
   },
   "dependencies": {
