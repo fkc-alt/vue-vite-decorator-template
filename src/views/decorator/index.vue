@@ -1,10 +1,11 @@
 <script lang="ts">
 import Index from './'
+import './index.scss'
 export default Index
 </script>
 <template>
   <div>
-    <h2>使用decorator自定义组件</h2>
+    <h2 class="title">使用decorator自定义组件</h2>
     <br />
     <br />
     <br />
@@ -17,6 +18,3 @@ export default Index
     />
   </div>
 </template>
-<style lang="scss" scoped>
-@import './index.scss';
-</style>
