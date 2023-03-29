@@ -58,7 +58,7 @@ export default class Index extends mixins(Pager, Test) {
   public Log() {
     console.log(
       'decortaor Component Index',
-      this.application.articleController,
+      this.uploadService,
       'mixins: pager=====',
       this.pager
     )

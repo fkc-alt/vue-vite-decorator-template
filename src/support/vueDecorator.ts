@@ -40,9 +40,8 @@ export const Injection = () => {
         }
       }
     })
-    decorator.apply(target.constructor, [
-      target.constructor,
-      propertyName
-    ] as unknown as [target: VueBase, key: string, index: number])
+    decorator.apply(target.constructor, <
+      [target: VueBase, key: string, index: number]
+    >(<unknown>[target.constructor, propertyName]))
   }
 }
