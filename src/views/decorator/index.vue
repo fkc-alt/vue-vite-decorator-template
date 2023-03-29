@@ -1,6 +1,5 @@
 <script lang="ts">
 import Index from './'
-import './index.scss'
 export default Index
 </script>
 <template>
@@ -20,3 +19,6 @@ export default Index
     <!-- <Index /> or <当前组件的name /> -->
   </div>
 </template>
+<style lang="scss" scoped>
+@import './index.scss';
+</style>

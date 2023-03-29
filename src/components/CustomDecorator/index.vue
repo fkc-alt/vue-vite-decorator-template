@@ -77,7 +77,7 @@ export default class Index extends mixins(Pager, Test) {
 div {
   width: 200px;
   height: 200px;
-  background: red;
+  background: var(--el-color-primary);
   border-radius: 20%;
   display: flex;
   flex-direction: column;
@@ -85,5 +85,7 @@ div {
   justify-content: center;
   padding: 20px;
   gap: 20px;
+  user-select: none;
+  color: var(--el-color-white);
 }
 </style>
