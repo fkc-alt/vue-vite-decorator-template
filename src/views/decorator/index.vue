@@ -16,5 +16,7 @@ export default Index
       @reset="getPager"
       @change="change"
     />
+    <!-- 递归调用当前组件 -->
+    <!-- <Index /> or <当前组件的name /> -->
   </div>
 </template>

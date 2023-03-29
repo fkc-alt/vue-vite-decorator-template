@@ -3,7 +3,7 @@ import UtilService from '@/service/common/providers/util.service'
 import { Injection } from '@/support/vueDecorator'
 import { Options, Vue } from 'vue-property-decorator'
 
-@Options({})
+@Options({ name: 'DecoratorExample' })
 export default class Index extends Vue {
   public state = {
     checked: true
