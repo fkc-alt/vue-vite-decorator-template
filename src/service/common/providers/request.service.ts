@@ -20,7 +20,7 @@ export default class RequestService {
   private _instance!: AxiosInstance
   /**
    * @method constructor
-   * @param { Object } config
+   * @param { UtilService } UtilService
    */
   constructor(private readonly utilService: UtilService) {
     this.forRoot({ baseURL: import.meta.env.VITE_APP_BASE_API })
@@ -36,7 +36,7 @@ export default class RequestService {
         const Authorization = this.utilService.getToken()
         // before handler send request
         if (Authorization && config.headers)
-          config.headers.Authorization = 'Bearer ' + Authorization
+          config.headers.Authorization = `Bearer ${Authorization}`
         return config
       },
       async (err: AxiosError) => {
@@ -71,8 +71,8 @@ export default class RequestService {
 
   /**
    * @method request
-   * @param { AxiosRequestConfig } config
-   * @return { ServerRes<U> }
+   * @param { AxiosRequestConfig } AxiosRequestConfig
+   * @return { ServerRes<U> } ServerRes<U>
    */
   @Auth(exclude)
   public async request<T, U>(config: AxiosRequestConfig<T>): ServerRes<U> {
@@ -81,7 +81,7 @@ export default class RequestService {
 
   /**
    * @method forRoot
-   * @param { AxiosRequestConfig } config
+   * @param { AxiosRequestConfig } AxiosRequestConfig
    * @description Set Configure
    */
   public forRoot(config: AxiosRequestConfig = {}): void {

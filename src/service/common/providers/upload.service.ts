@@ -1,10 +1,14 @@
 import { AxiosRequestConfig } from 'axios'
 import { Injectable } from '@/support/core'
 import RequestService from './request.service'
+import ContentTypeService from './contentType.service'
 
 @Injectable()
 export default class UploadService {
-  constructor(private readonly requestService: RequestService) {}
+  constructor(
+    private readonly requestService: RequestService,
+    private readonly contenTypeService: ContentTypeService
+  ) {}
 
   public async uploadFile<
     T extends AxiosRequestConfig<Services.Common.UplaodReq>,
@@ -19,7 +23,7 @@ export default class UploadService {
         file: <FormDataEntryValue>fileLoder.get('file'),
         ...(params || {})
       },
-      headers: { 'Content-Type': 'multipart/form-data' }
+      headers: { ...this.contenTypeService.GetContentType(1) }
     })
   }
 

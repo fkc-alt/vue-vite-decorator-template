@@ -61,33 +61,47 @@ export const applyDecorators = (...decorators: Function[]): MethodDecorator => {
   }
 }
 
+const getGlobalProviders = (constructor: Core.Constructor<any>) => {
+  const isGlobalModule = Reflect.getMetadata(MetadataKey.GLOBAL, constructor)
+  return isGlobalModule
+    ? Reflect.getMetadata(ModuleMetadata.PROVIDERS, constructor) ?? []
+    : []
+}
+
+const getExports = (constructor: Core.Constructor<any>) => {
+  return Reflect.getMetadata(ModuleMetadata.EXPORTS, constructor) ?? []
+}
+
+const getModuleImports = (constructor: Core.Constructor<any>) => {
+  return Reflect.getMetadata(ModuleMetadata.IMPORTS, constructor) ?? []
+}
+
+const getProviderReduce = (modules: Array<Core.Constructor<any>>) => {
+  return modules
+    .filter(
+      constructor => !Reflect.getMetadata(MetadataKey.GLOBAL, constructor)
+    )
+    .reduce((prev: Array<Core.Constructor<any>>, constructor) => {
+      return [
+        ...prev,
+        ...(Reflect.getMetadata(ModuleMetadata.EXPORTS, constructor) ?? [])
+      ]
+    }, [])
+}
+
 const deepRegisterModules = (
   modules: Array<Core.Constructor<any>>
 ): Array<Core.Constructor<any>> => {
   return modules.reduce((prev: Array<Core.Constructor<any>>, constructor) => {
-    const modules: Array<Core.Constructor<any>> =
-      Reflect.getMetadata(ModuleMetadata.IMPORTS, constructor) ?? []
-    const isGlobalModule = Reflect.getMetadata(MetadataKey.GLOBAL, constructor)
-    const globalProviders = isGlobalModule
-      ? Reflect.getMetadata(ModuleMetadata.PROVIDERS, constructor) ?? []
-      : []
+    const modules: Array<Core.Constructor<any>> = getModuleImports(constructor)
+    const globalProviders = getGlobalProviders(constructor)
     const providers = deepRegisterModules(
       modules.filter(constructor =>
         Reflect.getMetadata(MetadataKey.GLOBAL, constructor)
       )
     )
-    const exports =
-      Reflect.getMetadata(ModuleMetadata.EXPORTS, constructor) ?? []
-    const providerReduce = modules
-      .filter(
-        constructor => !Reflect.getMetadata(MetadataKey.GLOBAL, constructor)
-      )
-      .reduce((prev: Array<Core.Constructor<any>>, constructor) => {
-        return [
-          ...prev,
-          ...(Reflect.getMetadata(ModuleMetadata.EXPORTS, constructor) ?? [])
-        ]
-      }, [])
+    const exports = getExports(constructor)
+    const providerReduce = getProviderReduce(modules)
     return [
       ...prev,
       ...providers,
@@ -110,17 +124,32 @@ export class SuperFactoryStatic {
     const deepGlobalModule = (
       modules: Array<Core.Constructor<any>>
     ): Array<Core.Constructor<any>> => {
-      return modules.reduce((prev: Array<Core.Constructor<any>>, target) => {
-        const isGlobal = Reflect.getMetadata(MetadataKey.GLOBAL, target)
-        if (isGlobal) {
-          const isDeepModule: Array<Core.Constructor<any>> =
-            Reflect.getMetadata(ModuleMetadata.IMPORTS, target)
-          return isDeepModule
-            ? [...prev, ...isDeepModule, ...deepGlobalModule(isDeepModule)]
-            : [...prev, target]
-        }
-        return prev
-      }, [])
+      // return modules.reduce((prev: Array<Core.Constructor<any>>, target) => {
+      //   const isGlobal = Reflect.getMetadata(MetadataKey.GLOBAL, target)
+      //   if (isGlobal) {
+      //     const isDeepModule: Array<Core.Constructor<any>> =
+      //       Reflect.getMetadata(ModuleMetadata.IMPORTS, target) || []
+      //     return isDeepModule.length
+      //       ? [...prev, target, ...deepGlobalModule(isDeepModule)]
+      //       : [...prev, target]
+      //   }
+      //   return prev
+      // }, [])
+      const globalModules = Array.from(
+        new Set(
+          modules.filter(constructor =>
+            Reflect.getMetadata(MetadataKey.GLOBAL, constructor)
+          )
+        )
+      )
+      const deepModules = globalModules.flatMap(constructor => {
+        const deepModuleImports =
+          Reflect.getMetadata(ModuleMetadata.IMPORTS, constructor) || []
+        return deepModuleImports.length
+          ? [constructor, ...deepGlobalModule(deepModuleImports)]
+          : [constructor]
+      })
+      return [...globalModules, ...deepModules]
     }
     this.globalModule = Array.from(new Set(deepGlobalModule(imports)))
     return Factory(target)
