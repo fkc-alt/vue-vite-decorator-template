@@ -79,6 +79,7 @@
         "@typescript-eslint/no-invalid-void-type": "warn",
         "@typescript-eslint/naming-convention": "off",
         "@typescript-eslint/explicit-function-return-type": "off",
+        "@typescript-eslint/promise-function-async": "off",
         "@typescript-eslint/ban-types": [
             "warn",
             {

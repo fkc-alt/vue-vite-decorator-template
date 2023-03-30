@@ -13,7 +13,7 @@ const route: RouteRecordRaw[] = [
       {
         path: '/decorator/demo',
         name: 'DecoratorDemo',
-        component: async () => await import('@/views/decorator/index.vue'),
+        component: () => import('@/views/decorator/index.vue'),
         sort: 1,
         meta: {
           title: 'DECORATOR.TITLE',

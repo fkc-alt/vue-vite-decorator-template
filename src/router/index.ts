@@ -17,7 +17,7 @@ const routes: RouteRecordRaw[] = [
       {
         path: '/dashboard',
         name: 'Dashboard',
-        component: async () => await import('@/views/dashboard'),
+        component: () => import('@/views/dashboard'),
         sort: 1,
         meta: {
           title: 'WORKBENCHMODULE.TITLE',
@@ -30,13 +30,13 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/login',
     name: 'Login',
-    component: async () => await import('@/views/login.vue'),
+    component: () => import('@/views/login.vue'),
     hidden: true
   },
   {
     path: '/error',
     name: 'Error',
-    component: async () => await import('@/views/error.vue'),
+    component: () => import('@/views/error.vue'),
     hidden: true
   },
 
