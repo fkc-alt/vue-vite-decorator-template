@@ -1,10 +1,11 @@
 import type { AxiosRequestConfig } from 'axios'
-import { Controller, Post } from '@/support/core'
+import { Controller, Header, Post } from '@/support/core'
 import RequestService from '@/service/common/providers/request.service'
 import UtilService from '@/service/common/providers/util.service'
 import ArticleService from './article.service'
 import ArticleListDto from './dto/articleList.dto'
 import TableDataDto from './dto/tableData.dto'
+import { randomKey } from '@/utils'
 
 @Controller('article')
 export default class ArticleController {
@@ -15,6 +16,7 @@ export default class ArticleController {
   ) {}
 
   @Post('getArticleList')
+  @Header('RequestId', randomKey())
   public async GetArticleList<
     T = Service.ArticleListReq,
     U = Service.ArticleListRes
@@ -27,6 +29,7 @@ export default class ArticleController {
   }
 
   @Post('tableData')
+  @Header('RequestId', randomKey())
   public async GetTableDataList<
     T = Service.TableDataReq,
     U = Service.TableDataRes

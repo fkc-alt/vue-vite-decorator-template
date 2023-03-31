@@ -20,5 +20,11 @@ export default function <T>(inputs: any = {}) {
     pager.value.pageSize = size
     pager.value.currentPage = 1
   }
-  return { pager, loading, handleSizeChange, handlePageChange }
+  const reset = (inputs: Record<string, any> = {}) => {
+    pager.value = {
+      ...pagerDefault(),
+      ...inputs
+    }
+  }
+  return { pager, loading, handleSizeChange, handlePageChange, reset }
 }
