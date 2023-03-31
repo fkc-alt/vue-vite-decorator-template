@@ -89,13 +89,13 @@ const getProviderReduce = (modules: Array<Core.Constructor<any>>) => {
     }, [])
 }
 
-const deepRegisterModules = (
+const deepRegisterModulesAllProvider = (
   modules: Array<Core.Constructor<any>>
 ): Array<Core.Constructor<any>> => {
   return modules.reduce((prev: Array<Core.Constructor<any>>, constructor) => {
     const modules: Array<Core.Constructor<any>> = getModuleImports(constructor)
     const globalProviders = getGlobalProviders(constructor)
-    const providers = deepRegisterModules(
+    const providers = deepRegisterModulesAllProvider(
       modules.filter(constructor =>
         Reflect.getMetadata(MetadataKey.GLOBAL, constructor)
       )
@@ -183,7 +183,7 @@ export const Factory = <T>(target: Core.Constructor<T>): T => {
     ) ?? []
   const paramtypes: Array<Core.Constructor<any>> =
     Reflect.getMetadata(MetadataKey.PARAMTYPES_METADATA, target) ?? []
-  deepRegisterModules(Array.from(modules)).forEach(target =>
+  deepRegisterModulesAllProvider(Array.from(modules)).forEach(target =>
     providers.add(target)
   )
   const container = new Container()
@@ -482,6 +482,7 @@ export const RequestMapping = (
   method: Method
 ): MethodDecorator => {
   return function (target, key, descriptor: PropertyDescriptor) {
+    Reflect.defineMetadata('CustomRequest', true, target, key)
     const fn: (params: any) => any = descriptor.value
     const DTO = Reflect.getMetadata(
       MetadataKey.PARAMTYPES_METADATA,
