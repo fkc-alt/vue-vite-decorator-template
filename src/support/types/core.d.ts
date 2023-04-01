@@ -2,7 +2,13 @@ declare namespace Core {
   interface ModuleMetadata {
     imports?: Array<Constructor<any>>
     controllers?: Array<Constructor<any>>
-    providers?: Array<Constructor<any>>
+    providers?: Array<
+      | Constructor<any>
+      | {
+          provide: string
+          useFactory: () => any
+        }
+    >
     exports?: Array<Constructor<any>>
   }
 

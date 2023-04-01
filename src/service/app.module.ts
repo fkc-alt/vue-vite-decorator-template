@@ -1,4 +1,4 @@
-import { Module, SuperFactory } from '@/support/core'
+import { Injection, Module, SuperFactory } from '@/support/core'
 import ArticleModule from './modules/article/article.module'
 import UserModule from './modules/user/user.module'
 import OrderModule from './modules/order/order.module'
@@ -10,9 +10,16 @@ import OrderService from './modules/order/order.service'
 import DemoController from './modules/demo/demo.controller'
 
 @Module({
-  imports: [ArticleModule, UserModule, OrderModule, CommonModule]
+  imports: [ArticleModule, UserModule, OrderModule, CommonModule],
+  providers: []
 })
 export default class AppModule {
+  @Injection('CONFIG')
+  config!: {
+    provide: string
+    useFactory: () => any
+  }
+
   constructor(
     readonly articleController: ArticleController,
     readonly orderController: OrderController,

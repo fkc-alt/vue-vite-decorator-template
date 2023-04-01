@@ -183,9 +183,11 @@ export const Factory = <T>(target: Core.Constructor<T>): T => {
     ) ?? []
   const paramtypes: Array<Core.Constructor<any>> =
     Reflect.getMetadata(MetadataKey.PARAMTYPES_METADATA, target) ?? []
-  deepRegisterModulesAllProvider(Array.from(modules)).forEach(target =>
-    providers.add(target)
+  const deepAllProvider = Array.from(
+    new Set(deepRegisterModulesAllProvider(Array.from(modules)))
   )
+  deepAllProvider.forEach(target => providers.add(target))
+  Reflect.defineMetadata(ModuleMetadata.PROVIDERS, deepAllProvider, target)
   const container = new Container()
   try {
     Array.from(providers).forEach((provide: any) => {
@@ -193,9 +195,13 @@ export const Factory = <T>(target: Core.Constructor<T>): T => {
         MetadataKey.INJECTABLE_WATERMARK,
         provide
       )
-      if (!isInject)
+      const isFactoryProvide = isFunction(provide)
+      if (!isInject && isFactoryProvide)
         throw new Error(`Please use @Injectable() ${provide.name as string}`)
-      container.addProvider({ provide, useClass: provide })
+      container.addProvider({
+        provide: isFactoryProvide ? provide : provide.provide,
+        useClass: isFactoryProvide ? provide : provide.useFactory()
+      })
     })
   } catch (error) {
     console.log(error)
@@ -217,8 +223,11 @@ export const Factory = <T>(target: Core.Constructor<T>): T => {
             MetadataKey.PARAMTYPES_METADATA,
             provider
           )
+          const isFactoryProvide = isFunction(currentNeedPro)
           return !deepNeedProviders
-            ? new currentNeedPro()
+            ? isFactoryProvide
+              ? new currentNeedPro()
+              : currentNeedPro
             : new currentNeedPro(...registerDeepClass(deepNeedProviders))
         }) ?? []
       )
@@ -262,7 +271,7 @@ export const Injectable = (): ClassDecorator => {
 export const Request = (): ClassDecorator => (target: object) =>
   Reflect.defineMetadata(MetadataKey.REQUEST_SERVICE, true, target)
 
-export const Injection = (...args: any) => {
+export const Injection = (provide?: string) => {
   return function (target: any, propertyName: string) {
     const registerDeepClass = (
       providers: Array<Core.Constructor<any>>
@@ -297,8 +306,21 @@ export const Injection = (...args: any) => {
       target,
       propertyName
     )
-    target[propertyName] =
-      propertyValue && registerDeepClass([propertyValue])[0]
+    if (isString(provide)) {
+      setTimeout(() => {
+        target[propertyName] = (
+          Reflect.getMetadata(
+            ModuleMetadata.PROVIDERS,
+            target.constructor
+          ) as any[]
+        )
+          ?.filter(provider => provider.provide === provide)[0]
+          ?.useFactory()
+      }, 0)
+    } else {
+      target[propertyName] =
+        propertyValue && registerDeepClass([propertyValue])[0]
+    }
   }
 }
 

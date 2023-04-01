@@ -60,6 +60,7 @@ export default defineComponent({
       console.log('keep-alive')
     })
     onMounted(async () => {
+      console.log(application)
       const [r, d] = [
         await application.articleController.GetArticleList({
           pageSize: 10,

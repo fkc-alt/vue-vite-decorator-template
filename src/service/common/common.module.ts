@@ -5,6 +5,18 @@ import UtilService from './providers/util.service'
 
 @Global()
 @Module({
-  providers: [RequestService, UtilService, ContentTypeService]
+  providers: [
+    RequestService,
+    UtilService,
+    ContentTypeService,
+    {
+      provide: 'CONFIG',
+      useFactory: () => ({
+        url: 'http://localhost:3000',
+        host: 'localhost',
+        log: false
+      })
+    }
+  ]
 })
 export default class CommonModule {}
