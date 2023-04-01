@@ -20,7 +20,7 @@ export default class Index extends Vue {
   }
 
   public getPager(pager: Record<string, any>): void {
-    console.log(pager)
+    console.log(pager, 'pager')
   }
 
   public change(value: boolean): void {
