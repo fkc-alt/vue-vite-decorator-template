@@ -16,7 +16,7 @@ const valid = async () => {
   try {
     await customForm.value?.formRef.validate()
   } catch (error) {
-    console.log(error)
+    console.log(error, 'errInfo')
   }
 }
 const getPager = (pager: Record<string, any>) => {
