@@ -8,6 +8,10 @@ declare namespace Core {
           provide: string
           useFactory: () => any
         }
+      | {
+          provide: string
+          useValue: any
+        }
     >
     exports?: Array<Constructor<any>>
   }
