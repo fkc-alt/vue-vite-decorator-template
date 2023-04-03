@@ -17,7 +17,11 @@ export default class DemoController {
     T = Service.ArticleListReq,
     U = Service.ArticleListRes
   >(configure: T): ServerRes<U> {
-    this.articleService.Log(1, { age: 20 })
+    this.articleService.Log(
+      1,
+      { age: 20 },
+      { customElements: '<div>我是自定义Pipe</div>' }
+    )
     console.log(this.utilService)
     return await this.requestService.request<T, U>(
       <AxiosRequestConfig>configure

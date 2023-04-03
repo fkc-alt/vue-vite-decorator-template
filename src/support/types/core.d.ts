@@ -27,4 +27,12 @@ declare namespace Core {
     data?: ParamData
     pipe?: Array<Constructor<any> | Record<string, any>>
   }
+  interface PipeTransform<T = any, R = any> {
+    /**
+     * Method to implement a custom pipe.  Called with two parameters
+     *
+     * @param value argument before it is received by route handler method
+     */
+    transform(value: T): R
+  }
 }

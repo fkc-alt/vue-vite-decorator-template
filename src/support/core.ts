@@ -357,11 +357,10 @@ export const Inject = (): MethodDecorator => {
                 return (<string[]>item.data).reduce((prev, next) => {
                   const paramObj = <Record<string, any>>{}
                   if (registerClasses?.length) {
-                    registerClasses?.forEach(target => {
+                    registerClasses.forEach(target => {
                       paramObj[next] =
-                        target.constructor.name === 'DefaultValuePipe'
-                          ? param[next] || target.defaultValue
-                          : target.transform(paramObj[next])
+                        target?.transform?.(paramObj[next]) ??
+                        (param[next] || target.defaultValue)
                     })
                   } else {
                     paramObj[next] = param[next]
@@ -371,9 +370,8 @@ export const Inject = (): MethodDecorator => {
               }
               registerClasses?.forEach(target => {
                 param[item.data as string] =
-                  target.constructor.name === 'DefaultValuePipe'
-                    ? param[item.data as string] || target.defaultValue
-                    : target.transform(param[item.data as string])
+                  target?.transform?.(param[item.data as string]) ??
+                  (param[item.data as string] || target.defaultValue)
               })
               return param[item.data as string]
             }
@@ -635,7 +633,7 @@ export const Put = (path: string): MethodDecorator =>
  * @module Pipe
  * @method ParseIntPipe
  * @auther kaichao.feng
- * @description 字符串转化为整数
+ * @description transfer Data to Number
  */
 export class ParseIntPipe {
   transform(integer: any): number {
@@ -645,9 +643,33 @@ export class ParseIntPipe {
 
 /**
  * @module Pipe
+ * @method ParseFloatPipe
+ * @auther kaichao.feng
+ * @description transfer Data to Float
+ */
+export class ParseFloatPipe {
+  transform(integer: any): number {
+    return /^\d+$/g.test(integer) ? parseFloat(integer) : integer
+  }
+}
+
+/**
+ * @module Pipe
+ * @method ParseBoolPipe
+ * @auther kaichao.feng
+ * @description transfer Data to Boolean
+ */
+export class ParseBoolPipe {
+  transform(value: any): boolean {
+    return Boolean(value)
+  }
+}
+
+/**
+ * @module Pipe
  * @method DefaultValuePipe
  * @auther kaichao.feng
- * @description 参数绑定默认值
+ * @description transfer Data to DefaultValue
  */
 export class DefaultValuePipe {
   defaultValue!: any
