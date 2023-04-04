@@ -1,7 +1,7 @@
 import { AxiosRequestConfig } from 'axios'
 import { Injectable } from '@/support/core'
 import RequestService from './request.service'
-import ContentTypeService from './contentType.service'
+import ContentTypeService, { ContentType } from './contentType.service'
 
 @Injectable()
 export default class UploadService {
@@ -23,7 +23,9 @@ export default class UploadService {
         file: <FormDataEntryValue>fileLoder.get('file'),
         ...(params || {})
       },
-      headers: { ...this.contenTypeService.GetContentType(1) }
+      headers: {
+        ...this.contenTypeService.GetContentType(ContentType.FORM_URLENCODED)
+      }
     })
   }
 
