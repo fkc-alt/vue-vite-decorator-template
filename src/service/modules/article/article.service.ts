@@ -6,9 +6,10 @@ import {
   DefaultValuePipe
 } from '@/support/core'
 
-class CustomValidationPipe implements Core.PipeTransform<string, string> {
+class CustomValidationPipe implements Core.PipeTransform {
   transform(value: string): string {
-    throw new Error('Method not implemented.')
+    console.log(`CustomValidationPipe=====${value}`)
+    return value
   }
 }
 
