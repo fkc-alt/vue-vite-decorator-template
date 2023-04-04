@@ -2,7 +2,6 @@
 /* eslint-disable new-cap */
 /* eslint-disable @typescript-eslint/ban-types */
 import { AxiosRequestConfig } from 'axios'
-import { ElMessage } from 'element-plus'
 import { validateSync, ValidationError } from 'class-validator'
 import { plainToInstance } from 'class-transformer'
 import { isArray, isFunction, isString } from '@/utils'
@@ -499,16 +498,17 @@ export const Controller = (prifix = ''): ClassDecorator => {
  */
 export const RequestMapping = (
   path: string,
-  method: Method
+  method: Method,
+  message?: string | ((validationError: ValidationError[]) => any)
 ): MethodDecorator => {
   return function (target, key, descriptor: PropertyDescriptor) {
     Reflect.defineMetadata('CustomRequest', true, target, key)
     const fn: (params: any) => any = descriptor.value
-    const DTO = Reflect.getMetadata(
+    const DTO: any[] = Reflect.getMetadata(
       MetadataKey.PARAMTYPES_METADATA,
       target,
       key
-    )
+    )?.filter((target: any) => target.name !== 'Object')
     descriptor.value = function (params: any) {
       const handelParam = (): AxiosRequestConfig => {
         const hasGet = [Method.GET, Method.get].includes(method)
@@ -531,32 +531,22 @@ export const RequestMapping = (
         }
         return reqJson
       }
-      if (DTO[0].name !== 'Object') {
-        const errors = validateSync(plainToInstance(DTO[0], params))
+      if (DTO.length) {
+        const errors: ValidationError[] = DTO.reduce(
+          (prev: ValidationError[], target) => {
+            return [...prev, ...validateSync(plainToInstance(target, params))]
+          },
+          []
+        )
         if (errors.length) {
-          const deepError = (errors: ValidationError[]): any[] => {
-            return errors.map(error => {
-              if (error.children?.length) return deepError(error.children)
-              return Object.values(
-                <{ [type: string]: string }>error.constraints
-              )
-            })
+          if (!message) {
+            const messages: string[] = flattenErrorList(errors)
+            console.error(messages)
+          } else if (typeof message === 'string') {
+            console.error(message)
+          } else {
+            console.error(message?.(errors))
           }
-          const deepReduce = (arr: any[]): any[] => {
-            return arr.reduce(
-              (prev, next) =>
-                Array.isArray(next)
-                  ? [...prev, ...deepReduce(next)]
-                  : [...prev, next],
-              []
-            )
-          }
-          const messages = deepReduce(deepError(errors))
-          ElMessage.error({
-            dangerouslyUseHTMLString: true,
-            message: messages.map(message => `${message}<br/>`).join(''),
-            duration: 5 * 1000
-          })
           return fn.apply(this, [handelParam()])
         }
         return fn.apply(this, [handelParam()])
@@ -596,8 +586,10 @@ export const Header = (name: string, value: string): MethodDecorator => {
  * @auther kaichao.feng
  * @description Request Method
  */
-export const Get = (path: string): MethodDecorator =>
-  RequestMapping(path, Method.GET)
+export const Get = (
+  path: string,
+  message?: string | ((validationArguments: ValidationError[]) => any)
+): MethodDecorator => RequestMapping(path, Method.GET, message)
 
 /**
  * @module Request
@@ -606,8 +598,10 @@ export const Get = (path: string): MethodDecorator =>
  * @auther kaichao.feng
  * @description Request Method
  */
-export const Post = (path: string): MethodDecorator =>
-  RequestMapping(path, Method.POST)
+export const Post = (
+  path: string,
+  message?: string | ((validationArguments: ValidationError[]) => any)
+): MethodDecorator => RequestMapping(path, Method.POST, message)
 
 /**
  * @module Request
@@ -616,8 +610,10 @@ export const Post = (path: string): MethodDecorator =>
  * @auther kaichao.feng
  * @description Request Method
  */
-export const Delete = (path: string): MethodDecorator =>
-  RequestMapping(path, Method.DELETE)
+export const Delete = (
+  path: string,
+  message?: string | ((validationArguments: ValidationError[]) => any)
+): MethodDecorator => RequestMapping(path, Method.DELETE, message)
 
 /**
  * @module Request
@@ -626,8 +622,10 @@ export const Delete = (path: string): MethodDecorator =>
  * @auther kaichao.feng
  * @description Request Method
  */
-export const Put = (path: string): MethodDecorator =>
-  RequestMapping(path, Method.PUT)
+export const Put = (
+  path: string,
+  message?: string | ((validationArguments: ValidationError[]) => any)
+): MethodDecorator => RequestMapping(path, Method.PUT, message)
 
 /**
  * @module Pipe
@@ -652,6 +650,25 @@ export class ParseFloatPipe {
     return /^\d+$/g.test(integer) ? parseFloat(integer) : integer
   }
 }
+
+const deepError = (errors: ValidationError[]): any[] => {
+  return errors.map(error => {
+    if (error.children?.length) return deepError(error.children)
+    return Object.values(<{ [type: string]: string }>error.constraints)
+      .join()
+      .split('<br/>')
+  })
+}
+const deepReduce = (arr: any[]): any[] => {
+  return arr.reduce(
+    (prev, next) =>
+      Array.isArray(next) ? [...prev, ...deepReduce(next)] : [...prev, next],
+    []
+  )
+}
+
+export const flattenErrorList = (errors: ValidationError[]): string[] =>
+  deepReduce(deepError(errors))
 
 /**
  * @module Pipe

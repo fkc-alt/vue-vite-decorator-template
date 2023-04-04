@@ -14,7 +14,7 @@ export default class OrderController {
     private readonly uploadService: UploadService
   ) {}
 
-  @Get('orderDetail')
+  @Get('orderDetail', '🙅错误信息')
   public async GetOrderDetail<
     T extends Service.OrderDetailReq,
     U extends Service.OrderDetailRes

@@ -1,11 +1,12 @@
 import type { AxiosRequestConfig } from 'axios'
-import { Controller, Header, Post } from '@/support/core'
+import { Controller, Header, Post, flattenErrorList } from '@/support/core'
 import RequestService from '@/service/common/providers/request.service'
 import UtilService from '@/service/common/providers/util.service'
 import ArticleService from './article.service'
 import ArticleListDto from './dto/articleList.dto'
 import TableDataDto from './dto/tableData.dto'
 import { randomKey } from '@/utils'
+import { ElMessage } from 'element-plus'
 
 @Controller('article')
 export default class ArticleController {
@@ -15,7 +16,17 @@ export default class ArticleController {
     private readonly requestService: RequestService
   ) {}
 
-  @Post('getArticleList')
+  @Post('getArticleList', validationError => {
+    const messages = flattenErrorList(validationError)
+    console.log(validationError, 'validationError', messages)
+    ElMessage.error({
+      dangerouslyUseHTMLString: true,
+      message: `Customer validationError Message<br/>
+        ${messages.map(message => `${message}<br/>`).join('')}`,
+      duration: 5 * 1000
+    })
+    return validationError
+  })
   @Header('RequestId', randomKey())
   public async GetArticleList<
     T = Service.ArticleListReq,
