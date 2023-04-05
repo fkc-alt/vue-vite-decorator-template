@@ -30,7 +30,7 @@ export const AuthGuard = (exclude: string[]): MethodDecorator => {
  * @module Catch
  * @method CatchError
  * @auther kaichao.feng
- * @description TryCatch异常捕获
+ * @description TryCatch异常捕获（只包含代码异常捕获）
  */
 export const CatchError = (): MethodDecorator => {
   return function (target, key, descriptor: PropertyDescriptor): void {
