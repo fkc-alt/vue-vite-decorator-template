@@ -1,13 +1,13 @@
 import 'reflect-metadata'
 import 'virtual:svg-icons-register'
 import { setupGlobalProvider } from '@/plugins/setupGlobalProvider'
+import { setupVueConfigProvider } from '@/plugins/setupVueConfigProvider'
 import router from '@/router'
 import i18n from '@/locales/i18n'
 import '@/router/permission'
-import useIcons from './hooks/useIcons'
-import { application } from './service/test/app.module'
+import useIcons from '@/hooks/useIcons'
+import { application } from '@/service/test/app.module'
 import App from './App'
-import { setupVueConfigProvider } from './plugins/setupVueConfigProvider'
 
 const pinia = createPinia()
 

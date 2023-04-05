@@ -25,7 +25,6 @@ export enum Method {
   head = 'head',
   options = 'options',
   patch = 'patch',
-  patch = 'patch',
   link = 'link',
   unlink = 'unlink',
   GET = 'GET',
@@ -33,9 +32,11 @@ export enum Method {
   OPTIONS = 'OPTIONS',
   POST = 'POST',
   PUT = 'PUT',
+  PATCH = 'patch',
   PURGE = 'PURGE',
   LINK = 'LINK',
-  UNLINK = 'UNLINK'
+  UNLINK = 'UNLINK',
+  HEAD = 'HEAD'
 }
 
 export enum RouteParamtypes {

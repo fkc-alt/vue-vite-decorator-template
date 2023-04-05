@@ -1,20 +1,23 @@
 import type { AxiosRequestConfig } from 'axios'
-import { Controller, Header, Post, flattenErrorList } from '@/support/core'
+import { ElMessage } from 'element-plus'
+import { Controller, Header, Post } from '@/support/core'
+import { flattenErrorList } from '@/support/helper'
+import ContentTypeService from '@/service/common/providers/contentType.service'
 import RequestService from '@/service/common/providers/request.service'
 import UtilService from '@/service/common/providers/util.service'
-import ArticleService from './article.service'
+import { randomKey } from '@/utils'
 import ArticleListDto from './dto/articleList.dto'
 import TableDataDto from './dto/tableData.dto'
-import { randomKey } from '@/utils'
-import { ElMessage } from 'element-plus'
-import ContentTypeService from '@/service/common/providers/contentType.service'
+import ArticleService from './article.service'
+import OrderService from '../order/order.service'
 
 @Controller('article')
 export default class ArticleController {
   constructor(
     private readonly articleService: ArticleService,
     private readonly utilService: UtilService,
-    private readonly requestService: RequestService
+    private readonly requestService: RequestService,
+    private readonly orderService: OrderService
   ) {}
 
   @Post('getArticleList', validationError => {
@@ -39,7 +42,7 @@ export default class ArticleController {
       { age: 20 },
       { customElements: '<div>我是自定义Pipe</div>' }
     )
-    console.log(this.utilService)
+    console.log(this.utilService, this.orderService)
     return await this.requestService.request<T, U>(
       <AxiosRequestConfig>configure
     )

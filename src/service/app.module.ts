@@ -15,7 +15,7 @@ import DemoController from './modules/demo/demo.controller'
 })
 export default class AppModule {
   @Injection('CONFIG')
-  config!: {
+  public readonly config!: {
     provide: string
     useFactory: () => any
   }
