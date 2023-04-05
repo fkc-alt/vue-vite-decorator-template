@@ -36,7 +36,7 @@ const route: RouteRecordRaw[] = [
       {
         path: '/order/detail',
         name: 'Detail',
-        component: () => import('@/views/order/orderDetail.vue'),
+        component: () => import('@/views/order/demo'),
         sort: 1,
         meta: {
           title: 'ORDERMODULE.DETAIL.TITLE',

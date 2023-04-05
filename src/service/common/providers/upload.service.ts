@@ -24,7 +24,7 @@ export default class UploadService {
         ...(params || {})
       },
       headers: {
-        ...this.contenTypeService.GetContentType(ContentType.FORM_URLENCODED)
+        ...this.contenTypeService.GetContentType(ContentType.FORM_DATA)
       }
     })
   }

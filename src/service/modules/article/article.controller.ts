@@ -7,6 +7,7 @@ import ArticleListDto from './dto/articleList.dto'
 import TableDataDto from './dto/tableData.dto'
 import { randomKey } from '@/utils'
 import { ElMessage } from 'element-plus'
+import ContentTypeService from '@/service/common/providers/contentType.service'
 
 @Controller('article')
 export default class ArticleController {
@@ -28,6 +29,7 @@ export default class ArticleController {
     return validationError
   })
   @Header('RequestId', randomKey())
+  @Header('Content-Type', ContentTypeService.JSON)
   public async GetArticleList<
     T = Service.ArticleListReq,
     U = Service.ArticleListRes
