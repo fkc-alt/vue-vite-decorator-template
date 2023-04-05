@@ -11,7 +11,7 @@
  * @publicApi
  */
 export const Header = (name: string, value: string): MethodDecorator => {
-  return function (target, key, descriptor: PropertyDescriptor) {
+  return function (target, propertyKey, descriptor: PropertyDescriptor) {
     const fn: (params: any) => any = descriptor.value
     descriptor.value = function (params: any) {
       const { headers = {}, ...requestConfig } = params

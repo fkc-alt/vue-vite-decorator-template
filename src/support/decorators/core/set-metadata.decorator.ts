@@ -1,12 +1,24 @@
-import { MetadataKey } from '../../types/enums'
+/**
+ * Decorator that assigns metadata to the class/function using the
+ * specified `key`.
+ *
+ * Requires two parameters:
+ * - `key` - a value defining the key under which the metadata is stored
+ * - `value` - metadata to be associated with `key`
+ *
+ * This metadata can be reflected using the `Reflector` class.
+ *
+ * Example: `@SetMetadata('roles', ['admin'])`
+ *
+ * @publicApi
+ */
 
-export const Type = (type: any): ((target: Core.Constructor<any>) => void) =>
-  Reflect.metadata(MetadataKey.TYPE_METADATA, type)
-export const ParamTypes = (
-  ...type: any
-): ((target: Core.Constructor<any>) => void) =>
-  Reflect.metadata(MetadataKey.PARAMTYPES_METADATA, type)
-export const ReturnType = (
-  type: any
-): ((target: Core.Constructor<any>) => void) =>
-  Reflect.metadata(MetadataKey.RETURNTYPE_METADATA, type)
+export const SetMetadata = <K = string, V = any>(
+  metadataKey: K,
+  metadataValue: V
+): MethodDecorator => {
+  return (target, propertyKey, descriptor: PropertyDescriptor) => {
+    Reflect.defineMetadata(metadataKey, metadataValue, target, propertyKey)
+    return descriptor
+  }
+}
