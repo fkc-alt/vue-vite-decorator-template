@@ -2,6 +2,7 @@ import { plainToInstance } from 'class-transformer'
 import { ValidationError, validateSync } from 'class-validator'
 import { MetadataKey, Method } from '../../types/enums'
 import { flattenErrorList } from '../../helper/param-error'
+import { handlerResult } from '@/support/helper'
 
 /**
  * @module RequestFactory
@@ -24,7 +25,7 @@ export const RequestMapping = (
       target,
       key
     )?.filter((target: any) => target.name !== 'Object')
-    descriptor.value = function (params: any) {
+    descriptor.value = async function (params: any) {
       const handelParam = (): Record<string, any> => {
         const hasGet = [Method.GET, Method.get].includes(method)
         const requestURL = `${
@@ -62,11 +63,11 @@ export const RequestMapping = (
           } else {
             console.error(message?.(errors) ?? errors)
           }
-          return fn.apply(this, [handelParam()])
+          return await handlerResult(this, target, [handelParam()], fn)
         }
-        return fn.apply(this, [handelParam()])
+        return await handlerResult(this, target, [handelParam()], fn)
       }
-      return fn.apply(this, [handelParam()])
+      return await handlerResult(this, target, [handelParam()], fn)
     }
   }
 }

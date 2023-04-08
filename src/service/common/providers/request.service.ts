@@ -2,10 +2,9 @@ import axios from 'axios'
 import type {
   AxiosInstance,
   AxiosRequestConfig,
-  AxiosError,
-  AxiosResponse
+  AxiosError
+  // AxiosResponse
 } from 'axios'
-import { ElMessage } from 'element-plus'
 import { Injectable } from '@/support/core'
 import UtilService from './util.service'
 import Auth from '../decorators/request.decorators'
@@ -49,24 +48,25 @@ export default class RequestService {
   /**
    * @method interceptorsRes
    * @return { Promise<AxiosResponse<Services.Common.Response> | AxiosError<Services.Common.Response>> } Promise
+   * @description 响应拦截器已重写
    */
   private interceptorsRes(): void {
-    this.instance.interceptors.response.use(
-      async (res: AxiosResponse<Services.Common.Response>) => {
-        // response data handler
-        const { status, data } = res
-        const HTTPCODE = [0, 200]
-        if (HTTPCODE.includes(status) && HTTPCODE.includes(data.code))
-          return data
-        ElMessage.error({ message: data.message })
-        return await Promise.reject(data.message)
-      },
-      async (err: AxiosError<Services.Common.Response>) => {
-        ElMessage.error({ message: err.response?.data.message ?? '' })
-        // request error handler
-        return await Promise.reject(err.response?.data.message ?? '')
-      }
-    )
+    // this.instance.interceptors.response.use(
+    //   async (res: AxiosResponse<Services.Common.Response>) => {
+    //     // response data handler
+    //     const { status, data } = res
+    //     const HTTPCODE = [0, 200]
+    //     if (HTTPCODE.includes(status) && HTTPCODE.includes(data.code))
+    //       return data
+    //     ElMessage.error({ message: data.message })
+    //     return await Promise.reject(data.message)
+    //   },
+    //   async (err: AxiosError<Services.Common.Response>) => {
+    //     ElMessage.error({ message: err.response?.data.message ?? '' })
+    //     // request error handler
+    //     return await Promise.reject(err.response?.data.message ?? '')
+    //   }
+    // )
   }
 
   /**

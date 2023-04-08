@@ -14,7 +14,8 @@ export enum MetadataKey {
   GLOBAL = '__global__',
   ROUTE_ARGS_METADATA = '__routeArguments__',
   PARSE_INT_PIPE = '__parseIntPipe__',
-  DEFAULT_VALUE_PIPE = '__defaultValuePipe__'
+  DEFAULT_VALUE_PIPE = '__defaultValuePipe__',
+  CATCH_METADATA = 'design:catch'
 }
 
 export enum Method {

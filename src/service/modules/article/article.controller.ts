@@ -1,15 +1,15 @@
 import type { AxiosRequestConfig } from 'axios'
-import { ElMessage } from 'element-plus'
-import { Controller, Header, Post } from '@/support/core'
-import { flattenErrorList } from '@/support/helper'
+import { Controller, Header, Post, Catch } from '@/support/core'
 import ContentTypeService from '@/service/common/providers/contentType.service'
 import RequestService from '@/service/common/providers/request.service'
 import UtilService from '@/service/common/providers/util.service'
 import { randomKey } from '@/utils'
+import OrderService from '../order/order.service'
 import ArticleListDto from './dto/articleList.dto'
 import TableDataDto from './dto/tableData.dto'
 import ArticleService from './article.service'
-import OrderService from '../order/order.service'
+import { handlerError } from './catch/handler.error'
+import { validationErrorMessage } from './validation/validate'
 
 @Controller('article')
 export default class ArticleController {
@@ -20,19 +20,10 @@ export default class ArticleController {
     private readonly orderService: OrderService
   ) {}
 
-  @Post('getArticleList', validationError => {
-    const messages = flattenErrorList(validationError)
-    console.log(validationError, 'validationError', messages)
-    ElMessage.error({
-      dangerouslyUseHTMLString: true,
-      message: `Customer validationError Message<br/>
-        ${messages.map(message => `${message}<br/>`).join('')}`,
-      duration: 5 * 1000
-    })
-    return validationError
-  })
+  @Post('getArticleList', validationErrorMessage)
   @Header('RequestId', randomKey())
   @Header('Content-Type', ContentTypeService.JSON)
+  @Catch(handlerError)
   public async GetArticleList<
     T = Service.ArticleListReq,
     U = Service.ArticleListRes
