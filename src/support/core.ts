@@ -36,6 +36,8 @@ class Container {
 export class SuperFactoryStatic {
   public globalModule!: Array<Core.Constructor<any>>
 
+  private globalCatchCallback!: (...args: any[]) => any
+
   create<T>(target: Core.Constructor<T>): T {
     const imports: Array<Core.Constructor<any>> =
       Reflect.getMetadata(ModuleMetadata.IMPORTS, target) ?? []
@@ -71,6 +73,12 @@ export class SuperFactoryStatic {
     }
     this.globalModule = Array.from(new Set(deepGlobalModule(imports)))
     return Factory(target)
+  }
+
+  public setGlobalCatchCallback(
+    catchCallback: (error: (error: any) => any) => void
+  ) {
+    this.globalCatchCallback = catchCallback
   }
 }
 

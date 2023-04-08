@@ -20,10 +20,10 @@ export default class ArticleController {
     private readonly orderService: OrderService
   ) {}
 
+  @Catch(handlerError)
   @Post('getArticleList', validationErrorMessage)
   @Header('RequestId', randomKey())
   @Header('Content-Type', ContentTypeService.JSON)
-  @Catch(handlerError)
   public async GetArticleList<
     T = Service.ArticleListReq,
     U = Service.ArticleListRes
@@ -41,6 +41,7 @@ export default class ArticleController {
 
   @Post('tableData')
   @Header('RequestId', randomKey())
+  @Catch(handlerError)
   public async GetTableDataList<
     T = Service.TableDataReq,
     U = Service.TableDataRes

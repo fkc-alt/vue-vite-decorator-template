@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import { plainToInstance } from 'class-transformer'
 import { ValidationError, validateSync } from 'class-validator'
 import { MetadataKey, Method } from '../../types/enums'
@@ -63,11 +64,11 @@ export const RequestMapping = (
           } else {
             console.error(message?.(errors) ?? errors)
           }
-          return await handlerResult(this, target, [handelParam()], fn)
+          return await handlerResult.call(this, target, key, handelParam(), fn)
         }
-        return await handlerResult(this, target, [handelParam()], fn)
+        return await handlerResult.call(this, target, key, handelParam(), fn)
       }
-      return await handlerResult(this, target, [handelParam()], fn)
+      return await handlerResult.call(this, target, key, handelParam(), fn)
     }
   }
 }

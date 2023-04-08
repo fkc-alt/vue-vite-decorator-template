@@ -1,20 +1,30 @@
+/* eslint-disable no-debugger */
+/* eslint-disable @typescript-eslint/ban-types */
+import { SuperFactory } from '../core'
 import { MetadataKey } from '../types/enums'
 
-/* eslint-disable @typescript-eslint/ban-types */
-export const handlerResult = async (
-  that: any,
+export async function handlerResult(
+  this: any,
   target: Object,
-  param: any,
+  propertyKey: string | symbol,
+  param: Record<string, any>,
   fn: (params: any) => any
-): Promise<any> => {
+): Promise<any> {
   try {
-    const result: any = await fn.apply(that, param)
+    const result: any = await fn.call(this, param)
     const callError = result.status !== 200 || result.data.code !== 200
-    callError &&
-      Reflect.getMetadata(MetadataKey.CATCH_METADATA, target)?.(result.data)
     return !callError ? result.data : await Promise.reject(result)
   } catch (error) {
-    Reflect.getMetadata(MetadataKey.CATCH_METADATA, target)?.(error)
+    const currentCatchCallback = Reflect.getMetadata(
+      MetadataKey.CATCH_METADATA,
+      target,
+      propertyKey
+    )
+    if (currentCatchCallback) {
+      currentCatchCallback?.(error)
+    } else {
+      ;(SuperFactory as any).globalCatchCallback(error)
+    }
     return await Promise.reject(error)
   }
 }

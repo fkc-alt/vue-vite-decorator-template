@@ -15,10 +15,7 @@ import DemoController from './modules/demo/demo.controller'
 })
 export default class AppModule {
   @Injection('CONFIG')
-  public readonly config!: {
-    provide: string
-    useFactory: () => any
-  }
+  public readonly config!: Record<string, any>
 
   constructor(
     readonly articleController: ArticleController,
@@ -30,3 +27,6 @@ export default class AppModule {
 }
 
 export const application = SuperFactory.create(AppModule)
+SuperFactory.setGlobalCatchCallback((error: any) => {
+  console.log(error, 'global catch')
+})
