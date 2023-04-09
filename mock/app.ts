@@ -62,7 +62,7 @@ const MockList: MockMethod[] = [
     }
   },
   {
-    url: '/rsapi/article/getArticleLists',
+    url: '/rsapi/article/getArticleList',
     method: 'post',
     response: (): Services.Common.Response<Service.ArticleListRes> => {
       return {
