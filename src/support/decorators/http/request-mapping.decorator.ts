@@ -34,7 +34,11 @@ export const RequestMapping = (
         }${path.replace(/^\//g, '')}`
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const [prifixUrl, ...paramList] = requestURL.split('/:')
-        const data = { [hasGet ? 'params' : 'data']: params }
+        const headers: Record<string, any> =
+          Reflect.getMetadata(MetadataKey.REQUEST_METADATA, target, key) ?? {}
+        const data = {
+          [hasGet ? 'params' : 'data']: params
+        }
         const url = paramList
           .reduce(
             (prev, next) => prev.replace(new RegExp(next), params[next]),
@@ -44,7 +48,8 @@ export const RequestMapping = (
         const reqJson: Record<string, any> = {
           url,
           method,
-          ...(paramList.length ? {} : data)
+          ...(paramList.length ? {} : data),
+          headers
         }
         return reqJson
       }

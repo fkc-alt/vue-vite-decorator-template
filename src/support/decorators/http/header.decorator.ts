@@ -1,5 +1,7 @@
+import { MetadataKey } from '../../types/enums'
+
 /**
- * Request method Decorator.  Sets a response header.
+ * Request method Decorator.  Sets a request header.
  *
  * For example:
  * `@Header('Cache-Control', 'none')`
@@ -12,11 +14,15 @@
  */
 export const Header = (name: string, value: string): MethodDecorator => {
   return function (target, propertyKey, descriptor: PropertyDescriptor) {
-    const fn: (params: any) => any = descriptor.value
-    descriptor.value = function (params: any) {
-      const { headers = {}, ...requestConfig } = params
-      Object.assign(headers, { [name]: value })
-      return fn.apply(this, [{ ...requestConfig, headers }])
-    }
+    const headers: Record<string, any> =
+      Reflect.getMetadata(MetadataKey.REQUEST_METADATA, target, propertyKey) ??
+      {}
+    Object.assign(headers, { [name]: value })
+    Reflect.defineMetadata(
+      MetadataKey.REQUEST_METADATA,
+      headers,
+      target,
+      propertyKey
+    )
   }
 }

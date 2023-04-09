@@ -21,9 +21,9 @@ export default class ArticleController {
   ) {}
 
   @Catch(handlerError)
-  @Post('getArticleList', validationErrorMessage)
   @Header('RequestId', randomKey())
   @Header('Content-Type', ContentTypeService.JSON)
+  @Post('getArticleList', validationErrorMessage)
   public async GetArticleList<
     T = Service.ArticleListReq,
     U = Service.ArticleListRes
@@ -39,9 +39,10 @@ export default class ArticleController {
     )
   }
 
-  @Post('tableData')
   @Header('RequestId', randomKey())
+  @Header('tableData', 'tableData')
   @Catch(handlerError)
+  @Post('tableData')
   public async GetTableDataList<
     T = Service.TableDataReq,
     U = Service.TableDataRes
