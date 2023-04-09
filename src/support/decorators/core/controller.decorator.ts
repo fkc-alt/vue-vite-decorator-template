@@ -4,8 +4,8 @@
  * @auther kaichao.feng
  * @description Request Controller
  */
-export const Controller = (prifix = ''): ClassDecorator => {
+export const Controller = (prefix = ''): ClassDecorator => {
   return function (target: any) {
-    target.prototype.prifix = prifix ? prifix.replace(/^\//g, '') + '/' : ''
+    target.prototype.prefix = prefix ? prefix.replace(/^\//g, '') + '/' : ''
   }
 }

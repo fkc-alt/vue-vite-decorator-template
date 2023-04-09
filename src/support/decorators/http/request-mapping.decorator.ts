@@ -1,9 +1,36 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/ban-types */
 import { plainToInstance } from 'class-transformer'
 import { ValidationError, validateSync } from 'class-validator'
+import { SuperFactory } from '../../../support/core'
 import { MetadataKey, Method } from '../../types/enums'
 import { flattenErrorList } from '../../helper/param-error'
-import { handlerResult } from '@/support/helper'
+
+async function handlerResult(
+  this: any,
+  target: Object,
+  propertyKey: string | symbol,
+  param: Record<string, any>,
+  fn: (params: any) => any
+): Promise<any> {
+  try {
+    const result: any = await fn.call(this, param)
+    const callError = result.status !== 200 || result.data.code !== 200
+    return !callError ? result.data : await Promise.reject(result)
+  } catch (error) {
+    const currentCatchCallback = Reflect.getMetadata(
+      MetadataKey.CATCH_METADATA,
+      target,
+      propertyKey
+    )
+    if (currentCatchCallback) {
+      currentCatchCallback?.(error)
+    } else {
+      ;(SuperFactory as any).globalCatchCallback(error)
+    }
+    return await Promise.reject(error)
+  }
+}
 
 /**
  * @module RequestFactory
@@ -29,11 +56,12 @@ export const RequestMapping = (
     descriptor.value = async function (params: any) {
       const handelParam = (): Record<string, any> => {
         const hasGet = [Method.GET, Method.get].includes(method)
-        const requestURL = `${
-          (target as Record<'prifix', string>).prifix
-        }${path.replace(/^\//g, '')}`
+        const globalPrefix = (SuperFactory as any).globalPrefix
+        const currentPrefix = (target as Record<'prefix', string>).prefix
+        const requestPath = path.replace(/^\//g, '')
+        const requestURL = `${globalPrefix}${currentPrefix}${requestPath}`
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const [prifixUrl, ...paramList] = requestURL.split('/:')
+        const [prefixUrl, ...paramList] = requestURL.split('/:')
         const headers: Record<string, any> =
           Reflect.getMetadata(MetadataKey.REQUEST_METADATA, target, key) ?? {}
         const data = {

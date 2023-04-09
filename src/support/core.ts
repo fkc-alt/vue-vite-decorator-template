@@ -38,6 +38,8 @@ export class SuperFactoryStatic {
 
   private globalCatchCallback!: (...args: any[]) => any
 
+  private globalPrefix!: string
+
   create<T>(target: Core.Constructor<T>): T {
     const imports: Array<Core.Constructor<any>> =
       Reflect.getMetadata(ModuleMetadata.IMPORTS, target) ?? []
@@ -79,6 +81,10 @@ export class SuperFactoryStatic {
     catchCallback: (error: (error: any) => any) => void
   ) {
     this.globalCatchCallback = catchCallback
+  }
+
+  public setGlobalPrefix(prefix: string) {
+    this.globalPrefix = prefix ? prefix.replace(/^\//g, '') + '/' : ''
   }
 }
 

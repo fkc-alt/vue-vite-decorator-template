@@ -26,7 +26,8 @@ export default class AppModule {
   ) {}
 }
 
-export const application = SuperFactory.create(AppModule)
 SuperFactory.setGlobalCatchCallback((error: any) => {
   console.log(error, 'global catch')
 })
+SuperFactory.setGlobalPrefix(import.meta.env.VITE_APP_BASE_API)
+export const application = SuperFactory.create(AppModule)

@@ -22,7 +22,8 @@ export default class RequestService {
    * @param { UtilService } UtilService
    */
   constructor(private readonly utilService: UtilService) {
-    this.forRoot({ baseURL: import.meta.env.VITE_APP_BASE_API })
+    // this.forRoot({ baseURL: import.meta.env.VITE_APP_BASE_API })
+    this.forRoot()
   }
 
   /**
