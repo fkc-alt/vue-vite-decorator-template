@@ -77,9 +77,7 @@ export class SuperFactoryStatic {
     return Factory(target)
   }
 
-  public setGlobalCatchCallback(
-    catchCallback: (error: (error: any) => any) => void
-  ) {
+  public setGlobalCatchCallback(catchCallback: (error: any) => any) {
     this.globalCatchCallback = catchCallback
   }
 
