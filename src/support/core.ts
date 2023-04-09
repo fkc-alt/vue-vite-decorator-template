@@ -38,7 +38,7 @@ export class SuperFactoryStatic {
 
   private globalCatchCallback!: (...args: any[]) => any
 
-  private globalPrefix!: string
+  private globalPrefix = ''
 
   create<T>(target: Core.Constructor<T>): T {
     const imports: Array<Core.Constructor<any>> =
