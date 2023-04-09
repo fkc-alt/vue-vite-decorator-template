@@ -26,7 +26,7 @@ async function handlerResult(
     if (currentCatchCallback) {
       currentCatchCallback?.(error)
     } else {
-      ;(SuperFactory as any).globalCatchCallback(error)
+      ;(SuperFactory as any).globalCatchCallback?.(error)
     }
     return await Promise.reject(error)
   }
