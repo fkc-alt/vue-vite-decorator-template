@@ -84,10 +84,23 @@ export class SuperFactoryStatic {
     }
   }
 
+  /**
+   *
+   *
+   * @param {(error: any) => any} catchCallback
+   * @memberof SuperFactoryStatic
+   * @description set global error callback
+   */
   public setGlobalCatchCallback(catchCallback: (error: any) => any) {
     this.globalCatchCallback = catchCallback
   }
 
+  /**
+   *
+   * @param { string } prefix
+   * @memberof SuperFactoryStatic
+   * @description set global request prefix
+   */
   public setGlobalPrefix(prefix: string) {
     this.globalPrefix = prefix ? prefix.replace(/^\//g, '') + '/' : ''
   }

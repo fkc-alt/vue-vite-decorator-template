@@ -7,7 +7,7 @@ import AppModule from './app.module'
  * @return { application } AppModule
  * @description service for entry file
  */
-function bootstrap() {
+function bootstrap(): AppModule {
   const application = SuperFactory.create(AppModule)
   application.setGlobalCatchCallback((error: any) => {
     console.error(error, 'global catch callback')
