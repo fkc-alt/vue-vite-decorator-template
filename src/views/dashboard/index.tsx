@@ -1,5 +1,5 @@
 import { ElButton } from 'element-plus'
-import { application } from '@/service/app.module'
+import { application } from '@/service/main'
 import CustomTable from '@/components/CustomTable'
 import SvgIcon from '@/components/SvgIcon/index.vue'
 import { mapColumn } from './tableConfig'

@@ -1,5 +1,5 @@
 import { App } from 'vue'
-import { application } from '@/service/app.module'
+import { application } from '@/service/main'
 
 /**
  * @method setupVueConfigProvider

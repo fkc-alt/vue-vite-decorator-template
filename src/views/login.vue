@@ -4,7 +4,7 @@ import type { RouteLocationRaw } from 'vue-router'
 import { FormInstance, FormRules, ElMessage } from 'element-plus'
 import { useUserStore } from '@/store/user'
 import { setData } from '@/utils'
-import { application } from '@/service/app.module'
+import { application } from '@/service/main'
 // Look Vue Prototype property
 const [{ proxy }, MODE] = [
   getCurrentInstance() as ComponentInternalInstance,

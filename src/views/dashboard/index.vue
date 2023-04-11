@@ -1,6 +1,6 @@
 <!-- eslint-disable @typescript-eslint/no-unused-vars -->
 <script lang="ts" setup>
-import { application } from '@/service/app.module'
+import { application } from '@/service/main'
 import { mapColumn } from './tableConfig'
 
 type Row = CustomerProps.CustomTable.SlotProp<Service.ArticleItem>

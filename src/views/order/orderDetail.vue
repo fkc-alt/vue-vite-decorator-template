@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { application } from '@/service/app.module'
+import { application } from '@/service/main'
 import useForm from './hooks/useForm'
 const route = useRoute()
 const ruleForm = useForm()

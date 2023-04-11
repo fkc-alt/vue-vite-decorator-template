@@ -1,5 +1,5 @@
 <script lang="ts">
-import { application } from '@/service/app.module'
+import { application } from '@/service/main'
 import { useUserStore } from '@/store/user'
 import { Vue, Options, Ref, Watch } from 'vue-property-decorator'
 

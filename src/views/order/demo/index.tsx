@@ -1,4 +1,4 @@
-import { application } from '@/service/app.module'
+import { application } from '@/service/main'
 import CustomForm from '@/components/CustomForm'
 import useForm from '../hooks/useForm'
 import { ElButton } from 'element-plus'

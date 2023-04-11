@@ -8,7 +8,7 @@ import OrderService from '../order/order.service'
 import ArticleListDto from './dto/articleList.dto'
 import TableDataDto from './dto/tableData.dto'
 import ArticleService from './article.service'
-import { handlerError } from './catch/handler.error'
+import { catchCallback } from './catch/catch-callback'
 import { validationErrorMessage } from './validation/validate'
 
 @Controller('article')
@@ -20,7 +20,7 @@ export default class ArticleController {
     private readonly orderService: OrderService
   ) {}
 
-  @Catch(handlerError)
+  @Catch(catchCallback)
   @Header('RequestId', randomKey())
   @Header('Content-Type', ContentTypeService.JSON)
   @Post('getArticleList', validationErrorMessage)
@@ -41,7 +41,7 @@ export default class ArticleController {
 
   @Header('RequestId', randomKey())
   @Header('tableData', 'tableData')
-  @Catch(handlerError)
+  @Catch(catchCallback)
   @Post('tableData')
   public async GetTableDataList<
     T = Service.TableDataReq,

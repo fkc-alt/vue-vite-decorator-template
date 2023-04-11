@@ -1,4 +1,4 @@
-import { Injection, Module, SuperFactory } from '@/support/core'
+import { Injection, Module } from '@/support/core'
 import ArticleModule from './modules/article/article.module'
 import UserModule from './modules/user/user.module'
 import OrderModule from './modules/order/order.module'
@@ -25,9 +25,3 @@ export default class AppModule {
     readonly demoController: DemoController
   ) {}
 }
-
-SuperFactory.setGlobalCatchCallback((error: any) => {
-  console.log(error, 'global catch')
-})
-SuperFactory.setGlobalPrefix(import.meta.env.VITE_APP_BASE_API)
-export const application = SuperFactory.create(AppModule)
