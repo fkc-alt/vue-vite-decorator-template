@@ -20,7 +20,7 @@ export default class ContentTypeService {
 
   /**
    * @param {ContentType} ContentType
-   * @return {Record<string, string>}
+   * @return {Record<'Content-Type', string>}
    * @memberof ContentTypeService
    * @description 0 application/x-www-form-urlencoded
    * @description 1 multipart/form-data
