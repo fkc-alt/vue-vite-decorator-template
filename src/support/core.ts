@@ -30,17 +30,19 @@ class Container {
   }
 }
 
+type SuperServicesApplication<T = any> = SuperFactoryStatic & T
+
 /**
  * @publicApi
  */
 export class SuperFactoryStatic {
-  public globalModule!: Array<Core.Constructor<any>>
+  private globalModule!: Array<Core.Constructor<any>>
 
   private globalCatchCallback!: (...args: any[]) => any
 
   private globalPrefix = ''
 
-  create<T>(target: Core.Constructor<T>): T {
+  create<T>(target: Core.Constructor<T>): SuperServicesApplication<T> {
     const imports: Array<Core.Constructor<any>> =
       Reflect.getMetadata(ModuleMetadata.IMPORTS, target) ?? []
     const deepGlobalModule = (
@@ -74,7 +76,12 @@ export class SuperFactoryStatic {
       return [...globalModules, ...deepModules]
     }
     this.globalModule = Array.from(new Set(deepGlobalModule(imports)))
-    return Factory(target)
+    return {
+      ...Factory(target),
+      ...this,
+      setGlobalCatchCallback: this.setGlobalCatchCallback.bind(this),
+      setGlobalPrefix: this.setGlobalPrefix.bind(this)
+    }
   }
 
   public setGlobalCatchCallback(catchCallback: (error: any) => any) {
@@ -105,7 +112,7 @@ export const SuperFactory = new SuperFactoryStatic()
 export const Factory = <T>(target: Core.Constructor<T>): T => {
   const modules = new Set<Core.Constructor<any>>([
     ...(Reflect.getMetadata(ModuleMetadata.IMPORTS, target) ?? []),
-    ...(SuperFactory.globalModule || [])
+    ...((<any>SuperFactory).globalModule || [])
   ])
   const providers =
     new Set<Core.Constructor<any>>(

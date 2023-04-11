@@ -9,10 +9,10 @@ import AppModule from './app.module'
  */
 function bootstrap() {
   const application = SuperFactory.create(AppModule)
-  SuperFactory.setGlobalCatchCallback((error: any) => {
+  application.setGlobalCatchCallback((error: any) => {
     console.error(error, 'global catch callback')
   })
-  SuperFactory.setGlobalPrefix(import.meta.env.VITE_APP_BASE_API)
+  application.setGlobalPrefix(import.meta.env.VITE_APP_BASE_API)
   return application
 }
 const application = bootstrap()
