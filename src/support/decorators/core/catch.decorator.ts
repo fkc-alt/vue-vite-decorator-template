@@ -1,8 +1,14 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import { MetadataKey } from '../../types/enums'
 
-/* eslint-disable @typescript-eslint/ban-types */
+/**
+ *
+ * @param { (error: any) => void } catchCallback
+ * @author kaichao.feng
+ * @returns { MethodDecorator & ClassDecorator } Decorator
+ */
 export const Catch = (
-  catchCallback: Function
+  catchCallback: (error: any) => void
 ): MethodDecorator & ClassDecorator => {
   return function (...args: any) {
     const [target, propertyKey = ''] = args as Parameters<MethodDecorator>

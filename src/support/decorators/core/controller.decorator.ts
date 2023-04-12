@@ -1,6 +1,6 @@
 /**
  * @module Controller
- * @param { string }
+ * @param { string } prefix
  * @auther kaichao.feng
  * @description Request Controller
  */

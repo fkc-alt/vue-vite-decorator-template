@@ -56,17 +56,16 @@ export const RequestMapping = (
   return function (target, key, descriptor: PropertyDescriptor) {
     Reflect.defineMetadata('CustomRequest', true, target, key)
     const fn: (params: any) => any = descriptor.value
-    const DTO: any[] = Reflect.getMetadata(
-      MetadataKey.PARAMTYPES_METADATA,
-      target,
-      key
-    )?.filter((target: any) => target.name !== 'Object')
+    const DTO: any[] =
+      Reflect.getMetadata(MetadataKey.PARAMTYPES_METADATA, target, key)?.filter(
+        (target: any) => target.name !== 'Object'
+      ) ?? []
     descriptor.value = async function (params: any) {
       const handelParam = (): Record<string, any> => {
         const hasGet = [Method.GET, Method.get].includes(method)
-        const globalPrefix = (SuperFactory as any).globalPrefix
+        const globalPrefix: string = (SuperFactory as any).globalPrefix
         const currentPrefix = (target as Record<'prefix', string>).prefix
-        const requestPath = path.replace(/^\//g, '')
+        const requestPath: string = path.replace(/^\//g, '')
         const requestURL = `${globalPrefix}${currentPrefix}${requestPath}`
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const [prefixUrl, ...paramList] = requestURL.split('/:')
@@ -125,6 +124,7 @@ export const RequestMapping = (
  * @module Request
  * @method Get
  * @param { string } path
+ * @param { string | ((validationArguments: ValidationError[]) => any) } message
  * @auther kaichao.feng
  * @description Request Method
  */

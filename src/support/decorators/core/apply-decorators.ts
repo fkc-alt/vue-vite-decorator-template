@@ -1,4 +1,11 @@
 /* eslint-disable @typescript-eslint/ban-types */
+
+/**
+ *
+ * @param { Array<ClassDecorator | MethodDecorator | PropertyDecorator } decorators
+ * @author kaichao.feng
+ * @returns { Array<ClassDecorator | MethodDecorator | PropertyDecorator> } Decorator
+ */
 export const applyDecorators = (
   ...decorators: Array<ClassDecorator | MethodDecorator | PropertyDecorator>
 ): MethodDecorator => {

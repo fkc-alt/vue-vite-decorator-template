@@ -5,6 +5,7 @@ import { isArray, isFunction, isString } from '../../helper'
  * @module Inject
  * @auther kaichao.feng
  * @description 具名依赖注入 搭配Param使用
+ * @returns { MethodDecorator } MethodDecorator
  */
 export const Inject = (): MethodDecorator => {
   return function (target, propertyName, descriptor: PropertyDescriptor) {
