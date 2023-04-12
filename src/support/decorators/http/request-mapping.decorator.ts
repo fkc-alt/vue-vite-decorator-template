@@ -18,6 +18,10 @@ async function handlerResult(
     const callError = result.status !== 200 || result.data.code !== 200
     return !callError ? result.data : await Promise.reject(result)
   } catch (error) {
+    const currentTargetCatchCallback = Reflect.getMetadata(
+      MetadataKey.CATCH_METADATA,
+      target.constructor
+    )
     const currentCatchCallback = Reflect.getMetadata(
       MetadataKey.CATCH_METADATA,
       target,
@@ -25,6 +29,8 @@ async function handlerResult(
     )
     if (currentCatchCallback) {
       currentCatchCallback?.(error)
+    } else if (currentTargetCatchCallback) {
+      currentTargetCatchCallback?.(error)
     } else {
       ;(SuperFactory as any).globalCatchCallback?.(error)
     }

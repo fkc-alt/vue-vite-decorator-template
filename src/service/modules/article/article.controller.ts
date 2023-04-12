@@ -12,6 +12,9 @@ import { catchCallback } from './catch/catch-callback'
 import { validationErrorMessage } from './validation/validate'
 
 @Controller('article')
+@Catch((error: any) => {
+  console.log(error, 'controller')
+})
 export default class ArticleController {
   constructor(
     private readonly articleService: ArticleService,
