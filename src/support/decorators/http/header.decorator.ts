@@ -18,15 +18,15 @@ export const Header = (
 ): MethodDecorator & ClassDecorator => {
   return function (...args: any[]) {
     const [target, propertyKey] = args as Parameters<MethodDecorator>
-    const metadataArgs = [
+    const metadataArgs: any = [
       MetadataKey.REQUEST_METADATA,
       target,
       propertyKey
     ].filter(Boolean)
     const headers: Record<string, any> =
-      Reflect.getMetadata.apply(null, <any>metadataArgs) ?? {}
+      Reflect.getMetadata.apply(null, metadataArgs) ?? {}
     Object.assign(headers, { [name]: value })
     metadataArgs.splice(1, 0, headers)
-    Reflect.defineMetadata.apply(null, <any>metadataArgs)
+    Reflect.defineMetadata.apply(null, metadataArgs)
   }
 }
