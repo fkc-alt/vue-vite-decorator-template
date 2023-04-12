@@ -69,8 +69,14 @@ export const RequestMapping = (
         const requestURL = `${globalPrefix}${currentPrefix}${requestPath}`
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const [prefixUrl, ...paramList] = requestURL.split('/:')
-        const headers: Record<string, any> =
+        const currentTargetHeaders: Record<string, any> =
+          Reflect.getMetadata(
+            MetadataKey.REQUEST_METADATA,
+            target.constructor
+          ) ?? {}
+        const currentHeaders: Record<string, any> =
           Reflect.getMetadata(MetadataKey.REQUEST_METADATA, target, key) ?? {}
+        Object.assign(currentTargetHeaders, currentHeaders)
         const data = {
           [hasGet ? 'params' : 'data']: params
         }
@@ -84,7 +90,7 @@ export const RequestMapping = (
           url,
           method,
           ...(paramList.length ? {} : data),
-          headers
+          headers: currentTargetHeaders
         }
         return reqJson
       }

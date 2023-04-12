@@ -12,17 +12,21 @@ import { MetadataKey } from '../../types/enums'
  * @returns { MethodDecorator } MethodDecorator
  * @publicApi
  */
-export const Header = (name: string, value: string): MethodDecorator => {
-  return function (target, propertyKey, descriptor: PropertyDescriptor) {
-    const headers: Record<string, any> =
-      Reflect.getMetadata(MetadataKey.REQUEST_METADATA, target, propertyKey) ??
-      {}
-    Object.assign(headers, { [name]: value })
-    Reflect.defineMetadata(
+export const Header = (
+  name: string,
+  value: string
+): MethodDecorator & ClassDecorator => {
+  return function (...args: any[]) {
+    const [target, propertyKey] = args as Parameters<MethodDecorator>
+    const metadataArgs = [
       MetadataKey.REQUEST_METADATA,
-      headers,
       target,
       propertyKey
-    )
+    ].filter(Boolean)
+    const headers: Record<string, any> =
+      Reflect.getMetadata.apply(null, <any>metadataArgs) ?? {}
+    Object.assign(headers, { [name]: value })
+    metadataArgs.splice(1, 0, headers)
+    Reflect.defineMetadata.apply(null, <any>metadataArgs)
   }
 }

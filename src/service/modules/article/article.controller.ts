@@ -15,6 +15,7 @@ import { validationErrorMessage } from './validation/validate'
 @Catch((error: any) => {
   console.log(error, 'controller')
 })
+@Header('Request-route', 'article')
 export default class ArticleController {
   constructor(
     private readonly articleService: ArticleService,
