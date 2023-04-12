@@ -1,9 +1,9 @@
 import type { AxiosRequestConfig } from 'axios'
+import { v4 as uuidv4 } from 'uuid'
 import { Controller, Header, Post, Catch } from '@/support/core'
 import ContentTypeService from '@/service/common/providers/contentType.service'
 import RequestService from '@/service/common/providers/request.service'
 import UtilService from '@/service/common/providers/util.service'
-import { randomKey } from '@/utils'
 import OrderService from '../order/order.service'
 import ArticleListDto from './dto/articleList.dto'
 import TableDataDto from './dto/tableData.dto'
@@ -24,7 +24,7 @@ export default class ArticleController {
   ) {}
 
   @Catch(catchCallback)
-  @Header('RequestId', randomKey())
+  @Header('RequestId', uuidv4())
   @Header('Content-Type', ContentTypeService.JSON)
   @Post('getArticleList', validationErrorMessage)
   public async GetArticleList<
@@ -42,7 +42,7 @@ export default class ArticleController {
     )
   }
 
-  @Header('RequestId', randomKey())
+  @Header('RequestId', uuidv4())
   @Header('tableData', 'tableData')
   @Catch(catchCallback)
   @Post('tableData')
