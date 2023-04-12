@@ -6,6 +6,8 @@ import { SuperFactory } from '../../../support/core'
 import { MetadataKey, Method } from '../../types/enums'
 import { flattenErrorList } from '../../helper/param-error'
 
+type CatchCallback = (err: any) => void
+
 async function handlerResult(
   this: any,
   target: Object,
@@ -18,11 +20,11 @@ async function handlerResult(
     const callError = result.status !== 200 || result.data.code !== 200
     return !callError ? result.data : await Promise.reject(result)
   } catch (error) {
-    const currentTargetCatchCallback = Reflect.getMetadata(
+    const currentTargetCatchCallback: CatchCallback = Reflect.getMetadata(
       MetadataKey.CATCH_METADATA,
       target.constructor
     )
-    const currentCatchCallback = Reflect.getMetadata(
+    const currentCatchCallback: CatchCallback = Reflect.getMetadata(
       MetadataKey.CATCH_METADATA,
       target,
       propertyKey
@@ -87,6 +89,13 @@ export const RequestMapping = (
         }
         return reqJson
       }
+      const result = await handlerResult.call(
+        this,
+        target,
+        key,
+        handelParam(),
+        fn
+      )
       if (DTO.length) {
         const errors: ValidationError[] = DTO.reduce(
           (prev: ValidationError[], target) => {
@@ -103,11 +112,11 @@ export const RequestMapping = (
           } else {
             console.error(message?.(errors) ?? errors)
           }
-          return await handlerResult.call(this, target, key, handelParam(), fn)
+          return result
         }
-        return await handlerResult.call(this, target, key, handelParam(), fn)
+        return result
       }
-      return await handlerResult.call(this, target, key, handelParam(), fn)
+      return result
     }
   }
 }
@@ -128,6 +137,7 @@ export const Get = (
  * @module Request
  * @method Post
  * @param { string } path
+ * @param { string | ((validationArguments: ValidationError[]) => any) } message
  * @auther kaichao.feng
  * @description Request Method
  */
@@ -140,6 +150,7 @@ export const Post = (
  * @module Request
  * @method Delete
  * @param { string } path
+ * @param { string | ((validationArguments: ValidationError[]) => any) } message
  * @auther kaichao.feng
  * @description Request Method
  */
@@ -152,6 +163,7 @@ export const Delete = (
  * @module Request
  * @method Patch
  * @param { string } path
+ * @param { string | ((validationArguments: ValidationError[]) => any) } message
  * @auther kaichao.feng
  * @description Request Method
  */
@@ -164,6 +176,7 @@ export const Patch = (
  * @module Request
  * @method Options
  * @param { string } path
+ * @param { string | ((validationArguments: ValidationError[]) => any) } message
  * @auther kaichao.feng
  * @description Request Method
  */
@@ -176,6 +189,7 @@ export const Options = (
  * @module Request
  * @method Head
  * @param { string } path
+ * @param { string | ((validationArguments: ValidationError[]) => any) } message
  * @auther kaichao.feng
  * @description Request Method
  */
@@ -188,6 +202,7 @@ export const Head = (
  * @module Request
  * @method Put
  * @param { string } path
+ * @param { string | ((validationArguments: ValidationError[]) => any) } message
  * @auther kaichao.feng
  * @description Request Method
  */
