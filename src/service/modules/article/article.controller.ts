@@ -2,9 +2,6 @@ import type { AxiosRequestConfig } from 'axios'
 import { v4 as uuidv4 } from 'uuid'
 import { Controller, Header, Post, Catch } from '@/support/core'
 import ContentTypeService from '@/service/common/providers/contentType.service'
-import RequestService from '@/service/common/providers/request.service'
-import UtilService from '@/service/common/providers/util.service'
-import OrderService from '../order/order.service'
 import ArticleListDto from './dto/articleList.dto'
 import TableDataDto from './dto/tableData.dto'
 import ArticleService from './article.service'
@@ -17,12 +14,7 @@ import { validationErrorMessage } from './validation/validate'
 })
 @Header('Request-route', 'article')
 export default class ArticleController {
-  constructor(
-    private readonly articleService: ArticleService,
-    private readonly utilService: UtilService,
-    private readonly requestService: RequestService,
-    private readonly orderService: OrderService
-  ) {}
+  constructor(private readonly articleService: ArticleService) {}
 
   @Catch(catchCallback)
   @Header('RequestId', uuidv4())
@@ -32,7 +24,6 @@ export default class ArticleController {
     T = Service.ArticleListReq,
     U = Service.ArticleListRes
   >(configure: ArticleListDto): ServerRes<U> {
-    console.log(this.utilService, this.orderService)
     return await this.articleService.GetArticleList<T, U>(
       <AxiosRequestConfig>configure
     )

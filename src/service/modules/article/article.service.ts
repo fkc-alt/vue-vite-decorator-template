@@ -1,4 +1,3 @@
-import RequestService from '@/service/common/providers/request.service'
 import {
   Inject,
   Injectable,
@@ -7,6 +6,9 @@ import {
   DefaultValuePipe
 } from '@/support/core'
 import { AxiosRequestConfig } from 'axios'
+import RequestService from '@/service/common/providers/request.service'
+import UtilService from '@/service/common/providers/util.service'
+import OrderService from '../order/order.service'
 
 class CustomValidationPipe implements Core.PipeTransform {
   transform(value: string): string {
@@ -17,11 +19,16 @@ class CustomValidationPipe implements Core.PipeTransform {
 
 @Injectable()
 export default class ArticleService {
-  constructor(private readonly requestService: RequestService) {}
+  constructor(
+    private readonly requestService: RequestService,
+    private readonly utilService: UtilService,
+    private readonly orderService: OrderService
+  ) {}
 
   public GetArticleList<T = Service.ArticleListReq, U = Service.ArticleListRes>(
     configure: AxiosRequestConfig<T>
   ): ServerRes<U> {
+    console.log(this.utilService, this.orderService)
     this.Log(1, { age: 20 }, { customElements: '<div>我是自定义Pipe</div>' })
     return this.requestService.request(configure)
   }
