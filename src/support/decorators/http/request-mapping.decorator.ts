@@ -5,6 +5,7 @@ import { ValidationError, validateSync } from 'class-validator'
 import { SuperFactory } from '../../../support/core'
 import { MetadataKey, Method } from '../../types/enums'
 import { flattenErrorList } from '../../helper/param-error'
+import { isFunction } from '../../helper'
 
 type CatchCallback = (err: any) => void
 
@@ -77,6 +78,11 @@ export const RequestMapping = (
         const currentHeaders: Record<string, any> =
           Reflect.getMetadata(MetadataKey.REQUEST_METADATA, target, key) ?? {}
         Object.assign(currentTargetHeaders, currentHeaders)
+        for (const key in currentTargetHeaders) {
+          if (isFunction(currentTargetHeaders[key])) {
+            currentTargetHeaders[key] = currentTargetHeaders[key]()
+          }
+        }
         const data = {
           [hasGet ? 'params' : 'data']: params
         }

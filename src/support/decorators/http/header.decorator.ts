@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import { MetadataKey } from '../../types/enums'
 
 /**
@@ -14,7 +15,7 @@ import { MetadataKey } from '../../types/enums'
  */
 export const Header = (
   name: string,
-  value: string
+  value: string | Function
 ): MethodDecorator & ClassDecorator => {
   return function (...args: any[]) {
     const [target, propertyKey] = args as Parameters<MethodDecorator>

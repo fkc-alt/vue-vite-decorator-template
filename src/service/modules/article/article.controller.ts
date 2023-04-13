@@ -9,15 +9,15 @@ import { catchCallback } from './catch/catch-callback'
 import { validationErrorMessage } from './validation/validate'
 
 @Controller('article')
-@Catch((error: any) => {
-  console.log(error, 'controller')
+@Catch(error => {
+  console.log(error, 'Controller')
 })
-@Header('Request-route', 'article')
+@Header('Request-Route', 'article')
 export default class ArticleController {
   constructor(private readonly articleService: ArticleService) {}
 
   @Catch(catchCallback)
-  @Header('RequestId', uuidv4())
+  @Header('RequestId', () => uuidv4())
   @Header('Content-Type', ContentTypeService.JSON)
   @Post('getArticleList', validationErrorMessage)
   public async GetArticleList<
@@ -29,7 +29,7 @@ export default class ArticleController {
     )
   }
 
-  @Header('RequestId', uuidv4())
+  @Header('RequestId', () => uuidv4())
   @Header('tableData', 'tableData')
   @Catch(catchCallback)
   @Post('tableData')
