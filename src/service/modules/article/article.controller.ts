@@ -32,13 +32,8 @@ export default class ArticleController {
     T = Service.ArticleListReq,
     U = Service.ArticleListRes
   >(configure: ArticleListDto): ServerRes<U> {
-    this.articleService.Log(
-      1,
-      { age: 20 },
-      { customElements: '<div>我是自定义Pipe</div>' }
-    )
     console.log(this.utilService, this.orderService)
-    return await this.requestService.request<T, U>(
+    return await this.articleService.GetArticleList<T, U>(
       <AxiosRequestConfig>configure
     )
   }
@@ -51,7 +46,7 @@ export default class ArticleController {
     T = Service.TableDataReq,
     U = Service.TableDataRes
   >(configure: TableDataDto): ServerRes<U> {
-    return await this.requestService.request<T, U>(
+    return await this.articleService.GetTableDataList<T, U>(
       <AxiosRequestConfig>configure
     )
   }
