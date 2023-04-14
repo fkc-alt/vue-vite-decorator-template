@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-dupe-class-members */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable new-cap */
 /* eslint-disable @typescript-eslint/ban-types */
@@ -42,6 +43,8 @@ export class SuperFactoryStatic {
 
   private globalPrefix = ''
 
+  private globalInterceptors: Function[] = []
+
   create<T>(target: Core.Constructor<T>): SuperServicesApplication<T> {
     const imports: Array<Core.Constructor<any>> =
       Reflect.getMetadata(ModuleMetadata.IMPORTS, target) ?? []
@@ -80,7 +83,8 @@ export class SuperFactoryStatic {
       ...Factory(target),
       ...this,
       setGlobalCatchCallback: this.setGlobalCatchCallback.bind(this),
-      setGlobalPrefix: this.setGlobalPrefix.bind(this)
+      setGlobalPrefix: this.setGlobalPrefix.bind(this),
+      useInterceptors: this.useInterceptors.bind(this)
     }
   }
 
@@ -103,6 +107,16 @@ export class SuperFactoryStatic {
    */
   public setGlobalPrefix(prefix: string) {
     this.globalPrefix = prefix ? prefix.replace(/^\//g, '') + '/' : ''
+  }
+
+  /**
+   *
+   * @param { Array<Function> } prefix
+   * @memberof SuperFactoryStatic
+   * @description set global request interceptors
+   */
+  public useInterceptors(...interceptors: Function[]) {
+    this.globalInterceptors = interceptors
   }
 }
 

@@ -2,12 +2,42 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { plainToInstance } from 'class-transformer'
 import { ValidationError, validateSync } from 'class-validator'
-import { SuperFactory } from '../../../support/core'
+import { Interceptor, SuperFactory } from '../../../support/core'
 import { MetadataKey, Method } from '../../types/enums'
 import { flattenErrorList } from '../../helper/param-error'
 import { isFunction } from '../../helper'
 
 type CatchCallback = (err: any) => void
+
+const getInterceptors = (
+  target: Object,
+  propertyKey: string | symbol
+): Interceptor[] => {
+  return (
+    Reflect.getMetadata(
+      MetadataKey.INTERCEPTORS_METADATA,
+      target,
+      propertyKey
+    ) ??
+    Reflect.getMetadata(
+      MetadataKey.INTERCEPTORS_METADATA,
+      target.constructor
+    ) ??
+    (SuperFactory as any).globalInterceptors ??
+    []
+  )
+}
+
+const getCatchCallback = (
+  target: Object,
+  propertyKey: string | symbol
+): CatchCallback => {
+  return (
+    Reflect.getMetadata(MetadataKey.CATCH_METADATA, target, propertyKey) ??
+    Reflect.getMetadata(MetadataKey.CATCH_METADATA, target.constructor) ??
+    (SuperFactory as any).globalCatchCallback
+  )
+}
 
 async function handlerResult(
   this: any,
@@ -17,26 +47,16 @@ async function handlerResult(
   fn: (params: any) => any
 ): Promise<any> {
   try {
-    const result: any = await fn.call(this, param)
+    const interceptors = getInterceptors(target, propertyKey)
+    const result: any = await fn.call(
+      this,
+      interceptors.reduce((prev, next) => next(prev), param)
+    )
     const callError = result.status !== 200 || result.data.code !== 200
     return !callError ? result.data : await Promise.reject(result)
   } catch (error) {
-    const currentTargetCatchCallback: CatchCallback = Reflect.getMetadata(
-      MetadataKey.CATCH_METADATA,
-      target.constructor
-    )
-    const currentCatchCallback: CatchCallback = Reflect.getMetadata(
-      MetadataKey.CATCH_METADATA,
-      target,
-      propertyKey
-    )
-    if (currentCatchCallback) {
-      currentCatchCallback?.(error)
-    } else if (currentTargetCatchCallback) {
-      currentTargetCatchCallback?.(error)
-    } else {
-      ;(SuperFactory as any).globalCatchCallback?.(error)
-    }
+    const catchCallback = getCatchCallback(target, propertyKey)
+    catchCallback?.(error)
     return await Promise.reject(error)
   }
 }

@@ -1,8 +1,8 @@
 import axios from 'axios'
 import type {
   AxiosInstance,
-  AxiosRequestConfig,
-  AxiosError
+  AxiosRequestConfig
+  // AxiosError
   // AxiosResponse
 } from 'axios'
 import { Injectable } from '@/support/core'
@@ -29,27 +29,28 @@ export default class RequestService {
   /**
    * @method interceptorsReq
    * @return { Promise<AxiosRequestConfig | AxiosError> } Promise
+   * @description Override Request InterceptorsReq
    */
   private interceptorsReq(): void {
-    this.instance.interceptors.request.use(
-      (config: AxiosRequestConfig) => {
-        const Authorization = this.utilService.getToken()
-        // before handler send request
-        if (Authorization && config.headers)
-          config.headers.Authorization = `Bearer ${Authorization}`
-        return config
-      },
-      async (err: AxiosError) => {
-        // request error handler
-        return await Promise.reject(err)
-      }
-    )
+    // this.instance.interceptors.request.use(
+    //   (config: AxiosRequestConfig) => {
+    //     const Authorization = this.utilService.getToken()
+    //     // before handler send request
+    //     if (Authorization && config.headers)
+    //       config.headers.Authorization = `Bearer ${Authorization}`
+    //     return config
+    //   },
+    //   async (err: AxiosError) => {
+    //     // request error handler
+    //     return await Promise.reject(err)
+    //   }
+    // )
   }
 
   /**
    * @method interceptorsRes
    * @return { Promise<AxiosResponse<Services.Common.Response> | AxiosError<Services.Common.Response>> } Promise
-   * @description 响应拦截器已重写
+   * @description Override Request interceptorsRes
    */
   private interceptorsRes(): void {
     // this.instance.interceptors.response.use(

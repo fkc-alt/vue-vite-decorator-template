@@ -16,7 +16,8 @@ export enum MetadataKey {
   PARSE_INT_PIPE = '__parseIntPipe__',
   DEFAULT_VALUE_PIPE = '__defaultValuePipe__',
   CATCH_METADATA = 'design:catch',
-  REQUEST_METADATA = 'design:request'
+  REQUEST_METADATA = 'design:request',
+  INTERCEPTORS_METADATA = 'design:interceptors'
 }
 
 export enum Method {

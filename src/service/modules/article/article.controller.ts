@@ -1,6 +1,12 @@
 import type { AxiosRequestConfig } from 'axios'
 import { v4 as uuidv4 } from 'uuid'
-import { Controller, Header, Post, Catch } from '@/support/core'
+import {
+  Controller,
+  Header,
+  Post,
+  Catch,
+  UseInterceptors
+} from '@/support/core'
 import ContentTypeService from '@/service/common/providers/contentType.service'
 import ArticleListDto from './dto/articleList.dto'
 import TableDataDto from './dto/tableData.dto'
@@ -13,6 +19,10 @@ import { validationErrorMessage } from './validation/validate'
   console.log(error, 'Controller')
 })
 @Header('Request-Route', 'article')
+@UseInterceptors((configure: Record<string, any>) => {
+  console.log(configure, 'Controller')
+  return configure
+})
 export default class ArticleController {
   constructor(private readonly articleService: ArticleService) {}
 
@@ -20,6 +30,16 @@ export default class ArticleController {
   @Header('RequestId', () => uuidv4())
   @Header('Content-Type', ContentTypeService.JSON)
   @Post('getArticleList', validationErrorMessage)
+  @UseInterceptors(
+    (configure: Record<string, any>) => {
+      configure.name = '123'
+      return configure
+    },
+    (configure: Record<string, any>) => {
+      console.log(configure, 'last')
+      return configure
+    }
+  )
   public async GetArticleList<
     T = Service.ArticleListReq,
     U = Service.ArticleListRes
