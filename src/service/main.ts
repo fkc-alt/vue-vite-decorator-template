@@ -14,11 +14,16 @@ function bootstrap(): AppModule {
     console.error(error, 'global catch callback')
   })
   application.setGlobalPrefix(import.meta.env.VITE_APP_BASE_API)
-  application.useInterceptors((configure: Record<string, any>) => {
+  application.useInterceptorsReq((configure: Record<string, any>) => {
     const Authorization = getToken()
     if (Authorization && configure.headers)
       configure.headers.Authorization = `Bearer ${Authorization}`
     return configure
+  })
+  application.useInterceptorsRes(async (result: Record<string, any>) => {
+    console.log('global InterceptorsRes', result)
+    const callError = result.status !== 200 || result.data.code !== 200
+    return !callError ? result.data : await Promise.reject(result)
   })
   return application
 }

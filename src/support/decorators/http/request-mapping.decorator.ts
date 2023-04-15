@@ -9,21 +9,20 @@ import { isFunction } from '../../helper'
 
 type CatchCallback = (err: any) => void
 
+const factoryPropertyKey: Record<string, string> = {
+  [MetadataKey.INTERCEPTORSREQ_METADATA]: 'globalInterceptorsReq',
+  [MetadataKey.INTERCEPTORSRES_METADATA]: 'globalInterceptorsRes'
+}
+
 const getInterceptors = (
   target: Object,
-  propertyKey: string | symbol
+  propertyKey: string | symbol,
+  metadataPropertyKey: MetadataKey
 ): Interceptor[] => {
   return (
-    Reflect.getMetadata(
-      MetadataKey.INTERCEPTORS_METADATA,
-      target,
-      propertyKey
-    ) ??
-    Reflect.getMetadata(
-      MetadataKey.INTERCEPTORS_METADATA,
-      target.constructor
-    ) ??
-    (SuperFactory as any).globalInterceptors ??
+    Reflect.getMetadata(metadataPropertyKey, target, propertyKey) ??
+    Reflect.getMetadata(metadataPropertyKey, target.constructor) ??
+    (SuperFactory as any)[factoryPropertyKey[metadataPropertyKey]] ??
     []
   )
 }
@@ -58,13 +57,21 @@ async function handlerResult(
   fn: (params: any) => any
 ): Promise<any> {
   try {
-    const interceptors = getInterceptors(target, propertyKey)
-    const result: any = await fn.call(
-      this,
-      interceptors.reduce((prev, next) => next(prev), param)
+    const interceptorsReq = getInterceptors(
+      target,
+      propertyKey,
+      MetadataKey.INTERCEPTORSREQ_METADATA
     )
-    const callError = result.status !== 200 || result.data.code !== 200
-    return !callError ? result.data : await Promise.reject(result)
+    const interceptorsRes = getInterceptors(
+      target,
+      propertyKey,
+      MetadataKey.INTERCEPTORSRES_METADATA
+    )
+    const result: Record<string, any> = await fn.call(
+      this,
+      interceptorsReq.reduce((prev, next) => next(prev), param)
+    )
+    return interceptorsRes.reduce((prev, next) => next(prev), result)
   } catch (error) {
     const catchCallback = getCatchCallback(target, propertyKey)
     catchCallback?.(error)

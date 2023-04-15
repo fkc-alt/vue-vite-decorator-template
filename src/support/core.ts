@@ -42,7 +42,9 @@ export class SuperFactoryStatic {
 
   private globalPrefix = ''
 
-  private globalInterceptors: Function[] = []
+  private globalInterceptorsReq: Function[] = []
+
+  private globalInterceptorsRes: Function[] = []
 
   create<T>(target: Core.Constructor<T>): SuperServicesApplication<T> {
     const imports: Array<Core.Constructor<any>> =
@@ -84,7 +86,8 @@ export class SuperFactoryStatic {
         ...this,
         setGlobalCatchCallback: this.setGlobalCatchCallback.bind(this),
         setGlobalPrefix: this.setGlobalPrefix.bind(this),
-        useInterceptors: this.useInterceptors.bind(this)
+        useInterceptorsReq: this.useInterceptorsReq.bind(this),
+        useInterceptorsRes: this.useInterceptorsRes.bind(this)
       }
     ))
   }
@@ -114,10 +117,20 @@ export class SuperFactoryStatic {
    *
    * @param { Array<Function> } prefix
    * @memberof SuperFactoryStatic
-   * @description set global request interceptors
+   * @description set global request interceptorsReq
    */
-  public useInterceptors(...interceptors: Function[]) {
-    this.globalInterceptors = interceptors
+  public useInterceptorsReq(...interceptors: Function[]) {
+    this.globalInterceptorsReq = interceptors
+  }
+
+  /**
+   *
+   * @param { Array<Function> } prefix
+   * @memberof SuperFactoryStatic
+   * @description set global request interceptorsRes
+   */
+  public useInterceptorsRes(...interceptors: Function[]) {
+    this.globalInterceptorsRes = interceptors
   }
 }
 

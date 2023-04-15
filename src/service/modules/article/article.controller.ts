@@ -5,7 +5,8 @@ import {
   Header,
   Post,
   Catch,
-  UseInterceptors
+  UseInterceptorsReq,
+  UseInterceptorsRes
 } from '@/support/core'
 import ContentTypeService from '@/service/common/providers/contentType.service'
 import { Route, RouteChildren } from '..'
@@ -20,9 +21,14 @@ import { validationErrorMessage } from './validation/validate'
   console.log(error, 'Controller')
 })
 @Header('Request-Route', Route.ARTICLE)
-@UseInterceptors((configure: Record<string, any>) => {
+@UseInterceptorsReq((configure: Record<string, any>) => {
   console.log(configure, 'Controller')
   return configure
+})
+@UseInterceptorsRes(async result => {
+  console.log(result, 'Controller')
+  const callError = result.status !== 200 || result.data.code !== 200
+  return !callError ? result.data : await Promise.reject(result)
 })
 export default class ArticleController {
   constructor(private readonly articleService: ArticleService) {}
@@ -31,7 +37,7 @@ export default class ArticleController {
   @Header('RequestId', () => uuidv4())
   @Header('Content-Type', ContentTypeService.JSON)
   @Post(RouteChildren.GETARTICLELIST, validationErrorMessage)
-  @UseInterceptors(
+  @UseInterceptorsReq(
     (configure: Record<string, any>) => {
       configure.name = '123'
       return configure
