@@ -20,10 +20,12 @@ function bootstrap(): AppModule {
       configure.headers.Authorization = `Bearer ${Authorization}`
     return configure
   })
-  application.useInterceptorsRes(async (result: Record<string, any>) => {
+  application.useInterceptorsRes((result: Record<string, any>) => {
     console.log('global InterceptorsRes', result)
     const callError = result.status !== 200 || result.data.code !== 200
-    return !callError ? result.data : await Promise.reject(result)
+    if (!callError) return result.data
+    // eslint-disable-next-line @typescript-eslint/no-throw-literal
+    throw result
   })
   return application
 }
