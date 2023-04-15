@@ -130,77 +130,74 @@ export class SuperFactoryStatic {
  * */
 export const SuperFactory = new SuperFactoryStatic()
 
-/**
- * @module Factory
- * @param { Constructor<T> } target
- * @returns { T }
- * @auther kaichao.feng
- * @description 依赖注入工厂函数
- */
-export const Factory = <T>(target: Core.Constructor<T>): T => {
-  const modules = new Set<Core.Constructor<any>>([
-    ...(Reflect.getMetadata(ModuleMetadata.IMPORTS, target) ?? []),
-    ...((<any>SuperFactory).globalModule || [])
-  ])
-  const providers =
-    new Set<Core.Constructor<any>>(
-      Reflect.getMetadata(ModuleMetadata.PROVIDERS, target)
-    ) ?? []
-  const paramtypes: Array<Core.Constructor<any>> =
-    Reflect.getMetadata(MetadataKey.PARAMTYPES_METADATA, target) ?? []
-  const deepAllProvider = Array.from(
-    new Set(deepRegisterModulesAllProvider(Array.from(modules)))
+const registerDeepClass = (
+  container: Container,
+  providers: Array<Core.Constructor<any>>
+): Array<Core.Constructor<any>> => {
+  return (
+    providers?.map((provider: any) => {
+      const currentProvide: Core.Constructor<any> = container.inject(provider)
+      if (!currentProvide) {
+        throw new Error(`Please use exports Service ${provider.name as string}`)
+      }
+      const childrenProviders = Reflect.getMetadata(
+        MetadataKey.PARAMTYPES_METADATA,
+        provider
+      )
+      const isFactoryProvide = isFunction(currentProvide)
+      return !childrenProviders
+        ? isFactoryProvide
+          ? new currentProvide()
+          : currentProvide
+        : new currentProvide(...registerDeepClass(container, childrenProviders))
+    }) ?? []
   )
-  deepAllProvider.forEach(target => providers.add(target))
-  Reflect.defineMetadata(ModuleMetadata.PROVIDERS, deepAllProvider, target)
-  const container = new Container()
-  try {
-    Array.from(providers).forEach((provide: any) => {
-      const isInject = Reflect.getMetadata(
-        MetadataKey.INJECTABLE_WATERMARK,
-        provide
-      )
-      const isFactoryProvide = isFunction(provide)
-      if (!isInject && isFactoryProvide)
-        throw new Error(`Please use @Injectable() ${provide.name as string}`)
-      container.addProvider({
-        provide: isFactoryProvide ? provide : provide.provide,
-        useClass: isFactoryProvide
-          ? provide
-          : provide?.useFactory?.() ?? provide.useValue
-      })
+}
+
+/**
+ * @method initContainer
+ * @param { Container } container
+ * @param { Array<Core.Constructor<any>> } providers
+ * @author kaichao.feng
+ * @description Init Container
+ */
+const initContainer = (
+  container: Container,
+  providers: Array<Core.Constructor<any>>
+) => {
+  providers.forEach((provide: any) => {
+    const isInject = Reflect.getMetadata(
+      MetadataKey.INJECTABLE_WATERMARK,
+      provide
+    )
+    const isFactoryProvide = isFunction(provide)
+    if (!isInject && isFactoryProvide)
+      throw new Error(`Please use @Injectable() ${provide.name as string}`)
+    container.addProvider({
+      provide: isFactoryProvide ? provide : provide.provide,
+      useClass: isFactoryProvide
+        ? provide
+        : provide?.useFactory?.() ?? provide.useValue
     })
-  } catch (error) {
-    console.log(error)
-  }
-  try {
-    const registerDeepClass = (
-      providers: Array<Core.Constructor<any>>
-    ): Array<Core.Constructor<any>> => {
-      return (
-        providers?.map((provider: any) => {
-          const currentNeedPro: Core.Constructor<any> =
-            container.inject(provider)
-          if (!currentNeedPro) {
-            throw new Error(
-              `Please use exports Service ${provider.name as string}`
-            )
-          }
-          const deepNeedProviders = Reflect.getMetadata(
-            MetadataKey.PARAMTYPES_METADATA,
-            provider
-          )
-          const isFactoryProvide = isFunction(currentNeedPro)
-          return !deepNeedProviders
-            ? isFactoryProvide
-              ? new currentNeedPro()
-              : currentNeedPro
-            : new currentNeedPro(...registerDeepClass(deepNeedProviders))
-        }) ?? []
-      )
-    }
-    const params: Array<Core.Constructor<any>> = paramtypes.map(target => {
-      const currNeedProviders = Reflect.getMetadata(
+  })
+}
+
+/**
+ * @method initFactory
+ * @param { Core.Constructor<T> } target
+ * @param { Container } container
+ * @param { Array<Core.Constructor<any>> } constructorProviders
+ * @author kaichao.feng
+ * @description Init Factory
+ */
+const initFactory = <T>(
+  target: Core.Constructor<T>,
+  container: Container,
+  constructorProviders: Array<Core.Constructor<any>>
+) => {
+  const params: Array<Core.Constructor<any>> = constructorProviders.map(
+    target => {
+      const currentProviders = Reflect.getMetadata(
         MetadataKey.PARAMTYPES_METADATA,
         target
       )
@@ -210,11 +207,64 @@ export const Factory = <T>(target: Core.Constructor<T>): T => {
       ) {
         throw new Error(`Please use exports Service ${target.name}`)
       }
-      return new target(...registerDeepClass(currNeedProviders))
-    })
-    return new target(...params)
+      return new target(...registerDeepClass(container, currentProviders))
+    }
+  )
+  return new target(...params)
+}
+
+type GetAllModuleAndProviders = <T>(target: Core.Constructor<T>) => {
+  providers: Set<Core.Constructor<any>>
+  constructorProviders: Array<Core.Constructor<any>>
+  deepAllProvider: Array<Core.Constructor<any>>
+}
+
+/**
+ * @method getAllModuleAndProviders
+ * @param { Core.Constructor<T> } target
+ * @author kaichao.feng
+ * @returns { ReturnType<GetAllModuleAndProviders> } providers
+ * @description getAllModuleAndProviders
+ */
+const getAllModuleAndProviders: GetAllModuleAndProviders = target => {
+  const modules = new Set<Core.Constructor<any>>([
+    ...(Reflect.getMetadata(ModuleMetadata.IMPORTS, target) ?? []),
+    ...((<any>SuperFactory).globalModule || [])
+  ])
+  const providers =
+    new Set<Core.Constructor<any>>(
+      Reflect.getMetadata(ModuleMetadata.PROVIDERS, target)
+    ) ?? []
+  const constructorProviders: Array<Core.Constructor<any>> =
+    Reflect.getMetadata(MetadataKey.PARAMTYPES_METADATA, target) ?? []
+  const deepAllProvider = Array.from(
+    new Set(deepRegisterModulesAllProvider(Array.from(modules)))
+  )
+  return { providers, constructorProviders, deepAllProvider }
+}
+
+/**
+ * @module Factory
+ * @param { Constructor<T> } target
+ * @returns { T } application
+ * @auther kaichao.feng
+ * @description 依赖注入工厂函数
+ */
+export const Factory = <T>(target: Core.Constructor<T>): T => {
+  const { providers, constructorProviders, deepAllProvider } =
+    getAllModuleAndProviders<T>(target)
+  deepAllProvider.forEach(target => providers.add(target))
+  Reflect.defineMetadata(ModuleMetadata.PROVIDERS, deepAllProvider, target)
+  const container = new Container()
+  try {
+    initContainer(container, Array.from(providers))
   } catch (error) {
-    console.log(error)
+    console.log('Container Init Error: ', error)
+  }
+  try {
+    return initFactory<T>(target, container, constructorProviders)
+  } catch (error) {
+    console.log('Factory Init Error: ', error)
     return new target()
   }
 }
