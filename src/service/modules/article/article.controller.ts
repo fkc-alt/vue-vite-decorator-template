@@ -25,10 +25,12 @@ import { validationErrorMessage } from './validation/validate'
   console.log(configure, 'Controller')
   return configure
 })
-@UseInterceptorsRes(async result => {
+@UseInterceptorsRes(result => {
   console.log(result, 'Controller')
   const callError = result.status !== 200 || result.data.code !== 200
-  return !callError ? result.data : await Promise.reject(result)
+  if (!callError) return result.data
+  // eslint-disable-next-line @typescript-eslint/no-throw-literal
+  throw result
 })
 export default class ArticleController {
   constructor(private readonly articleService: ArticleService) {}
