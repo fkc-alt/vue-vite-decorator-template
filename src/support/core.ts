@@ -79,13 +79,15 @@ export class SuperFactoryStatic {
       return [...globalModules, ...deepModules]
     }
     this.globalModule = Array.from(new Set(deepGlobalModule(imports)))
-    return {
-      ...Factory(target),
-      ...this,
-      setGlobalCatchCallback: this.setGlobalCatchCallback.bind(this),
-      setGlobalPrefix: this.setGlobalPrefix.bind(this),
-      useInterceptors: this.useInterceptors.bind(this)
-    }
+    return <SuperServicesApplication<T>>(<unknown>Object.assign(
+      <Object>Factory(target),
+      {
+        ...this,
+        setGlobalCatchCallback: this.setGlobalCatchCallback.bind(this),
+        setGlobalPrefix: this.setGlobalPrefix.bind(this),
+        useInterceptors: this.useInterceptors.bind(this)
+      }
+    ))
   }
 
   /**
@@ -164,7 +166,9 @@ export const Factory = <T>(target: Core.Constructor<T>): T => {
         throw new Error(`Please use @Injectable() ${provide.name as string}`)
       container.addProvider({
         provide: isFactoryProvide ? provide : provide.provide,
-        useClass: isFactoryProvide ? provide : provide.useFactory()
+        useClass: isFactoryProvide
+          ? provide
+          : provide?.useFactory?.() ?? provide.useValue
       })
     })
   } catch (error) {

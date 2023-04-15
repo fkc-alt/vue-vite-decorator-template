@@ -38,14 +38,14 @@ export const Injection = (provide?: string) => {
     )
     if (isString(provide)) {
       setTimeout(() => {
-        target[propertyName] = (
+        const propertyValue = (
           Reflect.getMetadata(
             ModuleMetadata.PROVIDERS,
             target.constructor
           ) as any[]
-        )
-          ?.filter(provider => provider.provide === provide)[0]
-          ?.useFactory()
+        )?.filter(provider => provider.provide === provide)[0]
+        target[propertyName] =
+          propertyValue?.useFactory?.() ?? propertyValue.useValue
       }, 0)
     } else {
       target[propertyName] =

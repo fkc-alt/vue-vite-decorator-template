@@ -17,6 +17,9 @@ export default class AppModule {
   @Injection('CONFIG')
   public readonly config!: Record<string, any>
 
+  @Injection('STRING')
+  public readonly string!: string
+
   constructor(
     readonly articleController: ArticleController,
     readonly orderController: OrderController,

@@ -16,6 +16,10 @@ import UtilService from './providers/util.service'
         host: 'localhost',
         log: false
       })
+    },
+    {
+      provide: 'STRING',
+      useValue: 'a,b,c'
     }
   ]
 })
