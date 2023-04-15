@@ -1,11 +1,12 @@
 import type { AxiosRequestConfig } from 'axios'
 import { Controller, Get, Post } from '@/support/core'
 import RequestService from '@/service/common/providers/request.service'
+import { Route } from '..'
 import UserService from './user.service'
 import LoginDto from './dto/login.dto'
 import UserInfoDto from './dto/userInfo.dto'
 
-@Controller('user')
+@Controller(Route.USER)
 export default class UserController {
   constructor(
     private readonly requestService: RequestService,

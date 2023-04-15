@@ -3,8 +3,8 @@ import { Controller, Post } from '@/support/core'
 import RequestService from '@/service/common/providers/request.service'
 import UtilService from '@/service/common/providers/util.service'
 import ArticleService from '../article/article.service'
-
-@Controller('article')
+import { Route } from '..'
+@Controller(Route.ARTICLE)
 export default class DemoController {
   constructor(
     private readonly articleService: ArticleService,

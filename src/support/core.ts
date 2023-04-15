@@ -2,9 +2,8 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable new-cap */
 /* eslint-disable @typescript-eslint/ban-types */
-import { isFunction } from '@/utils'
 import { ModuleMetadata, MetadataKey } from './types/enums'
-import { deepRegisterModulesAllProvider } from './helper'
+import { deepRegisterModulesAllProvider, isFunction } from './helper'
 export * from './decorators'
 
 /**
@@ -133,7 +132,7 @@ export const SuperFactory = new SuperFactoryStatic()
 
 /**
  * @module Factory
- * @param { Constructor<T> }
+ * @param { Constructor<T> } target
  * @returns { T }
  * @auther kaichao.feng
  * @description 依赖注入工厂函数

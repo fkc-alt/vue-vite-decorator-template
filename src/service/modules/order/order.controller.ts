@@ -2,11 +2,12 @@ import type { AxiosRequestConfig } from 'axios'
 import { Controller, Get, Post } from '@/support/core'
 import RequestService from '@/service/common/providers/request.service'
 import UploadService from '@/service/common/providers/upload.service'
+import { Route } from '..'
 import OrderService from './order.service'
 import GetOrderListDto from './dto/orderList.dto'
 import GetOrderDetailDto from './dto/orderDetail.dto'
 
-@Controller('order')
+@Controller(Route.ORDER)
 export default class OrderController {
   constructor(
     private readonly requestService: RequestService,

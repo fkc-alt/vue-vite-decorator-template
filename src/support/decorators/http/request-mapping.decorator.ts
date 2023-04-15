@@ -39,6 +39,17 @@ const getCatchCallback = (
   )
 }
 
+const getDataTransferObject = (
+  target: Object,
+  key: string | symbol
+): Core.Constructor[] => {
+  return (
+    Reflect.getMetadata(MetadataKey.PARAMTYPES_METADATA, target, key)?.filter(
+      (target: any) => target.name !== 'Object'
+    ) ?? []
+  )
+}
+
 async function handlerResult(
   this: any,
   target: Object,
@@ -61,6 +72,74 @@ async function handlerResult(
   }
 }
 
+const handelParam = (
+  path: string,
+  method: Method,
+  target: Object,
+  key: string | symbol,
+  params: Record<string, any>
+): Record<string, any> => {
+  const hasGet = [Method.GET, Method.get].includes(method)
+  const globalPrefix: string = (SuperFactory as any).globalPrefix
+  const currentPrefix = (target as Record<'prefix', string>).prefix
+  const requestPath: string = path.replace(/^\//g, '')
+  const requestURL = `${globalPrefix}${currentPrefix}${requestPath}`
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [prefixUrl, ...paramList] = requestURL.split('/:')
+  const currentTargetHeaders: Record<string, any> =
+    Reflect.getMetadata(MetadataKey.REQUEST_METADATA, target.constructor) ?? {}
+  const currentHeaders: Record<string, any> =
+    Reflect.getMetadata(MetadataKey.REQUEST_METADATA, target, key) ?? {}
+  Object.assign(currentTargetHeaders, currentHeaders)
+  for (const key in currentTargetHeaders) {
+    if (isFunction(currentTargetHeaders[key])) {
+      currentTargetHeaders[key] = currentTargetHeaders[key]()
+    }
+  }
+  const data = {
+    [hasGet ? 'params' : 'data']: params
+  }
+  const url = paramList
+    .reduce(
+      (prev, next) => prev.replace(new RegExp(next), params[next]),
+      requestURL
+    )
+    .replace(/:/g, '')
+  const reqJson: Record<string, any> = {
+    url,
+    method,
+    ...(paramList.length ? {} : data),
+    headers: currentTargetHeaders
+  }
+  return reqJson
+}
+
+const getErrorMessage = (
+  daaataTransferObject: Array<Core.Constructor<any>>,
+  target: Object,
+  params: Record<string, any>
+): ValidationError[] => {
+  return daaataTransferObject.reduce((prev: ValidationError[], target) => {
+    return [...prev, ...validateSync(plainToInstance(target, params))]
+  }, [])
+}
+
+const callHander = (
+  errors: ValidationError[],
+  message?: string | ((validationError: ValidationError[]) => any)
+) => {
+  if (errors.length) {
+    if (!message) {
+      const messages: string[] = flattenErrorList(errors)
+      console.error(messages)
+    } else if (typeof message === 'string') {
+      console.error(message)
+    } else {
+      console.error(message?.(errors) ?? errors)
+    }
+  }
+}
+
 /**
  * @module RequestFactory
  * @method RequestMapping
@@ -77,76 +156,22 @@ export const RequestMapping = (
   return function (target, key, descriptor: PropertyDescriptor) {
     Reflect.defineMetadata('CustomRequest', true, target, key)
     const fn: (params: any) => any = descriptor.value
-    const DTO: any[] =
-      Reflect.getMetadata(MetadataKey.PARAMTYPES_METADATA, target, key)?.filter(
-        (target: any) => target.name !== 'Object'
-      ) ?? []
-    descriptor.value = async function (params: any) {
-      const handelParam = (): Record<string, any> => {
-        const hasGet = [Method.GET, Method.get].includes(method)
-        const globalPrefix: string = (SuperFactory as any).globalPrefix
-        const currentPrefix = (target as Record<'prefix', string>).prefix
-        const requestPath: string = path.replace(/^\//g, '')
-        const requestURL = `${globalPrefix}${currentPrefix}${requestPath}`
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const [prefixUrl, ...paramList] = requestURL.split('/:')
-        const currentTargetHeaders: Record<string, any> =
-          Reflect.getMetadata(
-            MetadataKey.REQUEST_METADATA,
-            target.constructor
-          ) ?? {}
-        const currentHeaders: Record<string, any> =
-          Reflect.getMetadata(MetadataKey.REQUEST_METADATA, target, key) ?? {}
-        Object.assign(currentTargetHeaders, currentHeaders)
-        for (const key in currentTargetHeaders) {
-          if (isFunction(currentTargetHeaders[key])) {
-            currentTargetHeaders[key] = currentTargetHeaders[key]()
-          }
-        }
-        const data = {
-          [hasGet ? 'params' : 'data']: params
-        }
-        const url = paramList
-          .reduce(
-            (prev, next) => prev.replace(new RegExp(next), params[next]),
-            requestURL
-          )
-          .replace(/:/g, '')
-        const reqJson: Record<string, any> = {
-          url,
-          method,
-          ...(paramList.length ? {} : data),
-          headers: currentTargetHeaders
-        }
-        return reqJson
-      }
+    const dataTransferObject: Array<Core.Constructor<any>> =
+      getDataTransferObject(target, key)
+    descriptor.value = async function (params: Record<string, any>) {
       const result = await handlerResult.call(
         this,
         target,
         key,
-        handelParam(),
+        handelParam(path, method, target, key, params),
         fn
       )
-      if (DTO.length) {
-        const errors: ValidationError[] = DTO.reduce(
-          (prev: ValidationError[], target) => {
-            return [...prev, ...validateSync(plainToInstance(target, params))]
-          },
-          []
-        )
-        if (errors.length) {
-          if (!message) {
-            const messages: string[] = flattenErrorList(errors)
-            console.error(messages)
-          } else if (typeof message === 'string') {
-            console.error(message)
-          } else {
-            console.error(message?.(errors) ?? errors)
-          }
-          return result
-        }
-        return result
-      }
+      const errors: ValidationError[] = getErrorMessage(
+        dataTransferObject,
+        target,
+        params
+      )
+      callHander(errors, message)
       return result
     }
   }
