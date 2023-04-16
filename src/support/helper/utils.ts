@@ -29,3 +29,11 @@ export const isUndefined = (obj: any): obj is undefined =>
 
 export const isNil = (val: any): val is null | undefined =>
   isUndefined(val) || val === null
+
+export const isPromise = (obj: any): obj is Promise<any> => {
+  return (
+    !!obj &&
+    (typeof obj === 'object' || typeof obj === 'function') &&
+    typeof obj.then === 'function'
+  )
+}

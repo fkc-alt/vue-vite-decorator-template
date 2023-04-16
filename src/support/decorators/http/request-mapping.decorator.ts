@@ -75,7 +75,9 @@ async function handlerResult(
       this,
       interceptorsReq.reduce((prev, next) => next(prev), param)
     )
-    return interceptorsRes.reduce((prev, next) => next(prev), result)
+    const response = interceptorsRes.reduce((prev, next) => next(prev), result)
+    // eslint-disable-next-line @typescript-eslint/return-await
+    return await response
   } catch (error) {
     const catchCallback = getCatchCallback(target, propertyKey)
     catchCallback?.(error)

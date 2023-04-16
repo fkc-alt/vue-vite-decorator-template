@@ -36,9 +36,12 @@ export type InterceptorReq = (
   requestConfig: Core.RequestConfig
 ) => Core.RequestConfig
 
-export type InterceptorRes = (
-  reresponse: Record<string, any>
-) => Record<string, any>
+export type InterceptorRes = (response: {
+  code?: number
+  data?: Record<string, any>
+  status?: number
+  statusText?: string
+}) => any
 
 interface CreateOptions {
   /**

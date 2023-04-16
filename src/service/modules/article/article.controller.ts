@@ -22,15 +22,14 @@ import { validationErrorMessage } from './validation/validate'
 })
 @Header('Request-Route', Route.ARTICLE)
 @UseInterceptorsReq((configure: Record<string, any>) => {
-  console.log(configure, 'Controller')
+  console.log(configure, 'Controller InterceptorsReq')
   return configure
 })
 @UseInterceptorsRes(result => {
-  console.log(result, 'Controller')
-  const callError = result.status !== 200 || result.data.code !== 200
+  console.log(result, 'Controller InterceptorsRes')
+  const callError = result?.status !== 200 || result?.data?.code !== 200
   if (!callError) return result.data
-  // eslint-disable-next-line @typescript-eslint/no-throw-literal
-  throw result
+  return Promise.reject(result) // or throw result
 })
 export default class ArticleController {
   constructor(private readonly articleService: ArticleService) {}

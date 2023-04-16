@@ -24,8 +24,7 @@ function bootstrap(): AppModule {
     console.log('global InterceptorsRes', result)
     const callError = result.status !== 200 || result.data.code !== 200
     if (!callError) return result.data
-    // eslint-disable-next-line @typescript-eslint/no-throw-literal
-    throw result
+    return Promise.reject(result) // or throw result
   })
   return application
 }
