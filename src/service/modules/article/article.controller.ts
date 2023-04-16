@@ -39,11 +39,11 @@ export default class ArticleController {
   @Header('Content-Type', ContentTypeService.JSON)
   @Post(RouteChildren.GETARTICLELIST, validationErrorMessage)
   @UseInterceptorsReq(
-    (configure: Record<string, any>) => {
-      configure.name = '123'
+    configure => {
+      configure.headers && (configure.headers['Route-Path'] = 'GetArticleList')
       return configure
     },
-    (configure: Record<string, any>) => {
+    configure => {
       console.log(configure, 'last')
       return configure
     }
