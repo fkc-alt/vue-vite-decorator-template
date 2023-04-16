@@ -21,7 +21,7 @@ import { validationErrorMessage } from './validation/validate'
   console.log(error, 'Controller')
 })
 @Header('Request-Route', Route.ARTICLE)
-@UseInterceptorsReq((configure: Record<string, any>) => {
+@UseInterceptorsReq(configure => {
   console.log(configure, 'Controller InterceptorsReq')
   return configure
 })
