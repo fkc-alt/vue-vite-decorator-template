@@ -45,7 +45,7 @@ export const Injection = (provide?: string) => {
           ) as any[]
         )?.filter(provider => provider.provide === provide)[0]
         target[propertyName] =
-          propertyValue?.useFactory?.() ?? propertyValue.useValue
+          propertyValue?.useFactory?.() ?? propertyValue?.useValue
       }, 0)
     } else {
       target[propertyName] =

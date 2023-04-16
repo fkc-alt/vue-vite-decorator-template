@@ -1,19 +1,20 @@
 declare namespace Core {
+  type Providers = Array<
+    | Constructor<any>
+    | {
+        provide: string
+        useFactory: () => any
+      }
+    | {
+        provide: string
+        useValue: any
+      }
+  >
   interface ModuleMetadata {
     imports?: Array<Constructor<any>>
     controllers?: Array<Constructor<any>>
-    providers?: Array<
-      | Constructor<any>
-      | {
-          provide: string
-          useFactory: () => any
-        }
-      | {
-          provide: string
-          useValue: any
-        }
-    >
-    exports?: Array<Constructor<any>>
+    providers?: Providers
+    exports?: Providers
   }
 
   type Constructor<T = any> = new (...args: any[]) => T

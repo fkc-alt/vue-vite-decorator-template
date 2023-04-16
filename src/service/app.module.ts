@@ -9,6 +9,7 @@ import UserController from './modules/user/user.controller'
 import OrderService from './modules/order/order.service'
 import DemoController from './modules/demo/demo.controller'
 import ExampleModule from './modules/example/example.module'
+import RequestService from './common/providers/request.service'
 
 @Module({
   imports: [
@@ -21,11 +22,17 @@ import ExampleModule from './modules/example/example.module'
   providers: []
 })
 export default class AppModule {
+  @Injection()
+  public readonly requestService!: RequestService
+
   @Injection('CONFIG')
   public readonly config!: Record<string, any>
 
   @Injection('STRING')
   public readonly string!: string
+
+  @Injection('order')
+  public readonly order!: string
 
   constructor(
     readonly articleController: ArticleController,
