@@ -32,6 +32,21 @@ class Container {
 
 type SuperServicesApplication<T = any> = SuperFactoryStatic & T
 
+export type InterceptorReq = (
+  requestConfig: Core.RequestConfig
+) => Core.RequestConfig
+
+export type InterceptorRes = (
+  reresponse: Record<string, any>
+) => Record<string, any>
+
+interface CreateOptions {
+  /**
+   *  @description expose target properties
+   */
+  expose: boolean
+}
+
 /**
  * @publicApi
  */
@@ -42,11 +57,14 @@ export class SuperFactoryStatic {
 
   private globalPrefix = ''
 
-  private globalInterceptorsReq: Function[] = []
+  private globalInterceptorsReq: InterceptorReq[] = []
 
-  private globalInterceptorsRes: Function[] = []
+  private globalInterceptorsRes: InterceptorRes[] = []
 
-  create<T>(target: Core.Constructor<T>): SuperServicesApplication<T> {
+  create<T>(
+    target: Core.Constructor<T>,
+    options?: CreateOptions
+  ): SuperServicesApplication<T> {
     const imports: Array<Core.Constructor<any>> =
       Reflect.getMetadata(ModuleMetadata.IMPORTS, target) ?? []
     const deepGlobalModule = (
@@ -80,10 +98,11 @@ export class SuperFactoryStatic {
       return [...globalModules, ...deepModules]
     }
     this.globalModule = Array.from(new Set(deepGlobalModule(imports)))
+    const exposeProperties: this = options?.expose ? this : <this>{}
     return <SuperServicesApplication<T>>(<unknown>Object.assign(
       <Object>Factory(target),
       {
-        ...this,
+        ...exposeProperties,
         setGlobalCatchCallback: this.setGlobalCatchCallback.bind(this),
         setGlobalPrefix: this.setGlobalPrefix.bind(this),
         useInterceptorsReq: this.useInterceptorsReq.bind(this),
@@ -115,21 +134,21 @@ export class SuperFactoryStatic {
 
   /**
    *
-   * @param { Array<Function> } prefix
+   * @param { Array<InterceptorReq> } interceptors
    * @memberof SuperFactoryStatic
    * @description set global request interceptorsReq
    */
-  public useInterceptorsReq(...interceptors: Function[]) {
+  public useInterceptorsReq(...interceptors: InterceptorReq[]) {
     this.globalInterceptorsReq = interceptors
   }
 
   /**
    *
-   * @param { Array<Function> } prefix
+   * @param { Array<InterceptorRes> } interceptors
    * @memberof SuperFactoryStatic
    * @description set global request interceptorsRes
    */
-  public useInterceptorsRes(...interceptors: Function[]) {
+  public useInterceptorsRes(...interceptors: InterceptorRes[]) {
     this.globalInterceptorsRes = interceptors
   }
 }

@@ -35,4 +35,11 @@ declare namespace Core {
      */
     transform(value: T): R
   }
+  interface RequestConfig {
+    url?: string
+    method?: import('./enums').Method
+    headers?: Record<string, string | number | boolean>
+    params?: any
+    data?: D
+  }
 }

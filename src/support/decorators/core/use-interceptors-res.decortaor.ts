@@ -1,8 +1,8 @@
+import { InterceptorRes } from '../../core'
 import { MetadataKey } from '../../types/enums'
-import { Interceptor } from './use-interceptors-req.decortaor'
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-export const UseInterceptorsRes = (...interceptors: Interceptor[]) => {
+export const UseInterceptorsRes = (...interceptors: InterceptorRes[]) => {
   return function (...args: any) {
     const [target, propertyKey] = args as Parameters<MethodDecorator>
     const metadataArgs: any = [

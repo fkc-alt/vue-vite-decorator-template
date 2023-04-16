@@ -14,7 +14,7 @@ function bootstrap(): AppModule {
     console.error(error, 'global catch callback')
   })
   application.setGlobalPrefix(import.meta.env.VITE_APP_BASE_API)
-  application.useInterceptorsReq((configure: Record<string, any>) => {
+  application.useInterceptorsReq((configure: Core.RequestConfig) => {
     const Authorization = getToken()
     if (Authorization && configure.headers)
       configure.headers.Authorization = `Bearer ${Authorization}`

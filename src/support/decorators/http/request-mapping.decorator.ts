@@ -2,7 +2,11 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { plainToInstance } from 'class-transformer'
 import { ValidationError, validateSync } from 'class-validator'
-import { Interceptor, SuperFactory } from '../../../support/core'
+import {
+  InterceptorReq,
+  InterceptorRes,
+  SuperFactory
+} from '../../../support/core'
 import { MetadataKey, Method } from '../../types/enums'
 import { flattenErrorList } from '../../helper/param-error'
 import { isFunction } from '../../helper'
@@ -18,7 +22,7 @@ const getInterceptors = (
   target: Object,
   propertyKey: string | symbol,
   metadataPropertyKey: MetadataKey
-): Interceptor[] => {
+): Array<InterceptorReq | InterceptorRes> => {
   return (
     Reflect.getMetadata(metadataPropertyKey, target, propertyKey) ??
     Reflect.getMetadata(metadataPropertyKey, target.constructor) ??
