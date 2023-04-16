@@ -8,9 +8,16 @@ import OrderController from './modules/order/order.controller'
 import UserController from './modules/user/user.controller'
 import OrderService from './modules/order/order.service'
 import DemoController from './modules/demo/demo.controller'
+import ExampleModule from './modules/example/example.module'
 
 @Module({
-  imports: [ArticleModule, UserModule, OrderModule, CommonModule],
+  imports: [
+    ArticleModule,
+    UserModule,
+    OrderModule,
+    CommonModule,
+    ExampleModule
+  ],
   providers: []
 })
 export default class AppModule {

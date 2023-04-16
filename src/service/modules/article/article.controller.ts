@@ -15,6 +15,7 @@ import TableDataDto from './dto/tableData.dto'
 import ArticleService from './article.service'
 import { catchCallback } from './catch/catch-callback'
 import { validationErrorMessage } from './validation/validate'
+import ExamplesService from '../example/examples.service'
 
 @Controller(Route.ARTICLE)
 @Catch(error => {
@@ -32,7 +33,10 @@ import { validationErrorMessage } from './validation/validate'
   return Promise.reject(result) // or throw result
 })
 export default class ArticleController {
-  constructor(private readonly articleService: ArticleService) {}
+  constructor(
+    private readonly articleService: ArticleService,
+    private readonly examplesService: ExamplesService
+  ) {}
 
   @Catch(catchCallback)
   @Header('RequestId', () => uuidv4())
