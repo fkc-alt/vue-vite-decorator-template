@@ -3,7 +3,13 @@
 /* eslint-disable new-cap */
 /* eslint-disable @typescript-eslint/ban-types */
 import { ModuleMetadata, MetadataKey } from './types/enums'
-import { deepRegisterModulesAllProvider, isFunction } from './helper'
+import {
+  deepRegisterModulesAllProvider,
+  isFunction,
+  isGlobalModule,
+  getModuleImports,
+  getControllers
+} from './helper'
 export * from './decorators'
 
 /**
@@ -68,39 +74,10 @@ export class SuperFactoryStatic {
     target: Core.Constructor<T>,
     options?: CreateOptions
   ): SuperServicesApplication<T> {
-    const imports: Array<Core.Constructor<any>> =
-      Reflect.getMetadata(ModuleMetadata.IMPORTS, target) ?? []
-    const deepGlobalModule = (
-      modules: Array<Core.Constructor<any>>
-    ): Array<Core.Constructor<any>> => {
-      // return modules.reduce((prev: Array<Core.Constructor<any>>, target) => {
-      //   const isGlobal = Reflect.getMetadata(MetadataKey.GLOBAL, target)
-      //   if (isGlobal) {
-      //     const isDeepModule: Array<Core.Constructor<any>> =
-      //       Reflect.getMetadata(ModuleMetadata.IMPORTS, target) || []
-      //     return isDeepModule.length
-      //       ? [...prev, target, ...deepGlobalModule(isDeepModule)]
-      //       : [...prev, target]
-      //   }
-      //   return prev
-      // }, [])
-      const globalModules = Array.from(
-        new Set(
-          modules.filter(constructor =>
-            Reflect.getMetadata(MetadataKey.GLOBAL, constructor)
-          )
-        )
-      )
-      const deepModules = globalModules.flatMap(constructor => {
-        const deepModuleImports =
-          Reflect.getMetadata(ModuleMetadata.IMPORTS, constructor) || []
-        return deepModuleImports.length
-          ? [constructor, ...deepGlobalModule(deepModuleImports)]
-          : [constructor]
-      })
-      return [...globalModules, ...deepModules]
-    }
-    this.globalModule = Array.from(new Set(deepGlobalModule(imports)))
+    const imports = getModuleImports(target)
+    const globalModule = imports.filter(module => isGlobalModule(module))
+    const controllers = getControllers(target)
+    this.globalModule = Array.from(new Set(globalModule))
     const exposeProperties: this = options?.expose ? this : <this>{}
     return <SuperServicesApplication<T>>(<unknown>Object.assign(
       <Object>Factory(target),

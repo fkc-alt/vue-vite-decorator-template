@@ -1,5 +1,9 @@
 import { MetadataKey, ModuleMetadata } from '../types/enums'
 
+export const isGlobalModule = (constructor: Core.Constructor<any>): boolean => {
+  return !!Reflect.getMetadata(MetadataKey.GLOBAL, constructor)
+}
+
 /**
  *
  * @param { Core.Constructor<any> } constructor
@@ -7,9 +11,10 @@ import { MetadataKey, ModuleMetadata } from '../types/enums'
  * @description Get Global Module Providers
  * @returns { Array<Core.Constructor<any>>  } providers
  */
-const getGlobalProviders = (constructor: Core.Constructor<any>) => {
-  const isGlobalModule = Reflect.getMetadata(MetadataKey.GLOBAL, constructor)
-  return isGlobalModule
+export const getGlobalProviders = (
+  constructor: Core.Constructor<any>
+): Array<Core.Constructor<any>> => {
+  return isGlobalModule(constructor)
     ? Reflect.getMetadata(ModuleMetadata.PROVIDERS, constructor) ?? []
     : []
 }
@@ -21,8 +26,23 @@ const getGlobalProviders = (constructor: Core.Constructor<any>) => {
  * @description Get the provider for the module
  * @returns { Array<Core.Constructor<any>>  } providers
  */
-const getExports = (constructor: Core.Constructor<any>) => {
+export const getExports = (
+  constructor: Core.Constructor<any>
+): Array<Core.Constructor<any>> => {
   return Reflect.getMetadata(ModuleMetadata.EXPORTS, constructor) ?? []
+}
+
+/**
+ *
+ * @param { Core.Constructor<any> } constructor
+ * @author kaichao.feng
+ * @description Get the controller for the module
+ * @returns { Array<Core.Constructor<any>>  } controller
+ */
+export const getControllers = (
+  constructor: Core.Constructor<any>
+): Array<Core.Constructor<any>> => {
+  return Reflect.getMetadata(ModuleMetadata.CONTROLLERS, constructor) ?? []
 }
 
 /**
@@ -32,7 +52,9 @@ const getExports = (constructor: Core.Constructor<any>) => {
  * @description Get the IMPORTS for the module
  * @returns { Array<Core.Constructor<any>>  } providers
  */
-const getModuleImports = (constructor: Core.Constructor<any>) => {
+export const getModuleImports = (
+  constructor: Core.Constructor<any>
+): Array<Core.Constructor<any>> => {
   return Reflect.getMetadata(ModuleMetadata.IMPORTS, constructor) ?? []
 }
 
@@ -43,7 +65,7 @@ const getModuleImports = (constructor: Core.Constructor<any>) => {
  * @description Get providers that are not global modules
  * @returns { Array<Core.Constructor<any>>  } providers
  */
-const getProviderReduce = (modules: Array<Core.Constructor<any>>) => {
+export const getProviderReduce = (modules: Array<Core.Constructor<any>>) => {
   return modules
     .filter(
       constructor => !Reflect.getMetadata(MetadataKey.GLOBAL, constructor)

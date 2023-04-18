@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /**
  * @module Controller
  * @param { string } prefix
@@ -6,6 +7,9 @@
  */
 export const Controller = (prefix = ''): ClassDecorator => {
   return function (target: any) {
-    target.prototype.prefix = prefix ? prefix.replace(/^\//g, '') + '/' : ''
+    const currentRouteId = `${target.name}-Prefix`
+    target.prototype[currentRouteId] = prefix
+      ? prefix.replace(/^\//g, '') + '/'
+      : ''
   }
 }

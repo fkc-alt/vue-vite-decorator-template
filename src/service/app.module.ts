@@ -19,6 +19,7 @@ import RequestService from './common/providers/request.service'
     CommonModule,
     ExampleModule
   ],
+  controllers: [ArticleController, OrderController],
   providers: []
 })
 export default class AppModule {

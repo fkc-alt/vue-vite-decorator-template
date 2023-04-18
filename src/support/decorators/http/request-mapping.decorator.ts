@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/ban-types */
 import { plainToInstance } from 'class-transformer'
 import { ValidationError, validateSync } from 'class-validator'
@@ -94,7 +94,13 @@ const handelParam = (
 ): Record<string, any> => {
   const hasGet = [Method.GET, Method.get].includes(method)
   const globalPrefix: string = (SuperFactory as any).globalPrefix
-  const currentPrefix = (target as Record<'prefix', string>).prefix
+  // const currentPrefix = (target as Record<'prefix', string>).prefix
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  console.log(target, 'target')
+  const currentPrefix: string = (target as any)[
+    `${(<Record<'name', string>>target).name!}-Prefix`
+  ]
+  console.log(currentPrefix)
   const requestPath: string = path.replace(/^\//g, '')
   const requestURL = `${globalPrefix}${currentPrefix}${requestPath}`
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
