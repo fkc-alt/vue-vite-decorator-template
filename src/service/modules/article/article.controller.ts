@@ -17,6 +17,7 @@ import { catchCallback } from './catch/catch-callback'
 import { validationErrorMessage } from './validation/validate'
 import ExamplesService from '../example/examples.service'
 import HelperController from './helper.comtroller'
+import DemoController from '../demo/demo.controller'
 
 @Controller(Route.ARTICLE)
 @Catch(error => {
@@ -37,7 +38,8 @@ export default class ArticleController {
   constructor(
     private readonly articleService: ArticleService,
     private readonly examplesService: ExamplesService,
-    private readonly helperController: HelperController
+    private readonly helperController: HelperController,
+    private readonly demoController: DemoController
   ) {}
 
   @Catch(catchCallback)
@@ -58,7 +60,9 @@ export default class ArticleController {
     T = Service.ArticleListReq,
     U = Service.ArticleListRes
   >(configure: ArticleListDto): ServerRes<U> {
-    const data = await this.helperController.help({ name: 123 })
+    const data = await this.helperController.help(<Core.RequestConfig>{
+      name: 123
+    })
     console.log(data, 'helperController')
     return await this.articleService.GetArticleList<T, U>(
       <AxiosRequestConfig>configure

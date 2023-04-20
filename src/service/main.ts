@@ -22,7 +22,7 @@ function bootstrap(): AppModule {
   })
   application.useInterceptorsRes(result => {
     console.log('global InterceptorsRes', result)
-    const callError = result.status !== 200 || result?.data?.code !== 200
+    const callError = result?.status !== 200 || result?.data?.code !== 200
     if (!callError) return result.data
     return Promise.reject(result) // or throw result
   })
