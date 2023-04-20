@@ -60,10 +60,10 @@ export default class ArticleController {
     T = Service.ArticleListReq,
     U = Service.ArticleListRes
   >(configure: ArticleListDto): ServerRes<U> {
-    const data = await this.helperController.help(<Core.RequestConfig>{
-      name: 123
-    })
-    console.log(data, 'helperController')
+    // const data = await this.helperController.help(<Core.RequestConfig>{
+    //   name: 123
+    // })
+    // console.log(data, 'helperController')
     return await this.articleService.GetArticleList<T, U>(
       <AxiosRequestConfig>configure
     )

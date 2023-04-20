@@ -14,17 +14,23 @@ export default class UploadService {
     T extends AxiosRequestConfig<Services.Common.UplaodReq>,
     U = Services.Common.UplaodRes
   >(configure: T): ServerRes<U> {
-    const { data: { file, ...params } = {}, ...requestConfig } = configure
+    const {
+      data: { file, ...params } = {},
+      headers = {},
+      ...requestConfig
+    } = configure
     const fileLoder = new FormData()
+    Object.assign(
+      headers,
+      this.contenTypeService.GetContentType(ContentType.FORM_DATA)
+    )
     fileLoder.append('file', <Blob>file?.raw)
     return await this.requestService.request<Services.Common.UplaodFileReq, U>({
       ...requestConfig,
+      headers,
       data: {
         file: <FormDataEntryValue>fileLoder.get('file'),
         ...(params || {})
-      },
-      headers: {
-        ...this.contenTypeService.GetContentType(ContentType.FORM_DATA)
       }
     })
   }
