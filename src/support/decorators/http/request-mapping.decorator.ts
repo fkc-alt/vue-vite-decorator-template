@@ -94,7 +94,7 @@ const handelParam = (
 ): Record<string, any> => {
   const hasGet = [Method.GET, Method.get].includes(method)
   const globalPrefix: string = (SuperFactory as any).globalPrefix
-  const currentPrefix = (target as Record<'prefix', string>).prefix
+  const currentPrefix = (<any>target)[`${target.constructor.name}-Prefix`]
   const requestPath: string = path.replace(/^\//g, '')
   const requestURL = `${globalPrefix}${currentPrefix}${requestPath}`
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

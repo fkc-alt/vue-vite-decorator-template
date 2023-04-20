@@ -6,7 +6,6 @@ import type {
   // AxiosResponse
 } from 'axios'
 import { Injectable } from '@/support/core'
-import UtilService from './util.service'
 import Auth from '../decorators/request.decorators'
 
 const exclude = ['login', 'register']
@@ -19,56 +18,9 @@ export default class RequestService {
   private _instance!: AxiosInstance
   /**
    * @method constructor
-   * @param { UtilService } UtilService
    */
-  constructor(private readonly utilService: UtilService) {
-    // this.forRoot({ baseURL: import.meta.env.VITE_APP_BASE_API })
+  constructor() {
     this.forRoot()
-  }
-
-  /**
-   * @method interceptorsReq
-   * @return { Promise<AxiosRequestConfig | AxiosError> } Promise
-   * @description Override Request InterceptorsReq
-   */
-  private interceptorsReq(): void {
-    // this.instance.interceptors.request.use(
-    //   (config: AxiosRequestConfig) => {
-    //     const Authorization = this.utilService.getToken()
-    //     // before handler send request
-    //     if (Authorization && config.headers)
-    //       config.headers.Authorization = `Bearer ${Authorization}`
-    //     return config
-    //   },
-    //   async (err: AxiosError) => {
-    //     // request error handler
-    //     return await Promise.reject(err)
-    //   }
-    // )
-  }
-
-  /**
-   * @method interceptorsRes
-   * @return { Promise<AxiosResponse<Services.Common.Response> | AxiosError<Services.Common.Response>> } Promise
-   * @description Override Request interceptorsRes
-   */
-  private interceptorsRes(): void {
-    // this.instance.interceptors.response.use(
-    //   async (res: AxiosResponse<Services.Common.Response>) => {
-    //     // response data handler
-    //     const { status, data } = res
-    //     const HTTPCODE = [0, 200]
-    //     if (HTTPCODE.includes(status) && HTTPCODE.includes(data.code))
-    //       return data
-    //     ElMessage.error({ message: data.message })
-    //     return await Promise.reject(data.message)
-    //   },
-    //   async (err: AxiosError<Services.Common.Response>) => {
-    //     ElMessage.error({ message: err.response?.data.message ?? '' })
-    //     // request error handler
-    //     return await Promise.reject(err.response?.data.message ?? '')
-    //   }
-    // )
   }
 
   /**
@@ -105,7 +57,5 @@ export default class RequestService {
    */
   private set instance(axiosInstance: AxiosInstance) {
     this._instance = axiosInstance
-    this.interceptorsReq()
-    this.interceptorsRes()
   }
 }

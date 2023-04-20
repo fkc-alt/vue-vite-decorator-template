@@ -10,6 +10,7 @@ import OrderService from './modules/order/order.service'
 import DemoController from './modules/demo/demo.controller'
 import ExampleModule from './modules/example/example.module'
 import RequestService from './common/providers/request.service'
+import DemoModule from './modules/demo/demo.module'
 
 @Module({
   imports: [
@@ -17,7 +18,8 @@ import RequestService from './common/providers/request.service'
     UserModule,
     OrderModule,
     CommonModule,
-    ExampleModule
+    ExampleModule,
+    DemoModule
   ],
   providers: []
 })

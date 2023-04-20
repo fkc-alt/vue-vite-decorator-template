@@ -1,3 +1,5 @@
+import { MetadataKey } from '../../types/enums'
+
 /**
  * @module Controller
  * @param { string } prefix
@@ -6,6 +8,10 @@
  */
 export const Controller = (prefix = ''): ClassDecorator => {
   return function (target: any) {
-    target.prototype.prefix = prefix ? prefix.replace(/^\//g, '') + '/' : ''
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+    target.prototype[`${target.name}-Prefix`] = prefix
+      ? prefix.replace(/^\//g, '') + '/'
+      : ''
+    Reflect.defineMetadata(MetadataKey.INJECTABLE_WATERMARK, true, target)
   }
 }

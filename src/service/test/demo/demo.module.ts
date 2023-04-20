@@ -8,6 +8,6 @@ import DemoService from './demo.service'
 @Module({
   imports: [MemberModule, OrderModule],
   controllers: [DemoController],
-  providers: [DemoService]
+  providers: [DemoService, DemoController]
 })
 export default class DemoModule {}

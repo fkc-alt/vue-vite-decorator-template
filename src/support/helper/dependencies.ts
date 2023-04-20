@@ -10,7 +10,10 @@ import { MetadataKey, ModuleMetadata } from '../types/enums'
 const getGlobalProviders = (constructor: Core.Constructor<any>) => {
   const isGlobalModule = Reflect.getMetadata(MetadataKey.GLOBAL, constructor)
   return isGlobalModule
-    ? Reflect.getMetadata(ModuleMetadata.PROVIDERS, constructor) ?? []
+    ? [
+        ...(Reflect.getMetadata(ModuleMetadata.PROVIDERS, constructor) ?? []),
+        ...(Reflect.getMetadata(ModuleMetadata.CONTROLLERS, constructor) ?? [])
+      ]
     : []
 }
 
@@ -67,15 +70,16 @@ export const deepRegisterModulesAllProvider = (
   modules: Array<Core.Constructor<any>>
 ): Array<Core.Constructor<any>> => {
   return modules.reduce((prev: Array<Core.Constructor<any>>, constructor) => {
-    const modules: Array<Core.Constructor<any>> = getModuleImports(constructor)
+    const currentImportModules: Array<Core.Constructor<any>> =
+      getModuleImports(constructor)
     const globalProviders = getGlobalProviders(constructor)
     const providers = deepRegisterModulesAllProvider(
-      modules.filter(constructor =>
+      currentImportModules.filter(constructor =>
         Reflect.getMetadata(MetadataKey.GLOBAL, constructor)
       )
     )
     const exports = getExports(constructor)
-    const providerReduce = getProviderReduce(modules)
+    const providerReduce = getProviderReduce(currentImportModules)
     return [
       ...prev,
       ...providers,
