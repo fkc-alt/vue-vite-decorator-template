@@ -16,7 +16,7 @@ import ArticleService from './article.service'
 import { catchCallback } from './catch/catch-callback'
 import { validationErrorMessage } from './validation/validate'
 import ExamplesService from '../example/examples.service'
-import HelperController from './helper.comtroller'
+import HelperController from './helper.controller'
 import DemoController from '../demo/demo.controller'
 
 @Controller(Route.ARTICLE)
@@ -60,10 +60,10 @@ export default class ArticleController {
     T = Service.ArticleListReq,
     U = Service.ArticleListRes
   >(configure: ArticleListDto): ServerRes<U> {
-    // const data = await this.helperController.help(<Core.RequestConfig>{
-    //   name: 123
-    // })
-    // console.log(data, 'helperController')
+    const data = await this.helperController.getApidoc(<Core.RequestConfig>{
+      name: 123
+    })
+    console.log(data, 'helperController')
     return await this.articleService.GetArticleList<T, U>(
       <AxiosRequestConfig>configure
     )

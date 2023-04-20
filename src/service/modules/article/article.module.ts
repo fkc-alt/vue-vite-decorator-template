@@ -3,7 +3,7 @@ import OrderModule from '../order/order.module'
 import OrderController from '../order/order.controller'
 import ArticleController from './article.controller'
 import ArticleService from './article.service'
-import HelperController from './helper.comtroller'
+import HelperController from './helper.controller'
 import HelplerService from './providers/helper.service'
 
 @Global()
