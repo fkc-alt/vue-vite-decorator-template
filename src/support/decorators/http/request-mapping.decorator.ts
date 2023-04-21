@@ -168,16 +168,17 @@ export const RequestMapping = (
 ): MethodDecorator => {
   return function (target, key, descriptor: PropertyDescriptor) {
     Reflect.defineMetadata('CustomRequest', true, target, key)
-    const fn: (params: any) => any = descriptor.value
+    const originalMethod: (params: any) => any = descriptor.value
     const dataTransferObject: Array<Core.Constructor<any>> =
       getDataTransferObject(target, key)
     descriptor.value = async function (params: Record<string, any>) {
+      const boundMethod = originalMethod.bind(this)
       const result = await handlerResult.call(
         this,
         target,
         key,
         handelParam(path, method, target, key, params),
-        fn
+        boundMethod
       )
       const errors: ValidationError[] = getErrorMessage(
         dataTransferObject,
@@ -187,6 +188,7 @@ export const RequestMapping = (
       callHander(errors, message)
       return result
     }
+    return descriptor
   }
 }
 

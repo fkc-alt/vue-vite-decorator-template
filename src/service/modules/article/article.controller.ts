@@ -40,7 +40,11 @@ export default class ArticleController {
     private readonly examplesService: ExamplesService,
     private readonly helperController: HelperController,
     private readonly demoController: DemoController
-  ) {}
+  ) {
+    // 解构使用方法的话需要在构造中绑定this
+    this.GetArticleList = this.GetArticleList.bind(this)
+    this.GetTableDataList = this.GetTableDataList.bind(this)
+  }
 
   @Catch(catchCallback)
   @Header('RequestId', () => uuidv4())
@@ -60,8 +64,9 @@ export default class ArticleController {
     T = Service.ArticleListReq,
     U = Service.ArticleListRes
   >(configure: ArticleListDto): ServerRes<U> {
-    const data = await this.helperController.getApidoc(<Core.RequestConfig>{
-      name: 123
+    const { data } = await this.helperController.getApidoc({
+      pageSize: 0,
+      currentPage: 0
     })
     console.log(data, 'helperController')
     return await this.articleService.GetArticleList<T, U>(

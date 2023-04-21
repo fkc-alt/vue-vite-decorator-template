@@ -149,6 +149,24 @@ const MockList: MockMethod[] = [
         }
       }
     }
+  },
+  {
+    url: '/rsapi/helper/apidoc',
+    method: 'post',
+    response: (): Services.Common.Response<any> => {
+      return {
+        code: 200,
+        message: '成功',
+        data: {
+          apiList: [
+            {
+              path: 'login',
+              params: { username: 'String', password: 'String' }
+            }
+          ]
+        }
+      }
+    }
   }
 ]
 

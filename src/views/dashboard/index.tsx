@@ -61,8 +61,11 @@ export default defineComponent({
     })
     onMounted(async () => {
       console.log(application)
+      const {
+        articleController: { GetArticleList, GetTableDataList }
+      } = application
       const [r, d] = [
-        await application.articleController.GetArticleList({
+        await GetArticleList({
           pageSize: 10,
           currentPage: 1,
           channel: ['1'],
@@ -74,7 +77,7 @@ export default defineComponent({
           content: '123',
           checkDemoList: [{ age: 2, name: '123' }]
         }),
-        await application.articleController.GetTableDataList({
+        await GetTableDataList({
           pageSize: 10,
           currentPage: 1
         })
