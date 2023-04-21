@@ -1,23 +1,22 @@
 import type { AxiosRequestConfig } from 'axios'
-import { v4 as uuidv4 } from 'uuid'
 import {
   Controller,
   Header,
-  Post,
   Catch,
   UseInterceptorsReq,
   UseInterceptorsRes
 } from '@/support/core'
-import ContentTypeService from '@/service/common/providers/contentType.service'
-import { Route, RouteChildren } from '..'
+import { Route } from '..'
 import ArticleListDto from './dto/articleList.dto'
 import TableDataDto from './dto/tableData.dto'
 import ArticleService from './article.service'
-import { catchCallback } from './catch/catch-callback'
-import { validationErrorMessage } from './validation/validate'
 import ExamplesService from '../example/examples.service'
 import HelperController from './helper.controller'
 import DemoController from '../demo/demo.controller'
+import {
+  GetArticleListApplyDecorators,
+  GetTableDataApplyDecorators
+} from './decorators'
 
 @Controller(Route.ARTICLE)
 @Catch(error => {
@@ -46,20 +45,7 @@ export default class ArticleController {
     this.GetTableDataList = this.GetTableDataList.bind(this)
   }
 
-  @Catch(catchCallback)
-  @Header('RequestId', () => uuidv4())
-  @Header('Content-Type', ContentTypeService.JSON)
-  @Post(RouteChildren.GETARTICLELIST, validationErrorMessage)
-  @UseInterceptorsReq(
-    configure => {
-      configure.headers && (configure.headers['Route-Path'] = 'GetArticleList')
-      return configure
-    },
-    configure => {
-      console.log(configure, 'last')
-      return configure
-    }
-  )
+  @GetArticleListApplyDecorators()
   public async GetArticleList<
     T = Service.ArticleListReq,
     U = Service.ArticleListRes
@@ -74,10 +60,7 @@ export default class ArticleController {
     )
   }
 
-  @Header('RequestId', () => uuidv4())
-  @Header(RouteChildren.TABLEDATA, RouteChildren.TABLEDATA)
-  @Catch(catchCallback)
-  @Post(RouteChildren.TABLEDATA)
+  @GetTableDataApplyDecorators()
   public async GetTableDataList<
     T = Service.TableDataReq,
     U = Service.TableDataRes
