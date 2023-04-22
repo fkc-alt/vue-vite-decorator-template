@@ -1,12 +1,4 @@
 import type { AxiosRequestConfig } from 'axios'
-import {
-  Controller,
-  Header,
-  Catch,
-  UseInterceptorsReq,
-  UseInterceptorsRes
-} from '@/support/core'
-import { Route } from '..'
 import ArticleListDto from './dto/articleList.dto'
 import TableDataDto from './dto/tableData.dto'
 import ArticleService from './article.service'
@@ -14,25 +6,12 @@ import ExamplesService from '../example/examples.service'
 import HelperController from './helper.controller'
 import DemoController from '../demo/demo.controller'
 import {
+  ArticleControllerApplydecorators,
   GetArticleListApplyDecorators,
   GetTableDataApplyDecorators
 } from './decorators'
 
-@Controller(Route.ARTICLE)
-@Catch(error => {
-  console.log(error, 'Controller')
-})
-@Header('Request-Route', Route.ARTICLE)
-@UseInterceptorsReq(configure => {
-  console.log(configure, 'Controller InterceptorsReq')
-  return configure
-})
-@UseInterceptorsRes(result => {
-  console.log(result, 'Controller InterceptorsRes')
-  const callError = result?.status !== 200 || result?.data?.code !== 200
-  if (!callError) return result.data
-  return Promise.reject(result) // or throw result
-})
+@ArticleControllerApplydecorators()
 export default class ArticleController {
   constructor(
     private readonly articleService: ArticleService,

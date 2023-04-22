@@ -2,14 +2,36 @@ import { v4 as uuidv4 } from 'uuid'
 import ContentTypeService from '@/service/common/providers/contentType.service'
 import {
   Catch,
+  Controller,
   Header,
   Post,
   UseInterceptorsReq,
+  UseInterceptorsRes,
   applyDecorators
 } from '@/support/core'
-import { RouteChildren } from '../..'
+import { Route, RouteChildren } from '../..'
 import { catchCallback } from '../catch/catch-callback'
 import { validationErrorMessage } from '../validation/validate'
+
+export const ArticleControllerApplydecorators = (): ClassDecorator => {
+  return applyDecorators(
+    Controller(Route.ARTICLE),
+    Catch(error => {
+      console.log(error, 'Controller')
+    }),
+    Header('Request-Route', Route.ARTICLE),
+    UseInterceptorsReq(configure => {
+      console.log(configure, 'Controller InterceptorsReq')
+      return configure
+    }),
+    UseInterceptorsRes(result => {
+      console.log(result, 'Controller InterceptorsRes')
+      const callError = result?.status !== 200 || result?.data?.code !== 200
+      if (!callError) return result.data
+      return Promise.reject(result) // or throw result
+    })
+  ) as ClassDecorator
+}
 
 export const GetArticleListApplyDecorators = () => {
   return applyDecorators(
