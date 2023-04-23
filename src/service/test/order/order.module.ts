@@ -1,4 +1,4 @@
-import { Module } from '@/support/core'
+import { Module } from 'http-typedi'
 import OrderController from './order.controller'
 import OrderService from './order.service'
 

@@ -1,7 +1,8 @@
 /* eslint-disable new-cap */
-import { MetadataKey } from './types/enums.d'
+import { MetadataKey } from 'http-typedi/dist/plugins/support/interface/enums.d'
 import { createDecorator, Vue, VueBase } from 'vue-class-component'
-import { isFunction } from '@vueuse/shared'
+import { isFunction } from '@/utils'
+import { Core } from 'http-typedi'
 
 export const registerDeepClass = (
   providers: Array<Core.Constructor<any>>

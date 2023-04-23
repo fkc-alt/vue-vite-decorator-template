@@ -1,4 +1,4 @@
-import { Module } from '@/support/core'
+import { Module } from 'http-typedi'
 import MemberController from './member.controller'
 import MemberService from './member.service'
 

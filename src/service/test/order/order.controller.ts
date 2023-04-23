@@ -1,5 +1,5 @@
 import type { AxiosRequestConfig } from 'axios'
-import { Controller, Post } from '@/support/core'
+import { Controller, Post } from 'http-typedi'
 import RequestService from '@/service/common/providers/request.service'
 import UtilService from '@/service/common/providers/util.service'
 import OrderService from './order.service'

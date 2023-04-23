@@ -1,4 +1,4 @@
-import { Injection, Module } from '@/support/core'
+import { Injection, Module } from 'http-typedi'
 import ArticleModule from './modules/article/article.module'
 import UserModule from './modules/user/user.module'
 import OrderModule from './modules/order/order.module'

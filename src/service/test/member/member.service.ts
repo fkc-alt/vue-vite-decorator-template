@@ -4,7 +4,7 @@ import {
   Param,
   ParseIntPipe,
   DefaultValuePipe
-} from '@/support/core'
+} from 'http-typedi'
 
 @Injectable()
 export default class MemberService {

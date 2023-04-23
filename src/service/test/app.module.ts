@@ -1,4 +1,4 @@
-import { Module, SuperFactory, Injection } from '@/support/core'
+import { Module, HttpFactory, Injection } from 'http-typedi'
 import RequestService from '../common/providers/request.service'
 import UtilService from '../common/providers/util.service'
 import DemoController from './demo/demo.controller'
@@ -30,4 +30,4 @@ export default class AppModule {
   ) {}
 }
 
-export const application = SuperFactory.create(AppModule)
+export const application = HttpFactory.create(AppModule)

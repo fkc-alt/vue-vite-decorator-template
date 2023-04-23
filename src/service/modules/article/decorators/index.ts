@@ -8,7 +8,7 @@ import {
   UseInterceptorsReq,
   UseInterceptorsRes,
   applyDecorators
-} from '@/support/core'
+} from 'http-typedi'
 import { Route, RouteChildren } from '../..'
 import { catchCallback } from '../catch/catch-callback'
 import { validationErrorMessage } from '../validation/validate'

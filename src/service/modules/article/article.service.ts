@@ -3,8 +3,9 @@ import {
   Injectable,
   Param,
   ParseIntPipe,
-  DefaultValuePipe
-} from '@/support/core'
+  DefaultValuePipe,
+  Core
+} from 'http-typedi'
 import { AxiosRequestConfig } from 'axios'
 import RequestService from '@/service/common/providers/request.service'
 import UtilService from '@/service/common/providers/util.service'

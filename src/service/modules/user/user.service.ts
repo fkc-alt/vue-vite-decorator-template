@@ -1,4 +1,4 @@
-import { Injectable } from '@/support/core'
+import { Injectable } from 'http-typedi'
 
 @Injectable()
 export default class UserService {

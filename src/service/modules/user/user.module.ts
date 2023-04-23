@@ -1,4 +1,4 @@
-import { Module } from '@/support/core'
+import { Module } from 'http-typedi'
 import UserController from './user.controller'
 import UserService from './user.service'
 

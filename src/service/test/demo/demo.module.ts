@@ -1,5 +1,5 @@
 import OrderModule from '@/service/test/order/order.module'
-import { Global, Module } from '@/support/core'
+import { Global, Module } from 'http-typedi'
 import MemberModule from '../member/member.module'
 import DemoController from './demo.controller'
 import DemoService from './demo.service'

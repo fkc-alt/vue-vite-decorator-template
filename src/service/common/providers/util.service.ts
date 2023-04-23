@@ -1,4 +1,4 @@
-import { Injectable } from '@/support/core'
+import { Injectable } from 'http-typedi'
 import {
   randomKey,
   deepClone,

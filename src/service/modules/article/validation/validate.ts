@@ -1,4 +1,5 @@
-import { flattenErrorList } from '@/support/helper'
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+import { flattenErrorList } from 'http-typedi'
 import { ValidationError } from 'class-validator'
 import { ElMessage } from 'element-plus'
 

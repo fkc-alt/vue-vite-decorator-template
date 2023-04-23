@@ -1,5 +1,5 @@
 import RequestService from '@/service/common/providers/request.service'
-import { Injectable } from '@/support/decorators'
+import { Injectable } from 'http-typedi'
 
 @Injectable()
 export default class ExampleService {

@@ -1,5 +1,5 @@
 import { ElMessage } from 'element-plus'
-import { applyDecorators } from '@/support/core'
+import { applyDecorators } from 'http-typedi'
 import { getToken } from '@/utils'
 
 /**

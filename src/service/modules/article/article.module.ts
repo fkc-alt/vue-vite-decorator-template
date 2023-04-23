@@ -1,4 +1,4 @@
-import { Global, Module } from '@/support/core'
+import { Global, Module } from 'http-typedi'
 import OrderModule from '../order/order.module'
 import OrderController from '../order/order.controller'
 import ArticleController from './article.controller'

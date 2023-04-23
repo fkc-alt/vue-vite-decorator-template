@@ -1,4 +1,4 @@
-import { Global, Module } from '@/support/decorators'
+import { Global, Module } from 'http-typedi'
 import ExampleController from './example.controller'
 import ExampleService from './example.service'
 import ExamplesService from './examples.service'

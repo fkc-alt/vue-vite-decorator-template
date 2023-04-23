@@ -1,5 +1,5 @@
 import { AxiosRequestConfig } from 'axios'
-import { Injectable } from '@/support/core'
+import { Injectable } from 'http-typedi'
 import RequestService from './request.service'
 import ContentTypeService, { ContentType } from './contentType.service'
 

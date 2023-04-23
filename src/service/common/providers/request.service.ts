@@ -5,7 +5,7 @@ import type {
   // AxiosError
   // AxiosResponse
 } from 'axios'
-import { Injectable } from '@/support/core'
+import { Injectable } from 'http-typedi'
 import Auth from '../decorators/request.decorators'
 
 const exclude = ['login', 'register']
