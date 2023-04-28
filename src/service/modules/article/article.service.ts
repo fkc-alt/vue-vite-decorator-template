@@ -1,5 +1,5 @@
 import {
-  Inject,
+  Override,
   Injectable,
   Param,
   ParseIntPipe,
@@ -41,7 +41,7 @@ export default class ArticleService {
     return await this.requestService.request<T, U>(configure)
   }
 
-  @Inject()
+  @Override()
   public Log(
     @Param(['id', 'price'], new DefaultValuePipe('1000.99'), new ParseIntPipe())
     record: number | Record<string, any>,

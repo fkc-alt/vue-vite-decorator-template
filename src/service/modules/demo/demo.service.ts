@@ -1,5 +1,5 @@
 import {
-  Inject,
+  Override,
   Injectable,
   Param,
   ParseIntPipe,
@@ -8,7 +8,7 @@ import {
 
 @Injectable()
 export default class DemoService {
-  @Inject()
+  @Override()
   public Log(
     @Param(['id', 'price'], new DefaultValuePipe('1000.99'), new ParseIntPipe())
     record: number | Record<string, any>,
