@@ -124,7 +124,13 @@ export default defineConfig(({ command, mode }) => {
         eslintrc: {
           enabled: true
         },
-        imports: ['vue', 'vue-router', 'pinia', 'vue-i18n'],
+        imports: [
+          'vue',
+          'vue-router',
+          'pinia',
+          'vue-i18n',
+          { './src/service/main.ts': ['application'] }
+        ],
         resolvers: [
           ElementPlusResolver({ importStyle: hasMode ? 'sass' : false }),
           IconResolver({ prefix: 'ep' })
