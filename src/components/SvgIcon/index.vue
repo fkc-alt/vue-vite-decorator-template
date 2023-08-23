@@ -1,20 +1,19 @@
 <script setup lang="ts">
 defineOptions({ name: 'SvgIcon' })
-const props = withDefaults(
-  defineProps<{
-    prefix?: string
-    name: string
-    className?: string
-  }>(),
-  {
-    prefix: 'icon',
-    name: '',
-    className: ''
-  }
-)
-const symbolId = computed(() => `#${props.name}`)
+interface Props {
+  name: string
+  prefix?: string
+  className?: string
+  children?: string
+  // eslint-disable-next-line vue/no-reserved-props
+  key?: string
+}
+const props = defineProps<Props>()
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const { className, name, prefix = 'icon' } = toRefs(props)
+const symbolId = computed(() => `#${name.value}`)
 const svgClass = computed(() =>
-  props.className ? `svg-icon ${props.className}` : 'svg-icon'
+  props.className ? `svg-icon ${className?.value}` : 'svg-icon'
 )
 </script>
 <template>

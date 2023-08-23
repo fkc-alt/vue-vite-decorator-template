@@ -86,7 +86,7 @@ export default defineComponent({
       state.tableList = d.data.tableList
     })
     return () => {
-      const svgIconProps = { name: 'test' }
+      const svgIconProps = { name: 'test', ...{} } as any
       return (
         <div>
           <SvgIcon {...svgIconProps} />
