@@ -1,22 +1,15 @@
 <script lang="ts" setup>
-import type { ComponentInternalInstance } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
 import { FormInstance, FormRules, ElMessage } from 'element-plus'
 import { useUserStore } from '@/store/user'
 import { setData } from '@/utils'
-import { application } from '@/service/main'
+import HTTPClient from '@/client/main'
 // Look Vue Prototype property
-const [{ proxy }, MODE] = [
-  getCurrentInstance() as ComponentInternalInstance,
-  import.meta.env.MODE === 'dev'
-]
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+const { proxy } = getCurrentInstance()!
 const [router, route] = [useRouter(), useRoute()]
 const user = useUserStore()
-const [loading, ruleFormRef, myRef] = [
-  ref<boolean>(false),
-  ref<FormInstance>(),
-  ref<HTMLElement | null>()
-]
+const [loading, ruleFormRef] = [ref<boolean>(false), ref<FormInstance>()]
 const formRules = reactive<FormRules>({
   username: [
     {
@@ -46,16 +39,16 @@ const formRules = reactive<FormRules>({
   ]
 })
 const loginForm = reactive<Service.LoginReq>({
-  username: MODE ? 'system' : '',
-  password: MODE ? '12345678' : ''
+  username: import.meta.env.VITE_APP_PROJECT_USERNAME,
+  password: import.meta.env.VITE_APP_PROJECT_PASSWORD
 })
 const submit = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   loading.value = true
-  await formEl.validate((valid, fields) => {
+  formEl.validate((valid, fields) => {
     if (valid) {
-      application.userController
-        .Login(loginForm)
+      HTTPClient.userController
+        .login(loginForm)
         .then(({ data: { token, roles: roleIdList } }) => {
           user.forRoot({ userInfo: 'Test', token, roleIdList })
           setData({ token, roleIdList })
@@ -74,120 +67,106 @@ const submit = async (formEl: FormInstance | undefined) => {
     }
   })
 }
-onMounted(() => {
-  console.log(myRef.value)
-})
 </script>
 
 <template>
-  <div class="login-container">
-    <ElForm
-      ref="ruleFormRef"
-      :model="loginForm"
-      :rules="formRules"
-      class="login-form"
-      label-position="left"
-      label-width="80px"
-    >
-      <div class="title-container">
-        <h3
-          ref="myRef"
-          class="title mixin"
-        >
-          {{ $t('SYSTEM.TITLE') }}
-        </h3>
-      </div>
-
-      <ElFormItem
-        :label="$t('LOGIN.FORM.USERNAME')"
-        prop="username"
-      >
-        <ElInput v-model="loginForm.username" />
-      </ElFormItem>
-      <ElFormItem
-        :label="$t('LOGIN.FORM.PASSWORD')"
-        prop="password"
-      >
-        <ElInput
-          v-model="loginForm.password"
-          type="password"
+  <div class="login-body">
+    <div class="login-container">
+      <div class="head">
+        <img
+          class="logo"
+          :src="Test"
         />
-      </ElFormItem>
-      <ElFormItem>
-        <ElButton
-          type="primary"
-          :loading="loading"
-          @click="submit(ruleFormRef)"
+        <div class="name">
+          <div class="title">新蜂商城</div>
+          <div class="tips">Vue3.0 后台管理系统</div>
+        </div>
+      </div>
+      <el-form
+        label-position="top"
+        :rules="formRules"
+        :model="loginForm"
+        ref="ruleFormRef"
+        class="login-form"
+      >
+        <el-form-item
+          label="账号"
+          prop="username"
         >
-          {{ $t('SYSTEM.LOGIN') }}
-        </ElButton>
-      </ElFormItem>
-    </ElForm>
+          <el-input
+            type="text"
+            v-model.trim="loginForm.username"
+            autocomplete="off"
+          ></el-input>
+        </el-form-item>
+        <el-form-item
+          label="密码"
+          prop="password"
+        >
+          <el-input
+            type="password"
+            v-model.trim="loginForm.password"
+            autocomplete="off"
+          ></el-input>
+        </el-form-item>
+        <el-form-item>
+          <div style="color: #333">登录表示您已同意<a>《服务条款》</a></div>
+          <el-button
+            style="width: 100%"
+            type="primary"
+            @click="submit(ruleFormRef)"
+            >立即登录</el-button
+          >
+        </el-form-item>
+      </el-form>
+    </div>
   </div>
 </template>
-
-<style lang="scss" scoped>
-$bg: #fff;
-$dark_gray: #889aa4;
-$light_gray: #000;
-.login-container {
-  min-height: 100%;
+<style scoped lang="scss">
+.login-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
-  background-color: $bg;
-  overflow: hidden;
-
-  .login-form {
-    position: relative;
-    width: 520px;
-    max-width: 100%;
-    padding: 160px 35px 0;
-    margin: 0 auto;
-    overflow: hidden;
-  }
-
-  .tips {
-    font-size: 14px;
-    color: #454545;
-    margin-bottom: 10px;
-
-    span {
-      &:first-of-type {
-        margin-right: 16px;
+  height: 100vh;
+  background-color: #fff;
+  .login-container {
+    width: 420px;
+    height: 500px;
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0px 21px 41px 0px rgba(0, 0, 0, 0.2);
+    .head {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 0 20px 0;
+    }
+    .head {
+      img {
+        width: 100px;
+        height: 100px;
+        margin-right: 20px;
+      }
+      .name {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        .title {
+          font-size: 28px;
+          color: #1baeae;
+          font-weight: bold;
+        }
+        .tips {
+          font-size: 12px;
+          color: #999;
+        }
       }
     }
   }
-
-  .svg-container {
-    padding: 6px 5px 6px 15px;
-    color: $dark_gray;
-    vertical-align: middle;
-    width: 30px;
-    display: inline-block;
+  .login-form {
+    width: 70%;
+    margin: 0 auto;
   }
-
-  .title-container {
-    position: relative;
-
-    .title {
-      font-size: 26px;
-      color: $light_gray;
-      margin: 0px auto 40px auto;
-      text-align: center;
-      font-weight: bold;
-    }
-  }
-
-  .show-pwd {
-    position: absolute;
-    right: 10px;
-    top: 7px;
-    font-size: 16px;
-    color: $dark_gray;
-    cursor: pointer;
-    user-select: none;
-  }
-}
-:deep(.el-form-item__label) {
-  font-size: 17px;
 }
 </style>

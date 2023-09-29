@@ -13,7 +13,7 @@ declare module 'vue' {
   }
   export interface ComponentCustomProperties
     extends ForVuePropertyCustomAssetsInstanceType<VuePropertyCustomAssetsInstanceType> {
-    application: InstanceType<typeof import('@/service/app.module').default>
+    HTTPClient: InstanceType<typeof import('@/client/app.module').AppModule>
   }
   export default VuePropertyCustomAssets
 }

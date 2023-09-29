@@ -6,7 +6,7 @@ import router from '@/router'
 import i18n from '@/locales/i18n'
 import '@/router/permission'
 import useIcons from '@/hooks/useIcons'
-import { application } from '@/service/test/app.module'
+import HTTPClient from '@/client/main'
 import App from './App'
 
 const pinia = createPinia()
@@ -20,12 +20,12 @@ const bootstrap = (): void => {
       setupGlobalProvider()
       setupVueConfigProvider(app)
       app.mount('#app')
-      const loader = document.getElementsByClassName('loader')[0] as HTMLElement
-      loader.style.display = 'none'
+      // const loader = document.getElementsByClassName('loader')[0] as HTMLElement
+      // loader.style.display = 'none'
       const { AppLogger } = provider.inject
       AppLogger(_APP_INFO_)
     })
     .catch(console.error)
 }
-console.log(application, 'test')
+console.log(HTTPClient, 'HTTPClient')
 bootstrap()

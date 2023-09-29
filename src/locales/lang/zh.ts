@@ -26,7 +26,7 @@ export default {
     }
   },
   WORKBENCHMODULE: {
-    TITLE: '工作台'
+    TITLE: 'Dashboard'
   },
   MEMBERMODULE: {
     TITLE: '会员管理',

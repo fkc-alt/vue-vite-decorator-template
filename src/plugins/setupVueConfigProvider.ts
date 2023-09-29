@@ -1,5 +1,5 @@
 import { App } from 'vue'
-import { application } from '@/service/main'
+import HTTPClient from '@/client/main'
 
 /**
  * @method setupVueConfigProvider
@@ -7,5 +7,5 @@ import { application } from '@/service/main'
  * @description 挂载Vue原型属性
  */
 export const setupVueConfigProvider = (Vue: App): void => {
-  Vue.config.globalProperties.application = application
+  Vue.config.globalProperties.HTTPClient = HTTPClient
 }

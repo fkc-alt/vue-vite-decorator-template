@@ -3,6 +3,8 @@
 
 interface ImportMetaEnv {
   readonly VITE_APP_PROJECT_ICON: string
+  readonly VITE_APP_PROJECT_USERNAME: string
+  readonly VITE_APP_PROJECT_PASSWORD: string
   readonly VITE_PROJECT_TITLE: string
   readonly VITE_APP_BASE_URL: string
   readonly VITE_APP_BASE_API: string

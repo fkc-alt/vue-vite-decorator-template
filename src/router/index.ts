@@ -10,14 +10,14 @@ const routes: RouteRecordRaw[] = [
     redirect: '/dashboard',
     meta: {
       title: 'WORKBENCHMODULE.TITLE',
-      icon: 'Platform',
+      icon: 'Odometer',
       alwaysShow: true
     },
     children: [
       {
         path: '/dashboard',
         name: 'Dashboard',
-        component: () => import('@/views/dashboard'),
+        component: () => import('@/views/dashboard/index.vue'),
         sort: 1,
         meta: {
           title: 'WORKBENCHMODULE.TITLE',

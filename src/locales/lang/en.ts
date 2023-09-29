@@ -29,7 +29,7 @@ export default {
     }
   },
   WORKBENCHMODULE: {
-    TITLE: 'Workbench'
+    TITLE: 'Dashboard'
   },
   MEMBERMODULE: {
     TITLE: 'Member Manage',

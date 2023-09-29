@@ -38,8 +38,8 @@ provide('PROJECTICON', PROJECTICON)
           router
           mode="vertical"
           text-color="#bfcbd9"
-          background-color="#304156"
-          active-text-color="#409EFF"
+          background-color="#222832"
+          active-text-color="#fff"
           unique-opened
           :collapse="isCollapse"
           :collapse-transition="false"
