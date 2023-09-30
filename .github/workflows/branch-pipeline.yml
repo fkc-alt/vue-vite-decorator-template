@@ -10,6 +10,7 @@ on:
     - feature/demo 
 env:
   DIST_NAME: dist
+  FROM_EMAILS: 1491368225@qq.com, fengkaichao149@163.com
 jobs: 
   build:
     runs-on: ubuntu-latest
@@ -39,8 +40,11 @@ jobs:
           username: ${{ secrets.EMAIL_USERNAME }}
           password: ${{ secrets.EMAIL_PASSWORD }}
           from: fengkaichao149@163.com
-          to: 1491368225@qq.com, 1824333632@qq.com, fengkaichao149@163.com
+          to: ${{ env.FROM_EMAILS }}
           subject: Pipeline Successful
           body: |
-            Your pipeline has been successfully executed.
+            pipeline has been successfully executed.
+            This is the body of the email.
+                  You can include the contents of the dist.zip file here:
+            $(cat dist)
       
