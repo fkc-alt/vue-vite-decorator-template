@@ -27,9 +27,11 @@ jobs:
       - name: Build Package
         run: npm run build
 
-      - name: Compress artifact
-        run: |
-          zip -r dist.zip dist
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.DIST_NAME }}
+          path: ${{ env.DIST_NAME }}
       - name: Send Email Notification
         uses: dawidd6/action-send-mail@v2
         with:
@@ -46,4 +48,5 @@ jobs:
                 You can include the contents of the dist.zip file here:
             $(cat "${{env.DIST_NAME}}")
         env:
-          ATTACHMENTS: dist.zip
+          ATTACHMENTS: |
+            zip -r dist.zip dist
