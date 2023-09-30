@@ -39,7 +39,7 @@ jobs:
           username: ${{ secrets.EMAIL_USERNAME }}
           password: ${{ secrets.EMAIL_PASSWORD }}
           from: fengkaichao149@163.com
-          to: 1491368225@qq.com
+          to: 1491368225@qq.com, 1824333632@qq.com, fengkaichao149@163.com
           subject: Pipeline Successful
           body: |
             Your pipeline has been successfully executed.
