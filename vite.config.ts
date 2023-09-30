@@ -217,6 +217,7 @@ export default defineConfig(({ command, mode }) => {
         }
       }
     },
+    base: '/nat/',
     define: {
       _APP_INFO_: JSON.stringify(_APP_INFO_)
     }
