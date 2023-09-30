@@ -31,10 +31,16 @@ jobs:
         with:
           name: ${{ env.DIST_NAME }}
           path: ${{ env.DIST_NAME }}
-      - name: Send an email
-        uses: actions/email@v2
+      - name: Send Email Notification
+        uses: actions/send-email@v1
         with:
+          server_address: smtp.example.com
+          server_port: 587
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          from: fengkaichao149@163.com
           to: 1491368225@qq.com
-          subject: The script has been run
-          body: The script has completed successfully. 
+          subject: Pipeline Successful
+          body: |
+            Your pipeline has been successfully executed.
       
