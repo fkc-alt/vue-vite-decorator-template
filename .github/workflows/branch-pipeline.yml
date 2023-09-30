@@ -46,5 +46,5 @@ jobs:
             pipeline has been successfully executed.
             This is the body of the email.
                 You can include the contents of the dist.zip file here:
-            ${{cat dist}}
+            $(cat env.DIST_NAME)
       
