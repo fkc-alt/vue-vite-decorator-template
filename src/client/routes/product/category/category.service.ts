@@ -7,11 +7,15 @@ export class CategoryService {
     return this.requestService.request(config)
   }
 
-  public addProperties<T, R>(config: RequestConfig<T>): Promise<R> {
+  public update<T, R>(config: RequestConfig<T>): Promise<R> {
     return this.requestService.request(config)
   }
 
-  public delProperties<T, R>(config: RequestConfig<T>): Promise<R> {
+  public list<T, R>(config: RequestConfig<T>): Promise<R> {
+    return this.requestService.request(config)
+  }
+
+  public delete<T, R>(config: RequestConfig<T>): Promise<R> {
     return this.requestService.request(config)
   }
 }

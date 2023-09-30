@@ -53,5 +53,25 @@ declare namespace Service {
       sortValue: number
     }
     type ProductAddRes = boolean
+    interface AddCategoryReq {
+      /**
+       * @description 分类名称
+       */
+      name: string
+      /**
+       * @description 描述信息
+       */
+      msg?: string
+    }
+    type AddCategoryRes = boolean
+    interface UpdateCategoryReq extends AddCategoryReq {
+      id: number
+    }
+    type CategoryListReq = Partial<Pick<AddCategoryReq, 'name'>> &
+      Services.Common.Pagination
+    type CategoryListRes = any
+    type UpdateCategoryRes = boolean
+    type DelCategoryReq = Pick<UpdateCategoryReq, 'id'>
+    type DelCategoryRes = boolean
   }
 }

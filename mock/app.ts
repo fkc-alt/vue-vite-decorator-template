@@ -24,6 +24,26 @@ const MockList: MockMethod[] = [
     }
   },
   {
+    url: '/web/product/v1/add',
+    method: 'post',
+    response: (req: Recordable): Services.Common.Response<Service.LoginRes> => {
+      let code = 200
+      let message = '成功'
+      if (
+        req.body?.username !== 'system' ||
+        req.body?.password !== '12345678'
+      ) {
+        code = -1
+        message = '用户名或密码不正确'
+      }
+      return {
+        code,
+        message,
+        data: { token: Random.string(25, 50), roles: [101, 99] }
+      }
+    }
+  },
+  {
     url: '/web/user/info/{:id}/{:phone}',
     method: 'get',
     response: (
