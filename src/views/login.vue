@@ -3,13 +3,12 @@ import type { RouteLocationRaw } from 'vue-router'
 import { FormInstance, FormRules, ElMessage } from 'element-plus'
 import { useUserStore } from '@/store/user'
 import { setData } from '@/utils'
-import HTTPClient from '@/client/main'
-// Look Vue Prototype property
-// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
 const { proxy } = getCurrentInstance()!
 const [router, route] = [useRouter(), useRoute()]
 const user = useUserStore()
 const [loading, ruleFormRef] = [ref<boolean>(false), ref<FormInstance>()]
+const projectName = import.meta.env.VITE_APP_PROJECT_TITLE
 const formRules = reactive<FormRules>({
   username: [
     {
@@ -47,7 +46,7 @@ const submit = async (formEl: FormInstance | undefined) => {
   loading.value = true
   formEl.validate((valid, fields) => {
     if (valid) {
-      HTTPClient.userController
+      proxy?.HTTPClient.userController
         .login(loginForm)
         .then(({ data: { token, roles: roleIdList } }) => {
           user.forRoot({ userInfo: 'Test', token, roleIdList })
@@ -73,13 +72,13 @@ const submit = async (formEl: FormInstance | undefined) => {
   <div class="login-body">
     <div class="login-container">
       <div class="head">
-        <img
+        <!-- <img
           class="logo"
-          :src="Test"
-        />
+          src="favicon.ico"
+        /> -->
         <div class="name">
-          <div class="title">新蜂商城</div>
-          <div class="tips">Vue3.0 后台管理系统</div>
+          <div class="title">青春庭社商城</div>
+          <div class="tips">{{ projectName }}</div>
         </div>
       </div>
       <el-form

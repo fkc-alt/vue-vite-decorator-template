@@ -145,13 +145,13 @@ export default defineConfig(({ command, mode }) => {
         customResolvers: [], // 覆盖名称->图像路径解析的默认行为
         customSearchRegex: '([a-zA-Z0-9]+)' // 重写搜索要替换的变量的Regex。
       }),
-      ViteCompression({
-        verbose: true,
-        disable: false,
-        threshold: 10240,
-        algorithm: 'gzip',
-        ext: '.gz'
-      }),
+      // ViteCompression({
+      //   verbose: true,
+      //   disable: false,
+      //   threshold: 10240,
+      //   algorithm: 'gzip',
+      //   ext: '.gz'
+      // }),
       ViteMockServe({
         mockPath: 'mock',
         localEnabled: command === 'serve' && VITE_APP_MOCK === 'true', // 开发打包开关

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 const pagerDefault = () => ({ currentPage: 1, pageSize: 10, total: 0 })
 
 /**
@@ -13,18 +14,21 @@ export default function <T>(inputs: any = {}) {
     ...inputs
   })
   const loading = ref(false)
-  const handlePageChange = (current: number) => {
+  const handlePageChange = (current: number, cb?: Function) => {
     pager.value.currentPage = current
+    cb?.()
   }
-  const handleSizeChange = (size: number) => {
-    pager.value.pageSize = size
+  const handleSizeChange = (size: number, cb?: Function) => {
     pager.value.currentPage = 1
+    pager.value.pageSize = size
+    cb?.()
   }
-  const reset = (inputs: Record<string, any> = {}) => {
+  const reset = (inputs: Record<string, any> = {}, cb?: Function) => {
     pager.value = {
       ...pagerDefault(),
       ...inputs
     }
+    cb?.()
   }
   return { pager, loading, handleSizeChange, handlePageChange, reset }
 }

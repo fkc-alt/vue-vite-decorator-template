@@ -1,6 +1,21 @@
 import type { App } from 'vue'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
-const iconList: string[] = ['GoodsFilled', 'Suitcase', 'Tickets', 'Platform']
+const iconList: string[] = [
+  'GoodsFilled',
+  'StarFilled',
+  'Suitcase',
+  'Tickets',
+  'Platform',
+  'ShoppingCart',
+  'Picture',
+  'Plus',
+  'Delete',
+  'Goods',
+  'User',
+  'List',
+  'Wallet',
+  'Menu'
+]
 
 export default {
   install: (Vue: App) => {

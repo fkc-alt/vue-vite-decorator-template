@@ -1,5 +1,4 @@
-import 'reflect-metadata'
-import { HttpFactory } from 'http-typedi'
+import { HttpFactory, ResponseConfig } from 'http-typedi'
 import { getToken } from '@/utils'
 import { AppModule } from './app.module'
 
@@ -21,6 +20,13 @@ function createHTTPClient(): AppModule {
       configure.headers.Authorization = `Bearer ${Authorization}`
     return configure
   })
+  HTTPClient.useInterceptorsRes(
+    (result: ResponseConfig<Services.Common.Response>) => {
+      const callError = result?.status !== 200 && result?.data?.code !== 200
+      if (!callError) return result.data
+      return Promise.reject(result) // or throw result
+    }
+  )
   return HTTPClient
 }
 

@@ -7,9 +7,9 @@ const modulesFiles: Common.Glob = import.meta.glob(
   { import: 'default', eager: true }
 )
 
-// const modules = Object.values(modulesFiles).reduce((prev, next) => [
-//   ...prev,
-//   ...next
-// ])
+const modules = Object.values(modulesFiles).reduce((prev, next) => [
+  ...prev,
+  ...next
+])
 
-export default []
+export default modules

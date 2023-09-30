@@ -19,7 +19,7 @@ const MockList: MockMethod[] = [
       return {
         code,
         message,
-        data: { token: Random.string(25, 50), roles: [101, 100] }
+        data: { token: Random.string(25, 50), roles: [101, 99] }
       }
     }
   },

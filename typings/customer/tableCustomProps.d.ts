@@ -1,5 +1,5 @@
 declare namespace CustomerProps {
-  declare namespace CustomTable {
+  namespace CustomTable {
     interface TableRef {
       tableRef: InstanceType<typeof import('element-plus').ElTable>
     }

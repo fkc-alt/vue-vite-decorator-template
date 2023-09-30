@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { ComponentInternalInstance } from 'vue'
 import { ElMessage } from 'element-plus'
-import { removeStorage, setLang } from '@/utils'
+import { removeStorage } from '@/utils'
 import Breadcurmb from './breadcurmb.vue'
 
 const PROJECTICON = inject<string>('PROJECTICON')
@@ -13,8 +13,7 @@ const Props = defineProps<{
 const { isCollapse, device } = toRefs(Props)
 // eslint-disable-next-line vue/no-setup-props-destructure
 const { setCollapse } = reactive(Props)
-const [{ locale }, route, router, { proxy }] = [
-  useI18n(),
+const [route, router, { proxy }] = [
   useRoute(),
   useRouter(),
   getCurrentInstance() as ComponentInternalInstance
@@ -31,11 +30,6 @@ const changeMenu = (): void => {
     return
   }
   setCollapse(!isCollapse.value)
-}
-const langChange = (lang: string): void => {
-  locale.value = lang
-  setLang(lang)
-  ElMessage.success(proxy?.$t('MESSAGE.SUCCESS'))
 }
 </script>
 <template>
@@ -73,35 +67,6 @@ const langChange = (lang: string): void => {
             >
               <ElDropdownItem>{{ $t('WORKBENCHMODULE.TITLE') }}</ElDropdownItem>
             </RouterLink>
-            <ElDropdownItem divided>
-              <ElDropdown
-                trigger="click"
-                placement="left-start"
-                @command="langChange"
-              >
-                <span
-                  >{{ $t('SYSTEM.LANG')
-                  }}<i class="el-icon-arrow-down el-icon--right"></i
-                ></span>
-                <template #dropdown>
-                  <ElDropdownMenu>
-                    <ElDropdownItem command="zh">{{
-                      $t('SYSTEM.ZH')
-                    }}</ElDropdownItem>
-                    <ElDropdownItem
-                      divided
-                      command="hk"
-                      >{{ $t('SYSTEM.HK') }}</ElDropdownItem
-                    >
-                    <ElDropdownItem
-                      divided
-                      command="en"
-                      >{{ $t('SYSTEM.EN') }}</ElDropdownItem
-                    >
-                  </ElDropdownMenu>
-                </template>
-              </ElDropdown>
-            </ElDropdownItem>
             <ElDropdownItem
               divided
               @click="logout"
