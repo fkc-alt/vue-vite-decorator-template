@@ -6,8 +6,4 @@ export class UserService {
   public login<T, R>(config: RequestConfig<T>): Promise<R> {
     return this.requestService.request(config)
   }
-
-  public getUserInfo<T, R>(config: RequestConfig<T>): Promise<R> {
-    return this.requestService.request(config)
-  }
 }

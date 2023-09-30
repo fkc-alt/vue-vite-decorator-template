@@ -1,56 +1,86 @@
-// 繁体字
+// 繁体
 export default {
   SYSTEM: {
-    TITLE: '測試系統',
-    LOGOUT: '退出登錄',
-    LANG: '切換語言',
+    TITLE: 'System admin',
+    LOGOUT: '退出登录',
+    LANG: '切换语言',
     ZH: '中文',
     EN: '英文',
-    HK: '繁體',
+    HK: '繁体',
     LOGOUTMESSAGE: '退出成功',
-    LOGINMESSAGE: '登陸成功',
-    LOGIN: '登陸'
+    LOGINMESSAGE: '登陆成功',
+    LOGIN: '登陆'
   },
   MESSAGE: {
     SUCCESS: '操作成功',
-    ERROR: '操作失敗'
+    ERROR: '操作失败'
   },
   LOGIN: {
     FORM: {
-      USERNAME: '用戶名',
-      PASSWORD: '密碼'
+      USERNAME: '用户名',
+      PASSWORD: '密码'
     },
     FORMRULES: {
-      USERNAME: ['請輸入用戶名', '用戶名長度在 3 到 12 個字符'],
-      PASSWORD: ['請輸入密碼', '密碼長度在 6 到 18 個字符']
+      USERNAME: ['请输入用户名', '用户名长度在 3 到 12 个字符'],
+      PASSWORD: ['请输入密码', '密码长度在 6 到 18 个字符']
     }
   },
   WORKBENCHMODULE: {
-    TITLE: '工作臺'
+    TITLE: 'Dashboard'
+  },
+  INDEXCONFIG: {
+    TITLE: '首页配置',
+    SWIPER: {
+      TITLE: '轮播图配置'
+    },
+    HOTPRODUCT: {
+      TITLE: '热销商品配置'
+    },
+    RECOMMEND: {
+      TITLE: '为你推荐配置'
+    }
+  },
+  MODULECONFIG: {
+    TITLE: '模块管理',
+    PRODUCT: {
+      TITLE: '商品管理'
+    },
+    PRODUCTSPCE: {
+      TITLE: '商品规格管理'
+    },
+    PRODUCTCATEGORY: {
+      TITLE: '商品分类管理'
+    },
+    ORDER: {
+      TITLE: '订单管理'
+    },
+    MEMBER: {
+      TITLE: '会员管理'
+    }
   },
   MEMBERMODULE: {
-    TITLE: '會員管理',
+    TITLE: '会员管理',
     MEMBERINFO: {
-      TITLE: '會員信息'
+      TITLE: '会员信息'
     },
     EDITMEMBER: {
-      TITLE: '編輯信息'
+      TITLE: '编辑信息'
     }
   },
   ORDERMODULE: {
-    TITLE: '訂單信息',
+    TITLE: '订单信息',
     COMPLETEORDER: {
-      TITLE: '已完成訂單'
+      TITLE: '已完成订单'
     },
     VOIDORDER: {
-      TITLE: '作廢訂單'
+      TITLE: '作废订单'
     },
     DETAIL: {
-      TITLE: '訂單詳情'
+      TITLE: '订单详情'
     }
   },
   ECHARTSMODULE: {
-    TITLE: '圖表管理'
+    TITLE: '图表管理'
   },
   DECORATOR: {
     TITLE: 'Decorator Demo'

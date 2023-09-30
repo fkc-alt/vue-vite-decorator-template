@@ -1,9 +1,8 @@
-import { Controller, GetMapping, PostMapping, RequestConfig } from 'http-typedi'
+import { Controller, PostMapping, RequestConfig } from 'http-typedi'
 import { UserService } from './user.service'
 import { LoginDto } from './dto/login.dto'
-import { UserInfoDto } from './dto/userInfo.dto'
 
-@Controller('user')
+@Controller('v1')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
@@ -12,16 +11,6 @@ export class UserController {
     configure: LoginDto
   ): Promise<Services.Common.Response<R>> {
     return await this.userService.login<T, Services.Common.Response<R>>(
-      <RequestConfig<T>>configure
-    )
-  }
-
-  @GetMapping('info')
-  public async getUserInfo<
-    T extends Service.UserInfoReq,
-    R extends Service.UserInfoRes
-  >(configure: UserInfoDto): Promise<Services.Common.Response<R>> {
-    return await this.userService.getUserInfo<T, Services.Common.Response<R>>(
       <RequestConfig<T>>configure
     )
   }

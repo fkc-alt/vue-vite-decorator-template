@@ -10,10 +10,10 @@ import { AppModule } from './app.module'
  */
 function createHTTPClient(): AppModule {
   const HTTPClient = HttpFactory.create(AppModule)
+  HTTPClient.setGlobalPrefix(import.meta.env.VITE_APP_BASE_API)
   HTTPClient.setGlobalCatchCallback((error: any) => {
     console.error(error, 'global catch callback')
   })
-  HTTPClient.setGlobalPrefix(import.meta.env.VITE_APP_BASE_API)
   HTTPClient.useInterceptorsReq(configure => {
     const Authorization = getToken()
     if (Authorization && configure.headers)

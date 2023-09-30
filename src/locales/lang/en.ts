@@ -31,31 +31,34 @@ export default {
   WORKBENCHMODULE: {
     TITLE: 'Dashboard'
   },
-  MEMBERMODULE: {
-    TITLE: 'Member Manage',
-    MEMBERINFO: {
-      TITLE: 'Member Info'
+  INDEXCONFIG: {
+    TITLE: '首页配置',
+    SWIPER: {
+      TITLE: '轮播图配置'
     },
-    EDITMEMBER: {
-      TITLE: 'Edit Member'
+    HOTPRODUCT: {
+      TITLE: '热销商品配置'
+    },
+    RECOMMEND: {
+      TITLE: '为你推荐配置'
     }
   },
-  ORDERMODULE: {
-    TITLE: 'Order Information',
-    COMPLETEORDER: {
-      TITLE: 'Complete Rrder'
+  MODULECONFIG: {
+    TITLE: '模块管理',
+    PRODUCT: {
+      TITLE: '商品管理'
     },
-    VOIDORDER: {
-      TITLE: 'Void Order'
+    PRODUCTSPCE: {
+      TITLE: '商品规格管理'
     },
-    DETAIL: {
-      TITLE: 'Order Detail'
+    PRODUCTCATEGORY: {
+      TITLE: '商品分类管理'
+    },
+    ORDER: {
+      TITLE: '订单管理'
+    },
+    MEMBER: {
+      TITLE: '会员管理'
     }
-  },
-  ECHARTSMODULE: {
-    TITLE: 'Chart'
-  },
-  DECORATOR: {
-    TITLE: 'Decorator Demo'
   }
 }

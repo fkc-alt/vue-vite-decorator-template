@@ -26,7 +26,7 @@ import DefineOptions from 'unplugin-vue-define-options/vite'
 // 解决控制台warning
 import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
 
-import ViteCompression from 'vite-plugin-compression'
+// import ViteCompression from 'vite-plugin-compression'
 import { viteMockServe as ViteMockServe } from 'vite-plugin-mock'
 import Progress from 'vite-plugin-progress'
 import Swc from 'unplugin-swc'
@@ -177,7 +177,7 @@ export default defineConfig(({ command, mode }) => {
         [`/${VITE_APP_BASE_API}`]: {
           target: VITE_APP_BASE_URL,
           changeOrigin: true,
-          rewrite: path => path.replace(VITE_APP_BASE_API, '')
+          rewrite: path => path
         }
       },
       hmr: true

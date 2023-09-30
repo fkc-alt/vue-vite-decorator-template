@@ -4,7 +4,7 @@ import { create } from './utils'
 
 const MockList: MockMethod[] = [
   {
-    url: '/rsapi/user/login',
+    url: '/web/v1/login',
     method: 'post',
     response: (req: Recordable): Services.Common.Response<Service.LoginRes> => {
       let code = 200
@@ -24,7 +24,7 @@ const MockList: MockMethod[] = [
     }
   },
   {
-    url: '/rsapi/user/info/{:id}/{:phone}',
+    url: '/web/user/info/{:id}/{:phone}',
     method: 'get',
     response: (
       req: Recordable
@@ -41,7 +41,7 @@ const MockList: MockMethod[] = [
     }
   },
   {
-    url: '/rsapi/article/tableData',
+    url: '/web/article/tableData',
     method: 'post',
     response: (): Services.Common.Response<Service.TableDataRes> => {
       return {
@@ -62,7 +62,7 @@ const MockList: MockMethod[] = [
     }
   },
   {
-    url: '/rsapi/article/getArticleList',
+    url: '/web/article/getArticleList',
     method: 'post',
     response: (): Services.Common.Response<Service.ArticleListRes> => {
       return {
@@ -85,7 +85,7 @@ const MockList: MockMethod[] = [
     }
   },
   {
-    url: '/rsapi/order/orderList',
+    url: '/web/order/orderList',
     method: 'post',
     response: (): Services.Common.Response<Service.OrderListRes> => {
       return {
@@ -107,7 +107,7 @@ const MockList: MockMethod[] = [
     }
   },
   {
-    url: '/rsapi/order/orderDetail',
+    url: '/web/order/orderDetail',
     method: 'get',
     response: (): Services.Common.Response<Service.OrderDetailRes> => {
       return {
@@ -125,7 +125,7 @@ const MockList: MockMethod[] = [
     }
   },
   {
-    url: '/rsapi/order/uploadFile',
+    url: '/web/order/uploadFile',
     method: 'post',
     response: (): Services.Common.Response<Services.Common.UplaodRes> => {
       return {
@@ -138,7 +138,7 @@ const MockList: MockMethod[] = [
     }
   },
   {
-    url: '/rsapi/order/uploadBase64',
+    url: '/web/order/uploadBase64',
     method: 'post',
     response: (): Services.Common.Response<Services.Common.UplaodRes> => {
       return {
@@ -151,7 +151,7 @@ const MockList: MockMethod[] = [
     }
   },
   {
-    url: '/rsapi/helper/apidoc',
+    url: '/web/helper/apidoc',
     method: 'post',
     response: (): Services.Common.Response<any> => {
       return {
