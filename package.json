@@ -6,7 +6,7 @@
     "prepare": "husky install",
     "dev": "vite --mode=dev",
     "build:release": "vue-tsc --noEmit && vite build --mode=release",
-    "build": "vue-tsc --noEmit && vite build --mode=prod",
+    "build": "vite build --mode=prod",
     "predts": "rimraf types",
     "declaration": "vue-tsc --emitDeclarationOnly",
     "dts": "npm run predts && npm run declaration && npm run lint:types",
