@@ -32,6 +32,11 @@ jobs:
         with:
           name: ${{ env.DIST_NAME }}
           path: ${{ env.DIST_NAME }}
+      - name: Create and Upload ZIP Artifact
+        run: |
+          zip -r ${{ env.DIST_NAME }}.zip ${{ env.DIST_NAME }}
+          echo "::set-output name=artifact-path::${{ env.DIST_NAME }}.zip"
+        id: create-zip
       - name: Send Email Notification
         uses: dawidd6/action-send-mail@v2
         with:
@@ -46,7 +51,5 @@ jobs:
             pipeline has been successfully executed.
             This is the body of the email.
                 You can include the contents of the dist.zip file here:
-            $(cat "${{env.DIST_NAME}}")
-        env:
-          ATTACHMENTS: |
-            zip -r dist.zip dist
+            $(cat ${{ steps.create-zip.outputs.artifact-path }})
+
