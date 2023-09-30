@@ -34,8 +34,8 @@ jobs:
       - name: Send Email Notification
         uses: actions/send-email@v1
         with:
-          server_address: fengkaichao149@163.com
-          server_port: 587
+          server_address: pop.163.com
+          server_port: 995
           username: ${{ secrets.EMAIL_USERNAME }}
           password: ${{ secrets.EMAIL_PASSWORD }}
           from: fengkaichao149@163.com
