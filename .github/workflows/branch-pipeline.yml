@@ -32,7 +32,7 @@ jobs:
           name: ${{ env.DIST_NAME }}
           path: ${{ env.DIST_NAME }}
       - name: Send Email Notification
-        uses: dawidd6/action-send-mail@master
+        uses: dawidd6/action-send-mail@v2
         with:
           server_address: smtp.163.com
           server_port: 465
