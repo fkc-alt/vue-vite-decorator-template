@@ -73,5 +73,19 @@ declare namespace Service {
     type UpdateCategoryRes = boolean
     type DelCategoryReq = Pick<UpdateCategoryReq, 'id'>
     type DelCategoryRes = boolean
+    interface AddGroupReq {
+      name: string
+      sortValue: number
+    }
+    type AddGroupRes = boolean
+    interface UpdateGroupReq extends AddGroupReq {
+      id: number
+    }
+    type UpdateGroupRes = boolean
+    type DelGroupReq = Pick<UpdateGroupReq, 'id'>
+    type DelGroupRes = boolean
+    type GroupListReq = Partial<Pick<AddCategoryReq, 'name'>> &
+      Services.Common.Pagination
+    type GroupListRes = any
   }
 }

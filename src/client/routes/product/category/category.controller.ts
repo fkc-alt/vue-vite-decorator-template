@@ -33,8 +33,8 @@ export class CateGoryController {
 
   @PostMapping('list')
   public async list<
-    T extends Service.Product.DelCategoryReq,
-    R extends Service.Product.DelCategoryRes
+    T extends Service.Product.CategoryListReq,
+    R extends Service.Product.CategoryListRes
   >(configure: CategoryListDto): Promise<Services.Common.Response<R>> {
     return await this.categoryService.list<T, Services.Common.Response<R>>(
       <RequestConfig<T>>configure

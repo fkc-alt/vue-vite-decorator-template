@@ -1,3 +1,6 @@
+export * from './category'
+export * from './group'
+export * from './spce'
 export * from './product.controller'
 export * from './product.module'
 export * from './product.service'

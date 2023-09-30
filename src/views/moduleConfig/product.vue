@@ -1,21 +1,18 @@
 <script lang="ts" setup>
 import usePager from '@/hooks/usePager'
-import { swiperColumn } from './config'
+import { productColumn } from './config'
 
 const { proxy } = getCurrentInstance()!
 const refTable = ref<CustomerProps.CustomTable.TableRef>()
 const { handlePageChange, handleSizeChange, loading, pager } = usePager()
-const swiperList = ref<Service.IndexConfig.QuerySwiperConfigItem[]>([])
+const productList = ref<any[]>([])
 
-const tableProps = computed<
-  CustomerProps.CustomTable.TableProps<Service.IndexConfig.QuerySwiperConfigItem>
->(() => {
+const tableProps = computed<CustomerProps.CustomTable.TableProps<any>>(() => {
   return {
-    data: swiperList.value,
-    column: swiperColumn(),
+    data: productList.value,
+    column: productColumn(),
     border: false,
     height: '600px',
-    emptyText: '暂无数据',
     onSelectionChange(rows: Service.IndexConfig.QuerySwiperConfigRes) {
       console.log(rows)
     }
@@ -55,22 +52,8 @@ init()
             type="primary"
             icon="Plus"
             @click="handleAdd"
-            >增加</el-button
+            >新增商品</el-button
           >
-          <el-popconfirm
-            title="确定删除吗？"
-            confirmButtonText="确定"
-            cancelButtonText="取消"
-            @confirm="handleDelete"
-          >
-            <template #reference>
-              <el-button
-                type="danger"
-                :icon="Delete"
-                >批量删除</el-button
-              >
-            </template>
-          </el-popconfirm>
         </div>
       </template>
       <CustomTable
