@@ -9,7 +9,7 @@ const pagerDefault = () => ({ currentPage: 1, pageSize: 10, total: 0 })
  * @description 分页器hook
  */
 export default function <T>(inputs: any = {}) {
-  const pager = ref<ReturnType<typeof pagerDefault> & T>({
+  const pager = ref<ReturnType<typeof pagerDefault> & any>({
     ...pagerDefault(),
     ...inputs
   })
