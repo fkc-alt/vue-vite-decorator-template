@@ -31,3 +31,10 @@ jobs:
         with:
           name: ${{ env.DIST_NAME }}
           path: ${{ env.DIST_NAME }}
+      - name: Send an email
+        uses: actions/email@v2
+        with:
+          to: 1491368225@qq.com
+          subject: The script has been run
+          body: The script has completed successfully. 
+      
