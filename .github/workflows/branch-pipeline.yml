@@ -5,7 +5,7 @@
 name: feature-demo
  
 on: 
-  pull_request: 
+  push: 
     branches: 
     - feature/demo 
 env:
