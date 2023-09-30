@@ -45,6 +45,11 @@ jobs:
           body: |
             pipeline has been successfully executed.
             This is the body of the email.
-                You can include the contents of the dist.zip file here:
-            $(cat dist)
-      
+            You can include the contents of the dist.zip file here:
+          env:
+            ATTACHMENTS: ${{ runner.temp }}/dist.zip
+      - name: Download Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: ${{ env.DIST_NAME }}
+          path: ${{ runner.temp }}
