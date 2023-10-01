@@ -12,6 +12,17 @@ const routes: RouteRecordRaw[] = [
     meta: { title: 'MODULECONFIG.TITLE' },
     children: [
       {
+        path: '/moduleConfig/productDetail',
+        name: 'ProductDetail',
+        component: () => import('@/views/moduleConfig/productDetail.vue'),
+        sort: 1,
+        hidden: true,
+        meta: {
+          title: 'MODULECONFIG.PRODUCTDETAIL.TITLE',
+          roles: [Enums.Roles.ADMIN, Enums.Roles.OP]
+        }
+      },
+      {
         path: '/moduleConfig/product',
         name: 'Product',
         component: () => import('@/views/moduleConfig/product.vue'),

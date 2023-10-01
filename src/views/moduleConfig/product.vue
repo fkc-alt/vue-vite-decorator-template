@@ -2,9 +2,10 @@
 import { ElMessage } from 'element-plus'
 import usePager from '@/hooks/usePager'
 import { modelCategoryDefault, useCategoryForm } from './hooks/useForm'
-import { categoryColumn } from './config'
+import { productColumn } from './config'
 
 const { proxy } = getCurrentInstance()!
+const router = useRouter()
 const ruleForm = useCategoryForm()
 const customForm = ref<CustomerProps.CustomForm.FormRef>()
 const type = ref<'add' | 'update'>('add')
@@ -34,7 +35,7 @@ const tableProps = computed<
 >(() => {
   return {
     data: productList.value,
-    column: categoryColumn({
+    column: productColumn({
       handleEdit: ({ row }, e: Event) => {
         e.preventDefault()
         type.value = 'update'
@@ -54,8 +55,10 @@ const tableProps = computed<
 })
 
 const handleAdd = () => {
-  type.value = 'add'
-  dialogVisible.value = true
+  router.push({
+    path: '/moduleConfig/productDetail',
+    query: { type: 'add' }
+  })
 }
 
 const afterFn = () => {

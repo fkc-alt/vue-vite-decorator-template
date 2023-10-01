@@ -45,6 +45,9 @@ export default {
     PRODUCT: {
       TITLE: '商品管理'
     },
+    PRODUCTDETAIL: {
+      TITLE: '商品详情'
+    },
     PRODUCTSPCE: {
       TITLE: '商品规格管理'
     },

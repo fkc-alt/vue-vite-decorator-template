@@ -1,7 +1,8 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ElButton, ElImage } from 'element-plus'
 
 export const productColumn: CustomerProps.CustomTable.MapColumn<
-  Service.IndexConfig.QuerySwiperConfigItem
+  Service.Product.ProductListItem
 > = param => {
   return [
     {
@@ -16,23 +17,23 @@ export const productColumn: CustomerProps.CustomTable.MapColumn<
     },
     {
       prop: 'description',
-      label: '商品简介',
+      label: '商品描述',
       align: 'center'
     },
     {
       prop: 'value',
       label: '商品图片',
-      align: 'center',
-      render({ row }) {
-        return (
-          <ElImage
-            style="width: 100px; height: 100px"
-            src={row.image}
-            previewSrcList={[row.image]}
-            fit="cover"
-          />
-        )
-      }
+      align: 'center'
+      // render({ row }) {
+      //   return (
+      //     <ElImage
+      //       style="width: 100px; height: 100px"
+      //       src={row.image}
+      //       previewSrcList={[row.image]}
+      //       fit="cover"
+      //     />
+      //   )
+      // }
     },
     {
       prop: 'stock',
@@ -47,18 +48,18 @@ export const productColumn: CustomerProps.CustomTable.MapColumn<
     {
       prop: 'price',
       label: '上架状态',
-      align: 'center',
-      render({ row }) {
-        return (
-          <>
-            {row.sort === 0 && (
-              <span style={{ color: row.sort === 0 ? 'green' : 'red' }}>
-                {row.sort === 0 ? '销售中' : '已下架'}
-              </span>
-            )}
-          </>
-        )
-      }
+      align: 'center'
+      // render({ row }) {
+      //   return (
+      //     <>
+      //       {row.sort === 0 && (
+      //         <span style={{ color: row.sort === 0 ? 'green' : 'red' }}>
+      //           {row.sort === 0 ? '销售中' : '已下架'}
+      //         </span>
+      //       )}
+      //     </>
+      //   )
+      // }
     },
     {
       prop: 'custom',
