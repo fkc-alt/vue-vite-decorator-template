@@ -19,3 +19,8 @@ export function useConfig() {
   }
   return { categoryList, groupList, initialConfig }
 }
+
+export const mapValues = (v: any) => ({
+  value: v.id,
+  label: v.name
+})

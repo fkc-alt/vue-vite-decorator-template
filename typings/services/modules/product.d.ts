@@ -73,7 +73,22 @@ declare namespace Service {
        */
       sortValue: number
     }
+    type ProductUpdateReq = Omit<ProductAddReq, 'properties'> & ProductDeleteReq
+    type ProductUpdateRes = boolean
     type ProductAddRes = boolean
+    interface ProductDeleteReq {
+      id: number
+    }
+    type ProductDeleteRes = boolean
+    type ProductDetailReq = ProductDeleteReq
+    type ProductDetailRes = ProductUpdateReq & {
+      updateAt: string
+      createAt: string
+    }
+    interface PropertiesListReq {
+      productId: number
+    }
+    type PropertiesListRes = any
     interface AddCategoryReq {
       /**
        * @description 分类名称

@@ -16,7 +16,9 @@ const iconList: string[] = [
   'Wallet',
   'Menu',
   'DocumentCopy',
-  'Search'
+  'Search',
+  'ZoomIn',
+  'Download'
 ]
 
 export default {

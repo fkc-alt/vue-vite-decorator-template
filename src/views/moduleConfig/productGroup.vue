@@ -148,7 +148,7 @@ init()
     <ElDialog
       v-model="dialogVisible"
       :title="type === 'add' ? '添加分组' : '编辑分组'"
-      width="70%"
+      width="500px"
     >
       <CustomForm
         v-bind="ruleForm"
@@ -167,7 +167,7 @@ init()
     <ElDialog
       v-model="delDialogVisible"
       title="删除分类"
-      width="70%"
+      width="500px"
     >
       <div>您是否删除当前分组？</div>
       <div class="btn-group">

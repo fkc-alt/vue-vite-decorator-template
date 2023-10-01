@@ -7,15 +7,31 @@ export class ProductService {
     return this.requestService.request(config)
   }
 
+  public del<T, R>(config: RequestConfig<T>): Promise<R> {
+    return this.requestService.request(config)
+  }
+
+  public detail<T, R>(config: RequestConfig<T>): Promise<R> {
+    return this.requestService.request(config)
+  }
+
+  public update<T, R>(config: RequestConfig<T>): Promise<R> {
+    return this.requestService.request(config)
+  }
+
+  public list<T, R>(config: RequestConfig<T>): Promise<R> {
+    return this.requestService.request(config)
+  }
+
+  public propertiesList<T, R>(config: RequestConfig<T>): Promise<R> {
+    return this.requestService.request(config)
+  }
+
   public addProperties<T, R>(config: RequestConfig<T>): Promise<R> {
     return this.requestService.request(config)
   }
 
   public delProperties<T, R>(config: RequestConfig<T>): Promise<R> {
-    return this.requestService.request(config)
-  }
-
-  public listProperties<T, R>(config: RequestConfig<T>): Promise<R> {
     return this.requestService.request(config)
   }
 }

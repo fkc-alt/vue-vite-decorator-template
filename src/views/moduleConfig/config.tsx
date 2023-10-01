@@ -7,7 +7,7 @@ export const productColumn: CustomerProps.CustomTable.MapColumn<
   return [
     {
       prop: 'id',
-      label: '商品编号',
+      label: '商品ID',
       align: 'center'
     },
     {
@@ -16,58 +16,40 @@ export const productColumn: CustomerProps.CustomTable.MapColumn<
       align: 'center'
     },
     {
+      prop: 'sortValue',
+      label: '排序值',
+      align: 'center',
+      sortable: true
+    },
+    {
       prop: 'description',
       label: '商品描述',
       align: 'center'
-    },
-    {
-      prop: 'value',
-      label: '商品图片',
-      align: 'center'
-      // render({ row }) {
-      //   return (
-      //     <ElImage
-      //       style="width: 100px; height: 100px"
-      //       src={row.image}
-      //       previewSrcList={[row.image]}
-      //       fit="cover"
-      //     />
-      //   )
-      // }
-    },
-    {
-      prop: 'stock',
-      label: '商品库存',
-      align: 'center'
-    },
-    {
-      prop: 'price',
-      label: '商品售价',
-      align: 'center'
-    },
-    {
-      prop: 'price',
-      label: '上架状态',
-      align: 'center'
-      // render({ row }) {
-      //   return (
-      //     <>
-      //       {row.sort === 0 && (
-      //         <span style={{ color: row.sort === 0 ? 'green' : 'red' }}>
-      //           {row.sort === 0 ? '销售中' : '已下架'}
-      //         </span>
-      //       )}
-      //     </>
-      //   )
-      // }
     },
     {
       prop: 'custom',
       label: '操作',
       align: 'center',
       fixed: 'right',
-      render({ row }) {
-        return <ElButton>下架</ElButton>
+      render(scope) {
+        return (
+          <>
+            <ElButton
+              link
+              type="primary"
+              onClick={e => param?.handleEdit?.(scope, e)}
+            >
+              编辑
+            </ElButton>
+            <ElButton
+              link
+              type="danger"
+              onClick={e => param?.handleDel?.(scope, e)}
+            >
+              删除
+            </ElButton>
+          </>
+        )
       }
     }
   ]

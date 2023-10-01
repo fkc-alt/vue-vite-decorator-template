@@ -53,6 +53,7 @@ export default defineConfig(({ command, mode }) => {
   const {
     VITE_APP_BASE_URL,
     VITE_APP_BASE_API,
+    VITE_APP_BASE_OSS_API,
     VITE_APP_MOCK,
     VITE_APP_PROJECT_ICON,
     VITE_APP_PROJECT_TITLE
@@ -175,6 +176,11 @@ export default defineConfig(({ command, mode }) => {
       open: true,
       proxy: {
         [VITE_APP_BASE_API]: {
+          target: VITE_APP_BASE_URL,
+          changeOrigin: true,
+          rewrite: path => path
+        },
+        [VITE_APP_BASE_OSS_API]: {
           target: VITE_APP_BASE_URL,
           changeOrigin: true,
           rewrite: path => path

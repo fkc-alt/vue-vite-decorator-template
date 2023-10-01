@@ -78,3 +78,39 @@ export class ProductListDto
   groupId?: number | undefined
   name?: string | undefined
 }
+
+export class ProductDeleteDto implements Service.Product.ProductDeleteReq {
+  @IsNumber()
+  @IsNotEmpty({ message: 'id 不能为空' })
+  id!: number
+}
+
+export class ProductDetailDto extends ProductDeleteDto {}
+
+export class ProductUpdateDto
+  extends ProductDeleteDto
+  implements Service.Product.ProductUpdateReq
+{
+  @IsNumber()
+  @IsNotEmpty({ message: 'categoryId 不能为空' })
+  categoryId!: number
+
+  @IsString()
+  @IsNotEmpty({ message: 'description 不能为空' })
+  description!: string
+
+  groupId?: number | undefined
+  @IsString()
+  @IsNotEmpty({ message: 'name 不能为空' })
+  name!: string
+
+  @IsNumber()
+  @IsNotEmpty({ message: 'sortValue 不能为空' })
+  sortValue!: number
+}
+
+export class PropertiesListDto implements Service.Product.PropertiesListReq {
+  @IsNumber()
+  @IsNotEmpty({ message: 'productId 不能为空' })
+  productId!: number
+}

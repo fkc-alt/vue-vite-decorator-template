@@ -4,7 +4,11 @@ import {
   ProductAddDto,
   AddPropertiesDto,
   DelPropertiesDto,
-  ProductListDto
+  ProductListDto,
+  ProductDeleteDto,
+  ProductDetailDto,
+  ProductUpdateDto,
+  PropertiesListDto
 } from './dto/product.dto'
 
 @Controller('product/v1')
@@ -21,12 +25,52 @@ export class ProductController {
     )
   }
 
+  @PostMapping('update')
+  public async update<
+    T extends Service.Product.ProductUpdateReq,
+    R extends Service.Product.ProductUpdateRes
+  >(configure: ProductUpdateDto): Promise<Services.Common.Response<R>> {
+    return await this.productService.update<T, Services.Common.Response<R>>(
+      <RequestConfig<T>>configure
+    )
+  }
+
+  @PostMapping('delete')
+  public async del<
+    T extends Service.Product.ProductDeleteReq,
+    R extends Service.Product.ProductDeleteRes
+  >(configure: ProductDeleteDto): Promise<Services.Common.Response<R>> {
+    return await this.productService.del<T, Services.Common.Response<R>>(
+      <RequestConfig<T>>configure
+    )
+  }
+
+  @PostMapping('detail')
+  public async detail<
+    T extends Service.Product.ProductDetailReq,
+    R extends Service.Product.ProductDetailRes
+  >(configure: ProductDetailDto): Promise<Services.Common.Response<R>> {
+    return await this.productService.detail<T, Services.Common.Response<R>>(
+      <RequestConfig<T>>configure
+    )
+  }
+
   @PostMapping('list')
   public async list<
     T extends Service.Product.ProductListReq,
     R extends Service.Product.ProductListRes
   >(configure: ProductListDto): Promise<Services.Common.Response<R>> {
-    return await this.productService.listProperties<
+    return await this.productService.list<T, Services.Common.Response<R>>(
+      <RequestConfig<T>>configure
+    )
+  }
+
+  @PostMapping('properties/list')
+  public async propertiesList<
+    T extends Service.Product.PropertiesListReq,
+    R extends Service.Product.PropertiesListRes
+  >(configure: PropertiesListDto): Promise<Services.Common.Response<R>> {
+    return await this.productService.propertiesList<
       T,
       Services.Common.Response<R>
     >(<RequestConfig<T>>configure)

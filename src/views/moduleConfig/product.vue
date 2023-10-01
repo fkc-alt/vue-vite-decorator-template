@@ -3,6 +3,7 @@ import usePager from '@/hooks/usePager'
 import { modelCategoryDefault, useCategoryForm } from './hooks/useForm'
 import { useConfig } from './hooks/useConfig'
 import { productColumn } from './config'
+import { ElMessage } from 'element-plus'
 
 const { proxy } = getCurrentInstance()!
 const router = useRouter()
@@ -14,8 +15,8 @@ const { handlePageChange, handleSizeChange, loading, pager } = usePager({
   groupId: ''
 })
 const customForm = ref<CustomerProps.CustomForm.FormRef>()
-const type = ref<'add' | 'update'>('add')
 const refTable = ref<CustomerProps.CustomTable.TableRef>()
+const btnLoading = ref(false)
 const [dialogVisible, delDialogVisible] = [ref(false), ref(false)]
 const productList = ref<Service.Product.ProductListItem[]>([])
 const currentItem = ref<any>(null)
@@ -37,9 +38,10 @@ const tableProps = computed<
     column: productColumn({
       handleEdit: ({ row }, e: Event) => {
         e.preventDefault()
-        type.value = 'update'
-        Object.assign(ruleForm.model, row)
-        dialogVisible.value = true
+        router.push({
+          path: '/moduleConfig/productDetail',
+          query: { id: row.id, type: 'update' }
+        })
       },
       handleDel: ({ row }, e: any) => {
         e.preventDefault()
@@ -58,6 +60,19 @@ const handleAdd = () => {
     path: '/moduleConfig/productDetail',
     query: { type: 'add' }
   })
+}
+const handleSubmitDel = async () => {
+  btnLoading.value = true
+  const { id } = currentItem.value
+  try {
+    await proxy?.HTTPClient.productController.del({ id })!
+    delDialogVisible.value = false
+    ElMessage.success('操作成功')
+    init()
+  } catch (error) {
+  } finally {
+    btnLoading.value = false
+  }
 }
 const init = async () => {
   loading.value = true
@@ -138,6 +153,22 @@ await init()
         @size-change="$event => handleSizeChange($event, init)"
       />
     </ElCard>
+    <ElDialog
+      v-model="delDialogVisible"
+      title="删除商品"
+      width="500px"
+    >
+      <div>您是否删除当前商品？</div>
+      <div class="btn-group">
+        <ElButton
+          type="primary"
+          :loading="btnLoading"
+          @click="handleSubmitDel"
+          >确 定</ElButton
+        >
+        <ElButton @click="delDialogVisible = false">取 消</ElButton>
+      </div>
+    </ElDialog>
   </div>
 </template>
 <style lang="scss" scoped>
