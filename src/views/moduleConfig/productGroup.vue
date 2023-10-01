@@ -1,14 +1,11 @@
 <script lang="ts" setup>
 import { ElMessage } from 'element-plus'
 import usePager from '@/hooks/usePager'
-import { modelGroupDefault, useCommonForm } from './hooks/useForm'
+import { modelGroupDefault, useGroupForm } from './hooks/useForm'
 import { groupColumn } from './config'
 
 const { proxy } = getCurrentInstance()!
-const ruleForm = useCommonForm(modelGroupDefault, {
-  name: [{ message: '请输入分类名称', required: true }],
-  sortValue: [{ message: '请输入排序值', required: true }]
-})
+const ruleForm = useGroupForm()
 const customForm = ref<CustomerProps.CustomForm.FormRef>()
 const type = ref<'add' | 'update'>('add')
 const btnLoading = ref(false)
@@ -114,7 +111,7 @@ init()
           <div>
             <el-input
               v-model="pager.name"
-              placeholder="请输入分类名称"
+              placeholder="请输入分组名称"
             />
           </div>
           <div>

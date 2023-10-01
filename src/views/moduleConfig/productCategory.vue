@@ -1,14 +1,11 @@
 <script lang="ts" setup>
 import { ElMessage } from 'element-plus'
 import usePager from '@/hooks/usePager'
-import { modelDefault, useCommonForm } from './hooks/useForm'
+import { modelCategoryDefault, useCategoryForm } from './hooks/useForm'
 import { categoryColumn } from './config'
 
 const { proxy } = getCurrentInstance()!
-const ruleForm = useCommonForm(modelDefault, {
-  name: [{ message: '请输入分类名称', required: true }],
-  sortValue: [{ message: '请输入排序值', required: true }]
-})
+const ruleForm = useCategoryForm()
 const customForm = ref<CustomerProps.CustomForm.FormRef>()
 const type = ref<'add' | 'update'>('add')
 const btnLoading = ref(false)
@@ -23,7 +20,7 @@ watch(
   () => dialogVisible.value,
   newVal => {
     if (!newVal) {
-      Object.assign(ruleForm.model, modelDefault())
+      Object.assign(ruleForm.model, modelCategoryDefault())
     } else {
       customForm.value?.formRef.clearValidate()
     }
@@ -61,7 +58,7 @@ const afterFn = () => {
   btnLoading.value = false
   dialogVisible.value = false
   delDialogVisible.value = false
-  Object.assign(ruleForm.model, modelDefault())
+  Object.assign(ruleForm.model, modelCategoryDefault())
   init()
 }
 
