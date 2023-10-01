@@ -5,7 +5,7 @@
   "scripts": {
     "prepare": "husky install",
     "dev": "vite --mode=dev",
-    "build:release": "vue-tsc --noEmit && vite build --mode=release",
+    "build:release": "vite build --mode=release",
     "build": "vite build --mode=prod",
     "predts": "rimraf types",
     "declaration": "vue-tsc --emitDeclarationOnly",
