@@ -25,7 +25,7 @@ jobs:
         run: npm install --force
 
       - name: Build Package
-        run: npm run build
+        run: npm run build:release
 
       - name: Compress Folder
         run: zip -r dist.zip dist/*

@@ -5,7 +5,7 @@ declare namespace Service {
   }
   interface LoginRes {
     token: string
-    roles: number[]
+    authorities: number[]
   }
 
   interface UserInfoReq {

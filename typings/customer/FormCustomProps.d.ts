@@ -12,6 +12,7 @@ declare namespace CustomerProps {
       min: string | number
       step: string | number
     }
+    type InputNumberProps = import('element-plus').InputNumberProps
     type SelectProps = InstanceType<
       typeof import('element-plus').ElSelect
     >['$props']
@@ -81,6 +82,7 @@ declare namespace CustomerProps {
         | CheckboxProps
         | SwitchProps
         | DatePickerProps
+        | InputNumberProps
         | (UploadProps & { style: import('vue').CSSProperties })
       >
     }

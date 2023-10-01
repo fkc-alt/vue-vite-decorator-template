@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { RouteLocationRaw } from 'vue-router'
 import { FormInstance, FormRules, ElMessage } from 'element-plus'
+import { Enums } from '~@/typings/enums/roles'
 import { useUserStore } from '@/store/user'
 import { setData } from '@/utils'
 
@@ -48,9 +49,16 @@ const submit = async (formEl: FormInstance | undefined) => {
     if (valid) {
       proxy?.HTTPClient.userController
         .login(loginForm)
-        .then(({ data: { token, roles: roleIdList } }) => {
-          user.forRoot({ userInfo: 'Test', token, roleIdList })
-          setData({ token, roleIdList })
+        .then(({ data }) => {
+          console.log(data, '11111')
+          const roleIdList = [Enums.Roles.ADMIN, Enums.Roles.OP]
+          user.forRoot({
+            userInfo: 'admin',
+            roleIdList
+          })
+          setData({
+            roleIdList
+          })
           const redirect = (route.query &&
             route.query.redirect) as RouteLocationRaw
           ElMessage.success(proxy?.$t('SYSTEM.LOGINMESSAGE'))

@@ -174,7 +174,7 @@ export default defineConfig(({ command, mode }) => {
       port: 3000,
       open: true,
       proxy: {
-        [`/${VITE_APP_BASE_API}`]: {
+        [VITE_APP_BASE_API]: {
           target: VITE_APP_BASE_URL,
           changeOrigin: true,
           rewrite: path => path

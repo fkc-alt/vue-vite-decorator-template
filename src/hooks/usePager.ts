@@ -3,12 +3,11 @@ const pagerDefault = () => ({ currentPage: 1, pageSize: 10, total: 0 })
 
 /**
  * @export
- * @template T
  * @param {Record<string, any>} [inputs={}]
  * @return {*}
  * @description 分页器hook
  */
-export default function <T>(inputs: any = {}) {
+export default function (inputs: any = {}) {
   const pager = ref<ReturnType<typeof pagerDefault> & any>({
     ...pagerDefault(),
     ...inputs

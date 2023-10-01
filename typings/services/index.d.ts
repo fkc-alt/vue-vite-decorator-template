@@ -6,7 +6,7 @@ declare namespace Services {
      */
     interface Response<T = unknown> {
       readonly code: number
-      readonly message: string
+      readonly msg: string
       data: T
     }
     interface UplaodReq {

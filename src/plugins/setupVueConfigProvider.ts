@@ -1,5 +1,5 @@
 import { App } from 'vue'
-import HTTPClient from '@/client/main'
+import HTTPClient from '@/main'
 
 /**
  * @method setupVueConfigProvider
