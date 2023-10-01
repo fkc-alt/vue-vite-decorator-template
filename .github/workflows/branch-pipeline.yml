@@ -10,7 +10,7 @@ on:
     - feature/demo 
 env:
   DIST_NAME: dist
-  FROM_EMAILS: 1491368225@qq.com, fengkaichao149@163.com
+  FROM_EMAILS: 1491368225@qq.com, fengkaichao149@163.com, fan_zhengxu@163.com
 jobs: 
   build:
     runs-on: ubuntu-latest
@@ -28,7 +28,7 @@ jobs:
         run: npm run build
 
       - name: Compress Folder
-        run: zip -r dist.zip dist
+        run: zip -r dist.zip dist/*
 
       - name: Send Email Notification
         uses: dawidd6/action-send-mail@v3
