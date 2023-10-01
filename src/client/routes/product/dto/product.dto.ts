@@ -7,6 +7,7 @@ import {
   ArrayNotEmpty
 } from 'class-validator'
 import { Enums } from '~@/typings/enums/product'
+import { Pagination } from '@/client/common/dto/common.dto'
 
 class PropertyDto implements Service.Product.PropertyItem {
   @IsEnum(Enums.ImageType)
@@ -67,4 +68,13 @@ export class DelPropertiesDto implements Service.Product.DelPropertiesReq {
   @IsNumber()
   @IsNotEmpty({ message: 'id 不能为空' })
   id!: number
+}
+
+export class ProductListDto
+  extends Pagination
+  implements Service.Product.ProductListReq
+{
+  categoryId?: number | undefined
+  groupId?: number | undefined
+  name?: string | undefined
 }

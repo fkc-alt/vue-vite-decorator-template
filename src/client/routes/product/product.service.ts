@@ -14,4 +14,8 @@ export class ProductService {
   public delProperties<T, R>(config: RequestConfig<T>): Promise<R> {
     return this.requestService.request(config)
   }
+
+  public listProperties<T, R>(config: RequestConfig<T>): Promise<R> {
+    return this.requestService.request(config)
+  }
 }

@@ -29,6 +29,27 @@ declare namespace Service {
       id: number
     }
     type DelPropertiesRes = boolean
+    interface ProductListReq extends Services.Common.Pagination {
+      categoryId?: number
+      groupId?: number
+      name?: string
+    }
+    interface ProductListItem {
+      categoryId?: number
+      createAt?: null
+      description?: string
+      groupId?: number
+      id?: number
+      isDeleted?: string
+      name?: string
+      sortValue?: number
+      updateAt?: string
+    }
+    interface ProductListRes extends Services.Common.Pagination {
+      total: number
+      offset: number
+      item: PropertiesListItem[]
+    }
     interface ProductAddReq {
       /**
        * @description 分类id

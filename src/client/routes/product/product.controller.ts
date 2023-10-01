@@ -3,7 +3,8 @@ import { ProductService } from './product.service'
 import {
   ProductAddDto,
   AddPropertiesDto,
-  DelPropertiesDto
+  DelPropertiesDto,
+  ProductListDto
 } from './dto/product.dto'
 
 @Controller('product/v1')
@@ -18,6 +19,17 @@ export class ProductController {
     return await this.productService.add<T, Services.Common.Response<R>>(
       <RequestConfig<T>>configure
     )
+  }
+
+  @PostMapping('list')
+  public async list<
+    T extends Service.Product.ProductListReq,
+    R extends Service.Product.ProductListRes
+  >(configure: ProductListDto): Promise<Services.Common.Response<R>> {
+    return await this.productService.listProperties<
+      T,
+      Services.Common.Response<R>
+    >(<RequestConfig<T>>configure)
   }
 
   @PostMapping('properties/add')

@@ -109,23 +109,23 @@ init()
       <template #header>
         <div class="header">
           <div>
-            <el-input
+            <ElInput
               v-model="pager.name"
               placeholder="请输入分组名称"
             />
           </div>
           <div>
-            <el-button
+            <ElButton
               type="primary"
               icon="Search"
               @click="init"
-              >查询</el-button
+              >查询</ElButton
             >
-            <el-button
+            <ElButton
               type="primary"
               icon="Plus"
               @click="handleAdd"
-              >添加分组</el-button
+              >添加分组</ElButton
             >
           </div>
         </div>
