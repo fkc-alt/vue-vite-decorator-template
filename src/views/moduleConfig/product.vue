@@ -1,24 +1,23 @@
 <script lang="ts" setup>
-import { ElMessage } from 'element-plus'
 import usePager from '@/hooks/usePager'
 import { modelCategoryDefault, useCategoryForm } from './hooks/useForm'
+import { useConfig } from './hooks/useConfig'
 import { productColumn } from './config'
 
 const { proxy } = getCurrentInstance()!
 const router = useRouter()
 const ruleForm = useCategoryForm()
-const customForm = ref<CustomerProps.CustomForm.FormRef>()
-const type = ref<'add' | 'update'>('add')
-const btnLoading = ref(false)
-const refTable = ref<CustomerProps.CustomTable.TableRef>()
+const { categoryList, groupList, initialConfig } = useConfig()
 const { handlePageChange, handleSizeChange, loading, pager } = usePager({
   name: '',
   categoryId: '',
   groupId: ''
 })
+const customForm = ref<CustomerProps.CustomForm.FormRef>()
+const type = ref<'add' | 'update'>('add')
+const refTable = ref<CustomerProps.CustomTable.TableRef>()
 const [dialogVisible, delDialogVisible] = [ref(false), ref(false)]
 const productList = ref<Service.Product.ProductListItem[]>([])
-const [categoryList, groupList] = [ref<any[]>([]), ref<any[]>([])]
 const currentItem = ref<any>(null)
 watch(
   () => dialogVisible.value,
@@ -60,61 +59,6 @@ const handleAdd = () => {
     query: { type: 'add' }
   })
 }
-
-const afterFn = () => {
-  ElMessage.success('操作成功')
-  btnLoading.value = false
-  dialogVisible.value = false
-  delDialogVisible.value = false
-  Object.assign(ruleForm.model, modelCategoryDefault())
-  init()
-}
-
-const initConfig = async () => {
-  loading.value = true
-  try {
-    const { data } = await proxy!.HTTPClient.productCateGoryController.list({
-      currentPage: 1,
-      pageSize: 999999
-    })!
-    categoryList.value = (data as any).item || []
-  } catch (error) {}
-  try {
-    const { data } = await proxy!.HTTPClient.productGroupController.list({
-      currentPage: 1,
-      pageSize: 999999
-    })!
-    groupList.value = (data as any).item || []
-  } catch (error) {}
-  loading.value = false
-  await init()
-}
-
-const handleSubmit = () => {
-  customForm.value?.formRef.validate(async valid => {
-    if (valid) {
-      btnLoading.value = true
-      const {
-        model: { id, name, msg, sortValue }
-      } = ruleForm as any
-      const ReqJson: any = { name, msg, sortValue }
-      if (type.value === 'update') {
-        Object.assign(ReqJson, { id })
-        await proxy?.HTTPClient.productCateGoryController.update(ReqJson)
-        afterFn()
-        return
-      }
-      await proxy?.HTTPClient.productCateGoryController.add(ReqJson)
-      afterFn()
-    }
-  })
-}
-const handleSubmitDel = async () => {
-  btnLoading.value = true
-  const { id } = currentItem.value
-  await await proxy?.HTTPClient.productCateGoryController.del({ id })
-  afterFn()
-}
 const init = async () => {
   loading.value = true
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -128,7 +72,8 @@ const init = async () => {
     loading.value = false
   }
 }
-initConfig()
+await initialConfig()
+await init()
 </script>
 <template>
   <div>
@@ -193,41 +138,6 @@ initConfig()
         @size-change="$event => handleSizeChange($event, init)"
       />
     </ElCard>
-    <ElDialog
-      v-model="dialogVisible"
-      :title="type === 'add' ? '添加分类' : '编辑分类'"
-      width="70%"
-    >
-      <CustomForm
-        v-bind="ruleForm"
-        ref="customForm"
-      />
-      <div class="btn-group">
-        <ElButton
-          type="primary"
-          :loading="btnLoading"
-          @click="handleSubmit"
-          >确 定</ElButton
-        >
-        <ElButton @click="dialogVisible = false">取 消</ElButton>
-      </div>
-    </ElDialog>
-    <ElDialog
-      v-model="delDialogVisible"
-      title="删除分类"
-      width="70%"
-    >
-      <div>您是否删除当前分类？</div>
-      <div class="btn-group">
-        <ElButton
-          type="primary"
-          :loading="btnLoading"
-          @click="handleSubmitDel"
-          >确 定</ElButton
-        >
-        <ElButton @click="delDialogVisible = false">取 消</ElButton>
-      </div>
-    </ElDialog>
   </div>
 </template>
 <style lang="scss" scoped>
