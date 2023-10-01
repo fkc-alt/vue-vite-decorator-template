@@ -60,6 +60,7 @@ export function useCategoryForm(): CustomerProps.CustomForm.CustomFormProps {
         label: '分类描述',
         prop: 'msg',
         componentProps: {
+          type: 'textarea',
           placeholder: '请输入描述'
         }
       }
@@ -111,6 +112,7 @@ export function useGroupForm(): CustomerProps.CustomForm.CustomFormProps {
         label: '分组描述',
         prop: 'msg',
         componentProps: {
+          type: 'textarea',
           placeholder: '请输入描述'
         }
       }
@@ -224,6 +226,7 @@ export function useProductForm(
         prop: 'description',
         componentProps: {
           placeholder: '请输入商品描述',
+          type: 'textarea',
           style: {
             width: '400px'
           }
