@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { ElMessage } from 'element-plus'
 import usePager from '@/hooks/usePager'
-import { modelDefault, useCommonForm } from './hooks/useForm'
-import { categoryColumn } from './config'
+import { modelGroupDefault, useCommonForm } from './hooks/useForm'
+import { groupColumn } from './config'
 
 const { proxy } = getCurrentInstance()!
-const ruleForm = useCommonForm(modelDefault, {
+const ruleForm = useCommonForm(modelGroupDefault, {
   name: [{ message: '请输入分类名称', required: true }],
   sortValue: [{ message: '请输入排序值', required: true }]
 })
@@ -17,13 +17,13 @@ const { handlePageChange, handleSizeChange, loading, pager } = usePager({
   name: ''
 })
 const [dialogVisible, delDialogVisible] = [ref(false), ref(false)]
-const categoryList = ref<any[]>([])
+const groupList = ref<any[]>([])
 const currentItem = ref<any>(null)
 watch(
   () => dialogVisible.value,
   newVal => {
     if (!newVal) {
-      Object.assign(ruleForm.model, modelDefault())
+      Object.assign(ruleForm.model, modelGroupDefault())
     } else {
       customForm.value?.formRef.clearValidate()
     }
@@ -31,8 +31,8 @@ watch(
 )
 const tableProps = computed<CustomerProps.CustomTable.TableProps<any>>(() => {
   return {
-    data: categoryList.value,
-    column: categoryColumn({
+    data: groupList.value,
+    column: groupColumn({
       handleEdit: ({ row }, e: Event) => {
         e.preventDefault()
         type.value = 'update'
@@ -61,7 +61,7 @@ const afterFn = () => {
   btnLoading.value = false
   dialogVisible.value = false
   delDialogVisible.value = false
-  Object.assign(ruleForm.model, modelDefault())
+  Object.assign(ruleForm.model, modelGroupDefault())
   init()
 }
 
@@ -70,16 +70,16 @@ const handleSubmit = () => {
     if (valid) {
       btnLoading.value = true
       const {
-        model: { id, name, msg, sortValue }
+        model: { id, name, description, sortValue }
       } = ruleForm as any
-      const ReqJson: any = { name, msg, sortValue }
+      const ReqJson: any = { name, description, sortValue }
       if (type.value === 'update') {
         Object.assign(ReqJson, { id })
-        await proxy?.HTTPClient.productCateGoryController.update(ReqJson)
+        await proxy?.HTTPClient.productGroupController.update(ReqJson)
         afterFn()
         return
       }
-      await proxy?.HTTPClient.productCateGoryController.add(ReqJson)
+      await proxy?.HTTPClient.productGroupController.add(ReqJson)
       afterFn()
     }
   })
@@ -87,7 +87,7 @@ const handleSubmit = () => {
 const handleSubmitDel = async () => {
   btnLoading.value = true
   const { id } = currentItem.value
-  await await proxy?.HTTPClient.productCateGoryController.del({ id })
+  await await proxy?.HTTPClient.productGroupController.del({ id })
   afterFn()
 }
 const init = async () => {
@@ -95,11 +95,9 @@ const init = async () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { total, ...Rest } = pager.value
   try {
-    const { data } = await proxy!.HTTPClient.productCateGoryController.list(
-      Rest
-    )!
+    const { data } = await proxy!.HTTPClient.productGroupController.list(Rest)!
     pager.value.total = (data as any).total || 0
-    categoryList.value = (data as any).item || []
+    groupList.value = (data as any).item || []
   } catch (error) {
   } finally {
     loading.value = false
@@ -130,7 +128,7 @@ init()
               type="primary"
               icon="Plus"
               @click="handleAdd"
-              >添加分类</el-button
+              >添加分组</el-button
             >
           </div>
         </div>
@@ -152,7 +150,7 @@ init()
     </ElCard>
     <ElDialog
       v-model="dialogVisible"
-      :title="type === 'add' ? '添加分类' : '编辑分类'"
+      :title="type === 'add' ? '添加分组' : '编辑分组'"
       width="70%"
     >
       <CustomForm
@@ -174,7 +172,7 @@ init()
       title="删除分类"
       width="70%"
     >
-      <div>您是否删除当前分类？</div>
+      <div>您是否删除当前分组？</div>
       <div class="btn-group">
         <ElButton
           type="primary"

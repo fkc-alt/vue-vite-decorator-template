@@ -51,6 +51,9 @@ export default {
     PRODUCTCATEGORY: {
       TITLE: '商品分类管理'
     },
+    PRODUCTGROUP: {
+      TITLE: '商品分组管理'
+    },
     ORDER: {
       TITLE: '订单管理'
     },

@@ -1,4 +1,5 @@
-import { ElInput, ElInputNumber } from 'element-plus'
+/* eslint-disable @typescript-eslint/ban-types */
+import { ElInput, ElInputNumber, FormRules } from 'element-plus'
 
 export const modelDefault = () => {
   return {
@@ -8,8 +9,19 @@ export const modelDefault = () => {
   }
 }
 
-export default function (): CustomerProps.CustomForm.CustomFormProps {
-  const model = reactive(modelDefault())
+export const modelGroupDefault = () => {
+  return {
+    name: '',
+    sortValue: 0,
+    description: ''
+  }
+}
+
+export function useCommonForm(
+  defaultValues: Function,
+  rules: FormRules
+): CustomerProps.CustomForm.CustomFormProps {
+  const model = reactive(defaultValues?.())
   const ruleForm: CustomerProps.CustomForm.CustomFormProps = reactive({
     model,
     labelWidth: 90,

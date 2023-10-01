@@ -15,6 +15,7 @@ const iconList: string[] = [
   'List',
   'Wallet',
   'Menu',
+  'DocumentCopy',
   'Search'
 ]
 

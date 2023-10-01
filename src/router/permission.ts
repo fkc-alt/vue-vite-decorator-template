@@ -4,13 +4,6 @@ import 'nprogress/nprogress.css'
 import router from '@/router'
 import { getToken, getRoleIdList, removeStorage } from '@/utils'
 
-/**
- *
- *  @description 权限列表
- *   注：如果路由没有该权限列表中的某一项默认不跳转
- */
-const rolesMap = (): number[] => getRoleIdList()
-
 function checkRoutes(
   to: RouteLocationNormalized,
   form: RouteLocationNormalized,
@@ -20,7 +13,9 @@ function checkRoutes(
   if (!roles?.length) {
     next()
   } else {
-    roles.some((o: number) => rolesMap().includes(o)) ? next() : next(form.path)
+    roles.some((o: number) => getRoleIdList().includes(o))
+      ? next()
+      : next(form.path)
   }
 }
 

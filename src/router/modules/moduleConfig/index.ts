@@ -45,6 +45,17 @@ const routes: RouteRecordRaw[] = [
         }
       },
       {
+        path: '/moduleConfig/productGroup',
+        name: 'ProductGroup',
+        component: () => import('@/views/moduleConfig/productGroup.vue'),
+        sort: 3,
+        meta: {
+          title: 'MODULECONFIG.PRODUCTGROUP.TITLE',
+          icon: 'DocumentCopy',
+          roles: [Enums.Roles.ADMIN, Enums.Roles.OP]
+        }
+      },
+      {
         path: '/moduleConfig/order',
         name: 'Order',
         component: () => import('@/views/moduleConfig/order.vue'),

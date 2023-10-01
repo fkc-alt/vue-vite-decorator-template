@@ -1,10 +1,9 @@
 import { HttpFactory, ResponseConfig } from 'http-typedi'
+import { ElMessage } from 'element-plus'
 import { getToken, setData } from '@/utils'
 import { AppModule } from './app.module'
 import { useUserStore } from '@/store/user'
-import { ElMessage } from 'element-plus'
-
-const successCodes = [200, '200', '0', 9]
+import { successCodes } from './constant'
 
 /**
  *
@@ -34,9 +33,9 @@ function createHTTPClient(): AppModule {
         user.forRoot({ token: (result as any)?.responseHeaders?.auth_token })
         setData({ token: (result as any)?.responseHeaders?.auth_token })
       }
-      const callError =
-        result?.status !== 200 && successCodes.includes(result?.data?.code)
-      if (!callError) return result.data
+      const sholidError =
+        result?.status !== 200 || !successCodes.includes(result?.data?.code)
+      if (!sholidError) return result.data
       ElMessage.error(result?.data?.msg ?? '系统错误')
       return Promise.reject(result.data.msg) // or throw result
     }
