@@ -1,11 +1,11 @@
 <script lang="ts" setup>
+import { ElMessage } from 'element-plus'
+import HTTPClient from '@/main'
 import usePager from '@/hooks/usePager'
 import { modelCategoryDefault, useCategoryForm } from './hooks/useForm'
 import { useConfig } from './hooks/useConfig'
 import { productColumn } from './config'
-import { ElMessage } from 'element-plus'
 
-const { proxy } = getCurrentInstance()!
 const router = useRouter()
 const ruleForm = useCategoryForm()
 const { categoryList, groupList, initialConfig } = useConfig()
@@ -65,7 +65,7 @@ const handleSubmitDel = async () => {
   btnLoading.value = true
   const { id } = currentItem.value
   try {
-    await proxy?.HTTPClient.productController.del({ id })!
+    await HTTPClient.productController.del({ id })
     delDialogVisible.value = false
     ElMessage.success('操作成功')
     init()
@@ -79,7 +79,7 @@ const init = async () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { total, ...Rest } = pager.value
   try {
-    const { data } = await proxy!.HTTPClient.productController.list(Rest)!
+    const { data } = await HTTPClient.productController.list(Rest)
     pager.value.total = data.total || 0
     productList.value = data.item || []
   } catch (error) {
@@ -87,8 +87,8 @@ const init = async () => {
     loading.value = false
   }
 }
-await initialConfig()
-await init()
+initialConfig()
+init()
 </script>
 <template>
   <div>

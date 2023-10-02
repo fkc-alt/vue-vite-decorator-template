@@ -1,3 +1,5 @@
+/* eslint-disable n/no-callback-literal */
+/* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/ban-types */
 import { Plus } from '@element-plus/icons-vue'
 import Sortable from 'sortablejs'
@@ -136,11 +138,13 @@ export function useGroupForm(): CustomerProps.CustomForm.CustomFormProps {
 }
 
 export function useProductForm(
-  ossBaseUrl: string,
-  cateGoryOptions: any[] = [],
-  groupOptions: any[] = []
-): CustomerProps.CustomForm.CustomFormProps {
+  ossBaseApi: string,
+  isEdit: boolean,
+  callback: Function
+) {
+  const { proxy } = getCurrentInstance()!
   const model = reactive({
+    id: '',
     name: '',
     categoryId: '',
     groupId: '',
@@ -150,6 +154,7 @@ export function useProductForm(
     defailFileList: [] as any[],
     thumbnailFileList: [] as any[]
   })
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onMounted(() => {
     const ElCarousel = document.querySelectorAll(
       '.carousel .el-upload-list'
@@ -161,11 +166,17 @@ export function useProductForm(
       '.thumbnail .el-upload-list'
     )[0] as HTMLElement
     Sortable.create(ElCarousel, {
-      onEnd: ({ oldIndex, newIndex }: any) => {
+      onEnd: async ({ oldIndex, newIndex }: any) => {
         if (oldIndex !== newIndex) {
           // 交换位置
           const arr = model.carouselFileList
           const page = arr[oldIndex]
+          if (isEdit) {
+            await proxy?.HTTPClient.productController.updateProperties({
+              id: page.id,
+              sortValue: newIndex
+            })!
+          }
           arr.splice(oldIndex, 1)
           arr.splice(newIndex, 0, page)
           ElMessage.success('操作成功')
@@ -173,11 +184,17 @@ export function useProductForm(
       }
     })
     Sortable.create(ElDefail, {
-      onEnd: ({ oldIndex, newIndex }: any) => {
+      onEnd: async ({ oldIndex, newIndex }: any) => {
         if (oldIndex !== newIndex) {
           // 交换位置
           const arr = model.defailFileList
           const page = arr[oldIndex]
+          if (isEdit) {
+            await proxy?.HTTPClient.productController.updateProperties({
+              id: page.id,
+              sortValue: newIndex
+            })!
+          }
           arr.splice(oldIndex, 1)
           arr.splice(newIndex, 0, page)
           ElMessage.success('操作成功')
@@ -185,13 +202,20 @@ export function useProductForm(
       }
     })
     Sortable.create(ElThumbnail, {
-      onEnd: ({ oldIndex, newIndex }: any) => {
+      onEnd: async ({ oldIndex, newIndex }: any) => {
         if (oldIndex !== newIndex) {
           // 交换位置
           const arr = model.thumbnailFileList
           const page = arr[oldIndex]
+          if (isEdit) {
+            await proxy?.HTTPClient.productController.updateProperties({
+              id: page.id,
+              sortValue: newIndex
+            })!
+          }
           arr.splice(oldIndex, 1)
           arr.splice(newIndex, 0, page)
+          arr[newIndex].isEditor = true
           ElMessage.success('操作成功')
         }
       }
@@ -266,7 +290,7 @@ export function useProductForm(
         },
         option: {
           component: markRaw(ElOption),
-          options: cateGoryOptions
+          options: []
         }
       },
       {
@@ -281,7 +305,7 @@ export function useProductForm(
         },
         option: {
           component: markRaw(ElOption),
-          options: groupOptions
+          options: []
         }
       },
       {
@@ -341,9 +365,9 @@ export function useProductForm(
           headers: {
             'AUTHORIZATION-WITH-MALL': getToken()
           },
-          action: ossBaseUrl + '/v1/upload/image',
+          action: ossBaseApi + '/v1/upload/image',
           listType: 'picture-card',
-          ref: 'uploadref'
+          ref: 'unref'
         },
         slots: {
           default: (...args): JSX.Element => {
@@ -358,18 +382,49 @@ export function useProductForm(
           onChange(file: UploadFile, fileList: UploadFile[]) {
             model.carouselFileList = fileList
           },
-          onRemove(uploadFile: UploadFile, uploadFiles: UploadFiles) {
+          onRemove: async (
+            uploadFile: UploadFile,
+            uploadFiles: UploadFiles
+          ) => {
+            if (isEdit) {
+              try {
+                await proxy?.HTTPClient.productController.delProperties({
+                  id: (uploadFile as any).id
+                })!
+                ElMessage.success('操作成功')
+              } catch (error) {
+              } finally {
+                callback([6, 'carouselFileList'])
+              }
+              return
+            }
             ElMessage.success('操作成功')
           },
-          onSuccess(
+          onSuccess: async (
             response: Services.Common.Response<{ path: string }>,
             uploadFile,
             uploadFiles
-          ) {
+          ) => {
+            if (isEdit) {
+              try {
+                await proxy?.HTTPClient.productController.addProperties({
+                  name: response.data.path,
+                  productId: ruleForm.model.id,
+                  value: response.data.path,
+                  sortValue: model.carouselFileList.length
+                })!
+                ElMessage.success('操作成功')
+              } catch (error) {
+              } finally {
+                callback([6, 'carouselFileList'])
+              }
+              return
+            }
             model.carouselFileList[model.carouselFileList.length - 1].name =
               Enums.ImageType.CAROUSEL_IMAGE
             model.carouselFileList[model.carouselFileList.length - 1].value =
-              location.origin + response.data.path
+              response.data.path
+            ElMessage.success('操作成功')
           }
         }
       },
@@ -389,7 +444,7 @@ export function useProductForm(
           headers: {
             'AUTHORIZATION-WITH-MALL': getToken()
           },
-          action: ossBaseUrl + '/v1/upload/image',
+          action: ossBaseApi + '/v1/upload/image',
           listType: 'picture-card',
           ref: 'uploadref'
         },
@@ -406,18 +461,49 @@ export function useProductForm(
           onChange(file: UploadFile, fileList: UploadFile[]) {
             model.thumbnailFileList = fileList
           },
-          onRemove(uploadFile: UploadFile, uploadFiles: UploadFiles) {
+          onRemove: async (
+            uploadFile: UploadFile,
+            uploadFiles: UploadFiles
+          ) => {
+            if (isEdit) {
+              try {
+                await proxy?.HTTPClient.productController.delProperties({
+                  id: (uploadFile as any).id
+                })!
+                ElMessage.success('操作成功')
+              } catch (error) {
+              } finally {
+                callback([6, 'thumbnailFileList'])
+              }
+              return
+            }
             ElMessage.success('操作成功')
           },
-          onSuccess(
+          onSuccess: async (
             response: Services.Common.Response<{ path: string }>,
             uploadFile,
             uploadFiles
-          ) {
+          ) => {
+            if (isEdit) {
+              try {
+                await proxy?.HTTPClient.productController.addProperties({
+                  name: '',
+                  productId: ruleForm.model.id,
+                  value: response.data.path,
+                  sortValue: model.thumbnailFileList.length
+                })!
+                ElMessage.success('操作成功')
+              } catch (error) {
+              } finally {
+                callback([6, 'thumbnailFileList'])
+              }
+              return
+            }
             model.thumbnailFileList[model.thumbnailFileList.length - 1].name =
               Enums.ImageType.THUMBNAIL
             model.thumbnailFileList[model.thumbnailFileList.length - 1].value =
-              location.origin + response.data.path
+              response.data.path
+            ElMessage.success('操作成功')
           }
         }
       },
@@ -437,7 +523,7 @@ export function useProductForm(
           headers: {
             'AUTHORIZATION-WITH-MALL': getToken()
           },
-          action: ossBaseUrl + '/v1/upload/image',
+          action: ossBaseApi + '/v1/upload/image',
           listType: 'picture-card',
           ref: 'uploadref'
         },
@@ -454,22 +540,53 @@ export function useProductForm(
           onChange(file: UploadFile, fileList: UploadFile[]) {
             model.defailFileList = fileList
           },
-          onRemove(uploadFile: UploadFile, uploadFiles: UploadFiles) {
+          onRemove: async (
+            uploadFile: UploadFile,
+            uploadFiles: UploadFiles
+          ) => {
+            if (isEdit) {
+              try {
+                await proxy?.HTTPClient.productController.delProperties({
+                  id: (uploadFile as any).id
+                })!
+                ElMessage.success('操作成功')
+              } catch (error) {
+              } finally {
+                callback([7, 'defailFileList'])
+              }
+              return
+            }
             ElMessage.success('操作成功')
           },
-          onSuccess(
+          onSuccess: async (
             response: Services.Common.Response<{ path: string }>,
             uploadFile,
             uploadFiles
-          ) {
+          ) => {
+            if (isEdit) {
+              try {
+                await proxy?.HTTPClient.productController.addProperties({
+                  name: '',
+                  productId: ruleForm.model.id,
+                  value: response.data.path,
+                  sortValue: model.defailFileList.length
+                })!
+                ElMessage.success('操作成功')
+              } catch (error) {
+              } finally {
+                callback([7, 'defailFileList'])
+              }
+              return
+            }
             model.defailFileList[model.defailFileList.length - 1].name =
               Enums.ImageType.DETAIL_IMAGE
             model.defailFileList[model.defailFileList.length - 1].value =
-              location.origin + response.data.path
+              response.data.path
+            ElMessage.success('操作成功')
           }
         }
       }
     ]
   })
-  return ruleForm
+  return { ruleForm }
 }

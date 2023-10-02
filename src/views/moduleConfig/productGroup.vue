@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import { ElMessage } from 'element-plus'
+import HTTPClient from '@/main'
 import usePager from '@/hooks/usePager'
 import { modelGroupDefault, useGroupForm } from './hooks/useForm'
 import { groupColumn } from './config'
 
-const { proxy } = getCurrentInstance()!
 const ruleForm = useGroupForm()
 const customForm = ref<CustomerProps.CustomForm.FormRef>()
 const type = ref<'add' | 'update'>('add')
@@ -72,11 +72,11 @@ const handleSubmit = () => {
       const ReqJson: any = { name, description, sortValue }
       if (type.value === 'update') {
         Object.assign(ReqJson, { id })
-        await proxy?.HTTPClient.productGroupController.update(ReqJson)
+        await HTTPClient.productGroupController.update(ReqJson)
         afterFn()
         return
       }
-      await proxy?.HTTPClient.productGroupController.add(ReqJson)
+      await HTTPClient.productGroupController.add(ReqJson)
       afterFn()
     }
   })
@@ -84,7 +84,7 @@ const handleSubmit = () => {
 const handleSubmitDel = async () => {
   btnLoading.value = true
   const { id } = currentItem.value
-  await await proxy?.HTTPClient.productGroupController.del({ id })
+  await HTTPClient.productGroupController.del({ id })
   afterFn()
 }
 const init = async () => {
@@ -92,7 +92,7 @@ const init = async () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { total, ...Rest } = pager.value
   try {
-    const { data } = await proxy!.HTTPClient.productGroupController.list(Rest)!
+    const { data } = await HTTPClient.productGroupController.list(Rest)
     pager.value.total = (data as any).total || 0
     groupList.value = (data as any).item || []
   } catch (error) {

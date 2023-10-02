@@ -114,3 +114,15 @@ export class PropertiesListDto implements Service.Product.PropertiesListReq {
   @IsNotEmpty({ message: 'productId 不能为空' })
   productId!: number
 }
+
+export class UpdatePropertiesDto
+  implements Service.Product.UpdatePropertiesReq
+{
+  @IsNumber()
+  @IsNotEmpty({ message: 'sortValue 不能为空' })
+  sortValue!: number
+
+  @IsNumber()
+  @IsNotEmpty({ message: 'id 不能为空' })
+  id!: number
+}

@@ -1,21 +1,25 @@
+import HTTPClient from '@/main'
+
 export function useConfig() {
-  const { proxy } = getCurrentInstance()!
   const [categoryList, groupList] = [ref<any[]>([]), ref<any[]>([])]
-  const initialConfig = async () => {
-    try {
-      const { data } = await proxy!.HTTPClient.productCateGoryController.list({
+
+  const initialConfig = () => {
+    void HTTPClient.productCateGoryController
+      .list({
         currentPage: 1,
         pageSize: 999999
-      })!
-      categoryList.value = (data as any).item || []
-    } catch (error) {}
-    try {
-      const { data } = await proxy!.HTTPClient.productGroupController.list({
+      })
+      .then(({ data }) => {
+        categoryList.value = (data as any).item || []
+      })
+    void HTTPClient.productGroupController
+      .list({
         currentPage: 1,
         pageSize: 999999
-      })!
-      groupList.value = (data as any).item || []
-    } catch (error) {}
+      })
+      .then(({ data }) => {
+        groupList.value = (data as any).item || []
+      })
   }
   return { categoryList, groupList, initialConfig }
 }

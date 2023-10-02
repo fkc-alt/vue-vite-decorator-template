@@ -50,7 +50,7 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
       proxy?.HTTPClient.userController
         .login(loginForm)
         .then(({ data }) => {
-          console.log(data, '11111')
+          console.log(data, 'Login Successfully')
           const roleIdList = [Enums.Roles.ADMIN, Enums.Roles.OP]
           user.forRoot({
             userInfo: 'admin',

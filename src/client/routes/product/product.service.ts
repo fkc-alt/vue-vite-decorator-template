@@ -31,6 +31,10 @@ export class ProductService {
     return this.requestService.request(config)
   }
 
+  public updateProperties<T, R>(config: RequestConfig<T>): Promise<R> {
+    return this.requestService.request(config)
+  }
+
   public delProperties<T, R>(config: RequestConfig<T>): Promise<R> {
     return this.requestService.request(config)
   }

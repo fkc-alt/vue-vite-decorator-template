@@ -1,5 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ElButton, ElImage } from 'element-plus'
+import { Enums } from '~@/typings/enums/product'
 
 export const productColumn: CustomerProps.CustomTable.MapColumn<
   Service.Product.ProductListItem
@@ -188,6 +189,12 @@ export const swiperColumn: CustomerProps.CustomTable.MapColumn<
       align: 'center'
     }
   ]
+}
+
+export const imageTypeRelationKeys: Record<string, any> = {
+  [Enums.ImageType.CAROUSEL_IMAGE]: 'carouselFileList',
+  [Enums.ImageType.DETAIL_IMAGE]: 'defailFileList',
+  [Enums.ImageType.THUMBNAIL]: 'thumbnailFileList'
 }
 
 export {}

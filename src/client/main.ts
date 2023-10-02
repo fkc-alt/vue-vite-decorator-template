@@ -36,7 +36,7 @@ function createHTTPClient(): AppModule {
       if (logoutCodes.includes(result?.data?.code)) {
         removeStorage('token', 'roleIdList')
         user.forRoot({ token: '', roleIdList: [], userInfo: '' })
-        ElMessage.warning('登录状态已失效，请重新登录')
+        ElMessage.warning(result?.data?.msg ?? '登录状态异常，请重新登录')
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
         return Promise.reject(result.data.msg)
       }

@@ -1,42 +1,81 @@
+<!-- eslint-disable @typescript-eslint/no-unused-vars -->
 <script lang="ts" setup>
 import { ElMessage } from 'element-plus'
+import HTTPClient from '@/main'
 import { useConfig, mapValues } from './hooks/useConfig'
 import { useProductForm } from './hooks/useForm'
+import { imageTypeRelationKeys } from './config'
 
-const { proxy } = getCurrentInstance()!
+type KeyTuple = [
+  5 | 6 | 7,
+  'carouselFileList' | 'defailFileList' | 'thumbnailFileList'
+]
+
 const { categoryList, groupList, initialConfig } = useConfig()
 const [route, router] = [useRoute(), useRouter()]
 const isEdit = computed(() => !!route.query.id)
 const customForm = ref<CustomerProps.CustomForm.FormRef>()
-await initialConfig()
-const ruleForm = useProductForm(
+const { ruleForm } = useProductForm(
   import.meta.env.VITE_APP_BASE_OSS_API,
-  categoryList.value.map(mapValues),
-  groupList.value.map(mapValues)
+  isEdit.value,
+  (keyTuple: KeyTuple) => getProductProperties(keyTuple)
 )
+
 watch(
   () => isEdit.value,
   async newVal => {
     if (newVal) {
-      const { data } = await proxy?.HTTPClient.productController.detail({
+      const { data } = await HTTPClient.productController.detail({
         id: +route.query.id!
-      })!
-      const { data: properties } =
-        await proxy?.HTTPClient.productController.propertiesList({
-          productId: +route.query.id!
-        })!
+      })
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { updateAt, createAt, ...Rest } = data
-      Object.assign(ruleForm.model, Rest)
-      console.log(properties, 'properties')
+      Object.assign(ruleForm.model, { ...Rest })
+      getProductProperties()
     }
   },
   { immediate: true }
 )
+
+const getProductProperties = async (
+  keyTuple?: [
+    5 | 6 | 7,
+    'carouselFileList' | 'defailFileList' | 'thumbnailFileList'
+  ]
+) => {
+  const { data: properties } =
+    await HTTPClient.productController.propertiesList({
+      productId: +route.query.id!
+    })
+  const _properties = Object.fromEntries(
+    Object.entries(properties).map(([propertieKey, propertieValue]) => {
+      return [
+        imageTypeRelationKeys[propertieKey],
+        propertieValue.map(mapProperties)
+      ]
+    })
+  )
+  if (keyTuple) {
+    ;(ruleForm.formItems[keyTuple[0]].componentProps as any).fileList =
+      _properties[keyTuple[1]]
+  } else {
+    ;(ruleForm.formItems[5].componentProps as any).fileList =
+      _properties.carouselFileList
+    ;(ruleForm.formItems[6].componentProps as any).fileList =
+      _properties.thumbnailFileList
+    ;(ruleForm.formItems[7].componentProps as any).fileList =
+      _properties.defailFileList
+  }
+
+  console.log('_properties', _properties)
+}
+
 const mapProperties = (v: any, sortValue: number) => ({
+  id: v.id,
   name: v.name,
   value: v.value,
-  sortValue
+  sortValue,
+  url: import.meta.env.VITE_APP_BASE_OSS_URL + v.value
 })
 
 const onCancel = () => {
@@ -51,20 +90,39 @@ const onSubmit = () => {
       if (!isEdit.value) {
         Object.assign(ReqJson, {
           properties: [
-            ...carouselFileList.map(mapProperties),
-            ...defailFileList.map(mapProperties),
-            ...thumbnailFileList.map(mapProperties)
+            ...carouselFileList
+              .map(mapProperties)
+              .map(({ id, ...Rest }: any) => Rest),
+            ...defailFileList
+              .map(mapProperties)
+              .map(({ id, ...Rest }: any) => Rest),
+            ...thumbnailFileList
+              .map(mapProperties)
+              .map(({ id, ...Rest }: any) => Rest)
           ]
         })
-        await proxy?.HTTPClient.productController.add(ReqJson as any)!
+        await HTTPClient.productController.add(ReqJson as any)
       } else {
-        await proxy?.HTTPClient.productController.update(ReqJson as any)!
+        await HTTPClient.productController.update(ReqJson as any)
       }
       ElMessage.success('操作成功')
       onCancel()
     }
   })
 }
+watch(
+  () => categoryList.value,
+  newVal => {
+    ruleForm.formItems[0].option!.options = newVal.map(mapValues)
+  }
+)
+watch(
+  () => groupList.value,
+  newVal => {
+    ruleForm.formItems[1].option!.options = newVal.map(mapValues)
+  }
+)
+initialConfig()
 </script>
 
 <template>
@@ -75,7 +133,11 @@ const onSubmit = () => {
         ref="customForm"
       />
       <ElButton @click="onCancel">返 回</ElButton>
-      <ElButton @click="onSubmit">确 定</ElButton>
+      <ElButton
+        type="primary"
+        @click="onSubmit"
+        >确 定</ElButton
+      >
     </ElCard>
   </div>
 </template>

@@ -28,6 +28,10 @@ declare namespace Service {
     interface DelPropertiesReq {
       id: number
     }
+    interface UpdatePropertiesReq extends DelPropertiesReq {
+      sortValue: number
+    }
+    type UpdatePropertiesRes = boolean
     type DelPropertiesRes = boolean
     interface ProductListReq extends Services.Common.Pagination {
       categoryId?: number
@@ -88,7 +92,9 @@ declare namespace Service {
     interface PropertiesListReq {
       productId: number
     }
-    type PropertiesListRes = any
+    interface PropertiesListRes {
+      [(K in 'THUMBNAIL') | 'CAROUSEL_IMAGE' | 'DETAIL_IMAGE']: Property[]
+    }
     interface AddCategoryReq {
       /**
        * @description 分类名称

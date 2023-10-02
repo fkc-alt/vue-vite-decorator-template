@@ -8,7 +8,8 @@ import {
   ProductDeleteDto,
   ProductDetailDto,
   ProductUpdateDto,
-  PropertiesListDto
+  PropertiesListDto,
+  UpdatePropertiesDto
 } from './dto/product.dto'
 
 @Controller('product/v1')
@@ -82,6 +83,17 @@ export class ProductController {
     R extends Service.Product.AddPropertiesRes
   >(configure: AddPropertiesDto): Promise<Services.Common.Response<R>> {
     return await this.productService.addProperties<
+      T,
+      Services.Common.Response<R>
+    >(<RequestConfig<T>>configure)
+  }
+
+  @PostMapping('properties/update')
+  public async updateProperties<
+    T extends Service.Product.UpdatePropertiesReq,
+    R extends Service.Product.UpdatePropertiesRes
+  >(configure: UpdatePropertiesDto): Promise<Services.Common.Response<R>> {
+    return await this.productService.updateProperties<
       T,
       Services.Common.Response<R>
     >(<RequestConfig<T>>configure)

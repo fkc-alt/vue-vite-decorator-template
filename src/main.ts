@@ -14,6 +14,7 @@ const pinia = createPinia()
 const bootstrap = () => {
   const app = createApp(App)
   app.use(pinia).use(router).use(useIcons).use(i18n)
+  const HTTPClient = createHTTPClient()
   router
     .isReady()
     .then(() => {
@@ -21,9 +22,9 @@ const bootstrap = () => {
       app.mount('#app')
       const { AppLogger } = provider.inject
       AppLogger(_APP_INFO_)
-      const HTTPClient = createHTTPClient()
       void setupVueConfigProvider(app, HTTPClient)
     })
     .catch(console.error)
+  return HTTPClient
 }
 export default bootstrap()

@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import { ElMessage } from 'element-plus'
+import HTTPClient from '@/main'
 import usePager from '@/hooks/usePager'
 import { modelCategoryDefault, useCategoryForm } from './hooks/useForm'
 import { categoryColumn } from './config'
 
-const { proxy } = getCurrentInstance()!
 const ruleForm = useCategoryForm()
 const customForm = ref<CustomerProps.CustomForm.FormRef>()
 const type = ref<'add' | 'update'>('add')
@@ -72,11 +72,11 @@ const handleSubmit = () => {
       const ReqJson: any = { name, msg, sortValue }
       if (type.value === 'update') {
         Object.assign(ReqJson, { id })
-        await proxy?.HTTPClient.productCateGoryController.update(ReqJson)
+        await HTTPClient.productCateGoryController.update(ReqJson)
         afterFn()
         return
       }
-      await proxy?.HTTPClient.productCateGoryController.add(ReqJson)
+      await HTTPClient.productCateGoryController.add(ReqJson)
       afterFn()
     }
   })
@@ -84,7 +84,7 @@ const handleSubmit = () => {
 const handleSubmitDel = async () => {
   btnLoading.value = true
   const { id } = currentItem.value
-  await await proxy?.HTTPClient.productCateGoryController.del({ id })
+  await HTTPClient.productCateGoryController.del({ id })
   afterFn()
 }
 const init = async () => {
@@ -92,9 +92,7 @@ const init = async () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { total, ...Rest } = pager.value
   try {
-    const { data } = await proxy!.HTTPClient.productCateGoryController.list(
-      Rest
-    )!
+    const { data } = await HTTPClient.productCateGoryController.list(Rest)
     pager.value.total = (data as any).total || 0
     categoryList.value = (data as any).item || []
   } catch (error) {
