@@ -487,7 +487,7 @@ export function useProductForm(
             if (isEdit) {
               try {
                 await proxy?.HTTPClient.productController.addProperties({
-                  name: '',
+                  name: response.data.path,
                   productId: ruleForm.model.id,
                   value: response.data.path,
                   sortValue: model.thumbnailFileList.length
@@ -566,7 +566,7 @@ export function useProductForm(
             if (isEdit) {
               try {
                 await proxy?.HTTPClient.productController.addProperties({
-                  name: '',
+                  name: response.data.path,
                   productId: ruleForm.model.id,
                   value: response.data.path,
                   sortValue: model.defailFileList.length
