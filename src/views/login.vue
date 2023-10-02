@@ -42,7 +42,7 @@ const loginForm = reactive<Service.LoginReq>({
   username: import.meta.env.VITE_APP_PROJECT_USERNAME,
   password: import.meta.env.VITE_APP_PROJECT_PASSWORD
 })
-const submit = async (formEl: FormInstance | undefined) => {
+const onSubmit = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   loading.value = true
   formEl.validate((valid, fields) => {
@@ -121,7 +121,8 @@ const submit = async (formEl: FormInstance | undefined) => {
           <el-button
             style="width: 100%"
             type="primary"
-            @click="submit(ruleFormRef)"
+            :loading="loading"
+            @click="onSubmit(ruleFormRef)"
             >立即登录</el-button
           >
         </el-form-item>

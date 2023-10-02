@@ -1,9 +1,9 @@
 import { HttpFactory, ResponseConfig } from 'http-typedi'
 import { ElMessage } from 'element-plus'
-import { getToken, setData } from '@/utils'
+import { getToken, removeStorage, setData } from '@/utils'
 import { AppModule } from './app.module'
 import { useUserStore } from '@/store/user'
-import { successCodes } from './constant'
+import { logoutCodes, successCodes } from './constant'
 
 /**
  *
@@ -32,6 +32,13 @@ function createHTTPClient(): AppModule {
       if ((result as any)?.responseHeaders?.auth_token) {
         user.forRoot({ token: (result as any)?.responseHeaders?.auth_token })
         setData({ token: (result as any)?.responseHeaders?.auth_token })
+      }
+      if (logoutCodes.includes(result?.data?.code)) {
+        removeStorage('token', 'roleIdList')
+        user.forRoot({ token: '', roleIdList: [], userInfo: '' })
+        ElMessage.warning('登录状态已失效，请重新登录')
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        return Promise.reject(result.data.msg)
       }
       const sholidError =
         result?.status !== 200 || !successCodes.includes(result?.data?.code)

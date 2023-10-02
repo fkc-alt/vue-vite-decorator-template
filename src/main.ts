@@ -18,12 +18,12 @@ const bootstrap = () => {
     .isReady()
     .then(() => {
       setupGlobalProvider()
-      setupVueConfigProvider(app)
       app.mount('#app')
       const { AppLogger } = provider.inject
       AppLogger(_APP_INFO_)
+      const HTTPClient = createHTTPClient()
+      void setupVueConfigProvider(app, HTTPClient)
     })
     .catch(console.error)
-  return createHTTPClient()
 }
 export default bootstrap()
