@@ -77,6 +77,7 @@ export class ProductListDto
   categoryId?: number | undefined
   groupId?: number | undefined
   name?: string | undefined
+  isShelves?: string | undefined
 }
 
 export class ProductDeleteDto implements Service.Product.ProductDeleteReq {

@@ -63,6 +63,7 @@ export class SpecListDto
   extends Pagination
   implements Service.Product.SpecListReq
 {
+  isShelves?: string
   name?: string
   categoryId?: number
   groupId?: number

@@ -34,6 +34,7 @@ declare namespace Service {
     type UpdatePropertiesRes = boolean
     type DelPropertiesRes = boolean
     interface ProductListReq extends Services.Common.Pagination {
+      isShelves?: string
       categoryId?: number
       groupId?: number
       name?: string
@@ -42,6 +43,7 @@ declare namespace Service {
       categoryId?: number
       createAt?: null
       description?: string
+      isShelves: string
       groupId?: number
       id?: number
       isDeleted?: string
@@ -164,6 +166,7 @@ declare namespace Service {
     type DelSpecReq = Pick<UpdateSpecReq, 'id'>
     type DelSpecRes = boolean
     interface SpecListReq extends Services.Common.Pagination {
+      isShelves?: string
       groupId?: number
       name?: string
       categoryId?: number
@@ -174,6 +177,7 @@ declare namespace Service {
       groupId: number
       categoryName: string
       groupName: string
+      isShelves: string
       name: number
       description: string
       sortValue: number

@@ -4,7 +4,7 @@ import HTTPClient from '@/main'
 import usePager from '@/hooks/usePager'
 import { mapValues, useConfig } from './hooks/useConfig'
 import { useSpecForm, modelSpecDefault } from './hooks/useForm'
-import { spceColumn } from './config'
+import { spceColumn, ShelvesOptions } from './config'
 
 const ruleForm = useSpecForm()
 const { categoryList, groupList, initialConfig } = useConfig()
@@ -12,7 +12,8 @@ const refTable = ref<CustomerProps.CustomTable.TableRef>()
 const { handlePageChange, handleSizeChange, loading, pager } = usePager({
   name: '',
   categoryId: '',
-  groupId: ''
+  groupId: '',
+  isShelves: ''
 })
 const customForm = ref<CustomerProps.CustomForm.FormRef>()
 const btnLoading = ref(false)
@@ -45,6 +46,11 @@ const tableProps = computed<
         type.value = 'add'
         dialogVisible.value = true
       },
+      handleShelve({ row }, e: Event) {
+        e.preventDefault()
+        currentItem.value = row
+        console.log(row, 'handleShelve')
+      },
       handleChildAdd({ row }, e: Event) {
         e.preventDefault()
         currentItem.value = row
@@ -75,6 +81,18 @@ const tableProps = computed<
         e.preventDefault()
         currentItem.value = row
         delDialogVisible.value = true
+      },
+      handleChildShelves: async ({ row }, e: Event) => {
+        e.preventDefault()
+        if (row.isShelves === 'Y') {
+          await HTTPClient.productSpecController.offShelve({ id: row.id })
+          ElMessage.success('操作成功')
+          init()
+          return
+        }
+        await HTTPClient.productSpecController.shelve({ id: row.id })
+        ElMessage.success('操作成功')
+        init()
       }
     }),
     border: false,
@@ -220,7 +238,18 @@ init()
               :label="group.name"
             />
           </ElSelect>
-
+          <ElSelect
+            v-model="pager.isShelves"
+            clearable
+            placeholder="请选择"
+          >
+            <ElOption
+              v-for="item in ShelvesOptions"
+              :key="item.value"
+              :value="item.value"
+              :label="item.label"
+            />
+          </ElSelect>
           <el-button
             type="primary"
             icon="Search"

@@ -4,7 +4,7 @@ import HTTPClient from '@/main'
 import usePager from '@/hooks/usePager'
 import { modelCategoryDefault, useCategoryForm } from './hooks/useForm'
 import { useConfig } from './hooks/useConfig'
-import { productColumn } from './config'
+import { productColumn, ShelvesOptions } from './config'
 
 const router = useRouter()
 const ruleForm = useCategoryForm()
@@ -12,7 +12,8 @@ const { categoryList, groupList, initialConfig } = useConfig()
 const { handlePageChange, handleSizeChange, loading, pager } = usePager({
   name: '',
   categoryId: '',
-  groupId: ''
+  groupId: '',
+  isShelves: ''
 })
 const customForm = ref<CustomerProps.CustomForm.FormRef>()
 const refTable = ref<CustomerProps.CustomTable.TableRef>()
@@ -123,7 +124,18 @@ init()
               :label="group.name"
             />
           </ElSelect>
-
+          <ElSelect
+            v-model="pager.isShelves"
+            clearable
+            placeholder="请选择"
+          >
+            <ElOption
+              v-for="item in ShelvesOptions"
+              :key="item.value"
+              :value="item.value"
+              :label="item.label"
+            />
+          </ElSelect>
           <el-button
             type="primary"
             icon="Search"
