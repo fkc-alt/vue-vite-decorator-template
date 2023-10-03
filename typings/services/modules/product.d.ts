@@ -56,6 +56,12 @@ declare namespace Service {
       offset: number
       item: PropertiesListItem[]
     }
+    type ProductShelveReq = SpecShelveBatchReq
+    type ProductShelveRes = boolean
+
+    type ProductOffShelveReq = SpecShelveBatchReq
+    type ProductOffShelveRes = boolean
+
     interface ProductAddReq {
       /**
        * @description 分类id

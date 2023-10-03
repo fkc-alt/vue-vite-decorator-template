@@ -381,14 +381,24 @@ export const spceColumn: CustomerProps.CustomTable.MapColumn<
             >
               添加子规格
             </ElButton>
-            <ElButton
-              type={scope.row.isShelves === 'Y' ? 'warning' : 'primary'}
-              link
-              onClick={e => param?.handleShelve?.(scope, e)}
-              class="btn"
+            <ElPopconfirm
+              title={`是否确认${
+                scope.row.isShelves === 'Y' ? '下架' : '上架'
+              }商品`}
+              onConfirm={e => param?.handleShelve?.(scope, e)}
             >
-              {scope.row.isShelves === 'Y' ? '下架商品' : '上架商品'}
-            </ElButton>
+              {{
+                reference: () => (
+                  <ElButton
+                    type={scope.row.isShelves === 'Y' ? 'warning' : 'primary'}
+                    link
+                    class="btn"
+                  >
+                    {scope.row.isShelves === 'Y' ? '下架商品' : '上架商品'}
+                  </ElButton>
+                )
+              }}
+            </ElPopconfirm>
           </>
         )
       }

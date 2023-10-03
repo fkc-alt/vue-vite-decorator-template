@@ -88,6 +88,10 @@ export class ProductDeleteDto implements Service.Product.ProductDeleteReq {
 
 export class ProductDetailDto extends ProductDeleteDto {}
 
+export class ProductShelveDto extends ProductDeleteDto {}
+
+export class ProductOffShelveDto extends ProductDeleteDto {}
+
 export class ProductUpdateDto
   extends ProductDeleteDto
   implements Service.Product.ProductUpdateReq

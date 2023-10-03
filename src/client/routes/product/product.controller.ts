@@ -9,7 +9,9 @@ import {
   ProductDetailDto,
   ProductUpdateDto,
   PropertiesListDto,
-  UpdatePropertiesDto
+  UpdatePropertiesDto,
+  ProductShelveDto,
+  ProductOffShelveDto
 } from './dto/product.dto'
 
 @Controller('product/v1')
@@ -62,6 +64,28 @@ export class ProductController {
     R extends Service.Product.ProductListRes
   >(configure: ProductListDto): Promise<Services.Common.Response<R>> {
     return await this.productService.list<T, Services.Common.Response<R>>(
+      <RequestConfig<T>>configure
+    )
+  }
+
+  @PostMapping('shelve', errors => {
+    console.log(errors, 'catch')
+  })
+  public async shelve<
+    T extends Service.Product.ProductShelveReq,
+    R extends Service.Product.ProductShelveRes
+  >(configure: ProductShelveDto): Promise<Services.Common.Response<R>> {
+    return await this.productService.shelve<T, Services.Common.Response<R>>(
+      <RequestConfig<T>>configure
+    )
+  }
+
+  @PostMapping('off-shelve')
+  public async offShelve<
+    T extends Service.Product.ProductOffShelveReq,
+    R extends Service.Product.ProductOffShelveRes
+  >(configure: ProductOffShelveDto): Promise<Services.Common.Response<R>> {
+    return await this.productService.offShelve<T, Services.Common.Response<R>>(
       <RequestConfig<T>>configure
     )
   }

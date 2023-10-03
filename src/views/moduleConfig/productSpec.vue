@@ -46,10 +46,17 @@ const tableProps = computed<
         type.value = 'add'
         dialogVisible.value = true
       },
-      handleShelve({ row }, e: Event) {
+      handleShelve: async ({ row }, e: Event) => {
         e.preventDefault()
-        currentItem.value = row
-        console.log(row, 'handleShelve')
+        if (row.isShelves === 'Y') {
+          await HTTPClient.productController.offShelve({ id: row.id })
+          ElMessage.success('操作成功')
+          init()
+          return
+        }
+        await HTTPClient.productController.shelve({ id: '' })
+        ElMessage.success('操作成功')
+        init()
       },
       handleChildAdd({ row }, e: Event) {
         e.preventDefault()

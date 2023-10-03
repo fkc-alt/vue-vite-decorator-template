@@ -23,6 +23,14 @@ export class ProductService {
     return this.requestService.request(config)
   }
 
+  public shelve<T, R>(config: RequestConfig<T>): Promise<R> {
+    return this.requestService.request(config)
+  }
+
+  public offShelve<T, R>(config: RequestConfig<T>): Promise<R> {
+    return this.requestService.request(config)
+  }
+
   public propertiesList<T, R>(config: RequestConfig<T>): Promise<R> {
     return this.requestService.request(config)
   }
