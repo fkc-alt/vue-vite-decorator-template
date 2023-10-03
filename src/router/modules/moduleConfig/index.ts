@@ -34,15 +34,41 @@ const routes: RouteRecordRaw[] = [
         }
       },
       {
-        path: '/moduleConfig/productSpec',
-        name: 'ProductSpec',
-        component: () => import('@/views/moduleConfig/productSpec.vue'),
+        path: '/moduleConfig/productSpecs',
+        name: 'ProductSpecs',
+        component: () => import('@/views/moduleConfig/productSpecs/index.vue'),
         sort: 2,
         meta: {
-          title: 'MODULECONFIG.PRODUCTSPEC.TITLE',
+          title: 'MODULECONFIG.PRODUCTSPECS.TITLE',
           icon: 'Wallet',
           roles: [Enums.Roles.ADMIN, Enums.Roles.OP]
-        }
+        },
+        children: [
+          {
+            path: '/moduleConfig/productSpecs/config',
+            name: 'ProductSpecsConfig',
+            component: () =>
+              import('@/views/moduleConfig/productSpecs/productSpec.vue'),
+            sort: 1,
+            meta: {
+              title: 'MODULECONFIG.PRODUCTSPECS.PRODUCTSPECSCONFIG.TITLE',
+              icon: 'Wallet',
+              roles: [Enums.Roles.ADMIN, Enums.Roles.OP]
+            }
+          },
+          {
+            path: '/moduleConfig/productSpecs/Shelve',
+            name: 'ProductSpecShelve',
+            component: () =>
+              import('@/views/moduleConfig/productSpecs/productSpecShelve.vue'),
+            sort: 2,
+            meta: {
+              title: 'MODULECONFIG.PRODUCTSPECS.PRODUCTSPECSSHELVE.TITLE',
+              icon: 'Wallet',
+              roles: [Enums.Roles.ADMIN, Enums.Roles.OP]
+            }
+          }
+        ]
       },
       {
         path: '/moduleConfig/productCategory',

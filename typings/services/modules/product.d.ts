@@ -137,7 +137,7 @@ declare namespace Service {
       /**
        * 规格父id
        */
-      pid?: number
+      parentSkuId?: number
       /**
        * 商品id
        */
@@ -154,6 +154,7 @@ declare namespace Service {
        * 总库存
        */
       totalStock: number
+      sortValue: number
     }
     type AddSpecRes = boolean
     interface UpdateSpecReq extends AddSpecReq {
@@ -171,12 +172,15 @@ declare namespace Service {
       id: number
       categoryId: number
       groupId: number
+      categoryName: string
+      groupName: string
       name: number
       description: string
       sortValue: number
       createAt: string
       updateAt: string
       specsList: SpecChildListItem[]
+      children?: SpecChildListItem[]
     }
     interface SpecListRes extends Services.Common.Pagination {
       total: number
@@ -187,7 +191,7 @@ declare namespace Service {
       id: number
       skuId: string
       productId: number
-      pid: number | null
+      parentSkuId: number | null
       specsName: string
       originalAmount: number
       originalAmountStr: string

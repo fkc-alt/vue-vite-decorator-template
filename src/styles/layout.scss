@@ -61,13 +61,13 @@
 
 .el-menu {
     height: 100vh;
-    max-width: 200px;
+    max-width: 250px;
     overflow-x: hidden;
     white-space: nowrap;
     overflow-y: scroll;
     z-index: 1000;
     border: none;
-    width: 200px;
+    width: 250px;
     transition: width 0.28s !important;
 
     .el-menu--collapse {

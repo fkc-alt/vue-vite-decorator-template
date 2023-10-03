@@ -25,6 +25,10 @@ export class SpecShelveBatchDto
 
 export class AddSpecDto implements Service.Product.AddSpecReq {
   @IsNumber()
+  @IsNotEmpty({ message: 'sortValue 不能为空' })
+  sortValue!: number
+
+  @IsNumber()
   @IsNotEmpty({ message: 'originalAmount 不能为空' })
   originalAmount!: number
 

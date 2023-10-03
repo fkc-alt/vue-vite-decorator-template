@@ -33,6 +33,18 @@ export const modelGroupDefault = () => {
   }
 }
 
+export const modelSpecDefault = () => {
+  return {
+    productId: '',
+    parentSkuId: '',
+    specsName: '',
+    originalAmount: 0,
+    totalStock: 0,
+    shelvesStock: 0,
+    sortValue: 0
+  }
+}
+
 export function useCategoryForm(): CustomerProps.CustomForm.CustomFormProps {
   const model = reactive(modelCategoryDefault())
   const ruleForm: CustomerProps.CustomForm.CustomFormProps = reactive({
@@ -65,6 +77,7 @@ export function useCategoryForm(): CustomerProps.CustomForm.CustomFormProps {
         componentProps: {
           placeholder: '请输入排序值',
           min: 1,
+          precision: 0,
           controlsPosition: 'right',
           style: {
             width: '200px'
@@ -117,6 +130,7 @@ export function useGroupForm(): CustomerProps.CustomForm.CustomFormProps {
         componentProps: {
           placeholder: '请输入排序值',
           min: 1,
+          precision: 0,
           controlsPosition: 'right',
           style: {
             width: '200px'
@@ -130,6 +144,128 @@ export function useGroupForm(): CustomerProps.CustomForm.CustomFormProps {
         componentProps: {
           type: 'textarea',
           placeholder: '请输入描述'
+        }
+      }
+    ]
+  })
+  return ruleForm
+}
+
+export function useSpecForm(): CustomerProps.CustomForm.CustomFormProps {
+  const model = reactive(modelSpecDefault())
+  const ruleForm: CustomerProps.CustomForm.CustomFormProps = reactive({
+    model,
+    labelWidth: 90,
+    hideRequiredAsterisk: false,
+    labelPosition: 'right',
+    rules: {
+      productId: [{ message: '请选择商品', required: true }],
+      specsName: [{ message: '请输入规格名称', required: true }],
+      originalAmount: [{ message: '请输入原价', required: true }],
+      totalStock: [
+        { message: '请输入总库存', required: true },
+        {
+          validator(rule, value, callback, source, options) {
+            if (value < model.shelvesStock) {
+              return callback(new Error('总库存不能小于上架库存'))
+            }
+            return callback()
+          }
+        }
+      ],
+      shelvesStock: [
+        { message: '请输入上架库存', required: true },
+        {
+          validator(rule, value, callback, source, options) {
+            if (value > model.totalStock) {
+              return callback(new Error('上架库存不能大于总库存'))
+            }
+            return callback()
+          }
+        }
+      ],
+      sortValue: [{ message: '请输入排序值', required: true }]
+    },
+    formItems: [
+      {
+        component: markRaw(ElSelect),
+        label: '商品',
+        prop: 'productId',
+        componentProps: {
+          placeholder: '请选择商品',
+          style: {
+            width: '400px'
+          }
+        },
+        option: {
+          component: markRaw(ElOption),
+          options: []
+        }
+      },
+      {
+        component: markRaw(ElInput),
+        label: '规格名称',
+        prop: 'specsName',
+        componentProps: {
+          placeholder: '请输入规格名称'
+        },
+        events: {
+          onInput(val: string) {
+            model.specsName = val.trim()
+          }
+        }
+      },
+      {
+        component: markRaw(ElInputNumber),
+        label: '原价',
+        prop: 'originalAmount',
+        componentProps: {
+          placeholder: '请输入原价',
+          min: 0,
+          precision: 2,
+          style: {
+            width: '200px'
+          }
+        }
+      },
+      {
+        component: markRaw(ElInputNumber),
+        label: '总库存',
+        prop: 'totalStock',
+        componentProps: {
+          placeholder: '请输入总库存',
+          min: 0,
+          precision: 0,
+          style: {
+            width: '200px'
+          }
+        }
+      },
+      {
+        component: markRaw(ElInputNumber),
+        label: '上架库存',
+        prop: 'shelvesStock',
+        componentProps: {
+          placeholder: '请输入上架库存',
+          min: 0,
+          precision: 0,
+          style: {
+            width: '200px'
+          }
+        }
+      },
+      {
+        component: markRaw(ElInputNumber),
+        label: '排序值',
+        prop: 'sortValue',
+        componentProps: {
+          placeholder: '请输入排序值',
+          min: 1,
+          precision: 0,
+          controlsPosition: 'right',
+          style: {
+            width: '200px'
+          }
         }
       }
     ]

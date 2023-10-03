@@ -2,7 +2,6 @@ import HTTPClient from '@/main'
 
 export function useConfig() {
   const [categoryList, groupList] = [ref<any[]>([]), ref<any[]>([])]
-
   const initialConfig = () => {
     void HTTPClient.productCateGoryController
       .list({
