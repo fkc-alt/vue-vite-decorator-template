@@ -34,12 +34,12 @@ const routes: RouteRecordRaw[] = [
         }
       },
       {
-        path: '/moduleConfig/productSpce',
-        name: 'ProductSpce',
-        component: () => import('@/views/moduleConfig/productSpce.vue'),
+        path: '/moduleConfig/productSpec',
+        name: 'ProductSpec',
+        component: () => import('@/views/moduleConfig/productSpec.vue'),
         sort: 2,
         meta: {
-          title: 'MODULECONFIG.PRODUCTSPCE.TITLE',
+          title: 'MODULECONFIG.PRODUCTSPEC.TITLE',
           icon: 'Wallet',
           roles: [Enums.Roles.ADMIN, Enums.Roles.OP]
         }

@@ -112,28 +112,34 @@ export const categoryColumn: CustomerProps.CustomTable.MapColumn<
 }
 
 export const spceColumn: CustomerProps.CustomTable.MapColumn<
-  Service.IndexConfig.QuerySwiperConfigItem
+  Service.Product.SpecListItem
 > = param => {
   return [
     {
-      align: 'center',
-      type: 'selection'
+      prop: 'specsList',
+      type: 'expand',
+      align: 'center'
     },
     {
       prop: 'id',
-      label: 'Id',
+      label: '商品规格ID',
       align: 'center'
     },
     {
-      prop: 'title',
-      label: 'Title',
-      align: 'center',
-      formatter: (row, column, cellValue, index) => cellValue
+      prop: 'name',
+      label: '商品规格名称',
+      align: 'center'
     },
     {
       prop: 'description',
-      label: 'Description',
+      label: '商品规格描述',
       align: 'center'
+    },
+    {
+      prop: 'sortValue',
+      label: '排序值',
+      align: 'center',
+      sortable: true
     }
   ]
 }

@@ -7,23 +7,23 @@ export class CommonDto {
   id!: number
 }
 
-export class SpceShelveDto
+export class SpecShelveDto
   extends CommonDto
-  implements Service.Product.SpceShelveReq {}
+  implements Service.Product.SpecShelveReq {}
 
-export class SpceOffShelveDto
+export class SpecOffShelveDto
   extends CommonDto
-  implements Service.Product.SpceOffShelveReq {}
+  implements Service.Product.SpecOffShelveReq {}
 
-export class SpceOffShelveBatchDto
+export class SpecOffShelveBatchDto
   extends CommonDto
-  implements Service.Product.SpceOffShelveBatchReq {}
+  implements Service.Product.SpecOffShelveBatchReq {}
 
-export class SpceShelveBatchDto
+export class SpecShelveBatchDto
   extends CommonDto
-  implements Service.Product.SpceShelveBatchReq {}
+  implements Service.Product.SpecShelveBatchReq {}
 
-export class AddSpceDto implements Service.Product.AddSpceReq {
+export class AddSpecDto implements Service.Product.AddSpecReq {
   @IsNumber()
   @IsNotEmpty({ message: 'originalAmount 不能为空' })
   originalAmount!: number
@@ -46,31 +46,25 @@ export class AddSpceDto implements Service.Product.AddSpceReq {
   totalStock!: number
 }
 
-export class UpdateSpceDto
-  extends AddSpceDto
-  implements Service.Product.UpdateSpceReq
+export class UpdateSpecDto
+  extends AddSpecDto
+  implements Service.Product.UpdateSpecReq
 {
   @IsNumber()
   @IsNotEmpty({ message: 'id 不能为空' })
   id!: number
 }
 
-export class SpceListDto
+export class SpecListDto
   extends Pagination
-  implements Service.Product.SpceListReq
+  implements Service.Product.SpecListReq
 {
   name?: string
   categoryId?: number
   groupId?: number
 }
 
-export class DelGroupDto implements Service.Product.DelGroupReq {
-  @IsNumber()
-  @IsNotEmpty({ message: 'id 不能为空' })
-  id!: number
-}
-
-export class DelSpceDto implements Service.Product.DelSpceReq {
+export class DelSpecDto implements Service.Product.DelSpecReq {
   @IsNumber()
   @IsNotEmpty({ message: 'id 不能为空' })
   id!: number

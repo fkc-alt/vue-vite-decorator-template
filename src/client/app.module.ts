@@ -4,7 +4,8 @@ import {
   ProductModule,
   ProductController,
   CateGoryController,
-  GroupController
+  GroupController,
+  SpecController
 } from './routes/product'
 import { CommonModule } from './common/common.module'
 
@@ -17,6 +18,7 @@ export class AppModule {
     readonly userController: UserController,
     readonly productController: ProductController,
     readonly productCateGoryController: CateGoryController,
-    readonly productGroupController: GroupController
+    readonly productGroupController: GroupController,
+    readonly productSpecController: SpecController
   ) {}
 }

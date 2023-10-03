@@ -129,7 +129,7 @@ declare namespace Service {
     type GroupListReq = Partial<Pick<AddCategoryReq, 'name'>> &
       Services.Common.Pagination
     type GroupListRes = any
-    interface AddSpceReq {
+    interface AddSpecReq {
       /**
        * 原价, 单位：分
        */
@@ -155,19 +155,19 @@ declare namespace Service {
        */
       totalStock: number
     }
-    type AddSpceRes = boolean
-    interface UpdateSpceReq extends AddSpceReq {
+    type AddSpecRes = boolean
+    interface UpdateSpecReq extends AddSpecReq {
       id: number
     }
-    type UpdateSpceRes = boolean
-    type DelSpceReq = Pick<UpdateSpceReq, 'id'>
-    type DelSpceRes = boolean
-    interface SpceListReq extends Services.Common.Pagination {
+    type UpdateSpecRes = boolean
+    type DelSpecReq = Pick<UpdateSpecReq, 'id'>
+    type DelSpecRes = boolean
+    interface SpecListReq extends Services.Common.Pagination {
       groupId?: number
       name?: string
       categoryId?: number
     }
-    interface SpceListItem {
+    interface SpecListItem {
       id: number
       categoryId: number
       groupId: number
@@ -176,14 +176,14 @@ declare namespace Service {
       sortValue: number
       createAt: string
       updateAt: string
-      specsList: SpceChildListItem[]
+      specsList: SpecChildListItem[]
     }
-    interface SpceListRes extends Services.Common.Pagination {
+    interface SpecListRes extends Services.Common.Pagination {
       total: number
       offset: number
-      item: SpceListItem[]
+      item: SpecListItem[]
     }
-    interface SpceChildListItem {
+    interface SpecChildListItem {
       id: number
       skuId: string
       productId: number
@@ -198,17 +198,17 @@ declare namespace Service {
       isDeleted: string
       createAt: string
       updateAt: string
-      children: SpceChildListItem[]
+      children: SpecChildListItem[]
     }
-    interface SpceShelveReq {
+    interface SpecShelveReq {
       id: number
     }
-    type SpceOffShelveReq = SpceShelveReq
-    type SpceOffShelveRes = boolean
-    type SpceShelveRes = boolean
-    type SpceOffShelveBatchReq = SpceShelveReq
-    type SpceOffShelveBatchRes = boolean
-    type SpceShelveBatchReq = SpceShelveReq
-    type SpceShelveBatchRes = boolean
+    type SpecOffShelveReq = SpecShelveReq
+    type SpecOffShelveRes = boolean
+    type SpecShelveRes = boolean
+    type SpecOffShelveBatchReq = SpecShelveReq
+    type SpecOffShelveBatchRes = boolean
+    type SpecShelveBatchReq = SpecShelveReq
+    type SpecShelveBatchRes = boolean
   }
 }
