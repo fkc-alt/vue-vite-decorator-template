@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import { ElMessage } from 'element-plus'
-import usePager from '@/hooks/usePager'
-import { mapValues, useConfig } from '../hooks/useConfig'
-import { useSpecForm, modelSpecDefault } from '../hooks/useForm'
 import HTTPClient from '@/main'
-import { spceColumn } from '../config'
+import usePager from '@/hooks/usePager'
+import { mapValues, useConfig } from './hooks/useConfig'
+import { useSpecForm, modelSpecDefault } from './hooks/useForm'
+import { spceColumn } from './config'
 
 const ruleForm = useSpecForm()
 const { categoryList, groupList, initialConfig } = useConfig()
@@ -126,13 +126,7 @@ const init = async () => {
   try {
     const { data } = await HTTPClient.productSpecController.list(Rest)
     pager.value.total = data.total || 0
-    specList.value = (data.item || []).map(({ specsList, ...v }) => {
-      return {
-        ...v,
-        specsList: [],
-        children: specsList
-      }
-    })
+    specList.value = data.item || []
   } catch (error) {
   } finally {
     loading.value = false

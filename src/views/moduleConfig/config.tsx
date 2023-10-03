@@ -124,7 +124,12 @@ export const spceChildrenColumn: CustomerProps.CustomTable.MapColumn<
         if (row.children?.length) {
           const attrs: CustomerProps.CustomTable.TableProps<Service.Product.SpecChildListItem> =
             {
-              data: row.children,
+              data: row.children.map(v => {
+                return {
+                  ...v,
+                  productId: v.productId
+                }
+              }),
               border: false,
               column: spceChildrenColumn(),
               rowClassName({ row }) {
@@ -177,6 +182,25 @@ export const spceChildrenColumn: CustomerProps.CustomTable.MapColumn<
       align: 'center',
       minWidth: '150px',
       sortable: true
+    },
+    {
+      prop: 'isShelves',
+      label: '上架状态',
+      align: 'center',
+      minWidth: '150px',
+      sortable: true,
+      render(scope) {
+        return (
+          <span
+            style={{
+              color:
+                scope.row.isShelves === 'N' ? 'red' : 'var(--el-color-primary)'
+            }}
+          >
+            {scope.row.isShelves === 'N' ? '未启用' : '启用'}
+          </span>
+        )
+      }
     },
     {
       prop: 'custom',
@@ -249,7 +273,7 @@ export const spceColumn: CustomerProps.CustomTable.MapColumn<
               data: row.children.map(v => {
                 return {
                   ...v,
-                  productId: v.id,
+                  productId: row.id,
                   parentSkuId: (row as any)?.skuId ?? ''
                 }
               }),
@@ -296,7 +320,7 @@ export const spceColumn: CustomerProps.CustomTable.MapColumn<
       label: '操作',
       align: 'center',
       fixed: 'right',
-      width: '100px',
+      width: '250px',
       render(scope) {
         return (
           <>
@@ -308,38 +332,22 @@ export const spceColumn: CustomerProps.CustomTable.MapColumn<
             >
               添加子规格
             </ElButton>
-            {/* <ElButton
-              type="primary"
-              link
-              onClick={e => param?.handleAdd?.(scope, e)}
-              class="btn"
-            >
-              全部上架
-            </ElButton>
             <ElButton
               type="primary"
               link
-              onClick={e => param?.handleAdd?.(scope, e)}
+              onClick={e => param?.handleShelve?.(scope, e)}
               class="btn"
             >
-              全部下架
-            </ElButton> */}
-            {/* <ElButton
-              type="primary"
-              link
-              onClick={e => param?.handleEdit?.(scope, e)}
-              class="btn"
-            >
-              编辑
-            </ElButton> */}
-            {/* <ElButton
+              上架商品
+            </ElButton>
+            <ElButton
               type="danger"
               link
-              onClick={e => param?.handleDel?.(scope, e)}
+              onClick={e => param?.handleOffShelve?.(scope, e)}
               class="btn"
             >
-              删除
-            </ElButton> */}
+              下架商品
+            </ElButton>
           </>
         )
       }
@@ -431,10 +439,6 @@ export const imageTypeRelationKeys: Record<string, any> = {
   [Enums.ImageType.CAROUSEL_IMAGE]: 'carouselFileList',
   [Enums.ImageType.DETAIL_IMAGE]: 'defailFileList',
   [Enums.ImageType.THUMBNAIL]: 'thumbnailFileList'
-}
-
-export const parentComponent = (param: any) => {
-  return <>123</>
 }
 
 export {}
