@@ -1,4 +1,4 @@
-import { HttpFactory, ResponseConfig } from 'http-typedi'
+import { HttpFactory, Logger, ResponseConfig } from 'http-typedi'
 import { ElMessage } from 'element-plus'
 import { getToken, removeStorage, setData } from '@/utils'
 import { AppModule } from './app.module'
@@ -14,6 +14,7 @@ import { logoutCodes, successCodes } from './constant'
 function createHTTPClient(): AppModule {
   const user = useUserStore()
   const HTTPClient = HttpFactory.create(AppModule)
+  HTTPClient.useLogger(Logger)
   HTTPClient.setGlobalPrefix(
     location.origin + import.meta.env.VITE_APP_BASE_API
   )
@@ -28,7 +29,6 @@ function createHTTPClient(): AppModule {
   })
   HTTPClient.useInterceptorsRes(
     (result: ResponseConfig<Services.Common.Response>) => {
-      console.log(result, 'useInterceptorsRes')
       if ((result as any)?.responseHeaders?.auth_token) {
         user.forRoot({ token: (result as any)?.responseHeaders?.auth_token })
         setData({ token: (result as any)?.responseHeaders?.auth_token })
