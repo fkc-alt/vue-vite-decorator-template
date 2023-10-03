@@ -18,4 +18,20 @@ export class SpceService {
   public delete<T, R>(config: RequestConfig<T>): Promise<R> {
     return this.requestService.request(config)
   }
+
+  public shelve<T, R>(config: RequestConfig<T>): Promise<R> {
+    return this.requestService.request(config)
+  }
+
+  public offShelve<T, R>(config: RequestConfig<T>): Promise<R> {
+    return this.requestService.request(config)
+  }
+
+  public offShelveBatch<T, R>(config: RequestConfig<T>): Promise<R> {
+    return this.requestService.request(config)
+  }
+
+  public shelveBatch<T, R>(config: RequestConfig<T>): Promise<R> {
+    return this.requestService.request(config)
+  }
 }

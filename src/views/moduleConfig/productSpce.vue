@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import usePager from '@/hooks/usePager'
-import { swiperColumn } from './config'
+import { spceColumn } from './config'
 
 const { proxy } = getCurrentInstance()!
 const refTable = ref<CustomerProps.CustomTable.TableRef>()
@@ -12,7 +12,7 @@ const tableProps = computed<
 >(() => {
   return {
     data: swiperList.value,
-    column: swiperColumn(),
+    column: spceColumn(),
     border: false,
     height: '600px',
     emptyText: '暂无数据',

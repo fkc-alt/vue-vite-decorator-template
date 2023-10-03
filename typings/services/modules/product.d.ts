@@ -129,5 +129,86 @@ declare namespace Service {
     type GroupListReq = Partial<Pick<AddCategoryReq, 'name'>> &
       Services.Common.Pagination
     type GroupListRes = any
+    interface AddSpceReq {
+      /**
+       * 原价, 单位：分
+       */
+      originalAmount: number
+      /**
+       * 规格父id
+       */
+      pid?: number
+      /**
+       * 商品id
+       */
+      productId: number
+      /**
+       * 上架库存
+       */
+      shelvesStock: number
+      /**
+       * 规格名称
+       */
+      specsName: string
+      /**
+       * 总库存
+       */
+      totalStock: number
+    }
+    type AddSpceRes = boolean
+    interface UpdateSpceReq extends AddSpceReq {
+      id: number
+    }
+    type UpdateSpceRes = boolean
+    type DelSpceReq = Pick<UpdateSpceReq, 'id'>
+    type DelSpceRes = boolean
+    interface SpceListReq extends Services.Common.Pagination {
+      groupId?: number
+      name?: string
+      categoryId?: number
+    }
+    interface SpceListItem {
+      id: number
+      categoryId: number
+      groupId: number
+      name: number
+      description: string
+      sortValue: number
+      createAt: string
+      updateAt: string
+      specsList: SpceChildListItem[]
+    }
+    interface SpceListRes extends Services.Common.Pagination {
+      total: number
+      offset: number
+      item: SpceListItem[]
+    }
+    interface SpceChildListItem {
+      id: number
+      skuId: string
+      productId: number
+      pid: number | null
+      specsName: string
+      originalAmount: number
+      originalAmountStr: string
+      totalStock: number
+      shelvesStock: number
+      sortValue: number
+      isShelves: string
+      isDeleted: string
+      createAt: string
+      updateAt: string
+      children: SpceChildListItem[]
+    }
+    interface SpceShelveReq {
+      id: number
+    }
+    type SpceOffShelveReq = SpceShelveReq
+    type SpceOffShelveRes = boolean
+    type SpceShelveRes = boolean
+    type SpceOffShelveBatchReq = SpceShelveReq
+    type SpceOffShelveBatchRes = boolean
+    type SpceShelveBatchReq = SpceShelveReq
+    type SpceShelveBatchRes = boolean
   }
 }
