@@ -56,9 +56,11 @@ const getProductProperties = async (
     })
   )
   if (keyTuple) {
+    ruleForm.model[keyTuple[0]] = _properties[keyTuple[1]]
     ;(ruleForm.formItems[keyTuple[0]].componentProps as any).fileList =
       _properties[keyTuple[1]]
   } else {
+    Object.assign(ruleForm.model, _properties)
     ;(ruleForm.formItems[5].componentProps as any).fileList =
       _properties.carouselFileList
     ;(ruleForm.formItems[6].componentProps as any).fileList =

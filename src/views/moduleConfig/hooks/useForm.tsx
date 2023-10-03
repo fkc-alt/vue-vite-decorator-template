@@ -155,72 +155,6 @@ export function useProductForm(
     thumbnailFileList: [] as any[]
   })
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  onMounted(() => {
-    const ElCarousel = document.querySelectorAll(
-      '.carousel .el-upload-list'
-    )[0] as HTMLElement
-    const ElDefail = document.querySelectorAll(
-      '.defail .el-upload-list'
-    )[0] as HTMLElement
-    const ElThumbnail = document.querySelectorAll(
-      '.thumbnail .el-upload-list'
-    )[0] as HTMLElement
-    Sortable.create(ElCarousel, {
-      onEnd: async ({ oldIndex, newIndex }: any) => {
-        if (oldIndex !== newIndex) {
-          // 交换位置
-          const arr = model.carouselFileList
-          const page = arr[oldIndex]
-          if (isEdit) {
-            await proxy?.HTTPClient.productController.updateProperties({
-              id: page.id,
-              sortValue: newIndex
-            })!
-          }
-          arr.splice(oldIndex, 1)
-          arr.splice(newIndex, 0, page)
-          ElMessage.success('操作成功')
-        }
-      }
-    })
-    Sortable.create(ElDefail, {
-      onEnd: async ({ oldIndex, newIndex }: any) => {
-        if (oldIndex !== newIndex) {
-          // 交换位置
-          const arr = model.defailFileList
-          const page = arr[oldIndex]
-          if (isEdit) {
-            await proxy?.HTTPClient.productController.updateProperties({
-              id: page.id,
-              sortValue: newIndex
-            })!
-          }
-          arr.splice(oldIndex, 1)
-          arr.splice(newIndex, 0, page)
-          ElMessage.success('操作成功')
-        }
-      }
-    })
-    Sortable.create(ElThumbnail, {
-      onEnd: async ({ oldIndex, newIndex }: any) => {
-        if (oldIndex !== newIndex) {
-          // 交换位置
-          const arr = model.thumbnailFileList
-          const page = arr[oldIndex]
-          if (isEdit) {
-            await proxy?.HTTPClient.productController.updateProperties({
-              id: page.id,
-              sortValue: newIndex
-            })!
-          }
-          arr.splice(oldIndex, 1)
-          arr.splice(newIndex, 0, page)
-          arr[newIndex].isEditor = true
-          ElMessage.success('操作成功')
-        }
-      }
-    })
-  })
   const ruleForm: CustomerProps.CustomForm.CustomFormProps = reactive({
     model,
     labelWidth: 120,
@@ -234,13 +168,13 @@ export function useProductForm(
           trigger: ['blur', 'change']
         }
       ],
-      groupId: [
-        {
-          message: '请选择商品分组',
-          required: true,
-          trigger: ['blur', 'change']
-        }
-      ],
+      // groupId: [
+      //   {
+      //     message: '请选择商品分组',
+      //     required: true,
+      //     trigger: ['blur', 'change']
+      //   }
+      // ],
       description: [{ message: '请输入商品描述', required: true }],
       sortValue: [{ message: '请输入排序值', required: true }],
       carouselFileList: [
@@ -393,8 +327,7 @@ export function useProductForm(
                 })!
                 ElMessage.success('操作成功')
               } catch (error) {
-              } finally {
-                callback([6, 'carouselFileList'])
+                callback([5, 'carouselFileList'])
               }
               return
             }
@@ -408,7 +341,7 @@ export function useProductForm(
             if (isEdit) {
               try {
                 await proxy?.HTTPClient.productController.addProperties({
-                  name: response.data.path,
+                  name: Enums.ImageType.CAROUSEL_IMAGE,
                   productId: ruleForm.model.id,
                   value: response.data.path,
                   sortValue: model.carouselFileList.length
@@ -416,7 +349,7 @@ export function useProductForm(
                 ElMessage.success('操作成功')
               } catch (error) {
               } finally {
-                callback([6, 'carouselFileList'])
+                callback([5, 'carouselFileList'])
               }
               return
             }
@@ -472,7 +405,6 @@ export function useProductForm(
                 })!
                 ElMessage.success('操作成功')
               } catch (error) {
-              } finally {
                 callback([6, 'thumbnailFileList'])
               }
               return
@@ -487,7 +419,7 @@ export function useProductForm(
             if (isEdit) {
               try {
                 await proxy?.HTTPClient.productController.addProperties({
-                  name: response.data.path,
+                  name: Enums.ImageType.THUMBNAIL,
                   productId: ruleForm.model.id,
                   value: response.data.path,
                   sortValue: model.thumbnailFileList.length
@@ -551,7 +483,6 @@ export function useProductForm(
                 })!
                 ElMessage.success('操作成功')
               } catch (error) {
-              } finally {
                 callback([7, 'defailFileList'])
               }
               return
@@ -566,7 +497,7 @@ export function useProductForm(
             if (isEdit) {
               try {
                 await proxy?.HTTPClient.productController.addProperties({
-                  name: response.data.path,
+                  name: Enums.ImageType.DETAIL_IMAGE,
                   productId: ruleForm.model.id,
                   value: response.data.path,
                   sortValue: model.defailFileList.length
@@ -587,6 +518,84 @@ export function useProductForm(
         }
       }
     ]
+  })
+  onMounted(() => {
+    const ElCarousel = document.querySelectorAll(
+      '.carousel .el-upload-list'
+    )[0] as HTMLElement
+    const ElDefail = document.querySelectorAll(
+      '.defail .el-upload-list'
+    )[0] as HTMLElement
+    const ElThumbnail = document.querySelectorAll(
+      '.thumbnail .el-upload-list'
+    )[0] as HTMLElement
+    Sortable.create(ElCarousel, {
+      onEnd: async ({ oldIndex, newIndex }: any) => {
+        if (oldIndex !== newIndex) {
+          // 交换位置
+          const arr = model.carouselFileList
+          const page = arr[oldIndex]
+          if (isEdit) {
+            await proxy?.HTTPClient.productController.updateProperties({
+              id: page.id,
+              sortValue: newIndex
+            })!
+            arr.splice(oldIndex, 1)
+            arr.splice(newIndex, 0, page)
+            ElMessage.success('操作成功')
+            return
+          }
+          arr.splice(oldIndex, 1)
+          arr.splice(newIndex, 0, page)
+          ElMessage.success('操作成功')
+        }
+      }
+    })
+    Sortable.create(ElDefail, {
+      onEnd: async ({ oldIndex, newIndex }: any) => {
+        if (oldIndex !== newIndex) {
+          // 交换位置
+          const arr = model.defailFileList
+          const page = arr[oldIndex]
+          if (isEdit) {
+            await proxy?.HTTPClient.productController.updateProperties({
+              id: page.id,
+              sortValue: newIndex
+            })!
+            arr.splice(oldIndex, 1)
+            arr.splice(newIndex, 0, page)
+            ElMessage.success('操作成功')
+            return
+          }
+          arr.splice(oldIndex, 1)
+          arr.splice(newIndex, 0, page)
+          ElMessage.success('操作成功')
+        }
+      }
+    })
+    Sortable.create(ElThumbnail, {
+      onEnd: async ({ oldIndex, newIndex }: any) => {
+        if (oldIndex !== newIndex) {
+          // 交换位置
+          const arr = ruleForm.model.thumbnailFileList
+          const page = arr[oldIndex]
+          if (isEdit) {
+            await proxy?.HTTPClient.productController.updateProperties({
+              id: page.id,
+              sortValue: newIndex
+            })!
+            arr.splice(oldIndex, 1)
+            arr.splice(newIndex, 0, page)
+            ElMessage.success('操作成功')
+            return
+          }
+          arr.splice(oldIndex, 1)
+          arr.splice(newIndex, 0, page)
+          arr[newIndex].isEditor = true
+          ElMessage.success('操作成功')
+        }
+      }
+    })
   })
   return { ruleForm }
 }
