@@ -54,7 +54,7 @@ const tableProps = computed<
           init()
           return
         }
-        await HTTPClient.productController.shelve({ id: '' })
+        await HTTPClient.productController.shelve({ id: row.id })
         ElMessage.success('操作成功')
         init()
       },
