@@ -36,6 +36,7 @@ const routes: RouteRecordRaw[] = [
       {
         path: '/moduleConfig/productSpecs',
         name: 'ProductSpecs',
+        redirect: '/moduleConfig/productSpecs/productShelve',
         component: () => import('@/views/moduleConfig/productSpecs/index.vue'),
         sort: 2,
         meta: {
