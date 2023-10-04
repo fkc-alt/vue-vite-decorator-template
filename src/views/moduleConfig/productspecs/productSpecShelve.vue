@@ -54,6 +54,16 @@ const tableProps = computed<
           init()
           return
         }
+        if (!row.children?.length) {
+          ElMessage.warning(
+            '请先添加该商品规格至少一个并上架才可以上架该商品哦～'
+          )
+          return
+        }
+        if (!row.children?.filter(spec => spec.isShelves === 'Y')?.length) {
+          ElMessage.warning('请先上架至少一个商品规格才可以上架该商品哦～')
+          return
+        }
         await HTTPClient.productController.shelve({ id: row.id })
         ElMessage.success('操作成功')
         init()
