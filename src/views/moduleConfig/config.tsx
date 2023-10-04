@@ -70,7 +70,7 @@ export const productColumn: CustomerProps.CustomTable.MapColumn<
               type="primary"
               onClick={e => param?.handleEdit?.(scope, e)}
             >
-              编辑
+              {scope.row.isShelves === 'Y' ? '详情' : '编辑'}
             </ElButton>
             <ElButton
               link
@@ -156,7 +156,8 @@ export const spceChildrenColumn: CustomerProps.CustomTable.MapColumn<
               data: row.children.map(v => {
                 return {
                   ...v,
-                  productId: v.productId
+                  productId: row.productId,
+                  isProductShelves: (row as any).isProductShelves
                 }
               }),
               border: false,
@@ -235,19 +236,20 @@ export const spceChildrenColumn: CustomerProps.CustomTable.MapColumn<
       label: '操作',
       align: 'center',
       fixed: 'right',
-      width: '250px',
+      width: '200px',
       render(scope) {
         return (
           <>
             <ElButton
-              type="primary"
+              type={scope.row.isProductShelves === 'Y' ? 'info' : 'primary'}
+              disabled={scope.row.isProductShelves === 'Y'}
               link
               onClick={e => param?.handleChildAdd?.(scope, e)}
               class="btn"
             >
               添加子规格
             </ElButton>
-            <ElPopconfirm
+            {/* <ElPopconfirm
               title={`是否确认${
                 scope.row.isShelves === 'Y' ? '下架' : '上架'
               }规格`}
@@ -256,7 +258,14 @@ export const spceChildrenColumn: CustomerProps.CustomTable.MapColumn<
               {{
                 reference: () => (
                   <ElButton
-                    type={scope.row.isShelves === 'Y' ? 'warning' : 'primary'}
+                    type={
+                      scope.row.isProductShelves === 'Y'
+                        ? 'info'
+                        : scope.row.isShelves === 'Y'
+                        ? 'warning'
+                        : 'primary'
+                    }
+                    disabled={scope.row.isProductShelves === 'Y'}
                     link
                     class="btn"
                   >
@@ -264,9 +273,10 @@ export const spceChildrenColumn: CustomerProps.CustomTable.MapColumn<
                   </ElButton>
                 )
               }}
-            </ElPopconfirm>
+            </ElPopconfirm> */}
             <ElButton
-              type="primary"
+              type={scope.row.isProductShelves === 'Y' ? 'info' : 'primary'}
+              disabled={scope.row.isProductShelves === 'Y'}
               link
               onClick={e => param?.handleChildEdit?.(scope, e)}
               class="btn"
@@ -274,7 +284,8 @@ export const spceChildrenColumn: CustomerProps.CustomTable.MapColumn<
               编辑
             </ElButton>
             <ElButton
-              type="danger"
+              type={scope.row.isProductShelves === 'Y' ? 'info' : 'danger'}
+              disabled={scope.row.isProductShelves === 'Y'}
               link
               onClick={e => param?.handleChildDel?.(scope, e)}
               class="btn"
@@ -304,7 +315,8 @@ export const spceColumn: CustomerProps.CustomTable.MapColumn<
                 return {
                   ...v,
                   productId: row.id,
-                  parentSkuId: (row as any)?.skuId ?? ''
+                  parentSkuId: (row as any)?.skuId ?? '',
+                  isProductShelves: row.isShelves
                 }
               }),
               border: false,
@@ -369,18 +381,288 @@ export const spceColumn: CustomerProps.CustomTable.MapColumn<
       label: '操作',
       align: 'center',
       fixed: 'right',
-      width: '250px',
+      width: '120px',
       render(scope) {
         return (
           <>
             <ElButton
-              type="primary"
+              type={scope.row.isShelves === 'Y' ? 'info' : 'primary'}
               link
+              disabled={scope.row.isShelves === 'Y'}
               onClick={e => param?.handleAdd?.(scope, e)}
               class="btn"
             >
               添加子规格
             </ElButton>
+            {/* <ElPopconfirm
+              title={`是否确认${
+                scope.row.isShelves === 'Y' ? '下架' : '上架'
+              }商品`}
+              onConfirm={e => param?.handleShelve?.(scope, e)}
+            >
+              {{
+                reference: () => (
+                  <ElButton
+                    type={scope.row.isShelves === 'Y' ? 'warning' : 'primary'}
+                    link
+                    class="btn"
+                  >
+                    {scope.row.isShelves === 'Y' ? '下架商品' : '上架商品'}
+                  </ElButton>
+                )
+              }}
+            </ElPopconfirm> */}
+          </>
+        )
+      }
+    }
+  ]
+}
+
+export const spceShelvesChildrenColumn: CustomerProps.CustomTable.MapColumn<
+  Service.Product.SpecChildListItem
+> = param => {
+  return [
+    {
+      prop: 'children',
+      type: 'expand',
+      align: 'center',
+      render({ row }) {
+        if (row.children?.length) {
+          const attrs: CustomerProps.CustomTable.TableProps<Service.Product.SpecChildListItem> =
+            {
+              data: row.children.map(v => {
+                return {
+                  ...v,
+                  productId: row.productId,
+                  isProductShelves: (row as any).isProductShelves
+                }
+              }),
+              border: false,
+              column: spceShelvesChildrenColumn(param),
+              rowClassName({ row }) {
+                if (row?.children?.length) {
+                  return ''
+                }
+                return 'row-expand-cover'
+              },
+              maxHeight: '600px',
+              emptyText: '暂无数据'
+            }
+          return <CustomTable {...attrs} />
+        }
+        return <></>
+      }
+    },
+    {
+      prop: 'skuId',
+      label: 'skuID',
+      align: 'center',
+      minWidth: '120px'
+    },
+    {
+      prop: 'specsName',
+      label: '规格名称',
+      minWidth: '150px',
+      align: 'center'
+    },
+    {
+      prop: 'originalAmount',
+      label: '原价',
+      align: 'center',
+      minWidth: '150px',
+      sortable: true,
+      formatter(row, column, cellValue, index) {
+        // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+        return (row.originalAmount / 100).toFixed(2)
+      }
+    },
+    {
+      prop: 'totalStock',
+      label: '总库存',
+      align: 'center',
+      minWidth: '150px',
+      sortable: true
+    },
+    {
+      prop: 'shelvesStock',
+      label: '上架库存',
+      align: 'center',
+      minWidth: '150px',
+      sortable: true
+    },
+    {
+      prop: 'isShelves',
+      label: '上架状态',
+      align: 'center',
+      minWidth: '150px',
+      render(scope) {
+        return (
+          <span
+            style={{
+              color:
+                scope.row.isShelves === 'N' ? 'red' : 'var(--el-color-primary)'
+            }}
+          >
+            {scope.row.isShelves === 'N' ? '未上架' : '已上架'}
+          </span>
+        )
+      }
+    },
+    {
+      prop: 'custom',
+      label: '操作',
+      align: 'center',
+      fixed: 'right',
+      width: '120px',
+      render(scope) {
+        return (
+          <>
+            {/* <ElButton
+              type={scope.row.isProductShelves === 'Y' ? 'info' : 'primary'}
+              disabled={scope.row.isProductShelves === 'Y'}
+              link
+              onClick={e => param?.handleChildAdd?.(scope, e)}
+              class="btn"
+            >
+              添加子规格
+            </ElButton> */}
+            <ElPopconfirm
+              title={`是否确认${
+                scope.row.isShelves === 'Y' ? '下架' : '上架'
+              }规格`}
+              onConfirm={e => param?.handleChildShelves?.(scope, e)}
+            >
+              {{
+                reference: () => (
+                  <ElButton
+                    type={
+                      scope.row.isProductShelves === 'Y'
+                        ? 'info'
+                        : scope.row.isShelves === 'Y'
+                        ? 'warning'
+                        : 'primary'
+                    }
+                    disabled={scope.row.isProductShelves === 'Y'}
+                    link
+                    class="btn"
+                  >
+                    {scope.row.isShelves === 'Y' ? '规格下架' : '规格上架'}
+                  </ElButton>
+                )
+              }}
+            </ElPopconfirm>
+            {/* <ElButton
+              type={scope.row.isProductShelves === 'Y' ? 'info' : 'primary'}
+              disabled={scope.row.isProductShelves === 'Y'}
+              link
+              onClick={e => param?.handleChildEdit?.(scope, e)}
+              class="btn"
+            >
+              编辑
+            </ElButton>
+            <ElButton
+              type={scope.row.isProductShelves === 'Y' ? 'info' : 'danger'}
+              disabled={scope.row.isProductShelves === 'Y'}
+              link
+              onClick={e => param?.handleChildDel?.(scope, e)}
+              class="btn"
+            >
+              删除
+            </ElButton> */}
+          </>
+        )
+      }
+    }
+  ]
+}
+
+export const spceShelvesColumn: CustomerProps.CustomTable.MapColumn<
+  Service.Product.SpecListItem
+> = param => {
+  return [
+    {
+      prop: 'children',
+      type: 'expand',
+      align: 'center',
+      render({ row }) {
+        if (row.children?.length) {
+          const attrs: CustomerProps.CustomTable.TableProps<Service.Product.SpecChildListItem> =
+            {
+              data: row.children.map(v => {
+                return {
+                  ...v,
+                  productId: row.id,
+                  parentSkuId: (row as any)?.skuId ?? '',
+                  isProductShelves: row.isShelves
+                }
+              }),
+              border: false,
+              column: spceShelvesChildrenColumn({
+                handleChildAdd: param?.handleChildAdd as any,
+                handleChildEdit: param?.handleChildEdit as any,
+                handleChildDel: param?.handleChildDel as any,
+                handleChildShelves: param?.handleChildShelves as any
+              }),
+              rowClassName({ row }) {
+                if (row?.children?.length) {
+                  return ''
+                }
+                return 'row-expand-cover'
+              },
+              maxHeight: '600px',
+              emptyText: '暂无数据'
+            }
+          return <CustomTable {...attrs} />
+        }
+        return <></>
+      }
+    },
+    {
+      prop: 'name',
+      label: '商品名称',
+      align: 'center',
+      minWidth: '150px'
+    },
+    {
+      prop: 'categoryName',
+      label: '分类名称',
+      align: 'center',
+      minWidth: '150px'
+    },
+    {
+      prop: 'groupName',
+      label: '分组名称',
+      align: 'center',
+      minWidth: '150px'
+    },
+    {
+      prop: 'isShelves',
+      label: '上架状态',
+      align: 'center',
+      minWidth: '150px',
+      render(scope) {
+        return (
+          <span
+            style={{
+              color:
+                scope.row.isShelves === 'N' ? 'red' : 'var(--el-color-primary)'
+            }}
+          >
+            {scope.row.isShelves === 'N' ? '未上架' : '已上架'}
+          </span>
+        )
+      }
+    },
+    {
+      prop: 'custom',
+      label: '操作',
+      align: 'center',
+      fixed: 'right',
+      width: '120px',
+      render(scope) {
+        return (
+          <>
             <ElPopconfirm
               title={`是否确认${
                 scope.row.isShelves === 'Y' ? '下架' : '上架'

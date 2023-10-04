@@ -294,6 +294,7 @@ export function useProductForm(
   const ruleForm: CustomerProps.CustomForm.CustomFormProps = reactive({
     model,
     labelWidth: 120,
+    disabled: false,
     hideRequiredAsterisk: false,
     rules: {
       name: [{ message: '请输入商品名称', required: true }],
@@ -428,6 +429,7 @@ export function useProductForm(
           autoUpload: true,
           fileList: model.carouselFileList,
           showFileList: true,
+          disabled: false,
           data: {
             limitSize: 5,
             limitUnit: 'M'
@@ -506,6 +508,7 @@ export function useProductForm(
           autoUpload: true,
           fileList: model.thumbnailFileList,
           showFileList: true,
+          disabled: false,
           data: {
             limitSize: 5,
             limitUnit: 'M'
@@ -584,6 +587,7 @@ export function useProductForm(
           autoUpload: true,
           fileList: model.defailFileList,
           showFileList: true,
+          disabled: false,
           data: {
             limitSize: 5,
             limitUnit: 'M'

@@ -9,7 +9,7 @@ const routes: RouteRecordRaw[] = [
     redirect: '/moduleConfig/product',
     component: Layout,
     sort: 2,
-    meta: { title: 'MODULECONFIG.TITLE' },
+    meta: { title: 'MODULECONFIG.TITLE', icon: 'Setting' },
     children: [
       {
         path: '/moduleConfig/productDetail',
@@ -34,15 +34,41 @@ const routes: RouteRecordRaw[] = [
         }
       },
       {
-        path: '/moduleConfig/productSpec',
-        name: 'ProductSpec',
-        component: () => import('@/views/moduleConfig/productSpec.vue'),
+        path: '/moduleConfig/productSpecs',
+        name: 'ProductSpecs',
+        component: () => import('@/views/moduleConfig/productSpecs/index.vue'),
         sort: 2,
         meta: {
-          title: 'MODULECONFIG.PRODUCTSPEC.TITLE',
+          title: 'MODULECONFIG.PRODUCTSPECS.TITLE',
           icon: 'Wallet',
           roles: [Enums.Roles.ADMIN, Enums.Roles.OP]
-        }
+        },
+        children: [
+          {
+            path: '/moduleConfig/productSpecs/productShelve',
+            name: 'ProductShelve',
+            component: () =>
+              import('@/views/moduleConfig/productSpecs/productShelve.vue'),
+            sort: 3,
+            meta: {
+              title: 'MODULECONFIG.PRODUCTSPECS.PRODUCTSHELVE.TITLE',
+              icon: 'Menu',
+              roles: [Enums.Roles.ADMIN, Enums.Roles.OP]
+            }
+          },
+          {
+            path: '/moduleConfig/productSpecs/productSpecShelve',
+            name: 'ProductSpecShelve',
+            component: () =>
+              import('@/views/moduleConfig/productSpecs/productSpecShelve.vue'),
+            sort: 3,
+            meta: {
+              title: 'MODULECONFIG.PRODUCTSPECS.PRODUCTSPECSHELVE.TITLE',
+              icon: 'Menu',
+              roles: [Enums.Roles.ADMIN, Enums.Roles.OP]
+            }
+          }
+        ]
       },
       {
         path: '/moduleConfig/productCategory',

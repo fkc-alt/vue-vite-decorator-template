@@ -33,41 +33,43 @@ provide('PROJECTICON', PROJECTICON)
         class="drawer-bg"
         @click="setOpened(!opened)"
       />
-      <div :class="classObj">
-        <ElMenu
-          router
-          mode="vertical"
-          text-color="#bfcbd9"
-          background-color="#222832"
-          active-text-color="#fff"
-          unique-opened
-          :collapse="isCollapse"
-          :collapse-transition="false"
-          :default-active="route.path"
-        >
-          <div
-            class="sidebar-logo-link collapse-logo"
-            @click="router.push('/')"
+      <el-aside :class="classObj">
+        <div>
+          <ElMenu
+            router
+            mode="vertical"
+            text-color="#bfcbd9"
+            background-color="#222832"
+            active-text-color="#fff"
+            unique-opened
+            :collapse="isCollapse"
+            :collapse-transition="false"
+            :default-active="route.path"
           >
-            <img
-              :src="PROJECTICON"
-              class="sidebar-logo"
-            />
-            <h1
-              v-if="!isCollapse"
-              class="sidebar-title"
+            <div
+              class="sidebar-logo-link collapse-logo"
+              @click="router.push('/')"
             >
-              {{ $t('SYSTEM.TITLE') }}
-            </h1>
-          </div>
+              <img
+                :src="PROJECTICON"
+                class="sidebar-logo"
+              />
+              <h1
+                v-if="!isCollapse"
+                class="sidebar-title"
+              >
+                {{ $t('SYSTEM.TITLE') }}
+              </h1>
+            </div>
 
-          <SidebarItem
-            v-for="routeRecord in routes"
-            :key="routeRecord.path"
-            :item="routeRecord"
-          />
-        </ElMenu>
-      </div>
+            <SidebarItem
+              v-for="routeRecord in routes"
+              :key="routeRecord.path"
+              :item="routeRecord"
+            />
+          </ElMenu>
+        </div>
+      </el-aside>
 
       <ElContainer>
         <ElHeader>

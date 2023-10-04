@@ -41,7 +41,10 @@ const tableProps = computed<
         e.preventDefault()
         router.push({
           path: '/moduleConfig/productDetail',
-          query: { id: row.id, type: 'update' }
+          query: {
+            id: row.id,
+            type: row.isShelves === 'Y' ? 'preview' : 'update'
+          }
         })
       },
       handleDel: ({ row }, e: any) => {

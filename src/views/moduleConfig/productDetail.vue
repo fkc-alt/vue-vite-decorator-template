@@ -14,6 +14,9 @@ type KeyTuple = [
 const { categoryList, groupList, initialConfig } = useConfig()
 const [route, router] = [useRoute(), useRouter()]
 const isEdit = computed(() => !!route.query.id)
+const isPreview = computed(() => route.query.type === 'preview')
+
+console.log(isPreview.value, 'isEdit')
 const customForm = ref<CustomerProps.CustomForm.FormRef>()
 const { ruleForm } = useProductForm(
   import.meta.env.VITE_APP_BASE_OSS_API,
@@ -30,7 +33,12 @@ watch(
       })
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { updateAt, createAt, ...Rest } = data
+      const _disabled = Rest.isShelves === 'Y'
       Object.assign(ruleForm.model, { ...Rest })
+      ;(ruleForm as any).disabled = _disabled
+      ;(ruleForm.formItems[5].componentProps as any).disabled = _disabled
+      ;(ruleForm.formItems[6].componentProps as any).disabled = _disabled
+      ;(ruleForm.formItems[7].componentProps as any).disabled = _disabled
       getProductProperties()
     }
   },
@@ -136,7 +144,8 @@ initialConfig()
       />
       <ElButton @click="onCancel">返 回</ElButton>
       <ElButton
-        type="primary"
+        :type="isPreview ? 'info' : 'primary'"
+        :disabled="isPreview"
         @click="onSubmit"
         >确 定</ElButton
       >

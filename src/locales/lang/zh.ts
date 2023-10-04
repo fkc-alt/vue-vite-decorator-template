@@ -48,6 +48,15 @@ export default {
     PRODUCTDETAIL: {
       TITLE: '商品详情'
     },
+    PRODUCTSPECS: {
+      TITLE: '商品规格管理',
+      PRODUCTSHELVE: {
+        TITLE: '商品上下架配置'
+      },
+      PRODUCTSPECSHELVE: {
+        TITLE: '规格上下架配置'
+      }
+    },
     PRODUCTSPEC: {
       TITLE: '商品规格管理'
     },

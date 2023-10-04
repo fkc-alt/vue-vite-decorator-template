@@ -96,6 +96,7 @@ declare namespace Service {
     type ProductDetailRes = ProductUpdateReq & {
       updateAt: string
       createAt: string
+      isShelves: string
     }
     interface PropertiesListReq {
       productId: number
@@ -201,6 +202,7 @@ declare namespace Service {
       id: number
       skuId: string
       productId: number
+      isProductShelves?: string
       parentSkuId: number | null
       specsName: string
       originalAmount: number

@@ -9,7 +9,7 @@ const routes: RouteRecordRaw[] = [
     redirect: '/indexConfig/swiper',
     component: Layout,
     sort: 2,
-    meta: { title: 'INDEXCONFIG.TITLE' },
+    meta: { title: 'INDEXCONFIG.TITLE', icon: 'House' },
     children: [
       {
         path: '/indexConfig/swiper',
