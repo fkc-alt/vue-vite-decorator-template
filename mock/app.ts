@@ -63,13 +63,13 @@ const MockList: MockMethod[] = [
   {
     url: '/web/article/tableData',
     method: 'post',
-    response: (): Services.Common.Response<Service.TableDataRes> => {
+    response: (): Services.Common.Response<any> => {
       return {
         code: 200,
         msg: '成功',
         data: {
           tableList: [
-            ...create<Service.TableDataRecord>(10, _item => {
+            ...create<any>(10, _item => {
               return {
                 date: Random.date(),
                 name: Random.cname(),
@@ -107,13 +107,13 @@ const MockList: MockMethod[] = [
   {
     url: '/web/order/orderList',
     method: 'post',
-    response: (): Services.Common.Response<Service.OrderListRes> => {
+    response: (): Services.Common.Response<any> => {
       return {
         code: 200,
         msg: '成功',
         data: {
           orderList: [
-            ...create<Service.OrderItem>(20, _item => {
+            ...create<Service.Order.OrderItem>(20, _item => {
               return {
                 name: Random.cname(),
                 orderId: `${Random.integer(1, 50)}${Random.string(2, 10)}`,
@@ -129,11 +129,11 @@ const MockList: MockMethod[] = [
   {
     url: '/web/order/orderDetail',
     method: 'get',
-    response: (): Services.Common.Response<Service.OrderDetailRes> => {
+    response: (): Services.Common.Response<any> => {
       return {
         code: 200,
         msg: '成功',
-        data: create<Service.OrderItem>(1, _item => {
+        data: create<Service.Order.OrderItem>(1, _item => {
           return {
             name: Random.cname(),
             orderId: `${Random.integer(1, 50)}${Random.string(2, 10)}`,

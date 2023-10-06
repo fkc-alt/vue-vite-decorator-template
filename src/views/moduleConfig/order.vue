@@ -1,49 +1,39 @@
 <script lang="ts" setup>
+import HTTPClient from '@/main'
 import usePager from '@/hooks/usePager'
-import { swiperColumn } from './config'
+import { OrderColumn, TradeStateOptions } from './config'
 
-const { proxy } = getCurrentInstance()!
-const refTable = ref<CustomerProps.CustomTable.TableRef>()
-const { handlePageChange, handleSizeChange, loading, pager } = usePager()
-const swiperList = ref<Service.IndexConfig.QuerySwiperConfigItem[]>([])
-
-const tableProps = computed<
-  CustomerProps.CustomTable.TableProps<Service.IndexConfig.QuerySwiperConfigItem>
->(() => {
+const { handlePageChange, handleSizeChange, loading, pager } = usePager({
+  orderId: '',
+  userId: '',
+  outTradeNo: '',
+  spOpenid: '',
+  tradeState: ''
+})
+const orderList = ref<any[]>([])
+const tableProps = computed<CustomerProps.CustomTable.TableProps<any>>(() => {
   return {
-    data: swiperList.value,
-    column: swiperColumn(),
+    data: orderList.value,
+    column: OrderColumn(),
     border: false,
-    height: '600px',
-    emptyText: '暂无数据',
-    onSelectionChange(rows: Service.IndexConfig.QuerySwiperConfigRes) {
-      console.log(rows)
-    }
+    maxHeight: '600px',
+    emptyText: '暂无数据'
   }
 })
 
-const handleAdd = () => {
-  console.log('add')
-}
-const handleDelete = () => {
-  console.log('delete')
-}
-const Delete = () => {
-  console.log('delete')
-}
 const init = async () => {
   loading.value = true
-  proxy?.HTTPClient.userController
-    .login({
-      username: '123',
-      password: '123'
-    })
-    .then(res => {
-      console.log(res)
-    })
-    .finally(() => (loading.value = false))
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { total, ...Rest } = pager.value
+  try {
+    const { data } = await HTTPClient.orderController.list(Rest)
+    pager.value.total = data.total || 0
+    orderList.value = data.item || []
+  } catch (error) {
+  } finally {
+    loading.value = false
+  }
 }
-
 init()
 </script>
 <template>
@@ -51,30 +41,44 @@ init()
     <ElCard>
       <template #header>
         <div class="header">
+          <ElInput
+            v-model="pager.orderId"
+            placeholder="请输入订单id"
+          />
+          <ElInput
+            v-model="pager.userId"
+            placeholder="请输入会员id"
+          />
+          <ElInput
+            v-model="pager.outTradeNo"
+            placeholder="请输入商户系统订单号"
+          />
+          <ElInput
+            v-model="pager.spOpenid"
+            placeholder="请输入下单openid"
+            maxlength="11"
+          />
+          <ElSelect
+            v-model="pager.tradeState"
+            clearable
+            placeholder="请选择订单状态"
+          >
+            <ElOption
+              v-for="trade in TradeStateOptions"
+              :key="trade.value"
+              :value="trade.value"
+              :label="trade.label"
+            />
+          </ElSelect>
           <el-button
             type="primary"
-            icon="Plus"
-            @click="handleAdd"
-            >增加</el-button
+            icon="Search"
+            @click="init"
+            >查询</el-button
           >
-          <el-popconfirm
-            title="确定删除吗？"
-            confirmButtonText="确定"
-            cancelButtonText="取消"
-            @confirm="handleDelete"
-          >
-            <template #reference>
-              <el-button
-                type="danger"
-                :icon="Delete"
-                >批量删除</el-button
-              >
-            </template>
-          </el-popconfirm>
         </div>
       </template>
       <CustomTable
-        ref="refTable"
         v-bind="tableProps"
         v-loading="loading"
       />
@@ -90,3 +94,22 @@ init()
     </ElCard>
   </div>
 </template>
+<style lang="scss" scoped>
+.header {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+  .el-input {
+    width: 300px;
+  }
+  .el-select {
+    width: 300px;
+  }
+  .el-button {
+    margin-left: 0;
+  }
+}
+.btn-group {
+  text-align: right;
+}
+</style>

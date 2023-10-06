@@ -1,6 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import CustomTable from '@/components/CustomTable'
-import { ElButton, ElPopconfirm } from 'element-plus'
+import { Picture } from '@element-plus/icons-vue'
+import { ElButton, ElIcon, ElImage, ElPopconfirm } from 'element-plus'
 import { Enums } from '~@/typings/enums/product'
 
 export const ShelvesOptions = [
@@ -11,6 +12,33 @@ export const ShelvesOptions = [
   {
     label: '未上架',
     value: 'N'
+  }
+]
+
+export const TradeStateOptions = [
+  {
+    label: '未支付',
+    value: 'NO_TPAY'
+  },
+  {
+    label: '支付成功',
+    value: 'PAY_SUCCESS'
+  },
+  {
+    label: '部分退款',
+    value: 'PARTIAL_REFUND'
+  },
+  {
+    label: '全部退款',
+    value: 'FULL_REFUND'
+  },
+  {
+    label: '待收货',
+    value: 'TO_BE_RECEIVED'
+  },
+  {
+    label: '已关闭',
+    value: 'CLOSED'
   }
 ]
 
@@ -772,6 +800,119 @@ export const imageTypeRelationKeys: Record<string, any> = {
   [Enums.ImageType.CAROUSEL_IMAGE]: 'carouselFileList',
   [Enums.ImageType.DETAIL_IMAGE]: 'defailFileList',
   [Enums.ImageType.THUMBNAIL]: 'thumbnailFileList'
+}
+
+export const wechatUserColumn: CustomerProps.CustomTable.MapColumn<
+  any
+> = param => {
+  return [
+    {
+      prop: 'id',
+      label: '会员id',
+      align: 'center',
+      minWidth: '200px'
+    },
+    {
+      prop: 'id',
+      label: '会员头像',
+      align: 'center',
+      width: '200px',
+      render(scope) {
+        return (
+          <ElImage
+            class="avatar"
+            src={
+              scope.row.avatarUrl ||
+              'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0'
+            }
+            fit="cover"
+          >
+            {{
+              error: () => (
+                <ElIcon>
+                  <Picture />
+                </ElIcon>
+              )
+            }}
+          </ElImage>
+        )
+      }
+    },
+    {
+      prop: 'nickName',
+      label: '会员昵称',
+      align: 'center',
+      minWidth: '150px'
+    },
+    {
+      prop: 'phoneNumber',
+      label: '手机号码',
+      align: 'center',
+      minWidth: '150px'
+    },
+    {
+      prop: 'sex',
+      label: '会员性别',
+      align: 'center',
+      minWidth: '150px'
+    },
+    {
+      prop: 'unionId',
+      label: 'unionId',
+      align: 'center',
+      minWidth: '150px'
+    },
+    {
+      prop: 'openId',
+      label: 'openId',
+      align: 'center',
+      minWidth: '150px'
+    }
+  ]
+}
+
+export const OrderColumn: CustomerProps.CustomTable.MapColumn<any> = param => {
+  return [
+    {
+      prop: 'orderId',
+      label: '订单id',
+      align: 'center',
+      minWidth: '200px'
+    },
+    {
+      prop: 'userId',
+      label: '会员id',
+      align: 'center',
+      minWidth: '150px'
+    },
+    {
+      prop: 'payableAmount',
+      label: '支付金额',
+      align: 'center',
+      minWidth: '150px',
+      formatter(row) {
+        return ((row.payableAmount || 0) / 100).toFixed(2)
+      }
+    },
+    {
+      prop: 'tradeStateDesc',
+      label: '订单状态',
+      align: 'center',
+      width: '180px'
+    },
+    {
+      prop: '下单openid',
+      label: 'spOpenid',
+      align: 'center',
+      minWidth: '150px'
+    },
+    {
+      prop: 'outTradeNo',
+      label: '商户系统订单号',
+      align: 'center',
+      minWidth: '150px'
+    }
+  ]
 }
 
 export {}

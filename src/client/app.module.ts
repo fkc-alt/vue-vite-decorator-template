@@ -1,4 +1,6 @@
 import { Module } from 'http-typedi'
+import { CommonModule } from './common/common.module'
+import { WechatUserController, WechatUserModule } from './routes/wechatUser'
 import { UserController, UserModule } from './routes/user'
 import {
   ProductModule,
@@ -7,10 +9,16 @@ import {
   GroupController,
   SpecController
 } from './routes/product'
-import { CommonModule } from './common/common.module'
+import { OrderModule, OrderController } from './routes/order'
 
 @Module({
-  imports: [UserModule, ProductModule, CommonModule],
+  imports: [
+    UserModule,
+    ProductModule,
+    WechatUserModule,
+    OrderModule,
+    CommonModule
+  ],
   providers: []
 })
 export class AppModule {
@@ -19,6 +27,8 @@ export class AppModule {
     readonly productController: ProductController,
     readonly productCateGoryController: CateGoryController,
     readonly productGroupController: GroupController,
-    readonly productSpecController: SpecController
+    readonly productSpecController: SpecController,
+    readonly wechatUserController: WechatUserController,
+    readonly orderController: OrderController
   ) {}
 }

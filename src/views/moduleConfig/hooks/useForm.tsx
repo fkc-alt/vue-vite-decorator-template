@@ -14,7 +14,7 @@ import {
   UploadFile,
   UploadFiles
 } from 'element-plus'
-import { getToken } from '@/utils'
+// import { getToken } from '@/utils'
 import { Enums } from '~@/typings/enums/product'
 
 export const modelCategoryDefault = () => {
@@ -435,7 +435,7 @@ export function useProductForm(
             limitUnit: 'M'
           },
           headers: {
-            'AUTHORIZATION-WITH-MALL': getToken()
+            // 'AUTHORIZATION-WITH-MALL': getToken()
           },
           action: ossBaseApi + '/v1/upload/image',
           listType: 'picture-card',
@@ -514,7 +514,7 @@ export function useProductForm(
             limitUnit: 'M'
           },
           headers: {
-            'AUTHORIZATION-WITH-MALL': getToken()
+            // 'AUTHORIZATION-WITH-MALL': getToken()
           },
           action: ossBaseApi + '/v1/upload/image',
           listType: 'picture-card',
@@ -593,7 +593,7 @@ export function useProductForm(
             limitUnit: 'M'
           },
           headers: {
-            'AUTHORIZATION-WITH-MALL': getToken()
+            // 'AUTHORIZATION-WITH-MALL': getToken()
           },
           action: ossBaseApi + '/v1/upload/image',
           listType: 'picture-card',
