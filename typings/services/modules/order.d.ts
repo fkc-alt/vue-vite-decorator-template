@@ -36,5 +36,50 @@ declare namespace Service {
       orderId: string
       price: number
     }
+    interface ReservationListReq extends Services.Common.Pagination {
+      /**
+       * 订单id
+       */
+      orderId?: string
+      /**
+       * 服务结束日期
+       */
+      serviceEndDate?: string
+      /**
+       * 服务结束时间
+       */
+      serviceEndTime?: string
+      /**
+       * 服务开始日期
+       */
+      serviceStartDate?: string
+      /**
+       * 服务开始时间
+       */
+      serviceStartTime?: string
+      /**
+       * 服务状态, NOT_IN_EFFECT：未生效；TO_BE_SERVED：待服务；IN_SERVICE：服务中；FINISH：已完成；CLOSED：已关闭；
+       */
+      state?:
+        | 'NOT_IN_EFFECT'
+        | 'TO_BE_SERVED'
+        | 'IN_SERVICE'
+        | 'FINISH'
+        | 'CLOSED'
+    }
+    interface ReservationListRes {
+      offset: number
+      total: number
+      item: any[]
+    }
+    interface ReservationUpdateStateReq {
+      id: number
+      state: 'IN_SERVICE' | 'FINISH'
+    }
+    type ReservationUpdateStateRes = boolean
+    interface ReservationDetailReq {
+      id: number
+    }
+    type ReservationDetailRes = any
   }
 }

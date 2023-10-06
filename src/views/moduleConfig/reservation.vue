@@ -1,20 +1,19 @@
 <script lang="ts" setup>
 import HTTPClient from '@/main'
 import usePager from '@/hooks/usePager'
-import { orderColumn, TradeStateOptions } from './config'
+import { reservationColumn, ReservationStateOptions } from './config'
 
 const { handlePageChange, handleSizeChange, loading, pager } = usePager({
   orderId: '',
   userId: '',
-  outTradeNo: '',
-  spOpenid: '',
-  tradeState: ''
+  time: '',
+  state: ''
 })
-const orderList = ref<any[]>([])
+const reservationList = ref<any[]>([])
 const tableProps = computed<CustomerProps.CustomTable.TableProps<any>>(() => {
   return {
-    data: orderList.value,
-    column: orderColumn(),
+    data: reservationList.value,
+    column: reservationColumn(),
     border: false,
     maxHeight: '600px',
     emptyText: '暂无数据'
@@ -28,7 +27,7 @@ const init = async () => {
   try {
     const { data } = await HTTPClient.orderController.list(Rest)
     pager.value.total = data.total || 0
-    orderList.value = data.item || []
+    reservationList.value = data.item || []
   } catch (error) {
   } finally {
     loading.value = false
@@ -45,26 +44,13 @@ init()
             v-model="pager.orderId"
             placeholder="请输入订单id"
           />
-          <ElInput
-            v-model="pager.userId"
-            placeholder="请输入会员id"
-          />
-          <ElInput
-            v-model="pager.outTradeNo"
-            placeholder="请输入商户系统订单号"
-          />
-          <ElInput
-            v-model="pager.spOpenid"
-            placeholder="请输入下单openid"
-            maxlength="11"
-          />
           <ElSelect
-            v-model="pager.tradeState"
+            v-model="pager.state"
             clearable
             placeholder="请选择订单状态"
           >
             <ElOption
-              v-for="trade in TradeStateOptions"
+              v-for="trade in ReservationStateOptions"
               :key="trade.value"
               :value="trade.value"
               :label="trade.label"

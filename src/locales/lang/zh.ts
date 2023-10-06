@@ -69,6 +69,9 @@ export default {
     ORDER: {
       TITLE: '订单管理'
     },
+    RESERVATION: {
+      TITLE: '预约管理'
+    },
     MEMBER: {
       TITLE: '会员管理'
     }

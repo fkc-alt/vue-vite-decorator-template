@@ -42,6 +42,29 @@ export const TradeStateOptions = [
   }
 ]
 
+export const ReservationStateOptions = [
+  {
+    label: '未生效',
+    value: 'NOT_IN_EFFECT'
+  },
+  {
+    label: '待服务',
+    value: 'TO_BE_SERVED'
+  },
+  {
+    label: '服务中',
+    value: 'IN_SERVICE'
+  },
+  {
+    label: '已完成',
+    value: 'FINISH'
+  },
+  {
+    label: '已关闭',
+    value: 'CLOSED'
+  }
+]
+
 export const productColumn: CustomerProps.CustomTable.MapColumn<
   Service.Product.ProductListItem
 > = param => {
@@ -871,7 +894,53 @@ export const wechatUserColumn: CustomerProps.CustomTable.MapColumn<
   ]
 }
 
-export const OrderColumn: CustomerProps.CustomTable.MapColumn<any> = param => {
+export const orderColumn: CustomerProps.CustomTable.MapColumn<any> = param => {
+  return [
+    {
+      prop: 'orderId',
+      label: '订单id',
+      align: 'center',
+      minWidth: '200px'
+    },
+    {
+      prop: 'userId',
+      label: '会员id',
+      align: 'center',
+      minWidth: '150px'
+    },
+    {
+      prop: 'payableAmount',
+      label: '支付金额',
+      align: 'center',
+      minWidth: '150px',
+      formatter(row) {
+        return ((row.payableAmount || 0) / 100).toFixed(2)
+      }
+    },
+    {
+      prop: 'tradeStateDesc',
+      label: '订单状态',
+      align: 'center',
+      width: '180px'
+    },
+    {
+      prop: '下单openid',
+      label: 'spOpenid',
+      align: 'center',
+      minWidth: '150px'
+    },
+    {
+      prop: 'outTradeNo',
+      label: '商户系统订单号',
+      align: 'center',
+      minWidth: '150px'
+    }
+  ]
+}
+
+export const reservationColumn: CustomerProps.CustomTable.MapColumn<
+  any
+> = param => {
   return [
     {
       prop: 'orderId',
