@@ -984,4 +984,23 @@ export const reservationColumn: CustomerProps.CustomTable.MapColumn<
   ]
 }
 
+export const orderLogColumn: CustomerProps.CustomTable.MapColumn<
+  any
+> = param => {
+  return [
+    {
+      prop: 'orderId',
+      label: '订单id',
+      align: 'center',
+      minWidth: '200px'
+    },
+    {
+      prop: 'msg',
+      label: '操作信息',
+      align: 'center',
+      minWidth: '150px'
+    }
+  ]
+}
+
 export {}

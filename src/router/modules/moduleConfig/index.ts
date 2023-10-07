@@ -94,15 +94,41 @@ const routes: RouteRecordRaw[] = [
         }
       },
       {
-        path: '/moduleConfig/order',
+        path: '/moduleConfig',
         name: 'Order',
-        component: () => import('@/views/moduleConfig/order.vue'),
+        redirect: '/moduleConfig/order',
+        component: () => import('@/views/moduleConfig/order/index.vue'),
         sort: 5,
         meta: {
-          title: 'MODULECONFIG.ORDER.TITLE',
+          title: 'MODULECONFIG.ORDERCONFIG.TITLE',
           icon: 'List',
           roles: [Enums.Roles.ADMIN, Enums.Roles.OP]
-        }
+        },
+        children: [
+          {
+            path: '/moduleConfig/order',
+            name: 'Order',
+            component: () => import('@/views/moduleConfig/order/order.vue'),
+            sort: 1,
+            meta: {
+              title: 'MODULECONFIG.ORDERCONFIG.ORDER.TITLE',
+              icon: 'List',
+              roles: [Enums.Roles.ADMIN, Enums.Roles.OP]
+            }
+          },
+          {
+            path: '/moduleConfig/order/logger',
+            name: 'OrderLogger',
+            component: () =>
+              import('@/views/moduleConfig/order/orderLogger.vue'),
+            sort: 2,
+            meta: {
+              title: 'MODULECONFIG.ORDERCONFIG.ORDERLOGGER.TITLE',
+              icon: 'List',
+              roles: [Enums.Roles.ADMIN, Enums.Roles.OP]
+            }
+          }
+        ]
       },
       {
         path: '/moduleConfig/reservation',

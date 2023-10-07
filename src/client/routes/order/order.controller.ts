@@ -1,6 +1,6 @@
 import { Controller, PostMapping, RequestConfig } from 'http-typedi'
 import { OrderService } from './order.service'
-import { OrderListDto } from './dto/order.dto'
+import { OrderListDto, OrderPperateLogDto } from './dto/order.dto'
 
 @Controller('order/v1')
 export class OrderController {
@@ -12,6 +12,16 @@ export class OrderController {
     R extends Service.Order.OrderListRes
   >(configure: OrderListDto): Promise<Services.Common.Response<R>> {
     return await this.orderService.list<T, Services.Common.Response<R>>(
+      <RequestConfig<T>>configure
+    )
+  }
+
+  @PostMapping('operate/log')
+  public async log<
+    T extends Service.Order.OrderPperateLogReq,
+    R extends Service.Order.OrderPperateLogRes
+  >(configure: OrderPperateLogDto): Promise<Services.Common.Response<R>> {
+    return await this.orderService.log<T, Services.Common.Response<R>>(
       <RequestConfig<T>>configure
     )
   }

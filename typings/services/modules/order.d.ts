@@ -81,5 +81,9 @@ declare namespace Service {
       id: number
     }
     type ReservationDetailRes = any
+    interface OrderPperateLogReq {
+      orderId: string
+    }
+    type OrderPperateLogRes = any[]
   }
 }

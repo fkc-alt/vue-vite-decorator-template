@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import HTTPClient from '@/main'
 import usePager from '@/hooks/usePager'
-import { orderColumn, TradeStateOptions } from './config'
+import { orderColumn, TradeStateOptions } from '../config'
 
 const { handlePageChange, handleSizeChange, loading, pager } = usePager({
   orderId: '',

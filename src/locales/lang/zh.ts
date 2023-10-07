@@ -66,8 +66,14 @@ export default {
     PRODUCTGROUP: {
       TITLE: '商品分组管理'
     },
-    ORDER: {
-      TITLE: '订单管理'
+    ORDERCONFIG: {
+      TITLE: '订单管理',
+      ORDER: {
+        TITLE: '订单列表'
+      },
+      ORDERLOGGER: {
+        TITLE: '订单操作日志管理'
+      }
     },
     RESERVATION: {
       TITLE: '预约管理'
