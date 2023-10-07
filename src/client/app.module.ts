@@ -9,7 +9,12 @@ import {
   GroupController,
   SpecController
 } from './routes/product'
-import { OrderModule, OrderController } from './routes/order'
+import {
+  OrderModule,
+  OrderController,
+  ReservationController,
+  ReservationHelperController
+} from './routes/order'
 
 @Module({
   imports: [
@@ -29,6 +34,8 @@ export class AppModule {
     readonly productGroupController: GroupController,
     readonly productSpecController: SpecController,
     readonly wechatUserController: WechatUserController,
-    readonly orderController: OrderController
+    readonly orderController: OrderController,
+    readonly reservationController: ReservationController,
+    readonly reservationHelperController: ReservationHelperController
   ) {}
 }

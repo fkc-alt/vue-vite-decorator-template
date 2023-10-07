@@ -142,6 +142,18 @@ const routes: RouteRecordRaw[] = [
         }
       },
       {
+        path: '/moduleConfig/reservationDetail',
+        name: 'ReservationDetail',
+        component: () => import('@/views/moduleConfig/reservationDetail.vue'),
+        sort: 5,
+        hidden: true,
+        meta: {
+          title: 'MODULECONFIG.RESERVATIONDETAIL.TITLE',
+          icon: 'List',
+          roles: [Enums.Roles.ADMIN, Enums.Roles.OP]
+        }
+      },
+      {
         path: '/moduleConfig/member',
         name: 'Member',
         component: () => import('@/views/moduleConfig/member.vue'),

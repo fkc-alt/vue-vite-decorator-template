@@ -85,5 +85,13 @@ declare namespace Service {
       orderId: string
     }
     type OrderPperateLogRes = any[]
+    interface OrderAddressDetailReq {
+      orderId: number
+    }
+    type OrderAddressDetailRes = any
+    interface GetOrderGoodsListReq {
+      orderId: string
+    }
+    type GetOrderGoodsListRes = any
   }
 }

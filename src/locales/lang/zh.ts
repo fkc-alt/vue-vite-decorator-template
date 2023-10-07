@@ -78,6 +78,9 @@ export default {
     RESERVATION: {
       TITLE: '预约管理'
     },
+    RESERVATIONDETAIL: {
+      TITLE: '预约详情'
+    },
     MEMBER: {
       TITLE: '会员管理'
     }

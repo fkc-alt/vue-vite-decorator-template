@@ -949,37 +949,78 @@ export const reservationColumn: CustomerProps.CustomTable.MapColumn<
       minWidth: '200px'
     },
     {
-      prop: 'userId',
-      label: '会员id',
+      prop: 'dormInfo',
+      label: '宿舍信息',
       align: 'center',
       minWidth: '150px'
     },
     {
-      prop: 'payableAmount',
-      label: '支付金额',
+      prop: 'serviceDate',
+      label: '服务日期',
       align: 'center',
       minWidth: '150px',
-      formatter(row) {
-        return ((row.payableAmount || 0) / 100).toFixed(2)
+      formatter(row, column, cellValue, index) {
+        return new Date(row.serviceDate).toLocaleString()
       }
     },
     {
-      prop: 'tradeStateDesc',
-      label: '订单状态',
-      align: 'center',
-      width: '180px'
-    },
-    {
-      prop: 'spOpenid',
-      label: '下单openid',
+      prop: 'serviceTime',
+      label: '服务时间',
       align: 'center',
       minWidth: '150px'
     },
     {
-      prop: 'outTradeNo',
-      label: '商户系统订单号',
+      prop: 'state',
+      label: '状态',
+      align: 'center',
+      width: '180px',
+      formatter(row, column, cellValue, index) {
+        return ReservationStateOptions.find(v => v.value === row.state)?.label!
+      }
+    },
+    {
+      prop: 'remark',
+      label: '备注',
       align: 'center',
       minWidth: '150px'
+    },
+    {
+      prop: 'custom',
+      label: '操作',
+      align: 'center',
+      fixed: 'right',
+      minWidth: '150px',
+      render(scope) {
+        let btnTitle = ''
+        if (scope.row.state === 'TO_BE_SERVED') {
+          btnTitle = '待服务'
+        }
+        if (scope.row.state === 'IN_SERVICE') {
+          btnTitle = '完成服务'
+        }
+        return (
+          <>
+            {['TO_BE_SERVED', 'IN_SERVICE'].includes('TO_BE_SERVED') && (
+              <ElButton
+                type="primary"
+                link
+                onClick={e => param?.handleUpdate?.(scope, e)}
+                class="btn"
+              >
+                {btnTitle}
+              </ElButton>
+            )}
+            <ElButton
+              type="primary"
+              link
+              onClick={e => param?.handleDetail?.(scope, e)}
+              class="btn"
+            >
+              详情
+            </ElButton>
+          </>
+        )
+      }
     }
   ]
 }
@@ -999,6 +1040,59 @@ export const orderLogColumn: CustomerProps.CustomTable.MapColumn<
       label: '操作信息',
       align: 'center',
       minWidth: '150px'
+    },
+    {
+      prop: 'createAt',
+      label: '操作时间',
+      align: 'center',
+      minWidth: '150px',
+      formatter(row, column, cellValue, index) {
+        return new Date(row.createAt).toLocaleString()
+      }
+    }
+  ]
+}
+
+export const goodsColumn: CustomerProps.CustomTable.MapColumn<any> = param => {
+  return [
+    {
+      prop: 'orderId',
+      label: '订单id',
+      align: 'center',
+      minWidth: '200px'
+    },
+    {
+      prop: 'productName',
+      label: '商品名称',
+      align: 'center',
+      minWidth: '200px'
+    },
+    {
+      prop: 'skuName',
+      label: '规格名称',
+      align: 'center',
+      minWidth: '200px'
+    },
+    {
+      prop: 'quantity',
+      label: '数量',
+      align: 'center',
+      minWidth: '150px'
+    },
+    {
+      prop: 'originalAmount',
+      label: '商品价格',
+      align: 'center',
+      minWidth: '150px'
+    },
+    {
+      prop: 'commodityStatus',
+      label: '状态',
+      align: 'center',
+      minWidth: '150px',
+      formatter(row, column, cellValue, index) {
+        return row.commodityStatus === 'RETURNED' ? '已退货' : '正常'
+      }
     }
   ]
 }

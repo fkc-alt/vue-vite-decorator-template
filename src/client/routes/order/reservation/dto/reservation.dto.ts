@@ -1,5 +1,5 @@
 import { Pagination } from '@/client/common/dto/common.dto'
-import { IsEnum, IsNotEmpty, IsNumber } from 'class-validator'
+import { IsEnum, IsNotEmpty, IsNumber, IsString } from 'class-validator'
 
 enum ReservationUpdateState {
   IN_SERVICE = 'IN_SERVICE',
@@ -33,3 +33,13 @@ export class ReservationDetailDto
   @IsNotEmpty({ message: 'id 不能为空' })
   id!: number
 }
+
+export class GetOrderGoodsListDto
+  implements Service.Order.GetOrderGoodsListReq
+{
+  @IsString()
+  @IsNotEmpty({ message: 'orderId 不能为空' })
+  orderId!: string
+}
+
+export class OrderAddressDetailDto extends GetOrderGoodsListDto {}
