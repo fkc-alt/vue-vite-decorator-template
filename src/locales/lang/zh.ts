@@ -51,7 +51,7 @@ export default {
     PRODUCTSPECS: {
       TITLE: '商品规格管理',
       PRODUCTSHELVE: {
-        TITLE: '商品上下架配置'
+        TITLE: '商品规格配置'
       },
       PRODUCTSPECSHELVE: {
         TITLE: '规格上下架配置'

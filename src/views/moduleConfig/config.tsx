@@ -924,8 +924,8 @@ export const orderColumn: CustomerProps.CustomTable.MapColumn<any> = param => {
       width: '180px'
     },
     {
-      prop: '下单openid',
-      label: 'spOpenid',
+      prop: 'spOpenid',
+      label: '下单openid',
       align: 'center',
       minWidth: '150px'
     },
@@ -970,8 +970,8 @@ export const reservationColumn: CustomerProps.CustomTable.MapColumn<
       width: '180px'
     },
     {
-      prop: '下单openid',
-      label: 'spOpenid',
+      prop: 'spOpenid',
+      label: '下单openid',
       align: 'center',
       minWidth: '150px'
     },
