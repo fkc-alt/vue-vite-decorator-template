@@ -27,6 +27,15 @@ function createHTTPClient(): AppModule {
       configure.headers['AUTHORIZATION-WITH-MALL'] = Authorization
     return configure
   })
+  HTTPClient.setGlobalCatchCallback(err => {
+    if (logoutCodes.includes(err?.data?.code)) {
+      removeStorage('token', 'roleIdList')
+      user.forRoot({ token: '', roleIdList: [], userInfo: '' })
+      ElMessage.warning(err?.data?.msg ?? '登录状态异常，请重新登录')
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      return Promise.reject(err?.data?.msg)
+    }
+  })
   HTTPClient.useInterceptorsRes(
     (result: ResponseConfig<Services.Common.Response>) => {
       if ((result as any)?.responseHeaders?.auth_token) {
