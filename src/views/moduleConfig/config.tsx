@@ -234,6 +234,11 @@ export const spceChildrenColumn: CustomerProps.CustomTable.MapColumn<
                 }
               }),
               border: false,
+              rowKey: 'id',
+              expandRowKeys: (param as any).expands,
+              onExpandChange(row, expandRows) {
+                param?.handleChildExpandChange?.(row, expandRows)
+              },
               column: spceChildrenColumn(param),
               rowClassName({ row }) {
                 if (row?.children?.length) {
@@ -393,11 +398,18 @@ export const spceColumn: CustomerProps.CustomTable.MapColumn<
                 }
               }),
               border: false,
+              rowKey: 'id',
+              expandRowKeys: (param as any).expands,
+              onExpandChange(row, expandRows) {
+                param?.handleChildExpandChange?.(row, expandRows)
+              },
               column: spceChildrenColumn({
                 handleChildAdd: param?.handleChildAdd as any,
                 handleChildEdit: param?.handleChildEdit as any,
                 handleChildDel: param?.handleChildDel as any,
-                handleChildShelves: param?.handleChildShelves as any
+                handleChildShelves: param?.handleChildShelves as any,
+                handleChildExpandChange: param?.handleChildExpandChange as any,
+                expands: param?.expands as any
               }),
               rowClassName({ row }) {
                 if (row?.children?.length) {
@@ -512,6 +524,11 @@ export const spceShelvesChildrenColumn: CustomerProps.CustomTable.MapColumn<
                 }
               }),
               border: false,
+              rowKey: 'id',
+              expandRowKeys: (param as any).expands,
+              onExpandChange(row, expandRows) {
+                param?.handleChildExpandChange?.(row, expandRows)
+              },
               column: spceShelvesChildrenColumn(param),
               rowClassName({ row }) {
                 if (row?.children?.length) {
@@ -671,11 +688,17 @@ export const spceShelvesColumn: CustomerProps.CustomTable.MapColumn<
                 }
               }),
               border: false,
+              rowKey: 'id',
+              expandRowKeys: (param as any).expands,
+              onExpandChange(row, expandRows) {
+                param?.handleChildExpandChange?.(row, expandRows)
+              },
               column: spceShelvesChildrenColumn({
                 handleChildAdd: param?.handleChildAdd as any,
                 handleChildEdit: param?.handleChildEdit as any,
                 handleChildDel: param?.handleChildDel as any,
-                handleChildShelves: param?.handleChildShelves as any
+                handleChildShelves: param?.handleChildShelves as any,
+                expands: param?.expands as any
               }),
               rowClassName({ row }) {
                 if (row?.children?.length) {

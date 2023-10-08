@@ -22,6 +22,7 @@ const [dialogVisible, delDialogVisible] = [ref(false), ref(false)]
 const type = ref<'add' | 'update'>('add')
 const specList = ref<Service.Product.SpecListItem[]>([])
 const productList = ref<any[]>([])
+const expands = ref<any[]>([])
 
 const tableProps = computed<
   CustomerProps.CustomTable.TableProps<Service.Product.SpecListItem>
@@ -34,7 +35,29 @@ const tableProps = computed<
       return 'row-expand-cover'
     },
     data: specList.value,
+    rowKey: 'id',
+    expandRowKeys: expands.value,
+    onExpandChange(row, expandRows) {
+      if (expandRows.length) {
+        expands.value = [row.id]
+      } else {
+        expands.value = []
+      }
+    },
     column: spceShelvesColumn({
+      expands: (expands as any).value,
+      handleChildExpandChange(row: any, expandRows: any) {
+        // expands.value = Array.from(new Set([...expands.value, row.id]))
+        if (expandRows.length) {
+          expands.value.push(row.id)
+        } else {
+          expands.value = expands.value.filter(v => v !== row.id)
+        }
+        const oldId = expands.value.find(v => row.ids.some((o: any) => o === v))
+        if (oldId && row.id !== oldId) {
+          expands.value = expands.value.filter(v => v !== oldId)
+        }
+      },
       handleAdd({ row }, e: Event) {
         e.preventDefault()
         currentItem.value = row
@@ -155,6 +178,17 @@ const getProductList = () => {
       ruleForm.formItems[0].option!.options = productList.value.map(mapValues)
     })
 }
+
+const handlerList = (list: any[]) => {
+  return list.map((v, _, arr): any => {
+    return {
+      ...v,
+      children: v.children ? handlerList(v.children) : null,
+      ids: arr.map(v => v.id)
+    }
+  })
+}
+
 const init = async () => {
   loading.value = true
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -162,7 +196,7 @@ const init = async () => {
   try {
     const { data } = await HTTPClient.productSpecController.list(Rest)
     pager.value.total = data.total || 0
-    specList.value = data.item || []
+    specList.value = handlerList(data.item || [])
   } catch (error) {
   } finally {
     loading.value = false

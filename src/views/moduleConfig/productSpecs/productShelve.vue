@@ -1,3 +1,4 @@
+<!-- eslint-disable @typescript-eslint/no-unused-vars -->
 <script lang="ts" setup>
 import { ElMessage } from 'element-plus'
 import HTTPClient from '@/main'
@@ -22,6 +23,7 @@ const [dialogVisible, delDialogVisible] = [ref(false), ref(false)]
 const type = ref<'add' | 'update'>('add')
 const specList = ref<Service.Product.SpecListItem[]>([])
 const productList = ref<any[]>([])
+const expands = ref<any[]>([])
 
 const tableProps = computed<
   CustomerProps.CustomTable.TableProps<Service.Product.SpecListItem>
@@ -33,8 +35,30 @@ const tableProps = computed<
       }
       return 'row-expand-cover'
     },
+    rowKey: 'id',
+    expandRowKeys: expands.value,
+    onExpandChange(row, expandRows) {
+      if (expandRows.length) {
+        expands.value = [row.id]
+      } else {
+        expands.value = []
+      }
+    },
     data: specList.value,
     column: spceColumn({
+      expands: (expands as any).value,
+      handleChildExpandChange(row: any, expandRows: any) {
+        // expands.value = Array.from(new Set([...expands.value, row.id]))
+        if (expandRows.length) {
+          expands.value.push(row.id)
+        } else {
+          expands.value = expands.value.filter(v => v !== row.id)
+        }
+        const oldId = expands.value.find(v => row.ids.some((o: any) => o === v))
+        if (oldId && row.id !== oldId) {
+          expands.value = expands.value.filter(v => v !== oldId)
+        }
+      },
       handleAdd({ row }, e: Event) {
         e.preventDefault()
         currentItem.value = row
@@ -151,12 +175,23 @@ const init = async () => {
   try {
     const { data } = await HTTPClient.productSpecController.list(Rest)
     pager.value.total = data.total || 0
-    specList.value = data.item || []
+    specList.value = handlerList(data.item || [])
   } catch (error) {
   } finally {
     loading.value = false
   }
 }
+
+const handlerList = (list: any[]) => {
+  return list.map((v, _, arr): any => {
+    return {
+      ...v,
+      children: v.children ? handlerList(v.children) : null,
+      ids: arr.map(v => v.id)
+    }
+  })
+}
+
 const handleSubmit = () => {
   customForm.value?.formRef.validate(async valid => {
     if (valid) {
