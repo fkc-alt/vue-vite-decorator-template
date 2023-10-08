@@ -127,6 +127,19 @@ const routes: RouteRecordRaw[] = [
               icon: 'List',
               roles: [Enums.Roles.ADMIN, Enums.Roles.OP]
             }
+          },
+          {
+            path: '/moduleConfig/order/detail',
+            name: 'OrderDetail',
+            component: () =>
+              import('@/views/moduleConfig/order/orderDetail.vue'),
+            sort: 1,
+            hidden: true,
+            meta: {
+              title: 'MODULECONFIG.ORDERCONFIG.ORDERDETAIL.TITLE',
+              icon: 'List',
+              roles: [Enums.Roles.ADMIN, Enums.Roles.OP]
+            }
           }
         ]
       },

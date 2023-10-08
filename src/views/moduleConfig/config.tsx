@@ -130,6 +130,7 @@ export const productColumn: CustomerProps.CustomTable.MapColumn<
       label: '操作',
       align: 'center',
       fixed: 'right',
+      minWidth: '150px',
       render(scope) {
         return (
           <>
@@ -185,6 +186,8 @@ export const categoryColumn: CustomerProps.CustomTable.MapColumn<
       prop: 'custom',
       label: '操作',
       align: 'center',
+      fixed: 'right',
+      minWidth: '150px',
       render(scope) {
         return (
           <>
@@ -785,6 +788,8 @@ export const groupColumn: CustomerProps.CustomTable.MapColumn<any> = param => {
       prop: 'custom',
       label: '操作',
       align: 'center',
+      fixed: 'right',
+      minWidth: '150px',
       render(scope) {
         return (
           <>
@@ -956,6 +961,26 @@ export const orderColumn: CustomerProps.CustomTable.MapColumn<any> = param => {
       label: '商户系统订单号',
       align: 'center',
       minWidth: '150px'
+    },
+    {
+      prop: 'custom',
+      label: '操作',
+      align: 'center',
+      fixed: 'right',
+      render(scope) {
+        return (
+          <>
+            <ElButton
+              type="primary"
+              link
+              onClick={e => param?.handleDetail?.(scope, e)}
+              class="btn"
+            >
+              详情
+            </ElButton>
+          </>
+        )
+      }
     }
   ]
 }

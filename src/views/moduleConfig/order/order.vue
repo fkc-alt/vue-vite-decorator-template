@@ -3,6 +3,7 @@ import HTTPClient from '@/main'
 import usePager from '@/hooks/usePager'
 import { orderColumn, TradeStateOptions } from '../config'
 
+const router = useRouter()
 const { handlePageChange, handleSizeChange, loading, pager } = usePager({
   orderId: '',
   userId: '',
@@ -14,7 +15,15 @@ const orderList = ref<any[]>([])
 const tableProps = computed<CustomerProps.CustomTable.TableProps<any>>(() => {
   return {
     data: orderList.value,
-    column: orderColumn(),
+    column: orderColumn({
+      handleDetail(scope, e: Event) {
+        e.preventDefault()
+        router.push({
+          path: '/moduleConfig/order/detail',
+          query: { orderId: scope.row.orderId }
+        })
+      }
+    }),
     border: false,
     maxHeight: '600px',
     emptyText: '暂无数据'

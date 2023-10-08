@@ -73,6 +73,9 @@ export default {
       },
       ORDERLOGGER: {
         TITLE: '订单操作日志管理'
+      },
+      ORDERDETAIL: {
+        TITLE: '订单详情'
       }
     },
     RESERVATION: {
