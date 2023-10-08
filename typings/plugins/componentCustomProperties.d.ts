@@ -5,6 +5,7 @@ declare module 'vue' {
     readonly Test: string
     readonly NotImagesNot: string
     readonly NotImagesNotCloud: string
+    readonly DefaultAvatar: string
   }
   interface VuePropertyCustomAssetsInstanceType
     extends InstanceType<typeof VuePropertyCustomAssets> {}

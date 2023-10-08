@@ -1,7 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import CustomTable from '@/components/CustomTable'
 import { Picture } from '@element-plus/icons-vue'
 import { ElButton, ElIcon, ElImage, ElPopconfirm } from 'element-plus'
+import CustomTable from '@/components/CustomTable'
+import DefaultAvatar from '@/assets/defaultAvatar.jpg'
 import { Enums } from '~@/typings/enums/product'
 
 export const ShelvesOptions = [
@@ -123,13 +124,15 @@ export const productColumn: CustomerProps.CustomTable.MapColumn<
             >
               {scope.row.isShelves === 'Y' ? '详情' : '编辑'}
             </ElButton>
-            <ElButton
-              link
-              type="danger"
-              onClick={e => param?.handleDel?.(scope, e)}
-            >
-              删除
-            </ElButton>
+            {scope.row.isShelves === 'N' && (
+              <ElButton
+                link
+                type="danger"
+                onClick={e => param?.handleDel?.(scope, e)}
+              >
+                删除
+              </ElButton>
+            )}
           </>
         )
       }
@@ -844,10 +847,7 @@ export const wechatUserColumn: CustomerProps.CustomTable.MapColumn<
         return (
           <ElImage
             class="avatar"
-            src={
-              scope.row.avatarUrl ||
-              'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0'
-            }
+            src={scope.row.avatarUrl || DefaultAvatar}
             fit="cover"
           >
             {{
@@ -989,7 +989,7 @@ export const reservationColumn: CustomerProps.CustomTable.MapColumn<
       label: '操作',
       align: 'center',
       fixed: 'right',
-      minWidth: '150px',
+      minWidth: '100px',
       render(scope) {
         let btnTitle = ''
         if (scope.row.state === 'TO_BE_SERVED') {
@@ -1000,7 +1000,15 @@ export const reservationColumn: CustomerProps.CustomTable.MapColumn<
         }
         return (
           <>
-            {['TO_BE_SERVED', 'IN_SERVICE'].includes('TO_BE_SERVED') && (
+            <ElButton
+              type="primary"
+              link
+              onClick={e => param?.handleDetail?.(scope, e)}
+              class="btn"
+            >
+              详情
+            </ElButton>
+            {['TO_BE_SERVED', 'IN_SERVICE'].includes(scope.row.state) && (
               <ElButton
                 type="primary"
                 link
@@ -1010,14 +1018,6 @@ export const reservationColumn: CustomerProps.CustomTable.MapColumn<
                 {btnTitle}
               </ElButton>
             )}
-            <ElButton
-              type="primary"
-              link
-              onClick={e => param?.handleDetail?.(scope, e)}
-              class="btn"
-            >
-              详情
-            </ElButton>
           </>
         )
       }
