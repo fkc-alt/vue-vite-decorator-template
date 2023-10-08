@@ -16,7 +16,6 @@ const [route, router] = [useRoute(), useRouter()]
 const isEdit = computed(() => !!route.query.id)
 const isPreview = computed(() => route.query.type === 'preview')
 
-console.log(isPreview.value, 'isEdit')
 const customForm = ref<CustomerProps.CustomForm.FormRef>()
 const { ruleForm } = useProductForm(
   import.meta.env.VITE_APP_BASE_OSS_API,
@@ -161,5 +160,19 @@ initialConfig()
 }
 :deep(.el-upload-list__item-status-label) {
   display: none !important;
+}
+:deep(.custom-upload) {
+  padding-bottom: 20px;
+}
+:deep(.upload-tip) {
+  position: absolute;
+  left: 0;
+  bottom: -10px;
+  font-size: 12px;
+  color: #999999;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 100%;
 }
 </style>

@@ -33,8 +33,15 @@ export default defineComponent({
         key={hasDEV ? randomKey() : 'key'}
       >
         {formItems.value?.map(attribute => {
-          const { component, componentProps, option, slots, events, ...props } =
-            attribute
+          const {
+            component,
+            componentProps,
+            option,
+            slots,
+            events,
+            CustomSlot,
+            ...props
+          } = attribute
           // const property = component.name === 'ElUpload' ? { 'v-model:file-list': attributes.model[attribute.prop] } : {}
           return (
             <ElFormItem {...props}>
@@ -42,22 +49,25 @@ export default defineComponent({
                 label: (args: { label: string }) => slots?.label?.(args),
                 error: (args: { error: string }) => slots?.error?.(args),
                 default: () => (
-                  <component
-                    {...componentProps}
-                    v-slots={slots}
-                    {...events}
-                    v-model={attributes.model[attribute.prop]}
-                  >
-                    {option?.options?.map(item => {
-                      return (
-                        <option.component {...item}>
-                          {option.component.name === 'ElRadio'
-                            ? item.value
-                            : item.label}
-                        </option.component>
-                      )
-                    })}
-                  </component>
+                  <>
+                    <component
+                      {...componentProps}
+                      v-slots={slots}
+                      {...events}
+                      v-model={attributes.model[attribute.prop]}
+                    >
+                      {option?.options?.map(item => {
+                        return (
+                          <option.component {...item}>
+                            {option.component.name === 'ElRadio'
+                              ? item.value
+                              : item.label}
+                          </option.component>
+                        )
+                      })}
+                    </component>
+                    {CustomSlot?.()}
+                  </>
                 )
               }}
             </ElFormItem>

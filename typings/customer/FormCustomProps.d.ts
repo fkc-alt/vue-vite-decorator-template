@@ -57,6 +57,7 @@ declare namespace CustomerProps {
       extends Partial<FormItemInstance['props']>,
         FormComponentsEvents {
       prop: string
+      CustomSlot?: (...args: any[]) => JSX.Element
       component: import('vue').Raw<any> | any
       style?: import('vue').CSSProperties
       slots?: {

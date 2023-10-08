@@ -425,7 +425,7 @@ export function useProductForm(
         label: '商品轮播图',
         prop: 'carouselFileList',
         componentProps: {
-          class: 'carousel',
+          class: 'custom-upload',
           autoUpload: true,
           fileList: model.carouselFileList,
           showFileList: true,
@@ -449,6 +449,13 @@ export function useProductForm(
               </ElIcon>
             )
           }
+        },
+        CustomSlot: () => {
+          return (
+            <div class="upload-tip">
+              Tips: 建议上传该图片尺寸为750 * 750, 图片格式为.png, .jpeg, .jpg
+            </div>
+          )
         },
         events: {
           onChange(file: UploadFile, fileList: UploadFile[]) {
@@ -504,7 +511,7 @@ export function useProductForm(
         label: '商品缩略图',
         prop: 'thumbnailFileList',
         componentProps: {
-          class: 'thumbnail',
+          class: 'custom-upload',
           autoUpload: true,
           fileList: model.thumbnailFileList,
           showFileList: true,
@@ -528,6 +535,13 @@ export function useProductForm(
               </ElIcon>
             )
           }
+        },
+        CustomSlot: () => {
+          return (
+            <div class="upload-tip">
+              Tips: 建议上传该图片尺寸为185 * 185, 图片格式为.png, .jpeg, .jpg
+            </div>
+          )
         },
         events: {
           onChange(file: UploadFile, fileList: UploadFile[]) {
@@ -583,7 +597,7 @@ export function useProductForm(
         label: '商品详情图',
         prop: 'defailFileList',
         componentProps: {
-          class: 'defail',
+          class: 'custom-upload',
           autoUpload: true,
           fileList: model.defailFileList,
           showFileList: true,
@@ -607,6 +621,13 @@ export function useProductForm(
               </ElIcon>
             )
           }
+        },
+        CustomSlot: () => {
+          return (
+            <div class="upload-tip">
+              Tips: 建议上传该图片尺寸为750 * 750, 图片格式为.png, .jpeg, .jpg
+            </div>
+          )
         },
         events: {
           onChange(file: UploadFile, fileList: UploadFile[]) {
