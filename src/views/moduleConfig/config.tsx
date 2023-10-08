@@ -19,27 +19,38 @@ export const ShelvesOptions = [
 export const TradeStateOptions = [
   {
     label: '未支付',
-    value: 'NO_TPAY'
+    value: 'NOT_PAY',
+    color: 'var(--el-color-warning-dark-2)'
   },
   {
     label: '支付成功',
-    value: 'PAY_SUCCESS'
+    value: 'PAY_SUCCESS',
+    color: 'var(--el-color-success)'
   },
   {
     label: '部分退款',
-    value: 'PARTIAL_REFUND'
+    value: 'PARTIAL_REFUND',
+    color: 'var(--el-color-warning-dark-2)'
   },
   {
     label: '全部退款',
-    value: 'FULL_REFUND'
+    value: 'FULL_REFUND',
+    color: 'var(--el-color-primary-light-5)'
   },
   {
     label: '待收货',
-    value: 'TO_BE_RECEIVED'
+    value: 'TO_BE_RECEIVED',
+    color: 'var(--el-color-warning)'
   },
   {
     label: '已关闭',
-    value: 'CLOSED'
+    value: 'CLOSED',
+    color: 'var(--el-color-info)'
+  },
+  {
+    label: '已取消',
+    value: 'CANCEL',
+    color: 'var(--el-color-info-light-3)'
   }
 ]
 
@@ -923,10 +934,16 @@ export const orderColumn: CustomerProps.CustomTable.MapColumn<any> = param => {
       }
     },
     {
-      prop: 'tradeStateDesc',
+      prop: 'tradeState',
       label: '订单状态',
       align: 'center',
-      width: '180px'
+      width: '180px',
+      render(scope) {
+        const status = TradeStateOptions.find(
+          v => v.value === scope.row.tradeState
+        )!
+        return <label style={{ color: status?.color }}>{status?.label}</label>
+      }
     },
     {
       prop: 'spOpenid',
@@ -984,9 +1001,6 @@ export const reservationColumn: CustomerProps.CustomTable.MapColumn<
           v => v.value === scope.row.state
         )!
         return <label style={{ color: status.color }}>{status.label}</label>
-      },
-      formatter(row, column, cellValue, index) {
-        return ReservationStateOptions.find(v => v.value === row.state)?.label!
       }
     },
     {

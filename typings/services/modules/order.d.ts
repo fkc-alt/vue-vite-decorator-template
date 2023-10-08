@@ -15,7 +15,7 @@ declare namespace Service {
       spOpenid?: string
       /**
        * 交易状态,
-       * NO_TPAY：未支付；PAY_SUCCESS：支付成功；PARTIAL_REFUND：部分退款；FULL_REFUND：全部退款；TO_BE_RECEIVED：待收货；CLOSED：已关闭；
+       * NOT_PAY：未支付；PAY_SUCCESS：支付成功；PARTIAL_REFUND：部分退款；FULL_REFUND：全部退款；TO_BE_RECEIVED：待收货；CLOSED：已关闭；
        */
       tradeState?:
         | 'PAY_SUCCESS'
