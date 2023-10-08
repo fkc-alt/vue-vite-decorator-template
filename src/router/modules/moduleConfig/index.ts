@@ -23,10 +23,32 @@ const routes: RouteRecordRaw[] = [
         }
       },
       {
+        path: '/moduleConfig/productCategory',
+        name: 'ProductCategory',
+        component: () => import('@/views/moduleConfig/productCategory.vue'),
+        sort: 1,
+        meta: {
+          title: 'MODULECONFIG.PRODUCTCATEGORY.TITLE',
+          icon: 'Menu',
+          roles: [Enums.Roles.ADMIN, Enums.Roles.OP]
+        }
+      },
+      {
+        path: '/moduleConfig/productGroup',
+        name: 'ProductGroup',
+        component: () => import('@/views/moduleConfig/productGroup.vue'),
+        sort: 2,
+        meta: {
+          title: 'MODULECONFIG.PRODUCTGROUP.TITLE',
+          icon: 'DocumentCopy',
+          roles: [Enums.Roles.ADMIN, Enums.Roles.OP]
+        }
+      },
+      {
         path: '/moduleConfig/product',
         name: 'Product',
         component: () => import('@/views/moduleConfig/product.vue'),
-        sort: 1,
+        sort: 3,
         meta: {
           title: 'MODULECONFIG.PRODUCT.TITLE',
           icon: 'Goods',
@@ -38,7 +60,7 @@ const routes: RouteRecordRaw[] = [
         name: 'ProductSpecs',
         redirect: '/moduleConfig/productSpecs/productShelve',
         component: () => import('@/views/moduleConfig/productSpecs/index.vue'),
-        sort: 2,
+        sort: 4,
         meta: {
           title: 'MODULECONFIG.PRODUCTSPECS.TITLE',
           icon: 'Wallet',
@@ -70,28 +92,6 @@ const routes: RouteRecordRaw[] = [
             }
           }
         ]
-      },
-      {
-        path: '/moduleConfig/productCategory',
-        name: 'ProductCategory',
-        component: () => import('@/views/moduleConfig/productCategory.vue'),
-        sort: 3,
-        meta: {
-          title: 'MODULECONFIG.PRODUCTCATEGORY.TITLE',
-          icon: 'Menu',
-          roles: [Enums.Roles.ADMIN, Enums.Roles.OP]
-        }
-      },
-      {
-        path: '/moduleConfig/productGroup',
-        name: 'ProductGroup',
-        component: () => import('@/views/moduleConfig/productGroup.vue'),
-        sort: 3,
-        meta: {
-          title: 'MODULECONFIG.PRODUCTGROUP.TITLE',
-          icon: 'DocumentCopy',
-          roles: [Enums.Roles.ADMIN, Enums.Roles.OP]
-        }
       },
       {
         path: '/moduleConfig',
