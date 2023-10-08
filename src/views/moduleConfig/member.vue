@@ -40,15 +40,15 @@ init()
       <template #header>
         <div class="header">
           <ElInput
-            v-model="pager.unionId"
+            v-model.trim="pager.unionId"
             placeholder="请输入unionId"
           />
           <ElInput
-            v-model="pager.openId"
+            v-model.trim="pager.openId"
             placeholder="请输入openId"
           />
           <ElInput
-            v-model="pager.phoneNumber"
+            v-model.trim="pager.phoneNumber"
             placeholder="请输入手机号码"
             maxlength="11"
           />

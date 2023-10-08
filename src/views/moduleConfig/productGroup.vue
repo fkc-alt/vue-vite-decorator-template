@@ -110,7 +110,7 @@ init()
         <div class="header">
           <div>
             <ElInput
-              v-model="pager.name"
+              v-model.trim="pager.name"
               placeholder="请输入分组名称"
             />
           </div>

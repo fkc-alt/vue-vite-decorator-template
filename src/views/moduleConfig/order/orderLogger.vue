@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { ElMessage } from 'element-plus'
 import HTTPClient from '@/main'
 import { orderLogColumn } from '../config'
 
@@ -16,6 +17,10 @@ const tableProps = computed<CustomerProps.CustomTable.TableProps<any>>(() => {
 })
 
 const init = async () => {
+  if (!orderId.value) {
+    ElMessage.warning('请输入订单ID')
+    return
+  }
   loading.value = true
   try {
     const { data } = await HTTPClient.orderController.log({
@@ -34,7 +39,7 @@ const init = async () => {
       <template #header>
         <div class="header">
           <ElInput
-            v-model="orderId"
+            v-model.trim="orderId"
             placeholder="请输入订单id"
           />
           <el-button

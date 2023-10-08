@@ -42,19 +42,19 @@ init()
       <template #header>
         <div class="header">
           <ElInput
-            v-model="pager.orderId"
+            v-model.trim="pager.orderId"
             placeholder="请输入订单id"
           />
           <ElInput
-            v-model="pager.userId"
+            v-mode.triml="pager.userId"
             placeholder="请输入会员id"
           />
           <ElInput
-            v-model="pager.outTradeNo"
+            v-model.trim="pager.outTradeNo"
             placeholder="请输入商户系统订单号"
           />
           <ElInput
-            v-model="pager.spOpenid"
+            v-model.trim="pager.spOpenid"
             placeholder="请输入下单openid"
             maxlength="11"
           />

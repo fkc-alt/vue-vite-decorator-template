@@ -100,7 +100,7 @@ init()
       <template #header>
         <div class="header">
           <ElInput
-            v-model="pager.name"
+            v-model.trim="pager.name"
             placeholder="请输入商品名称"
           />
           <ElSelect

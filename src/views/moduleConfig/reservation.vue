@@ -83,7 +83,7 @@ init()
       <template #header>
         <div class="header">
           <ElInput
-            v-model="pager.orderId"
+            v-model.trim="pager.orderId"
             placeholder="请输入订单id"
           />
           <ElSelect
