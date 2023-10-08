@@ -48,10 +48,6 @@ init()
             placeholder="请输入openId"
           />
           <ElInput
-            v-model="pager.name"
-            placeholder="请输入商品名称"
-          />
-          <ElInput
             v-model="pager.phoneNumber"
             placeholder="请输入手机号码"
             maxlength="11"
