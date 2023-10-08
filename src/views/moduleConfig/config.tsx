@@ -1062,11 +1062,11 @@ export const reservationColumn: CustomerProps.CustomTable.MapColumn<
       label: '操作',
       align: 'center',
       fixed: 'right',
-      minWidth: '100px',
+      minWidth: '150px',
       render(scope) {
         let btnTitle = ''
         if (scope.row.state === 'TO_BE_SERVED') {
-          btnTitle = '待服务'
+          btnTitle = '开始服务'
         }
         if (scope.row.state === 'IN_SERVICE') {
           btnTitle = '完成服务'
