@@ -18,10 +18,9 @@ const tableProps = computed<CustomerProps.CustomTable.TableProps<any>>(() => {
 })
 
 const status = computed(() => {
-  return (
-    ReservationStateOptions.find(v => v.value === orderDetail?.state)?.label! ||
-    ''
-  )
+  return ReservationStateOptions.find(
+    v => v.value === orderDetail?.value?.state
+  )!
 })
 
 const init = async () => {
@@ -67,7 +66,9 @@ init()
         <ElDescriptionsItem label="服务时间">{{
           orderDetail?.serviceTime
         }}</ElDescriptionsItem>
-        <ElDescriptionsItem label="订单状态">{{ status }}</ElDescriptionsItem>
+        <ElDescriptionsItem label="订单状态">
+          <label :style="{ color: status?.color }">{{ status?.label }}</label>
+        </ElDescriptionsItem>
         <ElDescriptionsItem label="订单备注">{{
           orderDetail?.remark
         }}</ElDescriptionsItem>

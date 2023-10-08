@@ -2,6 +2,8 @@ import { ElForm, ElFormItem } from 'element-plus'
 import type { FormInstance } from 'element-plus'
 import { randomKey } from '@/utils'
 
+const hasDEV = import.meta.env.MODE === 'dev'
+
 /**
  * @author kaichao.feng
  * @param { CustomerProps.CustomForm.CustomFormProps } attrs
@@ -28,7 +30,7 @@ export default defineComponent({
       <ElForm
         {...attributes}
         ref={formRef}
-        key={randomKey()}
+        key={hasDEV ? randomKey() : 'key'}
       >
         {formItems.value?.map(attribute => {
           const { component, componentProps, option, slots, events, ...props } =

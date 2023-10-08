@@ -46,23 +46,28 @@ export const TradeStateOptions = [
 export const ReservationStateOptions = [
   {
     label: '未生效',
-    value: 'NOT_IN_EFFECT'
+    value: 'NOT_IN_EFFECT',
+    color: 'var(--el-color-warning-dark-2)'
   },
   {
     label: '待服务',
-    value: 'TO_BE_SERVED'
+    value: 'TO_BE_SERVED',
+    color: 'var(--el-color-primary-light-5)'
   },
   {
     label: '服务中',
-    value: 'IN_SERVICE'
+    value: 'IN_SERVICE',
+    color: 'var(--el-color-warning-dark-2)'
   },
   {
     label: '已完成',
-    value: 'FINISH'
+    value: 'FINISH',
+    color: 'var(--el-color-success)'
   },
   {
     label: '已关闭',
-    value: 'CLOSED'
+    value: 'CLOSED',
+    color: 'var(--el-color-info)'
   }
 ]
 
@@ -974,6 +979,12 @@ export const reservationColumn: CustomerProps.CustomTable.MapColumn<
       label: '状态',
       align: 'center',
       width: '180px',
+      render(scope) {
+        const status = ReservationStateOptions.find(
+          v => v.value === scope.row.state
+        )!
+        return <label style={{ color: status.color }}>{status.label}</label>
+      },
       formatter(row, column, cellValue, index) {
         return ReservationStateOptions.find(v => v.value === row.state)?.label!
       }

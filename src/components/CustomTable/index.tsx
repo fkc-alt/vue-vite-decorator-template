@@ -2,6 +2,8 @@ import { ElTable, ElTableColumn } from 'element-plus'
 import { randomKey } from '@/utils'
 import { handlerEvents } from './utils'
 
+const hasDEV = import.meta.env.MODE === 'dev'
+
 /**
  * @author kaichao.feng
  * @param { CustomerProps.CustomTable.TableProps<any> } props
@@ -28,7 +30,7 @@ export default defineComponent({
     return () => (
       <ElTable
         {...attributes}
-        key={randomKey()}
+        key={hasDEV ? randomKey() : 'key'}
       >
         {column.value?.map(attributes => {
           return (
