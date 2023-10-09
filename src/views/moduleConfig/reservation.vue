@@ -60,8 +60,8 @@ const init = async () => {
     const [startTime, endTime] = time
     const [_startDate, _startTime] = startTime.split(' ')
     const [_endDate, _endTime] = endTime.split(' ')
-    DateReq.serviceStartDate = _startDate + ' 08:00:00'
-    DateReq.serviceEndDate = _endDate + ' 08:00:00'
+    DateReq.serviceStartDate = _startDate + ' 00:00:00'
+    DateReq.serviceEndDate = _endDate + ' 23:59:59'
     DateReq.serviceStartTime = _startTime
     DateReq.serviceEndTime = _endTime
   }
