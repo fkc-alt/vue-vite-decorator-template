@@ -2,6 +2,7 @@
 import { useUserStore } from '@/store/user'
 import Navbar from './components/navbar.vue'
 import SidebarItem from './components/sidebarItem.vue'
+import CopyrightIcp from './components/copyrightIcp.vue'
 import useResizeHandler from './hooks/ResizeHandler'
 
 const user = useUserStore()
@@ -111,7 +112,9 @@ provide('PROJECTICON', PROJECTICON)
             </RouterView>
           </div>
         </ElMain>
-        <!-- <ElFooter>Footer</ElFooter> -->
+        <ElFooter>
+          <CopyrightIcp />
+        </ElFooter>
       </ElContainer>
     </ElContainer>
   </div>
