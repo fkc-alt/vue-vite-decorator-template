@@ -55,7 +55,7 @@ init()
             placeholder="请输入订单id"
           />
           <ElInput
-            v-mode.triml="pager.userId"
+            v-model.trim="pager.userId"
             placeholder="请输入会员id"
           />
           <ElInput
