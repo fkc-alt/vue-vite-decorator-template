@@ -40,7 +40,7 @@ const tableProps = computed<
       handleEdit: ({ row }, e: Event) => {
         e.preventDefault()
         router.push({
-          path: '/moduleConfig/productDetail',
+          path: '/productDetail',
           query: {
             id: row.id,
             type: row.isShelves === 'Y' ? 'preview' : 'update'
@@ -61,7 +61,7 @@ const tableProps = computed<
 
 const handleAdd = () => {
   router.push({
-    path: '/moduleConfig/productDetail',
+    path: '/productDetail',
     query: { type: 'add' }
   })
 }

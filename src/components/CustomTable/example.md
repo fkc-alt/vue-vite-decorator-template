@@ -15,7 +15,7 @@ export default defineComponent({
       column: mapColumn({
         handleClick ({ row }, event) {
           event.stopPropagation()
-          void router.push(`/order/detail?id=${row.id as string}`)
+          void router.push(`/orderDetail?id=${row.id as string}`)
         }
       }),
       border: false,

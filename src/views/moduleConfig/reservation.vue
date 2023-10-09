@@ -35,7 +35,7 @@ const tableProps = computed<CustomerProps.CustomTable.TableProps<any>>(() => {
       handleDetail(scope: any, e: Event) {
         e.preventDefault()
         router.push({
-          path: '/moduleConfig/reservationDetail',
+          path: '/reservationDetail',
           query: { id: scope.row.id, orderId: scope.row.orderId }
         })
       }

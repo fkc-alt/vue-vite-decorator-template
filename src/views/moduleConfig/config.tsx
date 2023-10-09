@@ -952,8 +952,20 @@ export const orderColumn: CustomerProps.CustomTable.MapColumn<any> = param => {
       minWidth: '200px'
     },
     {
+      prop: 'outTradeNo',
+      label: '商户系统订单号',
+      align: 'center',
+      minWidth: '150px'
+    },
+    {
       prop: 'userId',
       label: '会员id',
+      align: 'center',
+      minWidth: '150px'
+    },
+    {
+      prop: 'phoneNumber',
+      label: '手机号',
       align: 'center',
       minWidth: '150px'
     },
@@ -977,18 +989,6 @@ export const orderColumn: CustomerProps.CustomTable.MapColumn<any> = param => {
         )!
         return <label style={{ color: status?.color }}>{status?.label}</label>
       }
-    },
-    {
-      prop: 'spOpenid',
-      label: '下单openid',
-      align: 'center',
-      minWidth: '150px'
-    },
-    {
-      prop: 'outTradeNo',
-      label: '商户系统订单号',
-      align: 'center',
-      minWidth: '150px'
     },
     {
       prop: 'custom',
