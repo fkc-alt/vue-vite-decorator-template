@@ -38,6 +38,11 @@ export const TradeStateOptions = [
     color: 'var(--el-color-primary-light-5)'
   },
   {
+    label: '退款中',
+    value: 'TO_BE_REFUND',
+    color: 'var(--el-color-error)'
+  },
+  {
     label: '待收货',
     value: 'TO_BE_RECEIVED',
     color: 'var(--el-color-warning)'
