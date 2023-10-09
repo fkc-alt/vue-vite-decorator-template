@@ -182,12 +182,13 @@ const init = async () => {
   }
 }
 
-const handlerList = (list: any[]) => {
+const handlerList = (list: any[], parentSkuItem?: Record<string, any>) => {
   return list.map((v, _, arr): any => {
     return {
       ...v,
-      children: v.children ? handlerList(v.children) : null,
-      ids: arr.map(v => v.id)
+      children: v?.children ? handlerList(v.children, v) : null,
+      ids: arr.map(v => v.id),
+      parentSku: parentSkuItem ? parentSkuItem.id : v.id
     }
   })
 }
@@ -234,8 +235,11 @@ const handleSubmit = () => {
 }
 const handleSubmitDel = async () => {
   btnLoading.value = true
-  const { id } = currentItem.value
+  const { id, ids, parentSku } = currentItem.value
   try {
+    if (ids?.length === 1) {
+      expands.value = expands.value.filter(v => v !== parentSku)
+    }
     await HTTPClient.productSpecController.del({ id })
   } catch (error) {
     btnLoading.value = false
