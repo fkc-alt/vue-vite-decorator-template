@@ -140,7 +140,7 @@ export function useGroupForm(): CustomerProps.CustomForm.CustomFormProps {
       {
         component: markRaw(ElInput),
         label: '分组描述',
-        prop: 'msg',
+        prop: 'description',
         componentProps: {
           type: 'textarea',
           placeholder: '请输入描述'
