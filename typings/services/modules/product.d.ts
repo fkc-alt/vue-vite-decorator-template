@@ -190,6 +190,7 @@ declare namespace Service {
       sortValue: number
       createAt: string
       updateAt: string
+      level?: number
       specsList: SpecChildListItem[]
       children?: SpecChildListItem[]
     }

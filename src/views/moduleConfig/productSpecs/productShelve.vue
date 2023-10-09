@@ -84,12 +84,16 @@ const tableProps = computed<
       },
       handleChildAdd({ row }, e: Event) {
         e.preventDefault()
+        if (row?.level === 6) {
+          ElMessage.warning('子规格最多只能添加五层')
+          return
+        }
         currentItem.value = row
         const { parentSkuId, productId, skuId } = row as any
         Object.assign(ruleForm.model, {
           ...modelSpecDefault(),
           productId,
-          parentSkuId: parentSkuId || skuId
+          parentSkuId: skuId || parentSkuId || ''
         })
         ;(ruleForm as any).formItems[0].componentProps.disabled = true
         type.value = 'add'
@@ -176,18 +180,26 @@ const init = async () => {
     const { data } = await HTTPClient.productSpecController.list(Rest)
     pager.value.total = data.total || 0
     specList.value = handlerList(data.item || [])
+    console.log(specList.value)
   } catch (error) {
   } finally {
     loading.value = false
   }
 }
 
-const handlerList = (list: any[], parentSkuItem?: Record<string, any>) => {
+const handlerList = (
+  list: any[],
+  level?: number,
+  parentSkuItem?: Record<string, any>
+) => {
   return list.map((v, _, arr): any => {
     return {
       ...v,
-      children: v?.children ? handlerList(v.children, v) : null,
+      children: v?.children
+        ? handlerList(v.children, typeof level !== 'number' ? 1 : level + 1, v)
+        : null,
       ids: arr.map(v => v.id),
+      level: typeof level !== 'number' ? 1 : level + 1,
       parentSku: parentSkuItem ? parentSkuItem.id : v.id
     }
   })
