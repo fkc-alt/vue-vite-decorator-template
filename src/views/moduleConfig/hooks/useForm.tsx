@@ -291,7 +291,7 @@ export function useProductForm(
     thumbnailFileList: [] as any[]
   })
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const ruleForm: CustomerProps.CustomForm.CustomFormProps = reactive({
+  const ruleForm = reactive({
     model,
     labelWidth: 120,
     disabled: false,
@@ -760,4 +760,4 @@ export function useProductForm(
     })
   })
   return { ruleForm }
-} as any
+}
