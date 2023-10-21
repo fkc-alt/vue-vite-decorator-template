@@ -19,13 +19,13 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3 
         with:
-          node-version: 16
+          node-version: 18
 
       - name: Install Dependencies
         run: npm install --force
 
       - name: Build Package
-        run: npm run build:release
+        run: npm run build
 
       - name: Compress Folder
         run: zip -r dist.zip dist/*
