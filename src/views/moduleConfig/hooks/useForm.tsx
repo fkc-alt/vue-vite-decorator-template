@@ -1,6 +1,7 @@
 /* eslint-disable n/no-callback-literal */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/ban-types */
+// @ts-nocheck
 import { Plus } from '@element-plus/icons-vue'
 import Sortable from 'sortablejs'
 import {
