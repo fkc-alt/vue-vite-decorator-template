@@ -29,15 +29,15 @@ jobs:
           if [[ "$(git log -1 --pretty=%B)" == *"release"* ]]; then
             echo "Build release"
             npm run build:release
-            PRODUCTION_MESSAGE="Ready front-end code package - release"
+            echo "::set-output name=production_message::Ready front-end code package - release"
           elif [[ "$(git log -1 --pretty=%B)" == *"production"* ]]; then
             echo "Build production"
             npm run build
-            PRODUCTION_MESSAGE="Ready front-end code package - production"
+            echo "::set-output name=production_message::Ready front-end code package - production"
           else
             echo "No deploy keyword found in commit message. Build default release"
             npm run build:release
-            PRODUCTION_MESSAGE="Ready front-end code package - release"
+            echo "::set-output name=production_message::Ready front-end code package - release"
           fi
       - name: Compress Folder
         run: zip -r dist.zip dist/*
@@ -54,5 +54,5 @@ jobs:
           subject: Pipeline Successful
           body: |
             pipeline has been successfully executed.
-              ${{ env.PRODUCTION_MESSAGE }}
+              ${{ steps.build.outputs.production_message }}
           attachments: dist.zip
