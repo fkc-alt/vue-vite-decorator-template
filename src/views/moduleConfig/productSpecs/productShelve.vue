@@ -180,7 +180,6 @@ const init = async () => {
     const { data } = await HTTPClient.productSpecController.list(Rest)
     pager.value.total = data.total || 0
     specList.value = handlerList(data.item || [])
-    console.log(specList.value)
   } catch (error) {
   } finally {
     loading.value = false
