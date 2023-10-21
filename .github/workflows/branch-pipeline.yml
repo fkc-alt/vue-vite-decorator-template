@@ -24,9 +24,18 @@ jobs:
       - name: Install Dependencies
         run: npm install --force
 
-      - name: Build Package
-        run: npm run build
-
+      - name: Run Script And Build Package
+        run: |
+          if [[ "$(git log -1 --pretty=%B)" == *"release"* ]]; then
+            echo "Deploying..."
+            npm run build:release
+          elif [[ "$(git log -1 --pretty=%B)" == *"production"* ]]; then
+            echo "Building feature..."
+            npm run build
+          else
+            echo "No deploy keyword found in commit message. Skipping deployment."
+            npm run build:release
+          fi
       - name: Compress Folder
         run: zip -r dist.zip dist/*
 
