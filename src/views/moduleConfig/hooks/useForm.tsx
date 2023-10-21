@@ -291,7 +291,7 @@ export function useProductForm(
     thumbnailFileList: [] as any[]
   })
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const ruleForm = reactive({
+  const ruleForm: CustomerProps.CustomForm.CustomFormProps = reactive({
     model,
     labelWidth: 120,
     disabled: false,
@@ -680,7 +680,7 @@ export function useProductForm(
         }
       }
     ]
-  })
+  }) as any
   onMounted(() => {
     const ElCarousel = document.querySelectorAll(
       '.carousel .el-upload-list'
