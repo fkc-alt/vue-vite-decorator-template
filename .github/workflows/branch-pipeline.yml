@@ -19,7 +19,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3 
         with:
-          node-version: 18
+          node-version: 16
 
       - name: Install Dependencies
         run: npm install --force
@@ -27,13 +27,13 @@ jobs:
       - name: Run Script And Build Package
         run: |
           if [[ "$(git log -1 --pretty=%B)" == *"release"* ]]; then
-            echo "Deploying..."
+            echo "Build release"
             npm run build:release
           elif [[ "$(git log -1 --pretty=%B)" == *"production"* ]]; then
-            echo "Building feature..."
+            echo "Build production"
             npm run build
           else
-            echo "No deploy keyword found in commit message. Skipping deployment."
+            echo "No deploy keyword found in commit message. Build default release"
             npm run build:release
           fi
       - name: Compress Folder
