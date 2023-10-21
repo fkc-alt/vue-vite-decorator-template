@@ -14,6 +14,7 @@ dist-ssr
 components.d.ts
 typings/auto-imports.d.ts
 .eslintrc-auto-import.json
+.env.js
 # package-lock.json
 types
 *.local
