@@ -680,7 +680,7 @@ export function useProductForm(
         }
       }
     ]
-  }) as any
+  })
   onMounted(() => {
     const ElCarousel = document.querySelectorAll(
       '.carousel .el-upload-list'
