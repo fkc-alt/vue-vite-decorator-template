@@ -29,12 +29,15 @@ jobs:
           if [[ "$(git log -1 --pretty=%B)" == *"release"* ]]; then
             echo "Build release"
             npm run build:release
+            PRODUCTION_MESSAGE="Ready front-end code package - release"
           elif [[ "$(git log -1 --pretty=%B)" == *"production"* ]]; then
             echo "Build production"
             npm run build
+            PRODUCTION_MESSAGE="Ready front-end code package - production"
           else
             echo "No deploy keyword found in commit message. Build default release"
             npm run build:release
+            PRODUCTION_MESSAGE="Ready front-end code package - release"
           fi
       - name: Compress Folder
         run: zip -r dist.zip dist/*
@@ -51,5 +54,5 @@ jobs:
           subject: Pipeline Successful
           body: |
             pipeline has been successfully executed.
-                You can include the contents of the dist.zip file here:
+              ${{ env.PRODUCTION_MESSAGE }}
           attachments: dist.zip
