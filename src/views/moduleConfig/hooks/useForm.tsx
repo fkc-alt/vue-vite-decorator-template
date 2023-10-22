@@ -454,7 +454,7 @@ export function useProductForm(
         CustomSlot: () => {
           return (
             <div class="upload-tip">
-              Tips: 建议上传该图片尺寸为750 * 750, 图片格式为.png, .jpeg, .jpg
+              Tips: 建议上传该图片尺寸为1500 * 1500, 图片格式为.png, .jpeg, .jpg
             </div>
           )
         },
@@ -540,7 +540,7 @@ export function useProductForm(
         CustomSlot: () => {
           return (
             <div class="upload-tip">
-              Tips: 建议上传该图片尺寸为185 * 185, 图片格式为.png, .jpeg, .jpg
+              Tips: 建议上传该图片尺寸为370 * 370, 图片格式为.png, .jpeg, .jpg
             </div>
           )
         },
@@ -626,7 +626,7 @@ export function useProductForm(
         CustomSlot: () => {
           return (
             <div class="upload-tip">
-              Tips: 建议上传该图片尺寸为750 * 750, 图片格式为.png, .jpeg, .jpg
+              Tips: 建议上传该图片尺寸为1500 * 1500, 图片格式为.png, .jpeg, .jpg
             </div>
           )
         },
