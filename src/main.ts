@@ -27,5 +27,4 @@ const bootstrap = () => {
     .catch(console.error)
   return HTTPClient
 }
-
 export default bootstrap()
