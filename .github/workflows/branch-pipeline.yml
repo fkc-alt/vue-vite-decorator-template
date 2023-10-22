@@ -9,6 +9,7 @@ on:
     branches: 
     - feature/demo 
 env:
+  mode: production
   DIST_NAME: dist
   FROM_EMAILS: 1491368225@qq.com, fengkaichao149@163.com, fan_zhengxu@163.com
 jobs: 
@@ -54,5 +55,5 @@ jobs:
           subject: Pipeline Successful
           body: |
             pipeline has been successfully executed.
-              ${{ steps.build.outputs.production_message }}
+              ${{ env.mode }}
           attachments: dist.zip
