@@ -9,7 +9,6 @@ on:
     branches: 
     - feature/demo 
 env:
-  mode: production
   DIST_NAME: dist
   FROM_EMAILS: 1491368225@qq.com, fengkaichao149@163.com, fan_zhengxu@163.com
 jobs: 
@@ -30,15 +29,15 @@ jobs:
           if [[ "$(git log -1 --pretty=%B)" == *"release"* ]]; then
             echo "Build release"
             npm run build:release
-            echo "::set-output name=production_message::Ready front-end code package - release"
+            echo "mode=Ready front-end code package - release" >> $GITHUB_ENV
           elif [[ "$(git log -1 --pretty=%B)" == *"production"* ]]; then
             echo "Build production"
             npm run build
-            echo "::set-output name=production_message::Ready front-end code package - production"
+            echo "mode=Ready front-end code package - production" >> $GITHUB_ENV
           else
             echo "No deploy keyword found in commit message. Build default release"
             npm run build:release
-            echo "::set-output name=production_message::Ready front-end code package - release"
+            echo "mode=Ready front-end code package - release" >> $GITHUB_ENV
           fi
       - name: Compress Folder
         run: zip -r dist.zip dist/*
