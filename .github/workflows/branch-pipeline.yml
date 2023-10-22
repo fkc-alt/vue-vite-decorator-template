@@ -29,19 +29,23 @@ jobs:
           if [[ "$(git log -1 --pretty=%B)" == *"release"* ]]; then
             echo "Build release"
             npm run build:release
-            echo "mode=Ready front-end code package - release" >> $GITHUB_ENV
+            echo "MODE=Ready front-end code package - release" >> $GITHUB_ENV
           elif [[ "$(git log -1 --pretty=%B)" == *"production"* ]]; then
             echo "Build production"
             npm run build
-            echo "mode=Ready front-end code package - production" >> $GITHUB_ENV
+            echo "MODE=Ready front-end code package - production" >> $GITHUB_ENV
           else
             echo "No deploy keyword found in commit message. Build default release"
             npm run build:release
-            echo "mode=Ready front-end code package - release" >> $GITHUB_ENV
+            echo "MODE=Ready front-end code package - release" >> $GITHUB_ENV
           fi
       - name: Compress Folder
         run: zip -r dist.zip dist/*
-
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.DIST_NAME }}
+          path: ${{ env.DIST_NAME }}
       - name: Send Email Notification
         uses: dawidd6/action-send-mail@v3
         with:
@@ -54,5 +58,5 @@ jobs:
           subject: Pipeline Successful
           body: |
             pipeline has been successfully executed.
-              ${{ env.mode }}
+              ${{ env.MODE }}
           attachments: dist.zip
