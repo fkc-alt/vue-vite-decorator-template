@@ -1,16 +1,87 @@
-# Vue 3 + TypeScript + Vite
+# Vue 3 + ECharts 图表项目
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+这是一个使用 Vue 3 和 ECharts 创建的数据可视化项目，展示了异常级别分布的仪表盘图表。
 
-## Recommended IDE Setup
+## 功能特点
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+- 🎯 **仪表盘图表**：展示异常级别分布（一级到四级告警）
+- 📊 **多种图表类型**：包含柱状图、饼图、折线图、雷达图
+- 🎨 **响应式设计**：自适应不同屏幕尺寸
+- ⚡ **自动动画**：仪表盘指针自动切换展示不同级别
+- 🔄 **数据刷新**：支持手动刷新数据
 
-## Type Support For `.vue` Imports in TS
+## 项目结构
 
-Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates. However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can enable Volar's Take Over mode by following these steps:
+```
+/workspace/
+├── src/
+│   ├── components/
+│   │   ├── GaugeChart.vue      # 仪表盘图表组件
+│   │   └── MultipleCharts.vue  # 多图表展示组件
+│   ├── App.vue                 # 主应用组件
+│   ├── main.js                 # 应用入口
+│   └── style.css               # 全局样式
+├── index.html                  # HTML 入口文件
+├── vite.config.js              # Vite 配置
+├── package.json                # 项目依赖
+└── README.md                   # 项目说明
+```
 
-1. Run `Extensions: Show Built-in Extensions` from VS Code's command palette, look for `TypeScript and JavaScript Language Features`, then right click and select `Disable (Workspace)`. By default, Take Over mode will enable itself if the default TypeScript extension is disabled.
-2. Reload the VS Code window by running `Developer: Reload Window` from the command palette.
+## 安装和运行
 
-You can learn more about Take Over mode [here](https://github.com/johnsoncodehk/volar/discussions/471).
+1. **安装依赖**
+```bash
+npm install
+```
+
+2. **启动开发服务器**
+```bash
+npm run dev
+```
+
+3. **访问应用**
+打开浏览器访问 http://localhost:3000
+
+## 构建生产版本
+
+```bash
+npm run build
+```
+
+构建后的文件将在 `dist` 目录中。
+
+## 图表说明
+
+### 仪表盘图表
+- 显示四个级别的告警状态
+- 每个级别有不同的颜色标识
+- 指针自动在不同级别间切换（每3秒）
+
+### 告警级别
+- **一级告警**（绿色）：100次 20分
+- **二级告警**（浅蓝色）：300次 30分
+- **三级告警**（蓝色）：380次 40分
+- **四级告警**（黄色）：300次 10分
+
+## 技术栈
+
+- **Vue 3** - 渐进式 JavaScript 框架
+- **ECharts 5** - 强大的数据可视化库
+- **Vite** - 快速的前端构建工具
+
+## 自定义配置
+
+### 修改图表数据
+在 `src/components/GaugeChart.vue` 中修改 `data` 数组来更改显示的数据。
+
+### 调整动画速度
+修改 `setInterval` 的时间参数（当前为3000毫秒）来调整指针切换速度。
+
+### 添加新图表
+1. 在 `src/components/` 创建新的图表组件
+2. 在组件中引入 ECharts 并配置选项
+3. 在 App.vue 中导入并使用新组件
+
+## License
+
+MIT
