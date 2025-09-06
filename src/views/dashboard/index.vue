@@ -2,12 +2,19 @@
 <script lang="ts" setup>
 import { GetArticleList, GetTableDataList } from '@/apis'
 import { mapColumn } from './tableConfig'
+import AlarmLevelHalfRing from '@/components/Charts/AlarmLevelHalfRing.vue'
 type Row = CustomerProps.CustomTable.SlotProp<Service.ArticleItem>
 
 const state = reactive<Service.ArticleListRes & Service.TableDataRes>({
   articleList: [],
   tableList: []
 })
+const levels = ref([
+  { name: '一级告警', value: 20, color: '#4CAF50' },
+  { name: '二级告警', value: 30, color: '#42A5F5' },
+  { name: '三级告警', value: 40, color: '#2E86DE' },
+  { name: '四级告警', value: 10, color: '#FFB74D' }
+])
 const refTable = ref<CustomerProps.CustomTable.TableRef>()
 const router = useRouter()
 const loading = ref(false)
@@ -57,6 +64,7 @@ init()
 
 <template>
   <div>
+    <AlarmLevelHalfRing :levels="levels" />
     <SvgIcon name="test" />
     <CustomTable ref="refTable" v-bind="tableProps" v-loading="loading">
       <template #id="{ row }: Row">
